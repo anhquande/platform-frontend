@@ -9,13 +9,14 @@ import { IcbmWalletBalanceModal } from "../modals/icbm-wallet-balance-modal/Icbm
 import { TxSenderModal } from "../modals/tx-sender/TxSender";
 import { NotificationWidget } from "../shared/notification-widget/NotificationWidget";
 import { Footer } from "./Footer";
-import { Header } from "./Header.unsafe";
+import { Header } from "./header/Header";
 import { LayoutAuthorizedMenu } from "./LayoutAuthorizedMenu.unsafe";
+import { layoutEnchancer } from "./LayoutEnchancer";
 
 import * as styles from "./LayoutAuthorized.module.scss";
 import * as sharedStyles from "./LayoutShared.module.scss";
 
-export const LayoutAuthorized: React.FunctionComponent = ({ children }) => (
+export const LayoutAuthorizedComponent: React.FunctionComponent = ({ children }) => (
   <>
     <Header />
 
@@ -40,3 +41,5 @@ export const LayoutAuthorized: React.FunctionComponent = ({ children }) => (
     <DownloadTokenAgreementModal />
   </>
 );
+
+export const LayoutAuthorized = layoutEnchancer(LayoutAuthorizedComponent);

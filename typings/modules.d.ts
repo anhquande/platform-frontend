@@ -25,3 +25,6 @@ declare module "react-to-print";
 
 declare module "qrcode";
 declare module "proper-url-join/lib";
+
+// Custom node module imports
+declare module "bitcore-mnemonic/lib/words";

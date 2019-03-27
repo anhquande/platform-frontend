@@ -1,11 +1,12 @@
 import * as React from "react";
 
 import { Footer } from "./Footer";
-import { Header } from "./Header.unsafe";
+import { Header } from "./header/Header";
+import { layoutEnchancer } from "./LayoutEnchancer";
 
 import * as styles from "./LayoutShared.module.scss";
 
-export const LayoutUnauthorized: React.FunctionComponent = ({ children }) => (
+export const LayoutUnauthorizedComponent: React.FunctionComponent = ({ children }) => (
   <>
     <Header />
 
@@ -14,3 +15,5 @@ export const LayoutUnauthorized: React.FunctionComponent = ({ children }) => (
     <Footer />
   </>
 );
+
+export const LayoutUnauthorized = layoutEnchancer(LayoutUnauthorizedComponent);

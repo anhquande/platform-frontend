@@ -9,7 +9,9 @@ export const selectAreTherePlatformPendingTxs = (state: IAppState): boolean => {
   return !!pendingTransaction && pendingTransaction.transactionStatus === ETxSenderState.MINING;
 };
 
-export const selectPendingTransaction = (state: IAppState): TxPendingWithMetadata | undefined => {
+export const selectPlatformPendingTransaction = (
+  state: IAppState,
+): TxPendingWithMetadata | undefined => {
   return state.txMonitor.txs.pendingTransaction as TxPendingWithMetadata | undefined;
 };
 

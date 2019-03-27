@@ -10,8 +10,14 @@ export enum EConfettiTheme {
   GREEN = styles.themeGreen,
 }
 
+export enum EConfettiSize {
+  NORMAL = styles.sizeNormal,
+  SMALL = styles.sizeSmall,
+}
+
 type TProps = {
   theme?: EConfettiTheme;
+  size?: EConfettiSize;
 };
 
 export const Confetti: React.FunctionComponent<CommonHtmlProps & TProps> = ({
@@ -19,9 +25,10 @@ export const Confetti: React.FunctionComponent<CommonHtmlProps & TProps> = ({
   style,
   children,
   theme,
+  size,
 }) => {
   return (
-    <div className={cn([styles.wrapper, className, theme])} style={style}>
+    <div className={cn(styles.wrapper, className, theme, size)} style={style}>
       {children}
       <div className={cn(styles.cannon)}>
         <div className={cn(styles.path, styles.pathSm, styles.pathAngleM2)}>
@@ -68,4 +75,5 @@ export const Confetti: React.FunctionComponent<CommonHtmlProps & TProps> = ({
 
 Confetti.defaultProps = {
   theme: EConfettiTheme.COLORFUL,
+  size: EConfettiSize.NORMAL,
 };

@@ -50,7 +50,6 @@ $lg-width: px-to-rem(140px);
     @include media-breakpoint-up(lg) {
       display: flex;
       height: px-to-rem(40px);
-      line-height: px-to-rem(40px);
       background-position: map-get($spacers, 3) center;
     }
 
@@ -91,7 +90,6 @@ $lg-width: px-to-rem(140px);
 
   margin: 0 auto;
   flex-shrink: 0;
-  line-height: px-to-rem(40px);
   height: $_icon-size;
   width: $_icon-size;
   position: relative;
@@ -106,14 +104,4 @@ $lg-width: px-to-rem(140px);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.action-indicator {
-  height: px-to-rem(8px);
-  width: px-to-rem(8px);
-  background-color: $neu-bright-orange;
-  border-radius: 50%;
-  position: absolute;
-  top: px-to-rem(-1px);
-  right: px-to-rem(-2px);
 }

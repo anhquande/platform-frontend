@@ -2,7 +2,7 @@ import * as React from "react";
 import { Col, Row } from "reactstrap";
 
 import { Footer } from "./Footer";
-import { Header } from "./Header.unsafe";
+import { Header } from "./header/Header";
 
 import * as styles from "./LayoutShared.module.scss";
 

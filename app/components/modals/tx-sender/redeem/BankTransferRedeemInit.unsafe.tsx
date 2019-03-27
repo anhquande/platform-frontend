@@ -156,7 +156,7 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
             </section>
             <section className={styles.section}>
               <Heading level={3} decorator={false} size={EHeadingSize.SMALL}>
-                <FormattedMessage id="bank-transfer.redeem.init.total-reedemed" />
+                <FormattedMessage id="bank-transfer.redeem.init.total-redeemed" />
               </Heading>
               <span className="text-success">
                 {isValid ? <TotalRedeemed bankFee={bankFee} amount={values.amount} /> : "-"}

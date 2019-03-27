@@ -19,7 +19,7 @@ const BankTransferVerifySuccessLayout: React.FunctionComponent<IProps> = ({ goTo
   <Message
     image={
       <Confetti theme={EConfettiTheme.GREEN} className="mb-3">
-        <img src={bankIcon} alt="" />
+        <img src={bankIcon} alt="" className="my-4" />
       </Confetti>
     }
     text={<FormattedMessage id="bank-verification.success.text" />}

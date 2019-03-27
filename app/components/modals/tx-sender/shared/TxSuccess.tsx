@@ -10,7 +10,7 @@ import {
 } from "../../../../modules/tx/sender/selectors";
 import { TSpecificTransactionState } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
-import { SpinningEthereum } from "../../../shared/ethererum";
+import { EthereumIcon } from "../../../shared/ethereum";
 import { Message } from "../../Message";
 import { TxDetails } from "../TxDetails.unsafe";
 import { TxName } from "../TxName";
@@ -38,7 +38,7 @@ type TTxPendingLayoutProps = {
 const TxSuccessLayout: React.FunctionComponent<TTxPendingLayoutProps> = props => (
   <Message
     data-test-id="modals.shared.tx-success.modal"
-    image={<SpinningEthereum className="mb-3" />}
+    image={<EthereumIcon className="mb-3" />}
     title={
       <FormattedMessage
         id="tx-sender.tx-success.title"

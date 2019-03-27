@@ -30,7 +30,7 @@ export class CustomTooltip extends React.Component<TooltipProps & IProps> {
 
   componentDidCatch(error: any, info: any): void {
     // this function should not be called, but just in case
-    // if some errors occure, it will not crash the whole application any more
+    // if some errors occurs, it will not crash the whole application any more
     // prevents a reactstrap tooltip bug where target dom node is not found
 
     // tslint:disable-next-line:no-console
@@ -44,6 +44,7 @@ export class CustomTooltip extends React.Component<TooltipProps & IProps> {
     const { target, className, isOpen, toggle, children, ...props } = this.props;
     return (
       <Tooltip
+        innerClassName={styles.tooltipInner}
         className={cn(styles.tooltip, className)}
         target={target}
         autohide={false}

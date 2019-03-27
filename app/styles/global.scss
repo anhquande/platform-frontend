@@ -17,6 +17,10 @@ body {
   }
 }
 
+.app-body {
+  background-color: $neu-charcoal-grey;
+}
+
 .wrapper {
   @include media-breakpoint-up(sm) {
     flex-direction: row;
@@ -44,6 +48,7 @@ body {
   min-height: 100%;
   max-width: 100%;
   flex: 1;
+  padding-bottom: px-to-rem(80px);
   padding-left: $authorized-layout-horizontal-padding-sm;
   padding-right: $authorized-layout-horizontal-padding-sm;
   -webkit-overflow-scrolling: touch; // sass-lint:disable-line no-vendor-prefixes

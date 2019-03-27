@@ -55,7 +55,7 @@ export interface ITxSendParams {
   // @see neuCall
 }
 
-function* txMonitorSaga(): any {
+export function* txMonitorSaga(): any {
   const txMonitorEffect = neuCall(txMonitor);
 
   yield call(txControllerSaga, txMonitorEffect);

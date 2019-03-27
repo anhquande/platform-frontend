@@ -8,7 +8,7 @@ import { ETxSenderType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { appRoutes } from "../../../appRoutes";
 import { ButtonArrowRight } from "../../../shared/buttons";
-import { ConfettiEthereum } from "../../../shared/ethererum";
+import { ConfettiEthereum } from "../../../shared/ethereum";
 import { EtherscanTxLink } from "../../../shared/links";
 import { Message } from "../../Message";
 import { InvestmentTransactionDetails } from "./InvestmentTransactionDetails";

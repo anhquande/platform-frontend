@@ -27,7 +27,7 @@
   }
 }
 
-.spinner {
+.pulse {
   @include circle(2.5rem);
 
   animation: sk-scaleout 1s infinite ease-in-out;
@@ -59,4 +59,16 @@
   margin: 0;
   width: 1rem;
   height: 1rem;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0); }
+  to   { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: rotate 2s infinite linear;
+  color: $neu-piss-yellow;
+  height: px-to-rem(20px);
+  width: px-to-rem(20px);
 }

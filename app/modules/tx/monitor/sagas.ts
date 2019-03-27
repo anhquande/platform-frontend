@@ -1,7 +1,7 @@
 import { BigNumber } from "bignumber.js";
 import { addHexPrefix } from "ethereumjs-util";
 import { delay, END, eventChannel } from "redux-saga";
-import { put, select } from "redux-saga/effects";
+import { fork, put, select } from "redux-saga/effects";
 import * as Web3 from "web3";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
@@ -10,10 +10,11 @@ import { ITxData } from "../../../lib/web3/types";
 import { OutOfGasError, RevertedTransactionError } from "../../../lib/web3/Web3Adapter";
 import { invariant } from "../../../utils/invariant";
 import { actions } from "../../actions";
-import { neuCall, neuTakeUntil } from "../../sagasUtils";
+import { neuCall, neuTakeLatest, neuTakeUntil } from "../../sagasUtils";
 import { ETransactionErrorType, ETxSenderState } from "../sender/reducer";
+import { txMonitorSaga } from "../sender/sagas";
 import { ETxSenderType, TSpecificTransactionState } from "../types";
-import { selectPendingTransaction } from "./selectors";
+import { selectPlatformPendingTransaction } from "./selectors";
 import { EEventEmitterChannelEvents, TEventEmitterChannelEvents } from "./types";
 
 const TX_MONITOR_DELAY = 60000;
@@ -23,7 +24,7 @@ export function* deletePendingTransaction({
   logger,
 }: TGlobalDependencies): Iterable<any> {
   const pendingTransaction: TxPendingWithMetadata | undefined = yield select(
-    selectPendingTransaction,
+    selectPlatformPendingTransaction,
   );
 
   if (!pendingTransaction) {
@@ -52,7 +53,9 @@ export function* markTransactionAsPending(
     txAdditionalData?: TSpecificTransactionState["additionalData"];
   },
 ): any {
-  const currentPending: TxPendingWithMetadata | undefined = yield select(selectPendingTransaction);
+  const currentPending: TxPendingWithMetadata | undefined = yield select(
+    selectPlatformPendingTransaction,
+  );
 
   if (currentPending) {
     invariant(
@@ -181,5 +184,6 @@ export const createWatchTxChannel = ({ web3Manager }: TGlobalDependencies, txHas
   });
 
 export function* txMonitorSagas(): any {
-  yield neuTakeUntil("AUTH_SET_USER", "AUTH_LOGOUT", txMonitor);
+  yield fork(neuTakeUntil, "AUTH_SET_USER", "AUTH_LOGOUT", txMonitor);
+  yield fork(neuTakeLatest, actions.txMonitor.monitorPendingPlatformTx, txMonitorSaga);
 }

@@ -7,7 +7,7 @@ import { TClaimAdditionalData } from "../../../../modules/tx/transactions/claim/
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { Button, EButtonLayout } from "../../../shared/buttons";
-import { ConfettiEthereum } from "../../../shared/ethererum";
+import { ConfettiEthereum } from "../../../shared/ethereum";
 import { Message } from "../../Message";
 import { ClaimTransactionDetails } from "./ClaimTransactionDetails";
 

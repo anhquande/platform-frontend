@@ -1,14 +1,8 @@
-$size: 10em;
-
 $animation-duration: 1.2s;
-
-$debug-animation-count: infinite; // infinite | 1
 
 $yellow-orange: #ffb534;
 
 .wrapper {
-  @include rect(100%, 2 * $size);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,26 +13,12 @@ $yellow-orange: #ffb534;
 .cannon {
   position: absolute;
   left: 50%;
-  top: 2em;
-  height: 85%;
+  top: 1em;
+  bottom: 1em;
   width: 1px;
   transform-origin: 50% 100%;
-  animation: cannon-explosion $animation-duration cubic-bezier(.18, .89, .32, 1.28) both; // debug
-  animation-iteration-count: $debug-animation-count;
-
-  @keyframes cannon-explosion {
-    0% {
-      transform: scale(0);
-    }
-
-    80% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 0;
-    }
-  }
+  animation: cannon-explosion $animation-duration cubic-bezier(.18, .89, .32, 1.28) both;
+  animation-iteration-count: infinite;
 
   // Paths
   .path {
@@ -90,7 +70,7 @@ $yellow-orange: #ffb534;
     animation-duration: $animation-duration;
     animation-timing-function: ease-out;
     animation-fill-mode: both;
-    animation-iteration-count: $debug-animation-count;
+    animation-iteration-count: infinite;
 
     &:nth-child(even) {
       animation-name: confetti-rotate-l;
@@ -127,19 +107,35 @@ $yellow-orange: #ffb534;
     }
 
     &-ribbon {
-      height: 1em;
-      width: .5em;
+      height: .7em;
+      width: .3em;
       border-radius: .1em;
     }
 
     &-flake {
-      height: .5em;
-      width: .5em;
+      height: .3em;
+      width: .3em;
       border-radius: 50%;
     }
 
   }
 }
+
+// Sizes
+
+.size-normal {
+  .cannon {
+    font-size: 12px;
+  }
+}
+
+.size-small {
+  .cannon {
+    font-size: 3px;
+  }
+}
+
+// Themes
 
 .theme-colorful {
   .cannon {
@@ -185,3 +181,16 @@ $yellow-orange: #ffb534;
   }
 }
 
+@keyframes cannon-explosion {
+  0% {
+    transform: scale(0);
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

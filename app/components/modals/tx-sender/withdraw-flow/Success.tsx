@@ -5,7 +5,7 @@ import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors"
 import { TWithdrawAdditionalData } from "../../../../modules/tx/transactions/withdraw/types";
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
-import { ConfettiEthereum } from "../../../shared/ethererum";
+import { ConfettiEthereum } from "../../../shared/ethereum";
 import { Message } from "../../Message";
 import { TxHashAndBlock } from "../shared/TxHashAndBlock";
 import { WithdrawTransactionDetails } from "./WithdrawTransactionDetails";

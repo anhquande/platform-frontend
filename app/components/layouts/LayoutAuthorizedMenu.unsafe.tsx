@@ -19,6 +19,7 @@ import { TTranslatedString } from "../../types";
 import { invariant } from "../../utils/invariant";
 import { appRoutes } from "../appRoutes";
 import { IdentityModal } from "../identity/IdentityModal";
+import { ActionRequired } from "../shared/ActionRequired";
 import { Button, EButtonLayout } from "../shared/buttons";
 import { InlineIcon } from "../shared/icons";
 import { ExternalLink } from "../shared/links";
@@ -87,8 +88,9 @@ const MenuEntryContent: React.FunctionComponent<IMenuContent> = ({
   return (
     <>
       <span className={disabled ? cn(styles.icon, styles.disabledItem) : styles.icon} {...props}>
-        <InlineIcon svgIcon={svgString} />
-        {actionRequired && <div className={styles.actionIndicator} />}
+        <ActionRequired active={!!actionRequired}>
+          <InlineIcon svgIcon={svgString} />
+        </ActionRequired>
       </span>
       <span className={styles.name}>{menuName}</span>
     </>

@@ -8,7 +8,7 @@ import {
 } from "../../../modules/icbm-wallet-balance-modal/reducer";
 import { myEtherWalletUrl } from "../../../utils/myEtherWallet";
 import { ButtonArrowRight } from "../../shared/buttons";
-import { ConfettiEthereum, SpinningEthereum } from "../../shared/ethererum";
+import { ConfettiEthereum, EthereumIcon } from "../../shared/ethereum";
 import { Heading } from "../../shared/Heading";
 import { HighlightedStripField } from "../../shared/HighlightedStripField";
 import { ExternalLink } from "../../shared/links";
@@ -39,7 +39,7 @@ const MigrateFooter: React.FunctionComponent<{
     <Container>
       {transactionStatus === ETransactionStatus.WAITING && (
         <Row className={styles.footerWaiting}>
-          <SpinningEthereum className={styles.animatedEthereum} />
+          <EthereumIcon className={styles.animatedEthereum} />
           <FormattedMessage id="settings.modal.icbm-wallet-balance.footer.waiting-for-transaction" />
         </Row>
       )}

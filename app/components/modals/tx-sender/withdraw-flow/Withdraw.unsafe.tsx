@@ -17,7 +17,7 @@ import { appConnect } from "../../../../store";
 import { OmitKeys } from "../../../../types";
 import { IIntlProps, injectIntlHelpers } from "../../../../utils/injectIntlHelpers.unsafe";
 import { Button } from "../../../shared/buttons";
-import { SpinningEthereum } from "../../../shared/ethererum";
+import { EthereumIcon } from "../../../shared/ethereum";
 import { Form, FormField } from "../../../shared/forms";
 import { ValidationErrorMessage } from "../shared/ValidationErrorMessage";
 
@@ -83,7 +83,7 @@ const WithdrawLayout: React.FunctionComponent<TProps & IIntlProps> = ({
   intl,
 }) => (
   <section>
-    <SpinningEthereum />
+    <EthereumIcon />
 
     <h3 className={styles.title}>
       <FormattedMessage id="modal.sent-eth.title" />

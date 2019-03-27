@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Col, Container, Row } from "reactstrap";
 
-import { SpinningEthereum } from "../../shared/ethererum";
+import { EthereumIcon } from "../../shared/ethereum";
 import { Interoperable } from "./Interoperable";
 import { RainbowSheepTip } from "./RainbowSheepTip.unsafe";
 import { SmartContractWindow } from "./SmartContractWindow";
@@ -18,7 +18,7 @@ export const Features: React.FunctionComponent = () => (
       />
       <Row>
         <Col xs={12} md={6} className="align-self-center">
-          <SpinningEthereum />
+          <EthereumIcon />
         </Col>
         <Col xs={12} md={6} className="align-self-center">
           <h2>Technologically enhanced shares</h2>

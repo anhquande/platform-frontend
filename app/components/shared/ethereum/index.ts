@@ -1,2 +1,2 @@
 export * from "./ConfettiEthereum";
-export * from "./SpinningEthereum";
+export * from "./EthereumIcon";
