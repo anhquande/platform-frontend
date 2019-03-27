@@ -28,7 +28,7 @@ import { generateRootReducer, IAppState } from "./store";
 import * as ga from "./utils/googleAnalitycs.js";
 import { IntlProviderAndInjector } from "./utils/IntlProviderAndInjector";
 import { InversifyProvider } from "./utils/InversifyProvider";
-import * as serviceWorker from "./utils/serviceWorker";
+import * as serviceWorker from "./utils/serviceWorker.unsafe";
 
 import "font-awesome/scss/font-awesome.scss";
 import "slick-carousel/slick/slick-theme.css";
@@ -37,7 +37,7 @@ import "./styles/overrides.scss";
 
 function renderApp(
   store: Store<IAppState>,
-  history: any,
+  history: History,
   container: Container,
   Component: React.ComponentType,
 ): void {

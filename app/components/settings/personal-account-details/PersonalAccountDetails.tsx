@@ -6,7 +6,7 @@ import { externalRoutes } from "../../../config/externalRoutes";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { TTranslatedString } from "../../../types";
-import { onEnterAction } from "../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { Panel } from "../../shared/Panel";
 

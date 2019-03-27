@@ -5,7 +5,10 @@ import { Col, Row } from "reactstrap";
 import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
-import { EtoTermsType, TPartialEtoSpecData } from "../../../../lib/api/eto/EtoApi.interfaces";
+import {
+  EtoTermsType,
+  TPartialEtoSpecData,
+} from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { etoFormIsReadonly } from "../../../../lib/api/eto/EtoApiUtils";
 import { actions } from "../../../../modules/actions";
 import { selectIssuerEto, selectIssuerEtoState } from "../../../../modules/eto-flow/selectors";
@@ -25,9 +28,9 @@ import {
   FormFieldCheckboxGroup,
 } from "../../../shared/forms/fields/FormFieldCheckboxGroup";
 import { FormFieldLabel } from "../../../shared/forms/fields/FormFieldLabel";
-import { FormRange } from "../../../shared/forms/fields/FormRange";
+import { FormRange } from "../../../shared/forms/fields/FormRange.unsafe";
 import { convert, parseStringToInteger } from "../../utils";
-import { EtoFormBase } from "../EtoFormBase";
+import { EtoFormBase } from "../EtoFormBase.unsafe";
 import { Section } from "../Shared";
 
 import * as styles from "../Shared.module.scss";

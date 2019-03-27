@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { FormToggle } from "./FormToggle";
-import { formWrapper } from "./testingUtils";
+import { FormToggle } from "./FormToggle.unsafe";
+import { formWrapper } from "./testingUtils.unsafe";
 
 storiesOf("Form/Toggle", module)
   .add(

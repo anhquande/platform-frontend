@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ChartDoughnut } from "./ChartDoughnut";
+import { ChartDoughnut } from "./ChartDoughnut.unsafe";
 
 const data = {
   labels: ["ETH", "a quite lengthy nEUR label"],

@@ -4,7 +4,7 @@ import * as moment from "moment";
 import * as React from "react";
 import * as sinon from "sinon";
 
-import { wrapWithIntl } from "../../../../../test/integrationTestUtils";
+import { wrapWithIntl } from "../../../../../test/integrationTestUtils.unsafe";
 import { EndTimeWidget } from "./EndTimeWidget";
 
 const TIMESTAMP = new Date().getTime();

@@ -3,7 +3,7 @@ import {
   TCompanyEtoData,
   TPartialCompanyEtoData,
   TPartialEtoSpecData,
-} from "../../lib/api/eto/EtoApi.interfaces";
+} from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import {
   EEtoDocumentType,
   IEtoDocument,

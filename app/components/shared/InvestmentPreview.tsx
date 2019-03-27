@@ -3,9 +3,9 @@ import { FormattedPlural } from "react-intl";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { Button, ButtonLink, EButtonLayout } from "./buttons";
-import { ECurrency, ETheme, Money } from "./Money";
+import { ECurrency, ETheme, Money } from "./Money.unsafe";
 import { PercentageIndicatorBar } from "./PercentageIndicatorBar";
-import { ITag, Tag } from "./Tag";
+import { ITag, Tag } from "./Tag.unsafe";
 
 import * as styles from "./InvestmentPreview.module.scss";
 

@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { HeaderComponent } from "./Header";
+import { HeaderComponent } from "./Header.unsafe";
 
 storiesOf("Layout/Header", module)
   .add("investor", () => (

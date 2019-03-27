@@ -14,11 +14,11 @@ import {
   selectPendingKycRequestType,
 } from "../../modules/kyc/selectors";
 import { appConnect } from "../../store";
-import { onEnterAction } from "../../utils/OnEnterAction";
+import { onEnterAction } from "../../utils/OnEnterAction.unsafe";
 import { appRoutes } from "../appRoutes";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { Button, EButtonLayout } from "../shared/buttons";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { KycPanel } from "./KycPanel";
 import { KycRouter } from "./Router";

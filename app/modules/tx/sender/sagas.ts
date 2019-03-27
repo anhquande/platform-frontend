@@ -1,12 +1,14 @@
-import { BigNumber } from "bignumber.js";
-import { addHexPrefix } from "ethereumjs-util";
-import { call, put, race, select, take } from "redux-saga/effects";
+import { call, Effect, put, race, select, take } from "redux-saga/effects";
 
 import { TGlobalDependencies } from "../../../di/setupBindings";
-import { TPendingTxs, TxWithMetadata } from "../../../lib/api/users/interfaces";
-import { BrowserWalletError } from "../../../lib/web3/BrowserWallet";
+import {
+  TPendingTxs,
+  TxPendingWithMetadata,
+  TxWithMetadata,
+} from "../../../lib/api/users/interfaces";
+import { BrowserWalletError } from "../../../lib/web3/browser-wallet/BrowserWallet";
 import { LedgerContractsDisabledError, LedgerError } from "../../../lib/web3/ledger-wallet/errors";
-import { LightError } from "../../../lib/web3/LightWallet";
+import { LightError } from "../../../lib/web3/light-wallet/LightWallet";
 import { ITxData } from "../../../lib/web3/types";
 import {
   InvalidChangeIdError,
@@ -17,42 +19,81 @@ import {
   OutOfGasError,
   UnknownEthNodeError,
 } from "../../../lib/web3/Web3Adapter";
-import { SignerError, SignerRejectConfirmationError } from "../../../lib/web3/Web3Manager";
+import {
+  SignerError,
+  SignerRejectConfirmationError,
+} from "../../../lib/web3/Web3Manager/Web3Manager";
 import { IAppState } from "../../../store";
 import { connectWallet } from "../../access-wallet/sagas";
 import { actions } from "../../actions";
 import { IGasState } from "../../gas/reducer";
 import { selectGasPrice } from "../../gas/selectors";
-import { neuCall, neuRepeatIf } from "../../sagasUtils";
-import { ETxSenderType } from "../interfaces";
+import { neuCall, neuRepeatIf, neuSpawn } from "../../sagasUtils";
 import {
   createWatchTxChannel,
-  EEventEmitterChannelEvents,
-  TEventEmitterChannelEvents,
+  deletePendingTransaction,
+  markTransactionAsPending,
   updatePendingTxs,
 } from "../monitor/sagas";
+import {
+  selectAreTherePendingTxs,
+  selectAreTherePlatformPendingTxs,
+  selectExternalPendingTransaction,
+} from "../monitor/selectors";
+import { EEventEmitterChannelEvents, TEventEmitterChannelEvents } from "../monitor/types";
 import { UserCannotUnlockFunds } from "../transactions/unlock/errors";
+import { ETxSenderType, TAdditionalDataByType } from "../types";
 import { validateGas } from "../validator/sagas";
 import { ETransactionErrorType } from "./reducer";
-import { selectTxDetails, selectTxType } from "./selectors";
+import { selectTxAdditionalData, selectTxDetails, selectTxType } from "./selectors";
 
 export interface ITxSendParams {
   type: ETxSenderType;
   transactionFlowGenerator: any;
   extraParam?: any;
-  // Design extraParam to be a tuple that handels any number of params
+  // Design extraParam to be a tuple that handles any number of params
   // @see neuCall
 }
 
-export function* txSendSaga({ type, transactionFlowGenerator, extraParam }: ITxSendParams): any {
+function* txMonitorSaga(): any {
+  const txMonitorEffect = neuCall(txMonitor);
+
+  yield call(txControllerSaga, txMonitorEffect);
+}
+
+function* txMonitor(_: TGlobalDependencies): Iterable<any> {
+  const txs: TPendingTxs = yield select((s: IAppState) => s.txMonitor.txs);
+
+  if (txs.pendingTransaction) {
+    const pendingTransaction = txs.pendingTransaction as TxPendingWithMetadata;
+
+    const txHash = pendingTransaction.transaction.hash;
+
+    yield put(
+      actions.txSender.txSenderShowModal({
+        additionalData: pendingTransaction.transactionAdditionalData,
+        error: pendingTransaction.transactionError,
+        state: pendingTransaction.transactionStatus,
+        txDetails: pendingTransaction.transaction,
+        txHash: txHash,
+        txTimestamp: pendingTransaction.transactionTimestamp,
+        type: pendingTransaction.transactionType,
+      }),
+    );
+
+    yield neuCall(watchTxSubSaga, txHash);
+  }
+}
+
+function* txControllerSaga(controlledEffect: Iterator<Effect>): any {
   const gasPrice: IGasState = yield select(selectGasPrice);
 
   if (!gasPrice) {
     yield take("GAS_API_LOADED");
   }
 
-  const { result, cancel } = yield race({
-    result: neuCall(txSendProcess, type, transactionFlowGenerator, extraParam),
+  const { cancel } = yield race({
+    result: controlledEffect,
     cancel: take("TX_SENDER_HIDE_MODAL"),
   });
 
@@ -60,129 +101,133 @@ export function* txSendSaga({ type, transactionFlowGenerator, extraParam }: ITxS
     throw new Error("TX_SENDING_CANCELLED");
   }
 
-  // we need to wait for modal to close anyway
+  // wait for user to close modal
   yield take("TX_SENDER_HIDE_MODAL");
-  yield put(actions.wallet.loadWalletData());
 
-  return result;
+  // when modal was closed delete transaction for pending list
+  yield neuCall(deletePendingTransaction);
+
+  yield put(actions.wallet.loadWalletData());
 }
 
-export function* txSendProcess(
+export function* txSendSaga({ type, transactionFlowGenerator, extraParam }: ITxSendParams): any {
+  yield neuCall(ensureNoPendingTx);
+
+  const sendProcessEffect = neuCall(txSendProcess, type, transactionFlowGenerator, extraParam);
+
+  yield call(txControllerSaga, sendProcessEffect);
+}
+
+function* txSendProcess(
   { logger }: TGlobalDependencies,
   transactionType: ETxSenderType,
   transactionFlowGenerator: any,
   extraParam?: any,
 ): any {
   try {
-    yield put(actions.txSender.txSenderShowModal(transactionType));
-    yield neuCall(ensureNoPendingTx, transactionType);
-    yield put(actions.txSender.txSenderWatchPendingTxsDone(transactionType));
+    yield put(actions.txSender.txSenderShowModal({ type: transactionType as any }));
 
     yield neuRepeatIf("TX_SENDER_CHANGE", "TX_SENDER_ACCEPT", transactionFlowGenerator, extraParam);
     const txData = yield select(selectTxDetails);
 
+    // Check if gas amount is correct
     yield validateGas(txData);
+
+    // accept transaction on wallet
     yield call(connectWallet);
     yield put(actions.txSender.txSenderWalletPlugged());
+
+    // send transaction
     const txHash = yield neuCall(sendTxSubSaga);
 
     yield neuCall(watchTxSubSaga, txHash);
   } catch (error) {
     logger.error(error);
     if (error instanceof OutOfGasError) {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.GAS_TOO_LOW));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.GAS_TOO_LOW));
     } else if (error instanceof LowNonceError) {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.NONCE_TOO_LOW));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.NONCE_TOO_LOW));
     } else if (error instanceof LongTransactionQueError) {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.TOO_MANY_TX_IN_QUEUE));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.TOO_MANY_TX_IN_QUEUE));
     } else if (error instanceof InvalidRlpDataError) {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.INVALID_RLP_TX));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.INVALID_RLP_TX));
     } else if (error instanceof InvalidChangeIdError) {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.INVALID_CHAIN_ID));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.INVALID_CHAIN_ID));
     } else if (error instanceof NotEnoughEtherForGasError) {
-      return yield put(
-        actions.txSender.txSenderError(ETransactionErrorType.NOT_ENOUGH_ETHER_FOR_GAS),
-      );
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.NOT_ENOUGH_ETHER_FOR_GAS));
     } else if (error instanceof UnknownEthNodeError) {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.UNKNOWN_ERROR));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.UNKNOWN_ERROR));
     } else if (error instanceof SignerRejectConfirmationError) {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.TX_WAS_REJECTED));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.TX_WAS_REJECTED));
     } else if (error instanceof LedgerContractsDisabledError) {
-      return yield put(
-        actions.txSender.txSenderError(ETransactionErrorType.LEDGER_CONTRACTS_DISABLED),
-      );
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.LEDGER_CONTRACTS_DISABLED));
     } else if (error instanceof UserCannotUnlockFunds) {
-      return yield put(
+      yield put(
         actions.txSender.txSenderError(ETransactionErrorType.NOT_ENOUGH_NEUMARKS_TO_UNLOCK),
       );
     } else {
-      return yield put(actions.txSender.txSenderError(ETransactionErrorType.UNKNOWN_ERROR));
+      yield put(actions.txSender.txSenderError(ETransactionErrorType.UNKNOWN_ERROR));
     }
   }
 }
 
-function* ensureNoPendingTx({ logger }: TGlobalDependencies, type: ETxSenderType): any {
+/**
+ * Check for pending transactions, behaves differently depending on the tx type
+ * 1. For pending platform tx it will stop current tx (by throwing error) and start monitoring pending transaction
+ * 2. For external pending tx wait for it to finish and then continue with current tx
+ */
+function* ensureNoPendingTx({ logger }: TGlobalDependencies): any {
   while (true) {
     yield neuCall(updatePendingTxs);
-    let txs: TPendingTxs = yield select((s: IAppState) => s.txMonitor.txs);
-    if (!txs.pendingTransaction && txs.oooTransactions.length === 0) {
-      yield put(actions.txSender.txSenderWatchPendingTxsDone(type));
+
+    const areTherePendingTxs: boolean = yield select(selectAreTherePendingTxs);
+    if (!areTherePendingTxs) {
       return;
     }
 
-    if (txs.pendingTransaction) {
-      const txHash = txs.pendingTransaction.transaction.hash;
-      // go to miner
-      yield put(
-        actions.txSender.txSenderSigned(txHash, txs.pendingTransaction
-          .transactionType as ETxSenderType),
-      );
-      yield neuCall(watchTxSubSaga, txHash);
-      return;
+    const areTherePlatformPendingTransactions: boolean = yield select(
+      selectAreTherePlatformPendingTxs,
+    );
+    if (areTherePlatformPendingTransactions) {
+      // create new detached process
+      yield neuSpawn(txMonitorSaga);
+
+      // cancel current one
+      throw new Error("There is already a pending transaction on the platform");
     }
 
-    if (txs.oooTransactions.length) {
-      const txHash = txs.oooTransactions[0].hash;
+    const externalPendingTransaction: TxWithMetadata | undefined = yield select(
+      selectExternalPendingTransaction,
+    );
+    if (externalPendingTransaction) {
       // go to miner
+      const txHash = externalPendingTransaction.transaction.hash;
       yield put(actions.txSender.txSenderWatchPendingTxs(txHash));
-      logger.info(`Waiting for out of bound transactions: ${txs.oooTransactions.length}`);
+      logger.info(`Waiting for out of bound transactions: ${txHash}`);
       yield neuCall(watchPendingOOOTxSubSaga, txHash);
     }
   }
 }
 
-function* sendTxSubSaga({ web3Manager, apiUserService }: TGlobalDependencies): any {
+function* sendTxSubSaga({ web3Manager }: TGlobalDependencies): any {
+  const type: ETxSenderType = yield select(selectTxType);
   const txData: ITxData = yield select(selectTxDetails);
-  const type = yield select(selectTxType);
+  const txAdditionalData: TAdditionalDataByType<typeof type> = yield select((state: IAppState) =>
+    selectTxAdditionalData<typeof type>(state),
+  );
+
   if (!txData) {
     throw new Error("Tx data is not defined");
   }
+
   try {
     yield validateGas(txData);
 
     const txHash: string = yield web3Manager.sendTransaction(txData);
-    yield put(actions.txSender.txSenderSigned(txHash, type));
 
-    const txWithMetadata: TxWithMetadata = {
-      transaction: {
-        from: addHexPrefix(txData.from),
-        gas: addHexPrefix(new BigNumber(txData.gas).toString(16)),
-        gasPrice: addHexPrefix(new BigNumber(txData.gasPrice).toString(16)),
-        hash: addHexPrefix(txHash),
-        input: addHexPrefix(txData.data || "0x0"),
-        nonce: addHexPrefix("0"),
-        to: addHexPrefix(txData.to),
-        value: addHexPrefix(new BigNumber(txData.value).toString(16)),
-        blockHash: undefined,
-        blockNumber: undefined,
-        chainId: undefined,
-        status: undefined,
-        transactionIndex: undefined,
-      },
-      transactionType: type,
-    };
-    yield apiUserService.addPendingTx(txWithMetadata);
-    yield neuCall(updatePendingTxs);
+    yield neuCall(markTransactionAsPending, { txHash, type, txData, txAdditionalData });
+
+    yield put(actions.txSender.txSenderSigned(txHash, type));
 
     return txHash;
   } catch (error) {
@@ -236,6 +281,8 @@ function* sendTxSubSaga({ web3Manager, apiUserService }: TGlobalDependencies): a
 }
 
 function* watchPendingOOOTxSubSaga({ logger }: TGlobalDependencies, txHash: string): any {
+  logger.info(`Watching for out of bound transaction: ${txHash}`);
+
   const watchTxChannel = yield neuCall(createWatchTxChannel, txHash);
   try {
     while (true) {
@@ -256,6 +303,8 @@ function* watchPendingOOOTxSubSaga({ logger }: TGlobalDependencies, txHash: stri
 }
 
 function* watchTxSubSaga({ logger }: TGlobalDependencies, txHash: string): any {
+  logger.info(`Watching for transaction: ${txHash}`);
+
   const watchTxChannel = yield neuCall(createWatchTxChannel, txHash);
   try {
     while (true) {

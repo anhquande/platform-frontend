@@ -17,7 +17,7 @@ export const txMonitorReducer: AppReducer<ITxMonitorState> = (
   switch (action.type) {
     case "TX_MONITOR_LOAD_TXS":
       return {
-        txs: action.payload.txs,
+        txs: { ...state.txs, ...action.payload.txs },
       };
   }
 

@@ -16,11 +16,11 @@ import {
 } from "../../../modules/wallet/selectors";
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
-import { onEnterAction } from "../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
 import { appRoutes } from "../../appRoutes";
 import { ButtonLink, EButtonLayout } from "../../shared/buttons";
 import { LoadingIndicator } from "../../shared/loading-indicator";
-import { ECurrency, ECurrencySymbol, Money } from "../../shared/Money";
+import { ECurrency, ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget";
 import { Panel } from "../../shared/Panel";
 import { Tooltip } from "../../shared/Tooltip";

@@ -2,7 +2,7 @@ import { BigNumber } from "bignumber.js";
 import { createStore, Store } from "redux";
 
 import { IConfig } from "../app/config/getConfig";
-import { EEtoState, TCompanyEtoData } from "../app/lib/api/eto/EtoApi.interfaces";
+import { EEtoState, TCompanyEtoData } from "../app/lib/api/eto/EtoApi.interfaces.unsafe";
 import {
   EEtoDocumentLanguage,
   EEtoDocumentType,

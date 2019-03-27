@@ -4,7 +4,10 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
-import { EtoPitchType, TPartialCompanyEtoData } from "../../../../lib/api/eto/EtoApi.interfaces";
+import {
+  EtoPitchType,
+  TPartialCompanyEtoData,
+} from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { actions } from "../../../../modules/actions";
 import { selectIssuerCompany } from "../../../../modules/eto-flow/selectors";
 import { EEtoFormTypes } from "../../../../modules/eto-flow/types";
@@ -19,7 +22,7 @@ import {
   convertPercentageToFraction,
   removeEmptyKeyValueFields,
 } from "../../utils";
-import { EtoFormBase } from "../EtoFormBase";
+import { EtoFormBase } from "../EtoFormBase.unsafe";
 import { Section } from "../Shared";
 
 import * as styles from "../Shared.module.scss";

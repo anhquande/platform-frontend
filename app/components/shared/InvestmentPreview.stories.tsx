@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { withModalBody } from "../../utils/storybookHelpers";
+import { withModalBody } from "../../utils/storybookHelpers.unsafe";
 import { InvestmentPreview } from "./InvestmentPreview";
 
 const defaultProps = {

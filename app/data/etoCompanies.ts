@@ -2,7 +2,7 @@ import * as brille24hoverMp4 from "../assets/img/eto_offers/brille_animation.mp4
 import * as brille24hoverWebm from "../assets/img/eto_offers/brille_animation.webm";
 import * as curfhoverMp4 from "../assets/img/eto_offers/curfhover@1x.mp4";
 import * as curfhoverWebm from "../assets/img/eto_offers/curfhover@1x.webm";
-import { IEtoOfferingProps } from "../components/landing/EtoOfferingCard";
+import { IEtoOfferingProps } from "../components/landing/EtoOfferingCard.unsafe";
 import { EVideoTheme } from "../components/shared/ResponsiveVideo";
 
 import * as agora from "../assets/img/eto_offers/agora.jpg";

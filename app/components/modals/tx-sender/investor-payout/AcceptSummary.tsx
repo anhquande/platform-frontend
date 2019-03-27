@@ -4,8 +4,9 @@ import { Container } from "reactstrap";
 
 import { externalRoutes } from "../../../../config/externalRoutes";
 import { actions } from "../../../../modules/actions";
-import { ITokenDisbursal } from "../../../../modules/investor-portfolio/types";
-import { selectTxSummaryAdditionalData } from "../../../../modules/tx/sender/selectors";
+import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
+import { TAcceptPayoutAdditionalData } from "../../../../modules/tx/transactions/payout/accept/types";
+import { ETxSenderType } from "../../../../modules/tx/types";
 import { selectEthereumAddressWithChecksum } from "../../../../modules/web3/selectors";
 import { appConnect } from "../../../../store";
 import { EthereumAddressWithChecksum } from "../../../../types";
@@ -13,12 +14,11 @@ import { withParams } from "../../../../utils/withParams";
 import { Button } from "../../../shared/buttons";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { ExternalLink } from "../../../shared/links";
-import { Money, selectCurrencyCode } from "../../../shared/Money";
-import { InfoList } from "../shared/InfoList";
-import { InfoRow } from "../shared/InfoRow";
+import { selectCurrencyCode } from "../../../shared/Money.unsafe";
+import { AcceptTransactionDetails } from "./AcceptTransactionDetails";
 
 interface IStateProps {
-  tokensDisbursal: ITokenDisbursal[];
+  additionalData: TAcceptPayoutAdditionalData;
   walletAddress: EthereumAddressWithChecksum;
 }
 
@@ -30,7 +30,7 @@ type TComponentProps = IStateProps & IDispatchProps;
 
 const InvestorAcceptPayoutSummaryLayout: React.FunctionComponent<TComponentProps> = ({
   walletAddress,
-  tokensDisbursal,
+  additionalData,
   onAccept,
 }) => {
   return (
@@ -40,30 +40,18 @@ const InvestorAcceptPayoutSummaryLayout: React.FunctionComponent<TComponentProps
       </Heading>
 
       <p className="mb-3">
-        {tokensDisbursal.length === 1 ? (
+        {additionalData.tokensDisbursals.length === 1 ? (
           <FormattedMessage
             id="investor-payout.accept.summary.single.description"
-            values={{ token: selectCurrencyCode(tokensDisbursal[0].token) }}
+            values={{ token: selectCurrencyCode(additionalData.tokensDisbursals[0].token) }}
           />
         ) : (
           <FormattedMessage id="investor-payout.accept.summary.combined.description" />
         )}
       </p>
-      <InfoList className="mb-4">
-        {tokensDisbursal.map(disbursal => (
-          <InfoRow
-            data-test-id={`investor-payout.accept-summary.${disbursal.token}-total-payout`}
-            key={disbursal.token}
-            caption={
-              <FormattedMessage
-                id="investor-payout.accept.summary.total-payout"
-                values={{ token: selectCurrencyCode(disbursal.token) }}
-              />
-            }
-            value={<Money value={disbursal.amountToBeClaimed} currency={disbursal.token} />}
-          />
-        ))}
-      </InfoList>
+
+      <AcceptTransactionDetails additionalData={additionalData} className="mb-4" />
+
       <section className="text-center">
         <ExternalLink
           className="d-inline-block mb-3"
@@ -85,7 +73,7 @@ const InvestorAcceptPayoutSummaryLayout: React.FunctionComponent<TComponentProps
 const InvestorAcceptPayoutSummary = appConnect<IStateProps, IDispatchProps, {}>({
   stateToProps: state => ({
     walletAddress: selectEthereumAddressWithChecksum(state),
-    tokensDisbursal: selectTxSummaryAdditionalData(state),
+    additionalData: selectTxAdditionalData<ETxSenderType.INVESTOR_ACCEPT_PAYOUT>(state)!,
   }),
   dispatchToProps: d => ({
     onAccept: () => d(actions.txSender.txSenderAccept()),

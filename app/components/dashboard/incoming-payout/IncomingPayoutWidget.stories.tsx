@@ -2,7 +2,7 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { withMockedDate } from "../../../utils/storybookHelpers";
+import { withMockedDate } from "../../../utils/storybookHelpers.unsafe";
 import { IncomingPayoutComponent } from "./IncomingPayoutWidget";
 
 const dummyNow = new Date("2018-03-10T05:03:56+02:00");

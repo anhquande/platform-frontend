@@ -1,4 +1,4 @@
-import { TGeneralEtoData } from "../../lib/api/eto/EtoApi.interfaces";
+import { TGeneralEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { createAction, createActionFactory, createSimpleAction } from "../actionsUtils";
 
 export const etoFlowActions = {

@@ -1,11 +1,11 @@
 {
   "extends": "typestrict",
-  "rulesDirectory": ["./node_modules/tslint-eslint-rules/dist/rules"],
+  "rulesDirectory": ["./node_modules/tslint-eslint-rules/dist/rules", "./test/rules"],
   "rules": {
     "interface-name": [true, "always-prefix"],
     "no-invalid-template-strings": true,
     "no-sparse-arrays": true,
-    "no-object-literal-type-assertion": true,
+    "no-object-literal-type-assertion": false,
     "prefer-conditional-expression": true,
     "prefer-object-spread": true,
     "no-this-assignment": true,
@@ -18,6 +18,13 @@
     "no-extra-boolean-cast": true,
     "no-extra-semi": true,
     "no-invalid-regexp": true,
+    "no-any-on-steroid": [
+      true,
+      {
+        "include": [".*.(tsx)"],
+        "exclude": [".*.(.spec.tsx)", ".*.(.util.tsx)", ".*.(.sideEffect.tsx)", ".*.(.unsafe.tsx)"]
+      }
+    ],
     "no-regex-spaces": true,
     "no-unexpected-multiline": true,
     "valid-typeof": true,

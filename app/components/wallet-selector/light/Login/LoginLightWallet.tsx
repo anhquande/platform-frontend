@@ -6,7 +6,7 @@ import {
   selectPreviousLightWalletEmail,
 } from "../../../../modules/web3/selectors";
 import { appConnect } from "../../../../store";
-import { LoginWithEmailLightWallet } from "./LoginWithEmailLightWallet";
+import { LoginWithEmailLightWallet } from "./LoginWithEmailLightWallet.unsafe";
 import { MissingEmailLightWallet } from "./MissingEmailLightWallet";
 
 import * as styles from "../WalletLight.module.scss";

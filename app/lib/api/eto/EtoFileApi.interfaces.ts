@@ -1,4 +1,4 @@
-import { EtoStateToCamelcase } from "./EtoApi.interfaces";
+import { EtoStateToCamelcase } from "./EtoApi.interfaces.unsafe";
 
 type fileStates = "canReplace" | "locked" | "readOnly";
 

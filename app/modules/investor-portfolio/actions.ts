@@ -1,4 +1,4 @@
-import { TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces";
+import { TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { Dictionary } from "../../types";
 import { createAction, createActionFactory } from "../actionsUtils";
 import {

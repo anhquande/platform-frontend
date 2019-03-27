@@ -4,7 +4,7 @@ import { compose } from "redux";
 
 import { ButtonLink, EButtonLayout } from "../../shared/buttons";
 import { ChartCircle, IChartCircleProps } from "../../shared/charts/ChartCircle";
-import { createErrorBoundary } from "../../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../shared/errorBoundary/ErrorBoundaryPanel";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { Panel } from "../../shared/Panel";

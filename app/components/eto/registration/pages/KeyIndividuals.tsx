@@ -9,7 +9,7 @@ import {
   EtoKeyIndividualsType,
   TEtoKeyIndividualType,
   TPartialCompanyEtoData,
-} from "../../../../lib/api/eto/EtoApi.interfaces";
+} from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { actions } from "../../../../modules/actions";
 import { selectIssuerCompany } from "../../../../modules/eto-flow/selectors";
 import { EEtoFormTypes } from "../../../../modules/eto-flow/types";
@@ -18,11 +18,14 @@ import { TFormikConnect, TTranslatedString } from "../../../../types";
 import { getFieldSchema, isRequired } from "../../../../utils/yupUtils";
 import { Button, ButtonIcon, EButtonLayout } from "../../../shared/buttons";
 import { FormField, FormTextArea } from "../../../shared/forms";
-import { FormSingleFileUpload } from "../../../shared/forms/fields/FormSingleFileUpload";
+import { FormSingleFileUpload } from "../../../shared/forms/fields/FormSingleFileUpload.unsafe";
 import { FormHighlightGroup } from "../../../shared/forms/FormHighlightGroup";
 import { FormSection } from "../../../shared/forms/FormSection";
-import { SOCIAL_PROFILES_PERSON, SocialProfilesEditor } from "../../../shared/SocialProfilesEditor";
-import { EtoFormBase } from "../EtoFormBase";
+import {
+  SOCIAL_PROFILES_PERSON,
+  SocialProfilesEditor,
+} from "../../../shared/SocialProfilesEditor.unsafe";
+import { EtoFormBase } from "../EtoFormBase.unsafe";
 import { Section } from "../Shared";
 
 import * as closeIcon from "../../../../assets/img/inline_icons/round_close.svg";

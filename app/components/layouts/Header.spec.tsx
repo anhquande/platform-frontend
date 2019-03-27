@@ -5,7 +5,7 @@ import { spy } from "sinon";
 
 import { tid } from "../../../test/testUtils";
 import { appRoutes } from "../appRoutes";
-import { HeaderComponent } from "./Header";
+import { HeaderComponent } from "./Header.unsafe";
 
 describe("<HeaderComponent />", () => {
   it("should render login to ETO button when unauthorized and on ETO landing page", () => {

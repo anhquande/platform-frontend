@@ -4,7 +4,7 @@ import { Col, Container, Row } from "reactstrap";
 
 import { ExternalLink } from "../../shared/links";
 import { ResponsiveImage } from "../../shared/ResponsiveImage";
-import { JoinCta } from "./JoinCta";
+import { JoinCta } from "./JoinCta.unsafe";
 
 import * as blockstateImage from "../../../assets/img/landing/blockstate.png";
 import * as blockstateImage2x from "../../../assets/img/landing/blockstate@2x.png";

@@ -11,7 +11,7 @@ import { Button, ButtonSize, EButtonLayout } from "../shared/buttons";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { ETheme, Money, selectCurrencyCode } from "../shared/Money";
+import { ETheme, Money, selectCurrencyCode } from "../shared/Money.unsafe";
 import { Panel } from "../shared/Panel";
 import { NewTable, NewTableRow } from "../shared/table";
 

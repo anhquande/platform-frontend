@@ -3,9 +3,9 @@ import * as React from "react";
 import { spy } from "sinon";
 
 import { createMount } from "../../test/createMount";
-import { setupFakeClock, wrapWithProviders } from "../../test/integrationTestUtils";
+import { setupFakeClock, wrapWithProviders } from "../../test/integrationTestUtils.unsafe";
 import { delay } from "./delay";
-import { withActionWatcher } from "./withActionWatcher";
+import { withActionWatcher } from "./withActionWatcher.unsafe";
 
 describe("withActionWatcher", () => {
   const SomeComponent = () => <h1>SOME COMPONENT</h1>;

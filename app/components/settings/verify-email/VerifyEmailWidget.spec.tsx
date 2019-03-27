@@ -8,7 +8,7 @@ import {
   setupFakeClock,
   waitUntilDoesntThrow,
   wrapWithIntl,
-} from "../../../../test/integrationTestUtils";
+} from "../../../../test/integrationTestUtils.unsafe";
 import { tid } from "../../../../test/testUtils";
 import { dummyIntl } from "../../../utils/injectIntlHelpers.fixtures";
 import { VerifyEmailWidgetComponent } from "./VerifyEmailWidget";

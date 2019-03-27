@@ -8,7 +8,7 @@ import { appConnect } from "../../../../store";
 import { withParams } from "../../../../utils/withParams";
 import { appRoutes } from "../../../appRoutes";
 import { EtherscanAddressLink } from "../../../shared/links";
-import { ETagSize, Tag } from "../../../shared/Tag";
+import { ETagSize, Tag } from "../../../shared/Tag.unsafe";
 import { EtoWidgetContext } from "../../EtoWidgetView";
 
 export interface ITagsWidget {

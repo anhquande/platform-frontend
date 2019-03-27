@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { all, put, select } from "redux-saga/effects";
 
-import { ECurrency } from "../../../../../components/shared/Money";
+import { ECurrency } from "../../../../../components/shared/Money.unsafe";
 import { TGlobalDependencies } from "../../../../../di/setupBindings";
 import { ITxData } from "../../../../../lib/web3/types";
 import { invariant } from "../../../../../utils/invariant";
@@ -12,6 +12,7 @@ import { ITokenDisbursal } from "../../../../investor-portfolio/types";
 import { neuCall } from "../../../../sagasUtils";
 import { getTokenAddress } from "../../../../shared/sagas";
 import { selectEthereumAddressWithChecksum } from "../../../../web3/selectors";
+import { ETxSenderType } from "../../../types";
 
 // Use highest possible solidity uint256 to accept all disbursals for token
 // see https://github.com/Neufund/platform-contracts/blob/59e88f6881bf5adbced8462f1925496467ea4c18/contracts/FeeDisbursal/FeeDisbursal.sol#L164
@@ -110,9 +111,8 @@ export function* startInvestorPayoutAcceptGenerator(
   );
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
   yield put(
-    actions.txSender.txSenderContinueToSummary({
-      txData: generatedTxDetails,
-      additionalData: tokensDisbursals,
+    actions.txSender.txSenderContinueToSummary<ETxSenderType.INVESTOR_ACCEPT_PAYOUT>({
+      tokensDisbursals,
     }),
   );
 }

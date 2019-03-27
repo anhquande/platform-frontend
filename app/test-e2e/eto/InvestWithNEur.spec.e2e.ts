@@ -19,6 +19,7 @@ describe("Invest with nEur", () => {
       type: "investor",
       kyc: "business",
       seed: INV_EUR_ICBM_HAS_KYC_SEED,
+      signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
       goToDashboard();

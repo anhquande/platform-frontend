@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ToHumanReadableForm } from "./ToHumanReadableForm";
+import { ToHumanReadableForm } from "./ToHumanReadableForm.unsafe";
 
 storiesOf("ToHumanReadableForm", module)
   .add("one million", () => <ToHumanReadableForm number={1000000} />)

@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 
-import { ECurrency } from "../../components/shared/Money";
+import { ECurrency } from "../../components/shared/Money.unsafe";
 import { IEtoTokenData, TEtoWithCompanyAndContract } from "../public-etos/types";
 
 export interface ITokenDisbursal {

@@ -1,4 +1,3 @@
-import * as queryString from "query-string";
 import * as React from "react";
 import { Redirect, Route } from "react-router-dom";
 
@@ -23,8 +22,9 @@ import { BackupSeed } from "./settings/backup-seed/BackupSeed";
 import { EmailVerify } from "./settings/EmailVerify";
 import { profileRoutes } from "./settings/routes";
 import { Settings } from "./settings/Settings";
-import { OnlyAuthorizedRoute } from "./shared/routing/OnlyAuthorizedRoute";
-import { OnlyPublicRoute } from "./shared/routing/OnlyPublicRoute";
+import { OnlyAuthorizedRoute } from "./shared/routing/OnlyAuthorizedRoute.unsafe";
+import { OnlyPublicRoute } from "./shared/routing/OnlyPublicRoute.unsafe";
+import { EtoSecretProtectedWalletSelector } from "./shared/routing/SecretProtected.unsafe";
 import { TestCriticalError } from "./testing/critical-error/TestCriticalError";
 import { e2eRoutes } from "./testing/e2eRoutes";
 import { TestEmbededWidget } from "./testing/embeded-widget/TestEmbededWidget";
@@ -133,22 +133,3 @@ export const AppRouter: React.FunctionComponent = () => (
     <Redirect to={appRoutes.root} />
   </SwitchConnected>
 );
-
-const SecretProtected = (Component: any) =>
-  class extends React.Component<any> {
-    shouldComponentUpdate(): boolean {
-      return false;
-    }
-
-    render(): React.ReactNode {
-      const props = this.props;
-      const params = queryString.parse(window.location.search);
-
-      if (!process.env.NF_ISSUERS_SECRET || params.etoSecret === process.env.NF_ISSUERS_SECRET) {
-        return <Component {...props} />;
-      }
-
-      return <Redirect to={appRoutes.root} />;
-    }
-  };
-const EtoSecretProtectedWalletSelector = SecretProtected(WalletSelector);

@@ -6,7 +6,7 @@ import { compose } from "redux";
 
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
-import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers";
+import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers.unsafe";
 import { Button } from "../../shared/buttons";
 import { Form, FormField } from "../../shared/forms";
 import { Panel } from "../../shared/Panel";

@@ -8,6 +8,7 @@ describe("Wallet Transfer", () => {
     createAndLoginNewUser({
       type: "investor",
       seed: INV_EUR_ICBM_HAS_KYC_SEED,
+      signTosAgreement: true,
       onlyLogin: true,
     }).then(() => {
       goToDashboard();

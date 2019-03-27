@@ -2,8 +2,8 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { dummyIntl } from "../../../../utils/injectIntlHelpers.fixtures";
-import { withModalBody } from "../../../../utils/storybookHelpers";
-import { WithdrawLayout } from "./Withdraw";
+import { withModalBody } from "../../../../utils/storybookHelpers.unsafe";
+import { WithdrawLayout } from "./Withdraw.unsafe";
 
 storiesOf("Withdraw", module)
   .addDecorator(withModalBody())

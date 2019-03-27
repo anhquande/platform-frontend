@@ -4,7 +4,7 @@ import * as React from "react";
 import { spy } from "sinon";
 
 import { tid } from "../../../../../test/testUtils";
-import { SEED_LENGTH, WalletLightSeedRecoveryComponent } from "./SeedRecovery";
+import { SEED_LENGTH, WalletLightSeedRecoveryComponent } from "./SeedRecovery.unsafe";
 
 const defaultProps = () => ({
   startingStep: 0,

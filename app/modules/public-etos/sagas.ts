@@ -4,7 +4,7 @@ import { compose, keyBy, map, omit } from "lodash/fp";
 import { delay } from "redux-saga";
 import { all, fork, put, race, select } from "redux-saga/effects";
 
-import { PublicEtosMessage } from "../../components/translatedMessages/messages";
+import { PublicEtosMessage } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { IHttpResponse } from "../../lib/api/client/IHttpClient";
@@ -13,7 +13,7 @@ import {
   TCompanyEtoData,
   TEtoSpecsData,
   TPublicEtoData,
-} from "../../lib/api/eto/EtoApi.interfaces";
+} from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IEtoDocument, immutableDocumentName } from "../../lib/api/eto/EtoFileApi.interfaces";
 import { EUserType } from "../../lib/api/users/interfaces";
 import { EtherToken } from "../../lib/contracts/EtherToken";

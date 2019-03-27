@@ -10,7 +10,7 @@ import { selectBankAccount } from "../../../modules/kyc/selectors";
 import { TBankAccount } from "../../../modules/kyc/types";
 import { appConnect } from "../../../store";
 import { DeepReadonly } from "../../../types";
-import { onEnterAction } from "../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
 import { Button, ButtonSize, EButtonLayout } from "../../shared/buttons";
 import { Panel } from "../../shared/Panel";
 import { BankAccount } from "../../wallet/BankAccount";

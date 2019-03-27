@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { etoDocuments, etoFilesData, etoTemplates } from "../../../test/fixtures";
-import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces";
+import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EETOStateOnChain } from "../../modules/public-etos/types";
 import { DocumentsLayout } from "./Documents";
 import { getDocumentTitles } from "./utils";

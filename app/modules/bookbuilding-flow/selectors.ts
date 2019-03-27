@@ -1,4 +1,4 @@
-import { IPledge } from "../../lib/api/eto/EtoPledgeApi.interfaces";
+import { IPledge } from "../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { IAppState } from "../../store";
 
 export const selectBookbuildingStats = (state: IAppState, etoId: string) =>

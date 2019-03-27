@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { all, fork, put, select, take } from "redux-saga/effects";
 
-import { BankTransferFlowMessage } from "../../components/translatedMessages/messages";
+import { BankTransferFlowMessage } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { TKycBankTransferPurpose } from "../../lib/api/KycApi.interfaces";

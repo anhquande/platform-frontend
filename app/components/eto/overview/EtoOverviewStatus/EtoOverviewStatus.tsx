@@ -25,7 +25,7 @@ import { CommonHtmlProps } from "../../../../types";
 import { formatFlexiPrecision } from "../../../../utils/Number.utils";
 import { withParams } from "../../../../utils/withParams";
 import { appRoutes } from "../../../appRoutes";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
 import { NumberFormat } from "../../../shared/NumberFormat";
 import { EtoWidgetContext } from "../../EtoWidgetView";
 import { ETOState } from "../../shared/ETOState";

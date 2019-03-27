@@ -9,18 +9,16 @@ import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall } from "../../../sagasUtils";
 import { selectEtherTokenBalanceAsBigNumber } from "../../../wallet/selectors";
 import { selectEthereumAddressWithChecksum } from "../../../web3/selectors";
-import { IWithdrawDraftType } from "../../interfaces";
+import { selectTxGasCostEthUlps } from "../../sender/selectors";
+import { ETxSenderType, IWithdrawDraftType } from "../../types";
 import { calculateGasLimitWithOverhead, EMPTY_DATA } from "../../utils";
 
 const SIMPLE_WITHDRAW_TRANSACTION = "21000";
 
 export function* generateEthWithdrawTransaction(
   { contractsService, web3Manager }: TGlobalDependencies,
-  payload: IWithdrawDraftType,
+  { to, value }: IWithdrawDraftType,
 ): any {
-  // Typing purposes
-  const { to, value } = payload;
-
   const etherTokenBalance: BigNumber = yield select(selectEtherTokenBalanceAsBigNumber);
   const from: string = yield select(selectEthereumAddressWithChecksum);
   const gasPriceWithOverhead = yield select(selectStandardGasPriceWithOverHead);
@@ -65,12 +63,14 @@ export function* ethWithdrawFlow(_: TGlobalDependencies): any {
   const txDataFromUser = action.payload.txDraftData;
   const generatedTxDetails = yield neuCall(generateEthWithdrawTransaction, txDataFromUser);
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
-  yield put(
-    actions.txSender.txSenderContinueToSummary({
-      txData: {
-        ...txDataFromUser,
-        value: Q18.mul(txDataFromUser.value!).toString(),
-      },
-    }),
-  );
+
+  // Internally we represent eth withdraw in two different modes (normal ether withdrawal and ether token withdrawal)
+  // in case of ether token withdrawal `to` points to contract address and `value` is empty
+  const additionalData = {
+    value: Q18.mul(txDataFromUser.value!).toString(),
+    to: txDataFromUser.to!,
+    cost: yield select(selectTxGasCostEthUlps),
+  };
+
+  yield put(actions.txSender.txSenderContinueToSummary<ETxSenderType.WITHDRAW>(additionalData));
 }

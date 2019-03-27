@@ -25,6 +25,7 @@ describe("Backup Seed and Private Key save and view", () => {
     createAndLoginNewUser({
       type: "investor",
       seed: INV_EUR_ICBM_HAS_KYC_SEED,
+      signTosAgreement: true,
     }).then(() => {
       goToProfile();
 
@@ -42,6 +43,7 @@ describe("Backup Seed and Private Key save and view", () => {
     createAndLoginNewUser({
       type: "investor",
       seed: INV_EUR_ICBM_HAS_KYC_SEED,
+      signTosAgreement: true,
     }).then(() => {
       goToProfile();
 
@@ -62,6 +64,7 @@ describe("Backup Seed and Private Key save and view", () => {
     createAndLoginNewUser({
       type: "investor",
       seed: INV_EUR_ICBM_HAS_KYC_SEED,
+      signTosAgreement: true,
     }).then(() => {
       goToProfile();
 

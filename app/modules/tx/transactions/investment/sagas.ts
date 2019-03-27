@@ -9,9 +9,26 @@ import { compareBigNumbers } from "../../../../utils/BigNumberUtils";
 import { actions } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { EInvestmentType } from "../../../investment-flow/reducer";
-import { selectPublicEtoById } from "../../../public-etos/selectors";
+import {
+  selectInvestmentEthValueUlps,
+  selectInvestmentEtoId,
+  selectInvestmentEurValueUlps,
+  selectIsICBMInvestment,
+} from "../../../investment-flow/selectors";
+import {
+  selectEquityTokenCountByEtoId,
+  selectNeuRewardUlpsByEtoId,
+} from "../../../investor-portfolio/selectors";
+import {
+  selectEtoWithCompanyAndContractById,
+  selectPublicEtoById,
+} from "../../../public-etos/selectors";
+import { TEtoWithCompanyAndContract } from "../../../public-etos/types";
+import { selectEtherPriceEur } from "../../../shared/tokenPrice/selectors";
 import { selectEtherTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddressWithChecksum } from "../../../web3/selectors";
+import { selectTxGasCostEthUlps } from "../../sender/selectors";
+import { ETxSenderType } from "../../types";
 import { calculateGasLimitWithOverhead } from "../../utils";
 
 export const INVESTMENT_GAS_AMOUNT = "600000";
@@ -59,9 +76,13 @@ const getEuroTokenTransaction = (
 ) => {
   const euroValueUlps = state.investmentFlow.euroValueUlps || "0";
 
-  const txData = contractsService.euroToken
-    .transferTx(etoId, new BigNumber(euroValueUlps))
-    .getData();
+  // Call IERC223 compliant transfer function
+  // otherwise ETOCommitment is not aware of any investment
+  // TODO: Fix when TypeChain support overloads
+  const txData = contractsService.euroToken.rawWeb3Contract.transfer[
+    "address,uint256,bytes"
+  ].getData(etoId, euroValueUlps, "");
+
   return createInvestmentTxData(state, txData, contractsService.euroToken.address);
 };
 
@@ -80,8 +101,9 @@ function getEtherTokenTransaction(
   if (compareBigNumbers(etherTokenBalance, etherValue) >= 0) {
     // transaction can be fully covered by etherTokens
 
-    // rawWeb3Contract is called directly due to the need for calling the 3 args version of transfer method.
-    // See the abi in the contract.
+    // Call IERC223 compliant transfer function
+    // otherwise ETOCommitment is not aware of any investment
+    // TODO: Fix when TypeChain support overloads
     const txInput = contractsService.etherToken.rawWeb3Contract.transfer[
       "address,uint256,bytes"
     ].getData(etoId, etherValue, "");
@@ -121,5 +143,40 @@ export function* generateInvestmentTransaction({ contractsService }: TGlobalDepe
 export function* investmentFlowGenerator(_: TGlobalDependencies): any {
   yield take(actions.txSender.txSenderAcceptDraft);
 
-  yield put(actions.txSender.txSenderContinueToSummary());
+  const etoId: string = yield select(selectInvestmentEtoId);
+  const eto: TEtoWithCompanyAndContract = yield select((state: IAppState) =>
+    selectEtoWithCompanyAndContractById(state, etoId),
+  );
+
+  const investmentEth: string = yield select(selectInvestmentEthValueUlps);
+  const investmentEur: string = yield select(selectInvestmentEurValueUlps);
+  const gasCostEth: string = yield select(selectTxGasCostEthUlps);
+  const equityTokens: string = yield select((state: IAppState) =>
+    selectEquityTokenCountByEtoId(state, etoId),
+  );
+  const estimatedReward: string = yield select((state: IAppState) =>
+    selectNeuRewardUlpsByEtoId(state, etoId),
+  );
+
+  const etherPriceEur: string = yield select(selectEtherPriceEur);
+  const isIcbm: boolean = yield select(selectIsICBMInvestment);
+
+  const additionalData = {
+    eto: {
+      etoId,
+      companyName: eto.company.name,
+      existingCompanyShares: eto.existingCompanyShares,
+      equityTokensPerShare: eto.equityTokensPerShare,
+      preMoneyValuationEur: eto.preMoneyValuationEur,
+    },
+    investmentEth,
+    investmentEur,
+    gasCostEth,
+    equityTokens,
+    estimatedReward,
+    etherPriceEur,
+    isIcbm,
+  };
+
+  yield put(actions.txSender.txSenderContinueToSummary<ETxSenderType.INVEST>(additionalData));
 }

@@ -4,8 +4,8 @@ import { Formik } from "formik";
 import * as React from "react";
 
 import { Q18 } from "../../../../config/constants";
-import { withModalBody } from "../../../../utils/storybookHelpers";
-import { BankTransferRedeemLayout } from "./BankTransferRedeemInit";
+import { withModalBody } from "../../../../utils/storybookHelpers.unsafe";
+import { BankTransferRedeemLayout } from "./BankTransferRedeemInit.unsafe";
 
 storiesOf("BankTransferRedeem/Init", module)
   .addDecorator(withModalBody())

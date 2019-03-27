@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { Q18 } from "../../../../config/constants";
-import { withModalBody } from "../../../../utils/storybookHelpers";
+import { withModalBody } from "../../../../utils/storybookHelpers.unsafe";
 import { BankTransferRedeemSummaryLayout } from "./BankTransferRedeemSummary";
 
 storiesOf("BankTransferRedeem/Summary", module)
@@ -11,16 +11,12 @@ storiesOf("BankTransferRedeem/Summary", module)
   .add("default", () => (
     <BankTransferRedeemSummaryLayout
       confirm={action("CONFIRM")}
-      amount={"20.50"}
-      bankFee={Q18.mul(0.005).toString()}
-      bankAccount={{
-        hasBankAccount: true,
-        details: {
-          bankAccountNumberLast4: "1234",
+      additionalData={{
+        amount: "20.50",
+        bankFee: Q18.mul(0.005).toString(),
+        bankAccount: {
           bankName: "mBank",
-          name: "Lorem Ipsum",
-          isSepa: true,
-          swiftCode: "33212",
+          accountNumberLast4: "1234",
         },
       }}
     />

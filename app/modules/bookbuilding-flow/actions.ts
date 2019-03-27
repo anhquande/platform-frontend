@@ -1,4 +1,4 @@
-import { IPledge } from "../../lib/api/eto/EtoPledgeApi.interfaces";
+import { IPledge } from "../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { createAction } from "../actionsUtils";
 
 export const LOAD_BOOKBUILDING_FLOW_STATS = "LOAD_BOOKBUILDING_FLOW_STATS";

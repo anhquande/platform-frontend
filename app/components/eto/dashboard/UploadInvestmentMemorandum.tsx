@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { injectIntlHelpers } from "../../../utils/injectIntlHelpers";
+import { injectIntlHelpers } from "../../../utils/injectIntlHelpers.unsafe";
 import { appRoutes } from "../../appRoutes";
 import { DashboardLinkWidget } from "../../shared/dashboard-link-widget/DashboardLinkWidget";
 

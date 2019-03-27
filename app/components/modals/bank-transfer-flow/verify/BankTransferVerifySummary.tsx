@@ -13,7 +13,7 @@ import { selectQuintessenceBankAccount } from "../../../../modules/kyc/selectors
 import { appConnect } from "../../../../store";
 import { ButtonArrowRight } from "../../../shared/buttons";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
-import { ECurrency, ECurrencySymbol, Money } from "../../../shared/Money";
+import { ECurrency, ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { InfoList } from "../../tx-sender/shared/InfoList";
 import { InfoRow } from "../../tx-sender/shared/InfoRow";
 

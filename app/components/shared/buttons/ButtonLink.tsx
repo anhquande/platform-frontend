@@ -7,7 +7,7 @@ import { routingActions } from "../../../modules/routing/actions";
 import { appConnect } from "../../../store";
 import { OmitKeys } from "../../../types";
 import { isExternalUrl } from "../../../utils/StringUtils";
-import { Button, IButtonProps } from "./Button";
+import { Button, IButtonProps } from "./Button.unsafe";
 
 type TButtonLinkToProps = {
   to: LocationDescriptor;

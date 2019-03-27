@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { FormRange } from "./FormRange";
-import { formWrapper } from "./testingUtils";
+import { FormRange } from "./FormRange.unsafe";
+import { formWrapper } from "./testingUtils.unsafe";
 
 storiesOf("Form/Range", module)
   .add(

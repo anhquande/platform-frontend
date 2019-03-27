@@ -1,6 +1,6 @@
 import { ITxData } from "../../../lib/web3/types";
 import { AppReducer } from "../../../store";
-import { ETxSenderType } from "../interfaces";
+import { ITxTypeWithData, TSpecificTransactionState } from "../types";
 
 export enum ETransactionErrorType {
   // Flow Specific Errors
@@ -39,19 +39,25 @@ export enum ETxSenderState {
   ERROR_SIGN = "ERROR_SIGN",
 }
 
-export type TSummaryData = { txData: Partial<ITxData>; additionalData?: any };
-export interface ITxSenderState {
+type ITxSenderDefaultState = ITxTypeWithData<undefined, undefined>;
+
+interface ITxSenderCommonState {
   state: ETxSenderState;
-  type?: ETxSenderType;
   txDetails?: ITxData;
-  summaryData?: TSummaryData;
+  txTimestamp?: number;
   blockId?: number;
   txHash?: string;
   error?: ETransactionErrorType;
   validationState?: EValidationState;
 }
 
+type TTransactionState = TSpecificTransactionState | ITxSenderDefaultState;
+
+export type ITxSenderState = TTransactionState & ITxSenderCommonState;
+
 const initialState: ITxSenderState = {
+  type: undefined,
+  additionalData: undefined,
   state: ETxSenderState.UNINITIALIZED,
 };
 
@@ -62,10 +68,13 @@ export const txSenderReducer: AppReducer<ITxSenderState> = (
   switch (action.type) {
     // Modal related Actions
     case "TX_SENDER_SHOW_MODAL":
-    case "TX_SENDER_HIDE_MODAL":
       return {
         ...initialState,
+        state: ETxSenderState.INIT,
+        ...action.payload.initialState,
       };
+    case "TX_SENDER_HIDE_MODAL":
+      return initialState;
 
     //Pending Transaction Actions
     case "TX_SENDER_WATCH_PENDING_TXS":
@@ -75,12 +84,6 @@ export const txSenderReducer: AppReducer<ITxSenderState> = (
         txHash: action.payload.txHash,
       };
 
-    case "TX_SENDER_WATCH_PENDING_TXS_DONE":
-      return {
-        ...initialState,
-        state: ETxSenderState.INIT,
-        type: action.payload.type,
-      };
     case "TX_SENDER_ACCEPT":
       return {
         ...state,
@@ -118,7 +121,7 @@ export const txSenderReducer: AppReducer<ITxSenderState> = (
 
     case "TX_SENDER_ERROR":
       return {
-        ...initialState,
+        ...state,
         state: ETxSenderState.ERROR_SIGN,
         error: action.payload.error,
       };
@@ -136,7 +139,7 @@ export const txSenderReducer: AppReducer<ITxSenderState> = (
       return {
         ...state,
         state: ETxSenderState.SUMMARY,
-        summaryData: action.payload.summaryData,
+        additionalData: action.payload.additionalData,
       };
     //Change Actions
     case "TX_SENDER_CHANGE":

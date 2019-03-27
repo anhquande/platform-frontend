@@ -4,7 +4,7 @@ import { Col, Row } from "reactstrap";
 
 import { ChartBars, IChartBarsData } from "../../shared/charts/ChartBars";
 import { HorizontalLine } from "../../shared/HorizontalLine";
-import { ECurrency, ETheme, Money } from "../../shared/Money";
+import { ECurrency, ETheme, Money } from "../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget";
 import { Panel } from "../../shared/Panel";
 import { PercentageIndicatorBar } from "../../shared/PercentageIndicatorBar";

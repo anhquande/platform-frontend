@@ -1,9 +1,25 @@
-import { ITxMonitorState } from "./reducer";
+import { createSelector } from "reselect";
 
-export const selectAmountOfPendingTxs = (state: ITxMonitorState): number => {
-  return state.txs.oooTransactions.length + (state.txs.pendingTransaction ? 1 : 0);
+import { TxPendingWithMetadata, TxWithMetadata } from "../../../lib/api/users/interfaces";
+import { IAppState } from "../../../store";
+import { ETxSenderState } from "../sender/reducer";
+
+export const selectAreTherePlatformPendingTxs = (state: IAppState): boolean => {
+  const pendingTransaction = state.txMonitor.txs.pendingTransaction;
+  return !!pendingTransaction && pendingTransaction.transactionStatus === ETxSenderState.MINING;
 };
 
-export const selectAreTherePendingTxs = (state: ITxMonitorState): boolean => {
-  return !!(state.txs.pendingTransaction || state.txs.oooTransactions.length);
+export const selectPendingTransaction = (state: IAppState): TxPendingWithMetadata | undefined => {
+  return state.txMonitor.txs.pendingTransaction as TxPendingWithMetadata | undefined;
 };
+
+export const selectExternalPendingTransaction = (state: IAppState): TxWithMetadata | undefined => {
+  return state.txMonitor.txs.oooTransactions[0];
+};
+
+export const selectAreTherePendingTxs = createSelector(
+  selectAreTherePlatformPendingTxs,
+  selectExternalPendingTransaction,
+  (areTherePlatformPendingTxs, externalPendingTransaction) =>
+    areTherePlatformPendingTxs || !!externalPendingTransaction,
+);

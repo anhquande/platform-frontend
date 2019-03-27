@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ArrayOfKeyValueFields } from "./FormCategoryDistribution";
-import { formWrapper } from "./testingUtils";
+import { ArrayOfKeyValueFields } from "./FormCategoryDistribution.unsafe";
+import { formWrapper } from "./testingUtils.unsafe";
 
 storiesOf("Form/CategoryDistribution", module)
   .add(

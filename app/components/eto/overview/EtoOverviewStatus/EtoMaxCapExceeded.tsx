@@ -11,7 +11,7 @@ import {
 import { selectEtherPriceEur } from "../../../../modules/shared/tokenPrice/selectors";
 import { appConnect } from "../../../../store";
 import { divideBigNumbers } from "../../../../utils/BigNumberUtils";
-import { ECurrency, EMoneyFormat, Money } from "../../../shared/Money";
+import { ECurrency, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
 import { CounterWidget } from "./CounterWidget";
 import { InvestmentProgress } from "./InvestmentWidget/InvestmentProgress";
 import { Message } from "./Message";

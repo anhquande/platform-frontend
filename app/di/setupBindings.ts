@@ -18,7 +18,7 @@ import { UsersApi } from "../lib/api/users/UsersApi";
 import { VaultApi } from "../lib/api/vault/VaultApi";
 import { cryptoRandomString, CryptoRandomString } from "../lib/dependencies/cryptoRandomString";
 import { detectBrowser, TDetectBrowser } from "../lib/dependencies/detectBrowser";
-import { ILogger, resolveLogger } from "../lib/dependencies/logger";
+import { ILogger, Logger } from "../lib/dependencies/logger";
 import { NotificationCenter } from "../lib/dependencies/NotificationCenter";
 import { IntlWrapper } from "../lib/intl/IntlWrapper";
 import { STORAGE_JWT_KEY } from "../lib/persistence/JwtObjectStorage";
@@ -27,10 +27,10 @@ import { Storage } from "../lib/persistence/Storage";
 import { USER_JWT_KEY } from "../lib/persistence/UserStorage";
 import { TWalletMetadata } from "../lib/persistence/WalletMetadataObjectStorage";
 import { WalletStorage } from "../lib/persistence/WalletStorage";
-import { BrowserWalletConnector } from "../lib/web3/BrowserWallet";
+import { BrowserWalletConnector } from "../lib/web3/browser-wallet/BrowserWallet";
 import { ContractsService } from "../lib/web3/ContractsService";
 import { LedgerWalletConnector } from "../lib/web3/ledger-wallet/LedgerConnector";
-import { LightWalletConnector } from "../lib/web3/LightWallet";
+import { LightWalletConnector } from "../lib/web3/light-wallet/LightWallet";
 import { IEthereumNetworkConfig } from "../lib/web3/types";
 import {
   web3BatchFactory,
@@ -38,7 +38,7 @@ import {
   web3Factory,
   Web3FactoryType,
 } from "../lib/web3/Web3Batch/Web3Batch";
-import { Web3Manager } from "../lib/web3/Web3Manager";
+import { Web3Manager } from "../lib/web3/Web3Manager/Web3Manager";
 import {
   AsyncIntervalSchedulerFactory,
   AsyncIntervalSchedulerFactoryType,
@@ -62,8 +62,8 @@ export function setupBindings(config: IConfig): Container {
   container.bind<IConfig>(symbols.config).toConstantValue(config);
 
   container
-    .bind(symbols.logger)
-    .toDynamicValue(resolveLogger)
+    .bind<ILogger>(symbols.logger)
+    .to(Logger)
     .inSingletonScope();
 
   // classes

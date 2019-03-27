@@ -4,8 +4,8 @@ import { Row } from "reactstrap";
 
 import { testEto } from "../../../test/fixtures";
 import { mockedStore } from "../../../test/fixtures/mockedStore";
-import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces";
-import { withStore } from "../../utils/storeDecorator";
+import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { withStore } from "../../utils/storeDecorator.unsafe";
 import { EtoDashboardStateViewComponent } from "./EtoDashboard";
 
 const statePreview = {

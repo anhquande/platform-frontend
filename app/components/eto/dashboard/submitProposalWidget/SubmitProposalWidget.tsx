@@ -7,7 +7,7 @@ import { compose } from "redux";
 import { actions } from "../../../../modules/actions";
 import { appConnect } from "../../../../store";
 import { ButtonArrowRight } from "../../../shared/buttons";
-import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
 import { Panel } from "../../../shared/Panel";
 

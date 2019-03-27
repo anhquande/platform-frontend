@@ -5,7 +5,7 @@ import { CommonHtmlProps } from "../../../types";
 import { isZero } from "../../../utils/Number.utils";
 import { AccountAddress } from "../../shared/AccountAddress";
 import { AccountBalance } from "../../shared/AccountBalance";
-import { ECurrency } from "../../shared/Money";
+import { ECurrency } from "../../shared/Money.unsafe";
 import { WalletBalanceContainer } from "./WalletBalance";
 
 import * as ethIcon from "../../../assets/img/eth_icon.svg";

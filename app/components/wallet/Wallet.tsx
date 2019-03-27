@@ -1,9 +1,9 @@
 import * as React from "react";
 import { compose } from "redux";
 
-import { withMetaTags } from "../../utils/withMetaTags";
+import { withMetaTags } from "../../utils/withMetaTags.unsafe";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { WalletRouter } from "./Router";
 

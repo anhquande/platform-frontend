@@ -4,13 +4,13 @@ import { actions } from "../../modules/actions";
 import { selectIssuerEtoWithCompanyAndContract } from "../../modules/eto-flow/selectors";
 import { TEtoWithCompanyAndContract } from "../../modules/public-etos/types";
 import { appConnect } from "../../store";
-import { onEnterAction } from "../../utils/OnEnterAction";
-import { withContainer } from "../../utils/withContainer";
+import { onEnterAction } from "../../utils/OnEnterAction.unsafe";
+import { withContainer } from "../../utils/withContainer.unsafe";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { EtoView } from "./shared/EtoView";
+import { EtoView } from "./shared/EtoView.unsafe";
 
 type TProps = {
   eto: TEtoWithCompanyAndContract;

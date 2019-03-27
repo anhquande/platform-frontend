@@ -14,3 +14,5 @@ export interface ILogger {
   fatal(message: string, error: Error, data?: object): void;
   setUser(user: TUser | null): void;
 }
+
+export type TLogLevels = Exclude<keyof ILogger, "setUser">;

@@ -1,4 +1,4 @@
-import { ECurrency } from "../../components/shared/Money";
+import { ECurrency } from "../../components/shared/Money.unsafe";
 import { TGlobalDependencies } from "../../di/setupBindings";
 
 export function* getTokenAddress(

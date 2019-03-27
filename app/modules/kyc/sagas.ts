@@ -1,7 +1,7 @@
 import { delay } from "redux-saga";
 import { all, call, cancel, fork, put, select, take } from "redux-saga/effects";
 
-import { KycFlowMessage } from "../../components/translatedMessages/messages";
+import { KycFlowMessage } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { EJwtPermissions } from "../../config/constants";
 import { TGlobalDependencies } from "../../di/setupBindings";

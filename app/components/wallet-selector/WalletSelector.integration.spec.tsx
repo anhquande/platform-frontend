@@ -1,5 +1,6 @@
 import { BigNumber } from "bignumber.js";
 import { expect } from "chai";
+import * as jsonwebtoken from "jsonwebtoken";
 
 import { createMount, remount } from "../../../test/createMount";
 import { dummyEthereumAddress, dummyNetworkId } from "../../../test/fixtures";
@@ -9,7 +10,7 @@ import {
   waitForPredicate,
   waitForTid,
   wrapWithProviders,
-} from "../../../test/integrationTestUtils";
+} from "../../../test/integrationTestUtils.unsafe";
 import { createMock, tid } from "../../../test/testUtils";
 import { symbols } from "../../di/symbols";
 import { SignatureAuthApi } from "../../lib/api/SignatureAuthApi";
@@ -26,20 +27,20 @@ import {
   BrowserWalletConnector,
   BrowserWalletLockedError,
   BrowserWalletMissingError,
-} from "../../lib/web3/BrowserWallet";
+} from "../../lib/web3/browser-wallet/BrowserWallet";
 import { ContractsService } from "../../lib/web3/ContractsService";
 import { LedgerWalletConnector } from "../../lib/web3/ledger-wallet/LedgerConnector";
 import { LedgerWallet } from "../../lib/web3/ledger-wallet/LedgerWallet";
 import { SignerType } from "../../lib/web3/PersonalWeb3";
 import { Web3Adapter } from "../../lib/web3/Web3Adapter";
-import { Web3ManagerMock } from "../../lib/web3/Web3Manager.mock";
+import { Web3ManagerMock } from "../../lib/web3/Web3Manager/Web3Manager.mock";
 import { actions } from "../../modules/actions";
 import { neuCall } from "../../modules/sagasUtils";
 import { initWeb3ManagerEvents } from "../../modules/web3/sagas";
 import { EWalletSubType, EWalletType } from "../../modules/web3/types";
 import { appRoutes } from "../appRoutes";
 import { ButtonLink } from "../shared/buttons";
-import { getMessageTranslation, LedgerErrorMessage } from "../translatedMessages/messages";
+import { getMessageTranslation, LedgerErrorMessage } from "../translatedMessages/messages.unsafe";
 import { createMessage } from "../translatedMessages/utils";
 import { LEDGER_RECONNECT_INTERVAL } from "./ledger/WalletLedgerInitComponent";
 import { walletRegisterRoutes } from "./walletRoutes";
@@ -80,7 +81,13 @@ describe("Wallet selector integration", () => {
       createJwt: async () => ({
         statusCode: 200,
         body: {
-          jwt: "JWT",
+          jwt: jsonwebtoken.sign(
+            {
+              exp: Math.floor(Date.now() / 1000) + 60 * 60,
+              data: "foobar",
+            },
+            "secret",
+          ),
         },
       }),
     });
@@ -241,7 +248,13 @@ describe("Wallet selector integration", () => {
       createJwt: async () => ({
         statusCode: 200,
         body: {
-          jwt: "JWT",
+          jwt: jsonwebtoken.sign(
+            {
+              exp: Math.floor(Date.now() / 1000) + 60 * 60,
+              data: "foobar",
+            },
+            "secret",
+          ),
         },
       }),
     });

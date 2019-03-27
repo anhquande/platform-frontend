@@ -1,5 +1,6 @@
 import { IAppState } from "../../../store";
 import { multiplyBigNumbers } from "../../../utils/BigNumberUtils";
+import { ETxSenderType, TAdditionalDataByType } from "../types";
 import { ETxSenderState, EValidationState } from "./reducer";
 
 export const selectTxSenderModalOpened = (state: IAppState) =>
@@ -9,11 +10,12 @@ export const selectTxDetails = (state: IAppState) => state.txSender.txDetails;
 
 export const selectTxType = (state: IAppState) => state.txSender.type;
 
-export const selectTxSummaryData = (state: IAppState) =>
-  (state.txSender.summaryData && state.txSender.summaryData.txData) || state.txSender.txDetails;
+export const selectTxAdditionalData = <T extends ETxSenderType>(
+  state: IAppState,
+): TAdditionalDataByType<T> | undefined => state.txSender.additionalData;
 
-export const selectTxSummaryAdditionalData = (state: IAppState) =>
-  state.txSender.summaryData && state.txSender.summaryData.additionalData;
+export const selectTxTimestamp = (state: IAppState): number | undefined =>
+  state.txSender.txTimestamp;
 
 export const selectTxGasCostEthUlps = (state: IAppState): string => {
   const details = selectTxDetails(state);

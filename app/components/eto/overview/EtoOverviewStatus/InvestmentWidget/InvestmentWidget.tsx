@@ -11,7 +11,7 @@ import { appConnect } from "../../../../../store";
 import { withParams } from "../../../../../utils/withParams";
 import { appRoutes } from "../../../../appRoutes";
 import { Button, ButtonLink } from "../../../../shared/buttons";
-import { ECurrency, Money } from "../../../../shared/Money";
+import { ECurrency, Money } from "../../../../shared/Money.unsafe";
 import { EtoWidgetContext } from "../../../EtoWidgetView";
 import { EndTimeWidget } from "../EndTimeWidget";
 import { InvestmentProgress } from "./InvestmentProgress";

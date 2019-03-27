@@ -7,14 +7,14 @@ import { compose } from "redux";
 import { actions } from "../../../modules/actions";
 import { selectIsLoginRoute } from "../../../modules/wallet-selector/selectors";
 import { appConnect } from "../../../store";
-import { onEnterAction } from "../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
 import { Button } from "../../shared/buttons";
 import { HiResImage } from "../../shared/HiResImage";
 import { HorizontalLine } from "../../shared/HorizontalLine";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { StepCard } from "../../shared/StepCard";
 import { WarningAlert } from "../../shared/WarningAlert";
-import { getMessageTranslation } from "../../translatedMessages/messages";
+import { getMessageTranslation } from "../../translatedMessages/messages.unsafe";
 import { TMessage } from "../../translatedMessages/utils";
 
 import * as check_metamask from "../../../assets/img/wallet_selector/check_metamask.svg";

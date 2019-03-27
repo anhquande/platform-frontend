@@ -5,7 +5,7 @@ import { Button, EButtonLayout } from "../../shared/buttons";
 import { DocumentTemplateButton } from "../../shared/DocumentLink";
 import { Heading } from "../../shared/Heading";
 import { HighlightedField } from "../../shared/HighlightedField";
-import { ECurrency, Money } from "../../shared/Money";
+import { ECurrency, Money } from "../../shared/Money.unsafe";
 
 import * as iconEth from "../../../assets/img/eth_icon.svg";
 import * as iconNeu from "../../../assets/img/neu_icon.svg";

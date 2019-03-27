@@ -44,7 +44,7 @@ export const AccountBalance: React.FunctionComponent<
           actions.map(({ onClick, disabled, name, "data-test-id": dataTestId }, i) => (
             <Button
               key={i}
-              layout={EButtonLayout.SIMPLE}
+              layout={EButtonLayout.SECONDARY}
               innerClassName={styles.button}
               iconPosition="icon-after"
               theme="graphite"

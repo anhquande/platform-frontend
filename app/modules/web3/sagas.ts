@@ -1,7 +1,7 @@
 import { delay, END, eventChannel, Task } from "redux-saga";
 import { call, cancel, fork, put, select, take } from "redux-saga/effects";
 
-import { Web3Message } from "../../components/translatedMessages/messages";
+import { Web3Message } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import {
   LIGHT_WALLET_PASSWORD_CACHE_TIME,
@@ -10,8 +10,8 @@ import {
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { EUserType } from "../../lib/api/users/interfaces";
 import { TWalletMetadata } from "../../lib/persistence/WalletMetadataObjectStorage";
-import { LightWallet } from "../../lib/web3/LightWallet";
-import { EWeb3ManagerEvents } from "../../lib/web3/Web3Manager";
+import { LightWallet } from "../../lib/web3/light-wallet/LightWallet";
+import { EWeb3ManagerEvents } from "../../lib/web3/Web3Manager/Web3Manager";
 import { IAppState } from "../../store";
 import { actions, TAction } from "../actions";
 import { selectUserType } from "../auth/selectors";

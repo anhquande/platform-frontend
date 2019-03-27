@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { Button } from "./Button";
+import { Button } from "./Button.unsafe";
 import { ButtonGroup } from "./ButtonGroup";
 
 storiesOf("ButtonGroup", module).add("default", () => (

@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { getInvestmentAmount } from "../../../lib/api/eto/EtoUtils";
 import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../shared/Money";
-import { ToHumanReadableForm } from "../../shared/ToHumanReadableForm";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../shared/Money.unsafe";
+import { ToHumanReadableForm } from "../../shared/ToHumanReadableForm.unsafe";
 
 type TExternalProps = {
   etoData: TEtoWithCompanyAndContract;

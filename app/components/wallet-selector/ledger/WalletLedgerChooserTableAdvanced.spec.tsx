@@ -4,7 +4,7 @@ import { render, shallow } from "enzyme";
 import * as React from "react";
 import { spy } from "sinon";
 
-import { wrapWithIntl } from "../../../../test/integrationTestUtils";
+import { wrapWithIntl } from "../../../../test/integrationTestUtils.unsafe";
 import { tid } from "../../../../test/testUtils";
 import { Q18 } from "../../../config/constants";
 import { AccountRow, WalletLedgerChooserTableAdvanced } from "./WalletLedgerChooserTableAdvanced";

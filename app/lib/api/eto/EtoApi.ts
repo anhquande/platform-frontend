@@ -3,7 +3,11 @@ import { inject, injectable } from "inversify";
 import { symbols } from "../../../di/symbols";
 import { withParams } from "../../../utils/withParams";
 import { IHttpClient, IHttpResponse } from "../client/IHttpClient";
-import { TGeneralEtoData, TPartialCompanyEtoData, TPartialEtoSpecData } from "./EtoApi.interfaces";
+import {
+  TGeneralEtoData,
+  TPartialCompanyEtoData,
+  TPartialEtoSpecData,
+} from "./EtoApi.interfaces.unsafe";
 
 const BASE_PATH = "/api/eto-listing/";
 const COMPANIES_ME_DATA_PATH = "/companies/me";

@@ -38,14 +38,14 @@ describe("Eto start date setup", () => {
 
       confirmAccessModal();
 
-      cy.get(tid("modals.tx-sender.withdraw-flow.success"));
+      cy.get(tid("modals.shared.tx-success.modal"));
 
       closeModal();
 
       cy.get(tid("eto-settings-display-start-date-utc"))
         .should($e =>
           expect($e.text()).to.be.equal(
-            `UTC: ${weekdayUTC(newStartDate.toDate())}, ${utcTime(newStartDate.toDate())}`,
+            `${weekdayUTC(newStartDate.toDate())}, ${utcTime(newStartDate.toDate())}`,
           ),
         )
         .get(tid("eto-settings-start-date-open-date-picker"))

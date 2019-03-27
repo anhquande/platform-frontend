@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { convertToBigInt } from "../../../../utils/Number.utils";
-import { withModalBody } from "../../../../utils/storybookHelpers";
+import { withModalBody } from "../../../../utils/storybookHelpers.unsafe";
 import { BankTransferVerifyInfoLayout } from "./BankTransferVerifyAgreement";
 
 const props = {

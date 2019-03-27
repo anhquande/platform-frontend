@@ -3,10 +3,10 @@ import { mount } from "enzyme";
 import * as React from "react";
 import { spy } from "sinon";
 
-import { submit } from "../../../../../test/integrationTestUtils";
+import { submit } from "../../../../../test/integrationTestUtils.unsafe";
 import { tid } from "../../../../../test/testUtils";
-import { FormToggle } from "./FormToggle";
-import { formWrapper } from "./testingUtils";
+import { FormToggle } from "./FormToggle.unsafe";
+import { formWrapper } from "./testingUtils.unsafe";
 
 describe("Toggle", () => {
   const TRUE_VALUE = "TRUE VALUE";

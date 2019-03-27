@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 
-import { TCompanyEtoData, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces";
+import { TCompanyEtoData, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { DeepReadonly } from "../../types";
 
 export interface IEtoTotalInvestment {

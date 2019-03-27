@@ -5,7 +5,7 @@ import { spy } from "sinon";
 
 import { dummyEthereumAddress, dummyNetworkId } from "../../../../test/fixtures";
 import { createMock } from "../../../../test/testUtils";
-import { LedgerErrorMessage } from "../../../components/translatedMessages/messages";
+import { LedgerErrorMessage } from "../../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { Neumark } from "../../../lib/contracts/Neumark";
 import { ILedgerWalletMetadata } from "../../../lib/persistence/WalletMetadataObjectStorage";
@@ -15,7 +15,7 @@ import { LedgerWalletConnector } from "../../../lib/web3/ledger-wallet/LedgerCon
 import { LedgerWallet } from "../../../lib/web3/ledger-wallet/LedgerWallet";
 import { IDerivationPathToAddress } from "../../../lib/web3/ledger-wallet/types";
 import { Web3Adapter } from "../../../lib/web3/Web3Adapter";
-import { Web3Manager } from "../../../lib/web3/Web3Manager";
+import { Web3Manager } from "../../../lib/web3/Web3Manager/Web3Manager";
 import { IAppState } from "../../../store";
 import { Dictionary } from "../../../types";
 import { actions } from "../../actions";

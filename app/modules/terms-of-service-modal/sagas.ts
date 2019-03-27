@@ -1,6 +1,10 @@
 import { Effect, fork, put, select } from "redux-saga/effects";
 
-import { getMessageTranslation, ToSMessage } from "../../components/translatedMessages/messages";
+import {
+  AuthMessage,
+  getMessageTranslation,
+  ToSMessage,
+} from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { EJwtPermissions } from "../../config/constants";
 import { TGlobalDependencies } from "../../di/setupBindings";
@@ -10,7 +14,6 @@ import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
 import { selectCurrentAgreementHash } from "../auth/selectors";
 import { selectIsSmartContractInitDone } from "../init/selectors";
 import { neuCall, neuTakeEvery, neuTakeOnly } from "../sagasUtils";
-import { AuthMessage } from "./../../components/translatedMessages/messages";
 import { EInitType } from "./../init/reducer";
 
 /**

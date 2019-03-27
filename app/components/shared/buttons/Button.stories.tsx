@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { Button, ButtonArrowRight, ButtonSize, ButtonWidth, EButtonLayout } from "./Button";
+import { Button, ButtonArrowRight, ButtonSize, ButtonWidth, EButtonLayout } from "./Button.unsafe";
 
 import * as icon from "../../../assets/img/inline_icons/icon_questionmark.svg";
 

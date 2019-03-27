@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { EtoTokenDistribution } from "./EtoTokenDistribution";
+import { EtoTokenDistribution } from "./EtoTokenDistribution.unsafe";
 
 const chartBarData = {
   labels: ["Lorem", "Ipsum", "Dit", "Sit", "Amet", "Blah", "Lorem", "Ipsum"],

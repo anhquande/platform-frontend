@@ -18,7 +18,7 @@ import {
   selectLockedEuroTokenBalance,
 } from "../../../../modules/wallet/selectors";
 import { IAppState } from "../../../../store";
-import { Dictionary } from "../../../../types";
+import { Dictionary, TTranslatedString } from "../../../../types";
 import { divideBigNumbers } from "../../../../utils/BigNumberUtils";
 import { formatMoney } from "../../../../utils/Money.utils";
 import { formatThousands } from "../../../../utils/Number.utils";
@@ -59,12 +59,13 @@ export function createWallets(state: IAppState): WalletSelectionData[] {
 }
 
 export function getInputErrorMessage(
-  type: EInvestmentErrorState | EValidationState | undefined,
+  investmentTxErrorState: EInvestmentErrorState | undefined,
+  txValidationState: EValidationState | undefined,
   tokenName: string,
   maxTicketEur: string,
   minTicketEur: string,
-): React.ReactElement<FormattedMessage.Props> | undefined {
-  switch (type) {
+): TTranslatedString | undefined {
+  switch (investmentTxErrorState) {
     case EInvestmentErrorState.ExceedsTokenAmount:
       return (
         <FormattedMessage
@@ -88,9 +89,14 @@ export function getInputErrorMessage(
       );
     case EInvestmentErrorState.ExceedsWalletBalance:
       return <FormattedMessage id="investment-flow.error-message.exceeds-wallet-balance" />;
+  }
+
+  switch (txValidationState) {
     case EValidationState.NOT_ENOUGH_ETHER_FOR_GAS:
       return <FormattedMessage id="modal.txsender.error-message.not-enough-ether-for-gas" />;
   }
+
+  return undefined;
 }
 
 /**

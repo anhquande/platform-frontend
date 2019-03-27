@@ -7,7 +7,7 @@ import { compose } from "redux";
 import {
   EtoEquityTokenInfoType,
   TPartialEtoSpecData,
-} from "../../../../lib/api/eto/EtoApi.interfaces";
+} from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { etoFormIsReadonly } from "../../../../lib/api/eto/EtoApiUtils";
 import { actions } from "../../../../modules/actions";
 import { selectIssuerEto, selectIssuerEtoState } from "../../../../modules/eto-flow/selectors";
@@ -16,8 +16,8 @@ import { appConnect } from "../../../../store";
 import { Button, EButtonLayout } from "../../../shared/buttons";
 import { FormField } from "../../../shared/forms";
 import { FormFieldLabel } from "../../../shared/forms/fields/FormFieldLabel";
-import { FormSingleFileUpload } from "../../../shared/forms/fields/FormSingleFileUpload";
-import { EtoFormBase } from "../EtoFormBase";
+import { FormSingleFileUpload } from "../../../shared/forms/fields/FormSingleFileUpload.unsafe";
+import { EtoFormBase } from "../EtoFormBase.unsafe";
 import { Section } from "../Shared";
 
 import * as styles from "../Shared.module.scss";

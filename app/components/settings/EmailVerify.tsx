@@ -10,7 +10,7 @@ interface IEmailVerifyDispatchProps {
 }
 
 export class EmailVerifyComponent extends React.Component<IEmailVerifyDispatchProps> {
-  componentWillMount(): void {
+  componentDidMount(): void {
     this.props.verifyEmail();
   }
 

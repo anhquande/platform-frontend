@@ -14,13 +14,13 @@ import {
   selectUrlUserType,
 } from "../../modules/wallet-selector/selectors";
 import { appConnect } from "../../store";
-import { onEnterAction } from "../../utils/OnEnterAction";
-import { withContainer } from "../../utils/withContainer";
+import { onEnterAction } from "../../utils/OnEnterAction.unsafe";
+import { withContainer } from "../../utils/withContainer.unsafe";
 import { appRoutes } from "../appRoutes";
 import { LayoutRegisterLogin } from "../layouts/LayoutRegisterLogin";
 import { LayoutUnauthorized } from "../layouts/LayoutUnauthorized";
 import { Button, ButtonLink, EButtonLayout } from "../shared/buttons";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutUnauthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutUnauthorized";
 import { ExternalLink } from "../shared/links";
 import { ICBMWalletHelpTextModal } from "./ICBMWalletHelpTextModal";

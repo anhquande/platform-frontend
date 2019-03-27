@@ -8,7 +8,7 @@ import {
   percentage,
   personBirthDate,
   restrictedCountry,
-} from "./util/schemaHelpers";
+} from "./util/schemaHelpers.unsafe";
 
 export enum EKycRequestType {
   BUSINESS = "business",

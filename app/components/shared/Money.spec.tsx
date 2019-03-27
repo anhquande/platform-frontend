@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
 
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "./Money";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "./Money.unsafe";
 
 describe("Money", () => {
   it("should format money from wei", () => {

@@ -16,7 +16,7 @@ import {
 import { selectIsCancelEmail } from "../../../modules/profile/reducer";
 import { selectIsConnectedButtonLocked } from "../../../modules/verify-email-widget/reducer";
 import { appConnect } from "../../../store";
-import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers";
+import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers.unsafe";
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { Form, FormField } from "../../shared/forms";
 import { Panel } from "../../shared/Panel";

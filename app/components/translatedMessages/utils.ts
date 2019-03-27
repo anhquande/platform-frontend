@@ -1,5 +1,5 @@
 import { DeepReadonly } from "../../types";
-import { TranslatedMessageType } from "./messages";
+import { TranslatedMessageType } from "./messages.unsafe";
 
 export type TMessage = DeepReadonly<{
   messageType: TranslatedMessageType;

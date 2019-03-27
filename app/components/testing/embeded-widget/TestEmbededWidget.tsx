@@ -8,7 +8,7 @@ import {
 } from "../../../modules/public-etos/selectors";
 import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
 import { appConnect } from "../../../store";
-import { onEnterAction } from "../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
 import { withParams } from "../../../utils/withParams";
 import { appRoutes } from "../../appRoutes";
 

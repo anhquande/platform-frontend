@@ -2,7 +2,7 @@ import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { EEtoState } from "../../../lib/api/eto/EtoApi.interfaces";
+import { EEtoState } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { selectEtoWithCompanyAndContract } from "../../../modules/public-etos/selectors";
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
 import { appConnect } from "../../../store";

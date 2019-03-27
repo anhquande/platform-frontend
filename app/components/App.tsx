@@ -14,12 +14,12 @@ import {
 } from "../modules/init/selectors";
 import { appConnect } from "../store";
 import { ContainerContext } from "../utils/InversifyProvider";
-import { onEnterAction } from "../utils/OnEnterAction";
-import { ScrollToTop } from "../utils/ScrollToTop";
-import { withRootMetaTag } from "../utils/withMetaTags";
+import { onEnterAction } from "../utils/OnEnterAction.unsafe";
+import { ScrollToTop } from "../utils/ScrollToTop.unsafe";
+import { withRootMetaTag } from "../utils/withMetaTags.unsafe";
 import { AppRouter } from "./AppRouter";
 import { CriticalError } from "./layouts/CriticalError";
-import { GenericModal } from "./modals/GenericModal";
+import { GenericModal } from "./modals/GenericModal.unsafe";
 import { VideoModal } from "./modals/VideoModal";
 import { AccessWalletModal } from "./modals/wallet-access/AccessWalletModal";
 import { LoadingIndicator } from "./shared/loading-indicator";
@@ -40,7 +40,7 @@ class AppComponent extends React.Component<IStateProps, IState> {
 
   logger: ILogger;
 
-  constructor(props: any, container: Container) {
+  constructor(props: IStateProps, container: Container) {
     super(props);
 
     this.state = { renderingError: null };

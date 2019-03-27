@@ -4,7 +4,7 @@ import { compose } from "redux";
 
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
-import { injectIntlHelpers } from "../../../utils/injectIntlHelpers";
+import { injectIntlHelpers } from "../../../utils/injectIntlHelpers.unsafe";
 import { KycPanel } from "../KycPanel";
 import { Panels } from "../shared/Panels";
 

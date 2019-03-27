@@ -4,7 +4,7 @@ import * as React from "react";
 import { Container } from "reactstrap";
 
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
-import { withModalBody } from "../../../../utils/storybookHelpers";
+import { withModalBody } from "../../../../utils/storybookHelpers.unsafe";
 import { InvestmentTypeSelector, WalletSelectionData } from "./InvestmentTypeSelector";
 
 export const wallets: WalletSelectionData[] = [

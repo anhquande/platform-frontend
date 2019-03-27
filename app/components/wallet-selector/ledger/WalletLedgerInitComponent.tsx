@@ -6,11 +6,11 @@ import { branch, compose, renderComponent } from "recompose";
 
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
-import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers";
-import { withActionWatcher } from "../../../utils/withActionWatcher";
+import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers.unsafe";
+import { withActionWatcher } from "../../../utils/withActionWatcher.unsafe";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { WarningAlert } from "../../shared/WarningAlert";
-import { getMessageTranslation } from "../../translatedMessages/messages";
+import { getMessageTranslation } from "../../translatedMessages/messages.unsafe";
 import { TMessage } from "../../translatedMessages/utils";
 import { LedgerHeader } from "./LedgerHeader";
 

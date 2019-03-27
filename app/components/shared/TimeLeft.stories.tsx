@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { FancyRenderTimeLeft, RenderTimeLeft } from "./TimeLeft";
+import { FancyRenderTimeLeft, RenderTimeLeft } from "./TimeLeft.unsafe";
 
 const minute = 60;
 const hour = minute * 60;

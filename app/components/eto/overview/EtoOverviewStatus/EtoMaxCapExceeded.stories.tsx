@@ -6,7 +6,7 @@ import {
   EETOStateOnChain,
   TEtoWithCompanyAndContract,
 } from "../../../../modules/public-etos/types";
-import { withMockedDate } from "../../../../utils/storybookHelpers";
+import { withMockedDate } from "../../../../utils/storybookHelpers.unsafe";
 import { EtoMaxCapExceededComponent } from "./EtoMaxCapExceeded";
 
 // tslint:disable-next-line:no-object-literal-type-assertion

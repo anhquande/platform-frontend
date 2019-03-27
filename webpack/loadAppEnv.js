@@ -4,7 +4,6 @@ const dotenv = require("dotenv");
 
 module.exports = function loadAppEnv(processEnv) {
   const universeAddressExists = !!process.env.NF_UNIVERSE_CONTRACT_ADDRESS;
-
   const envs = dotenv.load({ path: join(__dirname, "../.env") }).parsed;
 
   // we are combining the NODE_ENV variable with the local variables from the .env file
@@ -34,6 +33,12 @@ module.exports = function loadAppEnv(processEnv) {
       console.error("not overriding NF_UNIVERSE_CONTRACT_ADDRESS");
     }
   }
-
+  // if we want to serve local dev build on the network
+  // we need to inject our local ip in the NF_RPC_PROVIDER
+  if (!!process.env.NF_SERVE_ON_NETWORK) {
+    const rpcProviderUrl = new URL(process.env.NF_RPC_PROVIDER);
+    rpcProviderUrl.hostname = process.env.NF_SERVE_ON_NETWORK;
+    allEnvs.NF_RPC_PROVIDER = rpcProviderUrl.toString();
+  }
   return mapValues(allEnvs, JSON.stringify);
 };

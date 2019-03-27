@@ -2,7 +2,7 @@ import { delay } from "redux-saga";
 import { put } from "redux-saga-test-plan/matchers";
 import { call, fork } from "redux-saga/effects";
 
-import { IpfsMessage } from "../../components/translatedMessages/messages";
+import { IpfsMessage } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { IS_CYPRESS } from "../../config/constants";
 import { TGlobalDependencies } from "../../di/setupBindings";

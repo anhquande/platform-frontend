@@ -3,7 +3,7 @@ import * as React from "react";
 import Container from "reactstrap/lib/Container";
 
 import { aga, marcin, panor, sergiej, ula, zoe } from "../../../test/fixtures/fixturesPersons";
-import { PeopleSwiperWidgeLayout } from "./PeopleSwiperWidget";
+import { PeopleSwiperWidgeLayout } from "./PeopleSwiperWidget.unsafe";
 
 storiesOf("PeopleSwiperWidget", module)
   .add("2 persons", () => {

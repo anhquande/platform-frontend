@@ -28,6 +28,7 @@ export const createAndLoginNewUser = (params: {
   hdPath?: string;
   clearPendingTransactions?: boolean;
   onlyLogin?: boolean;
+  signTosAgreement?: boolean;
   permissions?: string[];
 }) => {
   return cy.clearLocalStorage().then(async ls => {
@@ -64,7 +65,6 @@ export const createAndLoginNewUser = (params: {
       // mark backup codes verified
       await markBackupCodesVerified(jwt);
       // set correct agreement
-      await setCorrectAgreement(jwt);
 
       if (params.clearPendingTransactions) {
         await clearPendingTransactions(jwt, address);
@@ -76,6 +76,11 @@ export const createAndLoginNewUser = (params: {
           params.seed
         }`,
       );
+    }
+
+    if (params.signTosAgreement || !params.onlyLogin) {
+      // This was done to maintain introduce `signTosAgreement` without changing the interface of existing tests
+      await setCorrectAgreement(jwt);
     }
   });
 };

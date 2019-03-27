@@ -7,10 +7,10 @@ import {
   withStateHandlers,
 } from "recompose";
 
-import { IPledge } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces";
+import { IPledge } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { actions } from "../../../../../modules/actions";
 import { appConnect } from "../../../../../store";
-import { ECurrency } from "../../../../shared/Money";
+import { ECurrency } from "../../../../shared/Money.unsafe";
 import {
   CampaigningActivatedInvestorApprovedWidgetLayout,
   CampaigningFormState,

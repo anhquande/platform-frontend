@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 
-import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces";
+import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { Overwrite } from "../../types";
 import {
   EETOStateOnChain,

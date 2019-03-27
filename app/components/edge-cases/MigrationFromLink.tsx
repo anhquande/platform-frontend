@@ -7,7 +7,7 @@ import { EUserType } from "../../lib/api/users/interfaces";
 import { actions } from "../../modules/actions";
 import { selectUserType } from "../../modules/auth/selectors";
 import { appConnect } from "../../store";
-import { onEnterAction } from "../../utils/OnEnterAction";
+import { onEnterAction } from "../../utils/OnEnterAction.unsafe";
 import { DashboardSection } from "../eto/shared/DashboardSection";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { CheckYourICBMWalletWidget } from "../settings/icbm-wallet-widget/CheckYourICBMWalletWidget";

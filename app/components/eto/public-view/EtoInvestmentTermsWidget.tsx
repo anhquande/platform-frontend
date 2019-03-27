@@ -14,7 +14,7 @@ import {
   EMoneyFormat,
   Money,
   selectCurrencyCode,
-} from "../../shared/Money";
+} from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
 import { Panel } from "../../shared/Panel";
 import { Percentage } from "../../shared/Percentage";

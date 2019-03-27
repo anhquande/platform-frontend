@@ -1,4 +1,4 @@
-import { genericModalIcons } from "../../components/modals/GenericModal";
+import { genericModalIcons } from "../../components/modals/GenericModal.unsafe";
 import { TMessage } from "../../components/translatedMessages/utils";
 import { AppActionTypes, AppReducer } from "../../store";
 import { DeepReadonly } from "../../types";

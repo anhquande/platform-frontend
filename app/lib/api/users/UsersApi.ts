@@ -10,14 +10,14 @@ import {
   IUser,
   IUserInput,
   IVerifyEmailUser,
+  OOO_TRANSACTION_TYPE,
   TPendingTxs,
+  TxPendingWithMetadata,
   TxWithMetadata,
-  TxWithMetadataListValidator,
   UserValidator,
 } from "./interfaces";
 
 const USER_API_ROOT = "/api/user";
-const OOO_TRANSACTION_TYPE = "mempool";
 
 export class UserApiError extends Error {}
 export class UserNotExisting extends UserApiError {}
@@ -143,31 +143,31 @@ export class UsersApi {
   }
 
   public async pendingTxs(): Promise<TPendingTxs> {
-    const response = await this.httpClient.get<Array<TxWithMetadata>>({
+    const response = await this.httpClient.get<Array<TxPendingWithMetadata | TxWithMetadata>>({
       baseUrl: USER_API_ROOT,
       url: "/pending_transactions/me",
-      responseSchema: TxWithMetadataListValidator,
     });
     if (response.statusCode === 200) {
       return {
         // find transaction with payload
-        pendingTransaction: response.body.find(tx => tx.transactionType !== OOO_TRANSACTION_TYPE),
+        pendingTransaction: response.body.find(
+          tx => tx.transactionType !== OOO_TRANSACTION_TYPE,
+        ) as TxPendingWithMetadata,
         // move other transactions to OOO transactions
-        oooTransactions: response.body
-          .filter(tx => tx.transactionType === OOO_TRANSACTION_TYPE)
-          .map(tx => tx.transaction),
+        oooTransactions: response.body.filter(tx => tx.transactionType === OOO_TRANSACTION_TYPE),
       };
     }
-    throw new Error();
+    throw new Error("Error while fetching pending transaction");
   }
 
-  public async addPendingTx(tx: TxWithMetadata): Promise<void> {
+  public async addPendingTx(tx: TxPendingWithMetadata): Promise<void> {
     await this.httpClient.put<void>({
       baseUrl: USER_API_ROOT,
       url: "/pending_transactions/me",
       body: {
         transaction: tx.transaction,
         transaction_type: tx.transactionType,
+        transaction_additional_data: tx.transactionAdditionalData,
       },
       disableManglingRequestBody: true,
     });

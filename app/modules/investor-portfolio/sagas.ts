@@ -2,11 +2,11 @@ import BigNumber from "bignumber.js";
 import { filter, map } from "lodash/fp";
 import { all, fork, put, select } from "redux-saga/effects";
 
-import { ECurrency } from "../../components/shared/Money";
-import { InvestorPortfolioMessage } from "../../components/translatedMessages/messages";
+import { ECurrency } from "../../components/shared/Money.unsafe";
+import { InvestorPortfolioMessage } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { EEtoState, TPublicEtoData } from "../../lib/api/eto/EtoApi.interfaces";
+import { EEtoState, TPublicEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IUser } from "../../lib/api/users/interfaces";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { promisify } from "../../lib/contracts/typechain-runtime";

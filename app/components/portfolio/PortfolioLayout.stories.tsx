@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { withStore } from "../../utils/storeDecorator";
-import { ECurrency } from "../shared/Money";
+import { withStore } from "../../utils/storeDecorator.unsafe";
+import { ECurrency } from "../shared/Money.unsafe";
 import { PortfolioLayout, TPortfolioLayoutProps } from "./PortfolioLayout";
 
 const data: TPortfolioLayoutProps = {

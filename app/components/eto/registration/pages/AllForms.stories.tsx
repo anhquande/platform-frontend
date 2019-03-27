@@ -4,10 +4,10 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 
-import { EtoKeyIndividualsType } from "../../../../lib/api/eto/EtoApi.interfaces";
+import { EtoKeyIndividualsType } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EtoRegistrationCompanyInformationComponent } from "./CompanyInformation";
 import { EtoEquityTokenInfoComponent } from "./EtoEquityTokenInfo";
-import { EtoRegistrationMediaComponent } from "./EtoMedia";
+import { EtoRegistrationMediaComponent } from "./EtoMedia.unsafe";
 import { EtoRegistrationPitchComponent } from "./EtoPitch";
 import { EtoRegistrationTermsComponent } from "./EtoTerms";
 import { EtoVotingRightsComponent } from "./EtoVotingRights";

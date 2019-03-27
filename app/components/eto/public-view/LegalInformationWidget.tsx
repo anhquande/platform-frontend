@@ -2,13 +2,13 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 
-import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces";
-import { ChartDoughnut } from "../../shared/charts/ChartDoughnut";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../shared/Money";
+import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
 import { Panel } from "../../shared/Panel";
 import { FUNDING_ROUNDS } from "../registration/pages/LegalInformation";
-import { CHART_COLORS } from "../shared/EtoView";
+import { CHART_COLORS } from "../shared/EtoView.unsafe";
 
 import * as styles from "./LegalInformationWidget.module.scss";
 

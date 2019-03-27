@@ -1,6 +1,9 @@
+import { injectable } from "inversify";
+
 import { DevConsoleLogger } from "./DevConsoleLogger";
-import { ILogger } from "./ILogger";
+import { ErrorArgs, ILogger, LogArg, TUser } from "./ILogger";
 import { SentryLogger } from "./SentryLogger";
+import { isLevelAllowed } from "./utils";
 
 const noopLogger: ILogger = {
   setUser: () => {},
@@ -27,4 +30,51 @@ const resolveLogger = () => {
   return new DevConsoleLogger();
 };
 
-export { ILogger, resolveLogger, noopLogger };
+@injectable()
+class Logger implements ILogger {
+  private logger: ILogger = resolveLogger();
+
+  setUser(user: TUser | null): void {
+    if (isLevelAllowed("info")) {
+      this.logger.setUser(user);
+    }
+  }
+
+  info(...args: LogArg[]): void {
+    if (isLevelAllowed("info")) {
+      this.logger.info(...args);
+    }
+  }
+
+  verbose(...args: LogArg[]): void {
+    if (isLevelAllowed("verbose")) {
+      this.logger.verbose(...args);
+    }
+  }
+
+  debug(...args: LogArg[]): void {
+    if (isLevelAllowed("debug")) {
+      this.logger.debug(...args);
+    }
+  }
+
+  warn(...args: ErrorArgs[]): void {
+    if (isLevelAllowed("warn")) {
+      this.logger.warn(...args);
+    }
+  }
+
+  error(...args: ErrorArgs[]): void {
+    if (isLevelAllowed("error")) {
+      this.logger.error(...args);
+    }
+  }
+
+  fatal(message: string, error: Error, data?: object): void {
+    if (isLevelAllowed("fatal")) {
+      this.logger.fatal(message, error, data);
+    }
+  }
+}
+
+export { ILogger, Logger, noopLogger };

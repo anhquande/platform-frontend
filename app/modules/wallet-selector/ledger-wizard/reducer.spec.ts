@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { LedgerErrorMessage } from "../../../components/translatedMessages/messages";
+import { LedgerErrorMessage } from "../../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { actions } from "../../actions";
 import {

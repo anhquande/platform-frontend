@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { EtoOfferingCard, IEtoOfferingProps } from "./EtoOfferingCard";
+import { EtoOfferingCard, IEtoOfferingProps } from "./EtoOfferingCard.unsafe";
 
 import * as logo from "../../assets/img/logo_capitalized.svg";
 

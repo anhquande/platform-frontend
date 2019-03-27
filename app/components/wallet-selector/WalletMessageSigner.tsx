@@ -11,7 +11,7 @@ import { Button } from "../shared/buttons";
 import { LoadingIndicator } from "../shared/loading-indicator";
 import { WarningAlert } from "../shared/WarningAlert";
 import { MessageSignPrompt } from "../signing/MessageSignPrompt";
-import { getMessageTranslation } from "../translatedMessages/messages";
+import { getMessageTranslation } from "../translatedMessages/messages.unsafe";
 import { TMessage } from "../translatedMessages/utils";
 
 import * as styles from "./WalletMessageSigner.module.scss";

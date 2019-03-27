@@ -87,13 +87,17 @@ export type TAcceptedFileType =
   | "image/svg+xml"
   | "image/*";
 
-export type Omit<T extends K, K> = Pick<T, Exclude<keyof T, keyof K>>;
-
 /**
  * From T, omit a set of properties whose keys are in the union K
  * @example OmitKeys<{ foo: boolean, bar: string }, "foo">
  */
 export type OmitKeys<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+/**
+ * From T, omit a set of properties from K
+ * @example OmitKeys<{ foo: boolean, bar: string }, { foo: boolean, }> // { bar: string }
+ */
+export type Omit<T extends K, K> = OmitKeys<T, keyof K>;
 
 /**
  * From T, select a union of property names which values extends R
@@ -109,6 +113,11 @@ type SelectPropertyNames<T, R> = { [K in keyof T]: T[K] extends R ? K : never }[
  */
 type PickProperties<T, R> = Pick<T, SelectPropertyNames<T, R>>;
 
+/**
+ * Overwrites properties from T1 with one from T2
+ * @example
+ * Overwrite<{ foo: boolean, bar: string }, { foo: number }> // { foo: number, bar: string }
+ */
 export type Overwrite<T1, T2> = { [P in Exclude<keyof T1, keyof T2>]: T1[P] } & T2;
 
 export type TFormikConnect = {

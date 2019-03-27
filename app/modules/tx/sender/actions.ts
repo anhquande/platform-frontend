@@ -1,11 +1,26 @@
 import { ITxData } from "../../../lib/web3/types";
+import { Overwrite } from "../../../types";
 import { createAction, createActionFactory, createSimpleAction } from "../../actionsUtils";
-import { ETxSenderType } from "../interfaces";
-import { ETransactionErrorType, TSummaryData } from "./reducer";
+import { ETxSenderType, TAdditionalDataByType } from "../types";
+import { ETransactionErrorType, ITxSenderState } from "./reducer";
+
+/**
+ * Makes `type` and `additionalData` loosely coupled so it's possible
+ * to pass it as a separate entities from pending transactions api
+ */
+type TPartialState = Partial<
+  Overwrite<
+    ITxSenderState,
+    { type: ITxSenderState["type"]; additionalData: ITxSenderState["additionalData"] }
+  >
+>;
 
 export const txSenderActions = {
   // Modal related actions
-  txSenderShowModal: (type: ETxSenderType) => createAction("TX_SENDER_SHOW_MODAL", { type }),
+  txSenderShowModal: createActionFactory(
+    "TX_SENDER_SHOW_MODAL",
+    (initialState: TPartialState = {}) => ({ initialState }),
+  ),
   txSenderHideModal: () => createSimpleAction("TX_SENDER_HIDE_MODAL"),
   // User awaiting actions
   txSenderAcceptDraft: createActionFactory(
@@ -24,13 +39,11 @@ export const txSenderActions = {
   // Pending transaction related actions
   txSenderWatchPendingTxs: (txHash: string) =>
     createAction("TX_SENDER_WATCH_PENDING_TXS", { txHash }),
-  txSenderWatchPendingTxsDone: (type: ETxSenderType) =>
-    createAction("TX_SENDER_WATCH_PENDING_TXS_DONE", { type }),
   // Error Actions
   txSenderError: (error: ETransactionErrorType) => createAction("TX_SENDER_ERROR", { error }),
   // Flow Actions
-  txSenderContinueToSummary: (summaryData?: TSummaryData) =>
-    createAction("TX_SENDER_CONTINUE_TO_SUMMARY_WITH_DATA", { summaryData }),
+  txSenderContinueToSummary: <T extends ETxSenderType>(additionalData: TAdditionalDataByType<T>) =>
+    createAction("TX_SENDER_CONTINUE_TO_SUMMARY_WITH_DATA", { additionalData }),
 
   // reducer setters
   setTransactionData: (txData?: ITxData) =>

@@ -3,9 +3,9 @@ import { compose } from "redux";
 
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
-import { onEnterAction } from "../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
 import { LayoutAuthorized } from "../../layouts/LayoutAuthorized";
-import { createErrorBoundary } from "../../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { EtoRegistrationPanel } from "./EtoRegistrationPanel";

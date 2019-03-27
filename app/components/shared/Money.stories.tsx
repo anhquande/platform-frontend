@@ -1,7 +1,14 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ECurrency, ECurrencySymbol, EMoneyFormat, EMoneyTransfer, ETheme, Money } from "./Money";
+import {
+  ECurrency,
+  ECurrencySymbol,
+  EMoneyFormat,
+  EMoneyTransfer,
+  ETheme,
+  Money,
+} from "./Money.unsafe";
 
 const value = "1234567" + "0".repeat(18);
 

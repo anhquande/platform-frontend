@@ -3,7 +3,7 @@ import { expectSaga } from "redux-saga-test-plan";
 
 import { dummyEthereumAddress, dummyNetworkId } from "../../../../test/fixtures";
 import { createMock } from "../../../../test/testUtils";
-import { BrowserWalletErrorMessage } from "../../../components/translatedMessages/messages";
+import { BrowserWalletErrorMessage } from "../../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { noopLogger } from "../../../lib/dependencies/logger";
 import { IBrowserWalletMetadata } from "../../../lib/persistence/WalletMetadataObjectStorage";
@@ -11,8 +11,8 @@ import {
   BrowserWallet,
   BrowserWalletConnector,
   BrowserWalletLockedError,
-} from "../../../lib/web3/BrowserWallet";
-import { Web3Manager } from "../../../lib/web3/Web3Manager";
+} from "../../../lib/web3/browser-wallet/BrowserWallet";
+import { Web3Manager } from "../../../lib/web3/Web3Manager/Web3Manager";
 import { IAppState } from "../../../store";
 import { actions } from "../../actions";
 import { EWalletSubType, EWalletType } from "../../web3/types";

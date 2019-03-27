@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 import { compose } from "recompose";
 
-import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces";
+import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IEtoDocument, TEtoDocumentTemplates } from "../../../lib/api/eto/EtoFileApi.interfaces";
 import { ignoredDocuments, ignoredTemplates } from "../../../lib/api/eto/EtoFileUtils";
 import { actions } from "../../../modules/actions";

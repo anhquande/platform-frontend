@@ -7,7 +7,6 @@ import {
   Severity,
   withScope,
 } from "@sentry/browser";
-import { injectable } from "inversify";
 
 import { ErrorArgs, ILogger, LogArg, TUser } from "./ILogger";
 
@@ -19,7 +18,6 @@ const BLACKLISTED_QUERY_PARAMS = ["email", "salt"];
 const hashQueryParam = (name: string, url: string) =>
   url.replace(new RegExp(`(${name})=[^&#]*`), "$1=******");
 
-@injectable()
 export class SentryLogger implements ILogger {
   constructor(dsn: string) {
     init({

@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { TTranslatedString } from "../../../types";
 import { IResponsiveImage, ResponsiveImage } from "../../shared/ResponsiveImage";
-import { Tag } from "../../shared/Tag";
+import { Tag } from "../../shared/Tag.unsafe";
 
 import * as styles from "./Cover.module.scss";
 

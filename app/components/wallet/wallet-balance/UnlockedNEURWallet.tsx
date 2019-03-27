@@ -5,7 +5,7 @@ import { externalRoutes } from "../../../config/externalRoutes";
 import { CommonHtmlProps } from "../../../types";
 import { isZero } from "../../../utils/Number.utils";
 import { AccountBalance } from "../../shared/AccountBalance";
-import { ECurrency } from "../../shared/Money";
+import { ECurrency } from "../../shared/Money.unsafe";
 import { VerifiedBankAccount } from "../VerifiedBankAccount";
 import { WalletBalanceContainer } from "./WalletBalance";
 
@@ -71,6 +71,7 @@ export const UnlockedNEURWallet: React.FunctionComponent<IUnlockedNEURWallet & C
                   name: <FormattedMessage id="components.wallet.start.neur-wallet.redeem" />,
                   onClick: onRedeem,
                   disabled: !isUserFullyVerified || isZero(neuroAmount),
+                  "data-test-id": "wallet-balance.neur.redeem-button",
                 },
               ]
             : undefined

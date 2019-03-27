@@ -21,8 +21,8 @@ import {
   selectWidgetLoading,
 } from "../../../modules/kyc/selectors";
 import { appConnect } from "../../../store";
-import { onEnterAction } from "../../../utils/OnEnterAction";
-import { onLeaveAction } from "../../../utils/OnLeaveAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
+import { onLeaveAction } from "../../../utils/OnLeaveAction.unsafe";
 import { Button, ButtonLink, EButtonLayout } from "../../shared/buttons";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { Panel } from "../../shared/Panel";

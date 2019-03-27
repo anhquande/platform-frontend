@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Footer } from "./Footer";
-import { Header } from "./Header";
+import { Header } from "./Header.unsafe";
 
 import * as styles from "./LayoutShared.module.scss";
 

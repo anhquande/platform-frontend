@@ -1,4 +1,4 @@
-import { IPerson } from "../../app/components/shared/PeopleSwiperWidget";
+import { IPerson } from "../../app/components/shared/PeopleSwiperWidget.unsafe";
 
 export const zoe: IPerson = {
   description:

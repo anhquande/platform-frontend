@@ -10,10 +10,10 @@ import { selectIsMessageSigning } from "../../../../modules/wallet-selector/sele
 import { appConnect } from "../../../../store";
 import { HeaderProgressStepper } from "../../../shared/HeaderProgressStepper";
 import { ExternalLink } from "../../../shared/links/ExternalLink";
-import { RegisterWalletComponent } from "../../light/Register/RegisterLightWallet";
+import { RegisterWalletComponent } from "../../light/Register/RegisterLightWallet.unsafe";
 import { WalletMessageSigner } from "../../WalletMessageSigner";
 import { recoverRoutes } from "../router/recoverRoutes";
-import { WalletLightSeedRecoveryComponent } from "./SeedRecovery";
+import { WalletLightSeedRecoveryComponent } from "./SeedRecovery.unsafe";
 
 interface IRecoveryFormValues {
   email: string;

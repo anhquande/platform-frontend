@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { CommonHtmlProps } from "../../../types";
 import { AccountBalance } from "../../shared/AccountBalance";
 import { HorizontalLine } from "../../shared/HorizontalLine";
-import { ECurrency } from "../../shared/Money";
+import { ECurrency } from "../../shared/Money.unsafe";
 import { isWalletNotEmpty } from "./utils";
 import { IWalletValues, WalletBalanceContainer } from "./WalletBalance";
 

@@ -5,18 +5,22 @@ import {
   GenericErrorMessage,
   GenericModalMessage,
   SignInUserErrorMessage,
-} from "../../../components/translatedMessages/messages";
+} from "../../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { EJwtPermissions } from "../../../config/constants";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { IUser, IUserInput } from "../../../lib/api/users/interfaces";
 import { EmailAlreadyExists, UserNotExisting } from "../../../lib/api/users/UsersApi";
 import { ILightWalletMetadata } from "../../../lib/persistence/WalletMetadataObjectStorage";
-import { LightError, LightWallet, LightWalletLocked } from "../../../lib/web3/LightWallet";
+import {
+  LightError,
+  LightWallet,
+  LightWalletLocked,
+} from "../../../lib/web3/light-wallet/LightWallet";
 import {
   createLightWalletVault,
   deserializeLightWalletVault,
-} from "../../../lib/web3/LightWalletUtils";
+} from "../../../lib/web3/light-wallet/LightWalletUtils";
 import { IAppState } from "../../../store";
 import { invariant } from "../../../utils/invariant";
 import { connectLightWallet } from "../../access-wallet/sagas";

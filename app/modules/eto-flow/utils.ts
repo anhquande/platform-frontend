@@ -14,7 +14,7 @@ import {
   EtoVotingRightsType,
   GeneralEtoDataType,
   TBookbuildingStatsType,
-} from "../../lib/api/eto/EtoApi.interfaces";
+} from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 
 function getErrorsNumber(validator: Yup.Schema<any>, data?: any): number {
   try {

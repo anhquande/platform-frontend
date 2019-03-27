@@ -4,12 +4,12 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Container, Row } from "reactstrap";
 import { compose } from "redux";
 
-import { IIntlProps, injectIntlHelpers } from "../../utils/injectIntlHelpers";
-import { withContainer } from "../../utils/withContainer";
+import { IIntlProps, injectIntlHelpers } from "../../utils/injectIntlHelpers.unsafe";
+import { withContainer } from "../../utils/withContainer.unsafe";
 import { appRoutes } from "../appRoutes";
 import { LayoutUnauthorized } from "../layouts/LayoutUnauthorized";
 import { CenteredListWithTitle } from "../shared/CenteredListWithTitle";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutUnauthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutUnauthorized";
 import { OffToOnCompany } from "./shared/OffToOnChainCompany";
 import { RegisterCta } from "./shared/RegisterCta";

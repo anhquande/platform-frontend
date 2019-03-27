@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 
 import { showErrorToast, showInfoToast } from "../../components/shared/Toast";
-import { getMessageTranslation } from "../../components/translatedMessages/messages";
+import { getMessageTranslation } from "../../components/translatedMessages/messages.unsafe";
 import { TMessage } from "../../components/translatedMessages/utils";
 
 @injectable()

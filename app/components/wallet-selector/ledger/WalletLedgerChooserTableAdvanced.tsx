@@ -4,8 +4,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ILedgerAccount } from "../../../modules/wallet-selector/ledger-wizard/reducer";
 import { Button, EButtonLayout } from "../../shared/buttons";
-import { ECurrency, Money } from "../../shared/Money";
-import { NavigationButton } from "../../shared/Navigation";
+import { ECurrency, Money } from "../../shared/Money.unsafe";
+import { NavigationButton } from "../../shared/Navigation.unsafe";
 
 import * as styles from "./WalletLedgerChooserTableAdvanced.module.scss";
 

@@ -1,4 +1,4 @@
-import { ECurrency } from "../../components/shared/Money";
+import { ECurrency } from "../../components/shared/Money.unsafe";
 import { EInvestmentType } from "./reducer";
 
 export const getCurrencyByInvestmentType = (type: EInvestmentType) => {

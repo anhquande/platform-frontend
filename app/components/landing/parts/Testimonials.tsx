@@ -3,7 +3,7 @@ import Slider, { Settings } from "react-slick";
 import { Col, Container, Row } from "reactstrap";
 
 import { ExternalLink } from "../../shared/links";
-import { JoinCta } from "./JoinCta";
+import { JoinCta } from "./JoinCta.unsafe";
 import { PeopleSlider } from "./testimonials/People";
 
 import * as christopheImage from "../../../assets/img/landing/testimonials/media/christophe.png";

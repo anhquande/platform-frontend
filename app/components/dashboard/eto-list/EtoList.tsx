@@ -8,7 +8,7 @@ import { actions } from "../../../modules/actions";
 import { selectPublicEtos } from "../../../modules/public-etos/selectors";
 import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
 import { appConnect } from "../../../store";
-import { onEnterAction } from "../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
 import { EtoOverviewStatus } from "../../eto/overview/EtoOverviewStatus";
 import { EtosComingSoon } from "../../eto/overview/EtoOverviewStatus/EtosComingSoon";
 import { Heading } from "../../shared/Heading";

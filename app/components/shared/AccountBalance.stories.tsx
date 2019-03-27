@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { Q18 } from "../../config/constants";
 import { AccountBalance } from "./AccountBalance";
-import { ECurrency } from "./Money";
+import { ECurrency } from "./Money.unsafe";
 
 import * as ethIcon from "../../assets/img/eth_icon.svg";
 

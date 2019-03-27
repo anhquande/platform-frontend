@@ -1,6 +1,6 @@
 import { saveAs } from "file-saver";
 
-import { getMessageTranslation } from "../../components/translatedMessages/messages";
+import { getMessageTranslation } from "../../components/translatedMessages/messages.unsafe";
 import { TMessage } from "../../components/translatedMessages/utils";
 import { IS_CYPRESS } from "../../config/constants";
 

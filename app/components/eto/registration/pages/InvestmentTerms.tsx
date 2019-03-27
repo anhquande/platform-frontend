@@ -8,7 +8,7 @@ import { compose } from "redux";
 import {
   EtoInvestmentTermsType,
   TPartialEtoSpecData,
-} from "../../../../lib/api/eto/EtoApi.interfaces";
+} from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { etoFormIsReadonly } from "../../../../lib/api/eto/EtoApiUtils";
 import { getInvestmentAmount, getShareAndTokenPrice } from "../../../../lib/api/eto/EtoUtils";
 import { actions } from "../../../../modules/actions";
@@ -21,9 +21,9 @@ import { formatMoney } from "../../../../utils/Money.utils";
 import { Button, EButtonLayout } from "../../../shared/buttons";
 import { FormField } from "../../../shared/forms";
 import { FormFieldRaw } from "../../../shared/forms/fields/FormFieldRaw";
-import { NumberTransformingField } from "../../../shared/forms/fields/NumberTransformingField";
+import { NumberTransformingField } from "../../../shared/forms/fields/NumberTransformingField.unsafe";
 import { FormHighlightGroup } from "../../../shared/forms/FormHighlightGroup";
-import { ECurrency, EMoneyFormat, getFormattedMoney } from "../../../shared/Money";
+import { ECurrency, EMoneyFormat, getFormattedMoney } from "../../../shared/Money.unsafe";
 import {
   convert,
   convertFractionToPercentage,
@@ -31,7 +31,7 @@ import {
   parseStringToFloat,
   parseStringToInteger,
 } from "../../utils";
-import { EtoFormBase } from "../EtoFormBase";
+import { EtoFormBase } from "../EtoFormBase.unsafe";
 import { Section } from "../Shared";
 
 import * as styles from "../Shared.module.scss";

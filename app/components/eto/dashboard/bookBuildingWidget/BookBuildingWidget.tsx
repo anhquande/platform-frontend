@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "redux";
 
-import { IBookBuildingStats } from "../../../../lib/api/eto/EtoPledgeApi.interfaces";
+import { IBookBuildingStats } from "../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { actions } from "../../../../modules/actions";
 import { selectBookbuildingStats } from "../../../../modules/bookbuilding-flow/selectors";
 import {
@@ -14,15 +14,15 @@ import {
 } from "../../../../modules/eto-flow/selectors";
 import { appConnect } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
-import { onEnterAction } from "../../../../utils/OnEnterAction";
-import { onLeaveAction } from "../../../../utils/OnLeaveAction";
+import { onEnterAction } from "../../../../utils/OnEnterAction.unsafe";
+import { onLeaveAction } from "../../../../utils/OnLeaveAction.unsafe";
 import { ButtonArrowRight } from "../../../shared/buttons";
 import { Document } from "../../../shared/Document";
 import { DocumentTemplateButton } from "../../../shared/DocumentLink";
-import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
 import { Panel } from "../../../shared/Panel";
 
 import * as styles from "../../EtoContentWidget.module.scss";

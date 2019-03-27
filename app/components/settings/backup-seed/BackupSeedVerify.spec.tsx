@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { tid } from "../../../../test/testUtils";
 import { englishMnemonics } from "../../../utils/englishMnemonics";
-import { BackupSeedVerify, IBackupSeedVerifyState } from "./BackupSeedVerify";
+import { BackupSeedVerify, IBackupSeedVerifyState } from "./BackupSeedVerify.unsafe";
 
 const words = englishMnemonics.slice(0, 24);
 

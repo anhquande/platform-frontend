@@ -1,4 +1,4 @@
-import { IBookBuildingStats, IPledge } from "../../lib/api/eto/EtoPledgeApi.interfaces";
+import { IBookBuildingStats, IPledge } from "../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { AppReducer } from "../../store";
 import { DeepReadonly, Dictionary } from "../../types";
 import { SET_BOOKBUILDING_FLOW_STATS, SET_PLEDGE } from "./actions";

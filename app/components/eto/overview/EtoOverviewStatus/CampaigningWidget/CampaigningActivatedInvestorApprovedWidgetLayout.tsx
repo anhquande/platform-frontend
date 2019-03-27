@@ -3,10 +3,10 @@ import { Formik } from "formik";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { generateCampaigningValidation } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces";
+import { generateCampaigningValidation } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { Button, ButtonSize, ButtonWidth } from "../../../../shared/buttons";
 import { CheckboxLayout, Form, FormInput, InputSize } from "../../../../shared/forms";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../../shared/Money";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../../shared/Money.unsafe";
 import { Tooltip } from "../../../../shared/Tooltip";
 
 import * as styles from "../EtoOverviewStatus.module.scss";

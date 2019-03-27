@@ -1,7 +1,6 @@
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Modal } from "reactstrap";
 
 import { actions } from "../../../modules/actions";
 import { selectIsUnlocked, selectWalletType } from "../../../modules/web3/selectors";
@@ -9,8 +8,8 @@ import { EWalletType } from "../../../modules/web3/types";
 import { appConnect } from "../../../store";
 import { TTranslatedString } from "../../../types";
 import { HiResImage } from "../../shared/HiResImage";
-import { getMessageTranslation } from "../../translatedMessages/messages";
-import { ModalComponentBody } from "../ModalComponentBody";
+import { getMessageTranslation } from "../../translatedMessages/messages.unsafe";
+import { Modal } from "../Modal";
 import { AccessLightWalletPrompt } from "./AccessLightWalletPrompt";
 
 import * as ledgerConfirm from "../../../assets/img/wallet_selector/ledger_confirm.svg";
@@ -102,10 +101,8 @@ interface IModalDispatchProps {
 const AccessWalletModalComponent: React.FunctionComponent<
   IModalStateProps & IModalDispatchProps
 > = props => (
-  <Modal isOpen={props.isOpen} toggle={props.onCancel} centered>
-    <ModalComponentBody onClose={props.onCancel}>
-      <AccessWalletContainer />
-    </ModalComponentBody>
+  <Modal isOpen={props.isOpen} onClose={props.onCancel}>
+    <AccessWalletContainer />
   </Modal>
 );
 

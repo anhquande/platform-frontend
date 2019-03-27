@@ -2,7 +2,7 @@ import * as cn from "classnames";
 import * as React from "react";
 
 import { CommonHtmlProps, TTranslatedString } from "../../types";
-import { CustomTooltip } from "./CustomTooltip";
+import { CustomTooltip } from "./CustomTooltip.unsafe";
 import { InlineIcon } from "./icons";
 
 import * as icon from "../../assets/img/inline_icons/icon_questionmark.svg";

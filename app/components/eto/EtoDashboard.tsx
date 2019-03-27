@@ -3,7 +3,7 @@ import { FormattedHTMLMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 import { compose } from "redux";
 
-import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces";
+import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { ERequestStatus } from "../../lib/api/KycApi.interfaces";
 import { actions } from "../../modules/actions";
 import { selectBackupCodesVerified, selectVerifiedUserEmail } from "../../modules/auth/selectors";
@@ -21,15 +21,16 @@ import { calculateGeneralEtoData } from "../../modules/eto-flow/utils";
 import { selectKycRequestStatus } from "../../modules/kyc/selectors";
 import { selectIsLightWallet } from "../../modules/web3/selectors";
 import { appConnect } from "../../store";
-import { onEnterAction } from "../../utils/OnEnterAction";
+import { onEnterAction } from "../../utils/OnEnterAction.unsafe";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { SettingsWidgets } from "../settings/settings-widget/SettingsWidgets";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { LoadingIndicator } from "../shared/loading-indicator";
 import { BookBuildingWidget } from "./dashboard/bookBuildingWidget/BookBuildingWidget";
 import { ChooseEtoStartDateWidget } from "./dashboard/chooseEtoStartDateWidget/ChooseEtoStartDateWidget";
 import { ETOFormsProgressSection } from "./dashboard/ETOFormsProgressSection";
+import { UploadInvestmentAgreement } from "./dashboard/signInvestmentAgreementWidget/UploadInvestmentAgreementWidget.unsafe";
 import { SubmitProposalWidget } from "./dashboard/submitProposalWidget/SubmitProposalWidget";
 import { UploadInvestmentMemorandum } from "./dashboard/UploadInvestmentMemorandum";
 import { UploadProspectusWidget } from "./dashboard/UploadProspectusWidget";
@@ -177,10 +178,13 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
         <>
           <DashboardSection hasDecorator={false} title={dashboardTitle} />
           <Col lg={6} xs={12}>
-            <BookBuildingWidget />
+            <UploadInvestmentAgreement />
           </Col>
           <Col lg={6} xs={12}>
             <ChooseEtoStartDateWidget />
+          </Col>
+          <Col lg={6} xs={12}>
+            <BookBuildingWidget />
           </Col>
           <Col xs={12}>
             <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />

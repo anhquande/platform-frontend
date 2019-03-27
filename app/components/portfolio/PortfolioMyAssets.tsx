@@ -15,7 +15,7 @@ import { multiplyBigNumbers } from "../../utils/BigNumberUtils";
 import { withParams } from "../../utils/withParams";
 import { Button, ButtonLink, ButtonSize, EButtonLayout } from "../shared/buttons";
 import { Heading } from "../shared/Heading";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../shared/Money";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
 import { ENewTableCellLayout, NewTable, NewTableRow } from "../shared/table";
 

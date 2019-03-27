@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { delay } from "redux-saga";
 import { put, select, take, takeEvery, takeLatest } from "redux-saga/effects";
 
-import { ECurrency } from "../../components/shared/Money";
+import { ECurrency } from "../../components/shared/Money.unsafe";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { ITxData } from "../../lib/web3/types";
@@ -21,9 +21,9 @@ import { selectEtoOnChainStateById, selectPublicEtoById } from "../public-etos/s
 import { EETOStateOnChain } from "../public-etos/types";
 import { neuCall } from "../sagasUtils";
 import { selectEtherPriceEur, selectEurPriceEther } from "../shared/tokenPrice/selectors";
-import { ETxSenderType } from "../tx/interfaces";
 import { selectTxGasCostEthUlps } from "../tx/sender/selectors";
 import { generateInvestmentTransaction } from "../tx/transactions/investment/sagas";
+import { ETxSenderType } from "../tx/types";
 import { txValidateSaga } from "../tx/validator/sagas";
 import {
   selectLiquidEtherBalance,
@@ -218,7 +218,7 @@ function* start(action: TAction): any {
   yield put(actions.txTransactions.startInvestment());
   yield put(actions.investorEtoTicket.loadEtoInvestorTicket(selectPublicEtoById(state, etoId)!));
 
-  yield take("TX_SENDER_WATCH_PENDING_TXS_DONE");
+  yield take("TX_SENDER_SHOW_MODAL");
   yield getActiveInvestmentTypes();
   yield resetTxDataAndValidations();
 }

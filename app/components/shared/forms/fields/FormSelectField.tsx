@@ -7,7 +7,7 @@ import { FormGroup, Input } from "reactstrap";
 import { Dictionary, TDataTestId, TTranslatedString } from "../../../../types";
 import { FormFieldError, generateErrorId } from "./FormFieldError";
 import { FormFieldLabel } from "./FormFieldLabel";
-import { isFieldRequired, isNonValid } from "./utils";
+import { isFieldRequired, isNonValid } from "./utils.unsafe";
 
 import * as styles from "./FormStyles.module.scss";
 

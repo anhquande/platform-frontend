@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { setupFakeClock } from "../../test/integrationTestUtils";
+import { setupFakeClock } from "../../test/integrationTestUtils.unsafe";
 import { delay } from "./delay";
 import { promiseTimeout } from "./promiseTimeout";
 

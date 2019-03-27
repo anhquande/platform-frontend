@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 import { symbols } from "../../../di/symbols";
 import { withParams } from "../../../utils/withParams";
 import { IHttpClient, IHttpResponse } from "../client/IHttpClient";
-import { IPledge } from "./EtoPledgeApi.interfaces";
+import { IPledge } from "./EtoPledgeApi.interfaces.unsafe";
 
 const BASE_PATH = "/api/eto-listing/";
 const MY_PLEDGE_PATH = "/etos/:etoId/pledges/me";

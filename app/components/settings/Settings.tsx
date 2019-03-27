@@ -14,11 +14,11 @@ import {
 } from "../../modules/wallet/selectors";
 import { selectIsLightWallet } from "../../modules/web3/selectors";
 import { appConnect } from "../../store";
-import { onEnterAction } from "../../utils/OnEnterAction";
-import { withMetaTags } from "../../utils/withMetaTags";
+import { onEnterAction } from "../../utils/OnEnterAction.unsafe";
+import { withMetaTags } from "../../utils/withMetaTags.unsafe";
 import { DashboardSection } from "../eto/shared/DashboardSection";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { Heading } from "../shared/Heading";
 import { ChangeEmail } from "./change-email/ChangeEmail";

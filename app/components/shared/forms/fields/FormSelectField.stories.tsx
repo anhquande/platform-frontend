@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { FormSelectField } from "./FormSelectField";
-import { formWrapper } from "./testingUtils";
+import { formWrapper } from "./testingUtils.unsafe";
 
 const defaultValues = {
   foo: "Foo",

@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { FormFieldCheckbox, FormFieldCheckboxGroup } from "./FormFieldCheckboxGroup";
-import { formWrapper } from "./testingUtils";
+import { formWrapper } from "./testingUtils.unsafe";
 
 storiesOf("Form/FieldCheckboxGroup", module).add(
   "default",

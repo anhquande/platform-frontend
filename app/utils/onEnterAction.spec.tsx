@@ -5,7 +5,7 @@ import { spy } from "sinon";
 
 import { createMount } from "../../test/createMount";
 import { createDummyStore } from "../../test/fixtures";
-import { onEnterAction } from "./OnEnterAction";
+import { onEnterAction } from "./OnEnterAction.unsafe";
 
 describe("onEnterAction", () => {
   const SomeComponent = () => <h1>SOME COMPONENT</h1>;

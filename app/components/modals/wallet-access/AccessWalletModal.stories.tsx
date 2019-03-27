@@ -2,13 +2,13 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { EWalletType } from "../../../modules/web3/types";
-import { withModalBody } from "../../../utils/storybookHelpers";
+import { withModalBody } from "../../../utils/storybookHelpers.unsafe";
 import {
   BrowserWalletErrorMessage,
   getMessageTranslation,
   MismatchedWalletAddressErrorMessage,
   ProfileMessage,
-} from "../../translatedMessages/messages";
+} from "../../translatedMessages/messages.unsafe";
 import { createMessage } from "../../translatedMessages/utils";
 import { AccessWalletContainerComponent } from "./AccessWalletModal";
 

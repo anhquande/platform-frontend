@@ -1,6 +1,6 @@
 import { call, fork, put, select } from "redux-saga/effects";
 
-import { ProfileMessage } from "../../components/translatedMessages/messages";
+import { ProfileMessage } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { EJwtPermissions } from "../../config/constants";
 import { TGlobalDependencies } from "../../di/setupBindings";

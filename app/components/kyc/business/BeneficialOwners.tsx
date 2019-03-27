@@ -6,11 +6,11 @@ import { compose } from "redux";
 import { IKycBeneficialOwner } from "../../../lib/api/KycApi.interfaces";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
-import { onEnterAction } from "../../../utils/OnEnterAction";
-import { Accordion } from "../../shared/Accordion";
+import { onEnterAction } from "../../../utils/OnEnterAction.unsafe";
+import { Accordion } from "../../shared/Accordion.unsafe";
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { HorizontalLine } from "../../shared/HorizontalLine";
-import { KYCBeneficialOwner } from "./BeneficialOwner";
+import { KYCBeneficialOwner } from "./BeneficialOwner.unsafe";
 
 import * as plusIcon from "../../../assets/img/inline_icons/plus.svg";
 import * as styles from "./BeneficialOwners.module.scss";

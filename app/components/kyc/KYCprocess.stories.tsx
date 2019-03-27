@@ -7,12 +7,12 @@ import {
   IKycIndividualData,
 } from "../../lib/api/KycApi.interfaces";
 import { dummyIntl } from "../../utils/injectIntlHelpers.fixtures";
-import { KYCBeneficialOwnerComponent } from "./business/BeneficialOwner";
+import { KYCBeneficialOwnerComponent } from "./business/BeneficialOwner.unsafe";
 import { KYCBeneficialOwnersComponent } from "./business/BeneficialOwners";
-import { KycBusinessDataComponent } from "./business/BusinessData";
-import { KycLegalRepresentativeComponent } from "./business/LegalRepresentative";
+import { KycBusinessDataComponent } from "./business/BusinessData.unsafe";
+import { KycLegalRepresentativeComponent } from "./business/LegalRepresentative.unsafe";
 import { KycPersonalDocumentVerificationComponent } from "./personal/DocumentVerification";
-import { KYCPersonalStartComponent } from "./personal/Start";
+import { KYCPersonalStartComponent } from "./personal/Start.unsafe";
 import { KYCUploadComponent } from "./personal/Upload";
 import { KYCStartComponent } from "./start/Start";
 

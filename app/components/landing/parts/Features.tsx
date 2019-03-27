@@ -3,7 +3,7 @@ import { Col, Container, Row } from "reactstrap";
 
 import { SpinningEthereum } from "../../shared/ethererum";
 import { Interoperable } from "./Interoperable";
-import { RainbowSheepTip } from "./RainbowSheepTip";
+import { RainbowSheepTip } from "./RainbowSheepTip.unsafe";
 import { SmartContractWindow } from "./SmartContractWindow";
 
 import * as styles from "./Features.module.scss";

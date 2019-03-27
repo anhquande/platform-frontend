@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 
-import { ECurrency } from "../../components/shared/Money";
+import { ECurrency } from "../../components/shared/Money.unsafe";
 import { Q18 } from "../../config/constants";
 import { ICalculatedContribution, IInvestorTicket, ITokenDisbursal } from "./types";
 
@@ -81,11 +81,11 @@ export const convertToTokenDisbursal = (
   timeToFirstDisbursalRecycle: timeToFirstDisbursalRecycle.mul(1000).toNumber(),
 });
 
-export const getNeuReward = (equityTokenInt: BigNumber, equivEurUlps: BigNumber): string => {
+export const getTokenPrice = (equityTokenInt: BigNumber, equivEurUlps: BigNumber): string => {
   if (equivEurUlps.isZero()) {
     return "0";
   }
 
   const equityToken = Q18.mul(equityTokenInt);
-  return equivEurUlps.div(equityToken).toFixed(8);
+  return equivEurUlps.div(equityToken).toString();
 };

@@ -2,8 +2,8 @@ import { expect } from "chai";
 import { mount } from "enzyme";
 import * as React from "react";
 
-import { withMockStore } from "../../../utils/storeDecorator";
-import { Button, EButtonLayout } from "./Button";
+import { withMockStore } from "../../../utils/storeDecorator.unsafe";
+import { Button, EButtonLayout } from "./Button.unsafe";
 import { ButtonLink } from "./ButtonLink";
 
 describe("<ButtonLink />", () => {

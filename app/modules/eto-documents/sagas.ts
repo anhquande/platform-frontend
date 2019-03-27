@@ -1,11 +1,14 @@
 import { findKey } from "lodash/fp";
 import { call, fork, put, select } from "redux-saga/effects";
 
-import { EtoDocumentsMessage, IpfsMessage } from "../../components/translatedMessages/messages";
+import {
+  EtoDocumentsMessage,
+  IpfsMessage,
+} from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { EJwtPermissions } from "../../config/constants";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces";
+import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { FileAlreadyExists } from "../../lib/api/eto/EtoFileApi";
 import {
   EEtoDocumentType,
@@ -15,7 +18,7 @@ import {
 import { IAppState } from "../../store";
 import { actions, TAction, TActionFromCreator } from "../actions";
 import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
-import { selectIssuerEtoState } from "../eto-flow/selectors";
+import { selectEtoId, selectIssuerEtoState } from "../eto-flow/selectors";
 import { downloadLink } from "../immutable-file/utils";
 import { neuCall, neuTakeEvery } from "../sagasUtils";
 import { selectEthereumAddressWithChecksum } from "../web3/selectors";
@@ -170,8 +173,13 @@ function* uploadEtoFileEffect(
   if (matchingDocument)
     yield apiEtoFileService.deleteSpecificEtoDocument(matchingDocument.ipfsHash);
 
-  yield apiEtoFileService.uploadEtoDocument(file, documentType);
+  const uploadResult: IEtoDocument = yield apiEtoFileService.uploadEtoDocument(file, documentType);
   notificationCenter.info(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOADED));
+  if (documentType === EEtoDocumentType.INVESTMENT_AND_SHAREHOLDER_AGREEMENT) {
+    const etoId = yield select(selectEtoId);
+    yield put(actions.etoDocuments.loadFileDataStart());
+    yield put(actions.etoFlow.signInvestmentAgreement(etoId, uploadResult.ipfsHash));
+  }
 }
 
 function* uploadEtoFile(

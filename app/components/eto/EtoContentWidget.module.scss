@@ -45,6 +45,17 @@
 .eto-date {
   font-size: 1rem;
   font-weight: normal;
+  width: auto;
+  border: 0;
+
+  & td {
+    padding-right: .5rem;
+  }
+}
+
+.eto-date-bold {
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .eto-time-left-start {

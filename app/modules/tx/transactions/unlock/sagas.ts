@@ -7,8 +7,13 @@ import { ITxData } from "../../../../lib/web3/types";
 import { actions } from "../../../actions";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { neuCall } from "../../../sagasUtils";
-import { selectEtherLockedNeumarksDue, selectNeuBalance } from "../../../wallet/selectors";
+import {
+  selectEtherLockedNeumarksDue,
+  selectLockedEtherBalance,
+  selectLockedEtherUnlockDate,
+} from "../../../wallet/selectors";
 import { selectEthereumAddressWithChecksum } from "../../../web3/selectors";
+import { ETxSenderType } from "../../types";
 import { UserCannotUnlockFunds } from "./errors";
 import { selectCanUnlockWallet } from "./selectors";
 
@@ -47,13 +52,15 @@ export function* generateUnlockEuroTransaction({
 export function* unlockEtherFundsTransactionGenerator(_: TGlobalDependencies): any {
   const generatedTxDetails: ITxData = yield neuCall(generateUnlockEuroTransaction);
   const etherNeumarksDue = yield select(selectEtherLockedNeumarksDue);
-  const neuBalance = yield select(selectNeuBalance);
+  const lockedEtherBalance: string = yield select(selectLockedEtherBalance);
+  const lockedEtherUnlockDate: string = yield select(selectLockedEtherUnlockDate);
 
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
   yield put(
-    actions.txSender.txSenderContinueToSummary({
-      txData: generatedTxDetails,
-      additionalData: { etherNeumarksDue, neuBalance },
+    actions.txSender.txSenderContinueToSummary<ETxSenderType.UNLOCK_FUNDS>({
+      etherNeumarksDue,
+      lockedEtherUnlockDate,
+      lockedEtherBalance,
     }),
   );
 }

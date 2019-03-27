@@ -1,7 +1,7 @@
 import { effects } from "redux-saga";
 import { fork, put, select } from "redux-saga/effects";
 
-import { EtoDocumentsMessage } from "../../components/translatedMessages/messages";
+import { EtoDocumentsMessage } from "../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { EJwtPermissions } from "../../config/constants";
 import { TGlobalDependencies } from "../../di/setupBindings";
@@ -11,7 +11,7 @@ import {
   TCompanyEtoData,
   TEtoSpecsData,
   TPartialEtoSpecData,
-} from "../../lib/api/eto/EtoApi.interfaces";
+} from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { IAppState } from "../../store";
 import { actions, TAction, TActionFromCreator } from "../actions";

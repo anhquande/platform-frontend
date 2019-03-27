@@ -1,8 +1,8 @@
+import { AuthMessage } from "../../../components/translatedMessages/messages.unsafe";
 import { createMessage } from "../../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { IVerifyEmailUser } from "../../../lib/api/users/interfaces";
 import { EmailAlreadyExists } from "../../../lib/api/users/UsersApi";
-import { AuthMessage } from "./../../../components/translatedMessages/messages";
 
 export async function verifyUserEmailPromise(
   { apiUserService, notificationCenter }: TGlobalDependencies,

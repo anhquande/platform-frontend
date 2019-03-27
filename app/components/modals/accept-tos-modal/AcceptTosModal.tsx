@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
-import { Modal } from "reactstrap";
 
 import { EUserType } from "../../../lib/api/users/interfaces";
 import { actions } from "../../../modules/actions";
@@ -12,7 +11,7 @@ import {
 } from "../../../modules/auth/selectors";
 import { appConnect } from "../../../store";
 import { Button, EButtonLayout } from "../../shared/buttons";
-import { ModalComponentBody } from "../ModalComponentBody";
+import { Modal } from "../Modal";
 
 interface IStateProps {
   isOpen: boolean;
@@ -80,10 +79,8 @@ export const AcceptTosModalInner: React.ComponentType<IStateProps & IDispatchPro
 };
 
 const AcceptTosModalComponent: React.FunctionComponent<IStateProps & IDispatchProps> = props => (
-  <Modal isOpen={props.isOpen} centered>
-    <ModalComponentBody>
-      <AcceptTosModalInner {...props} />
-    </ModalComponentBody>
+  <Modal isOpen={props.isOpen}>
+    <AcceptTosModalInner {...props} />
   </Modal>
 );
 

@@ -3,7 +3,7 @@ import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { setDisplayName, withProps } from "recompose";
 import { compose } from "redux";
 
-import { IPledge } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces";
+import { IPledge } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { actions } from "../../../../../modules/actions";
 import { selectIsInvestor, selectIsVerifiedInvestor } from "../../../../../modules/auth/selectors";
 import {
@@ -12,10 +12,10 @@ import {
 } from "../../../../../modules/bookbuilding-flow/selectors";
 import { EETOStateOnChain } from "../../../../../modules/public-etos/types";
 import { appConnect } from "../../../../../store";
-import { onEnterAction } from "../../../../../utils/OnEnterAction";
+import { onEnterAction } from "../../../../../utils/OnEnterAction.unsafe";
 import { appRoutes } from "../../../../appRoutes";
 import { ButtonLink } from "../../../../shared/buttons";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../../shared/Money";
+import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../../shared/Money.unsafe";
 import { Tooltip } from "../../../../shared/Tooltip";
 import { CounterWidget } from "../index";
 import { Message } from "../Message";

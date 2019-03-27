@@ -5,7 +5,7 @@ import { Col, FormGroup } from "reactstrap";
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { getCurrencyByInvestmentType } from "../../../../modules/investment-flow/utils";
 import { CurrencyIcon } from "../../../shared/icons/CurrencyIcon";
-import { ECurrency, Money } from "../../../shared/Money";
+import { ECurrency, Money } from "../../../shared/Money.unsafe";
 
 import * as styles from "./InvestmentTypeSelector.module.scss";
 

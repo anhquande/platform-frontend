@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { IS_CYPRESS, IS_DEV } from "../../config/constants";
 import { DatetimeProps, TypedDatetime } from "./forms";
 import { InlineIcon } from "./icons";
-import { TimeLeft } from "./TimeLeft";
+import { TimeLeft } from "./TimeLeft.unsafe";
 import { utcTime } from "./utils";
 
 import * as iconCalendar from "../../assets/img/inline_icons/calendar.svg";

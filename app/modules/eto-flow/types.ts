@@ -1,4 +1,4 @@
-import { TBookbuildingStatsType } from "../../lib/api/eto/EtoApi.interfaces";
+import { TBookbuildingStatsType } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 
 export interface IEtoFlowState {
   etoPreviewCode?: string;

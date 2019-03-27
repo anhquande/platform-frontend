@@ -7,7 +7,7 @@ import { ChartBars, IChartBarsData } from "../../shared/charts/ChartBars";
 import { HorizontalLine } from "../../shared/HorizontalLine";
 import { Panel } from "../../shared/Panel";
 import { TableBody } from "../../shared/table/TableBody";
-import { TableCell } from "../../shared/table/TableCell";
+import { TableCell } from "../../shared/table/TableCell.unsafe";
 import { TableHeader } from "../../shared/table/TableHeader";
 import { TableRow } from "../../shared/table/TableRow";
 

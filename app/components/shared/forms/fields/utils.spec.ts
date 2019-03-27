@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import * as Yup from "yup";
 
-import { isFieldRequired, isNonValid, isValid } from "./utils";
+import { isFieldRequired, isNonValid, isValid } from "./utils.unsafe";
 
 describe("Form utils", () => {
   describe("isValid", () => {

@@ -1,13 +1,13 @@
 import { delay } from "redux-saga";
 import { fork, put, race, select, take } from "redux-saga/effects";
 
-import { BrowserWalletErrorMessage } from "../../../components/translatedMessages/messages";
+import { BrowserWalletErrorMessage } from "../../../components/translatedMessages/messages.unsafe";
 import { BROWSER_WALLET_RECONNECT_INTERVAL } from "../../../config/constants";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import {
   BrowserWallet,
   BrowserWalletAccountApprovalRejectedError,
-} from "../../../lib/web3/BrowserWallet";
+} from "../../../lib/web3/browser-wallet/BrowserWallet";
 import { IAppState } from "../../../store";
 import { actions } from "../../actions";
 import { neuCall, neuTakeEvery } from "../../sagasUtils";

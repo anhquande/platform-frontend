@@ -28,7 +28,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-  onCancel: () => any;
+  onCancel: () => void;
 }
 
 type Props = IStateProps & IDispatchProps;

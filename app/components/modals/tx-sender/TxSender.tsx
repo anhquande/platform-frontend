@@ -1,44 +1,46 @@
 import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Modal } from "reactstrap";
 
 import { ITxData } from "../../../lib/web3/types";
 import { actions } from "../../../modules/actions";
-import { ETxSenderType } from "../../../modules/tx/interfaces";
 import { ETransactionErrorType, ETxSenderState } from "../../../modules/tx/sender/reducer";
-import { selectTxSenderModalOpened } from "../../../modules/tx/sender/selectors";
+import { selectTxSenderModalOpened, selectTxTimestamp } from "../../../modules/tx/sender/selectors";
+import { ETxSenderType } from "../../../modules/tx/types";
 import { appConnect } from "../../../store";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { QuintessenceModal } from "../bank-transfer-flow/QuintessenceModal";
-import { ModalComponentBody } from "../ModalComponentBody";
+import { Modal } from "../Modal";
 import { AccessWalletContainer } from "../wallet-access/AccessWalletModal";
-import { SetEtoDateSummary } from "./eto-flow/SetDateSummary";
-import { InvestmentSelection } from "./investment-flow/Investment";
+import { SetEtoDateSummary } from "./eto-flow/SetDateSummary.unsafe";
+import { SignInvestmentAgreementSummary } from "./eto-flow/SignInvestmentAgreementSummary";
+import { InvestmentSelection } from "./investment-flow/Investment.unsafe";
 import { InvestmentSuccess } from "./investment-flow/Success";
-import { InvestmentSummary } from "./investment-flow/Summary";
+import { InvestmentSummary } from "./investment-flow/Summary.unsafe";
 import { InvestorAcceptPayoutSuccess } from "./investor-payout/AcceptSuccess";
 import { InvestorAcceptPayoutSummary } from "./investor-payout/AcceptSummary";
 import { InvestorRedistributePayoutConfirm } from "./investor-payout/RedistributeConfirm";
 import { InvestorRedistributePayoutSuccess } from "./investor-payout/RedistributeSuccess";
 import { InvestorRedistributePayoutSummary } from "./investor-payout/RedistributeSummary";
-import { BankTransferRedeemInit } from "./redeem/BankTransferRedeemInit";
+import { BankTransferRedeemInit } from "./redeem/BankTransferRedeemInit.unsafe";
 import { BankTransferRedeemSuccess } from "./redeem/BankTransferRedeemSuccess";
 import { BankTransferRedeemSummary } from "./redeem/BankTransferRedeemSummary";
-import { ErrorMessage } from "./shared/ErrorMessage";
 import { SigningMessage } from "./shared/SigningMessage";
+import { TxError } from "./shared/TxError";
+import { TxExternalPending } from "./shared/TxExternalPending";
 import { TxPending } from "./shared/TxPending";
-import { WatchPendingTxs } from "./shared/WatchPeningTxs";
-import { UnlockWalletSummary } from "./unlock-wallet-flow/Summary";
-import { UpgradeSummary } from "./upgrade-flow/Summary";
+import { TxSuccess } from "./shared/TxSuccess";
+import { UnlockWalletSummary } from "./unlock-wallet-flow/Summary.unsafe";
+import { UpgradeSummary } from "./upgrade-flow/Summary.unsafe";
 import { UserClaimSuccess } from "./user-claim/Success";
-import { UserClaimSummary } from "./user-claim/Summary";
+import { UserClaimSummary } from "./user-claim/Summary.unsafe";
 import { WithdrawSuccess } from "./withdraw-flow/Success";
 import { WithdrawSummary } from "./withdraw-flow/Summary";
-import { Withdraw } from "./withdraw-flow/Withdraw";
+import { Withdraw } from "./withdraw-flow/Withdraw.unsafe";
 
 interface IStateProps {
   isOpen: boolean;
+  txTimestamp?: number;
   state: ETxSenderState;
   type?: ETxSenderType;
   details?: ITxData;
@@ -48,7 +50,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-  onCancel: () => any;
+  onCancel: () => void;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -58,7 +60,7 @@ function isBigModal(props: Props): boolean {
 }
 
 const TxSenderModalSelect: React.FunctionComponent<Props> = props => {
-  if (props.type !== ETxSenderType.NEUR_WITHDRAW) {
+  if (props.type !== ETxSenderType.NEUR_REDEEM) {
     return <TxSenderModalOuter {...props}>{props.children}</TxSenderModalOuter>;
   }
 
@@ -77,8 +79,8 @@ const TxSenderModalSelect: React.FunctionComponent<Props> = props => {
 };
 
 const TxSenderModalOuter: React.FunctionComponent<Props> = props => (
-  <Modal isOpen={props.isOpen} toggle={props.onCancel} className={cn({ big: isBigModal(props) })}>
-    <ModalComponentBody onClose={props.onCancel}>{props.children}</ModalComponentBody>
+  <Modal isOpen={props.isOpen} onClose={props.onCancel} className={cn({ big: isBigModal(props) })}>
+    {props.children}
   </Modal>
 );
 
@@ -96,7 +98,7 @@ const InitComponent: React.FunctionComponent<{ type?: ETxSenderType }> = ({ type
       return <Withdraw />;
     case ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT:
       return <InvestorRedistributePayoutConfirm />;
-    case ETxSenderType.NEUR_WITHDRAW:
+    case ETxSenderType.NEUR_REDEEM:
       return <BankTransferRedeemInit />;
     default:
       return <LoadingIndicator />;
@@ -119,37 +121,49 @@ const SummaryComponent: React.FunctionComponent<{ type?: ETxSenderType }> = ({ t
       return <InvestorRedistributePayoutSummary />;
     case ETxSenderType.UNLOCK_FUNDS:
       return <UnlockWalletSummary />;
-    case ETxSenderType.NEUR_WITHDRAW:
+    case ETxSenderType.NEUR_REDEEM:
       return <BankTransferRedeemSummary />;
+    case ETxSenderType.SIGN_INVESTMENT_AGREEMENT:
+      return <SignInvestmentAgreementSummary />;
     default:
       return <WithdrawSummary />;
   }
 };
 
-const SuccessComponent: React.FunctionComponent<{ type?: ETxSenderType; txHash?: string }> = ({
-  type,
-  txHash,
-}) => {
-  switch (type) {
+const SuccessComponent: React.FunctionComponent<{
+  type: ETxSenderType;
+  txHash: string;
+  txTimestamp: number;
+}> = props => {
+  switch (props.type) {
     case ETxSenderType.INVEST:
-      return <InvestmentSuccess txHash={txHash!} />;
+      return <InvestmentSuccess {...props} />;
     case ETxSenderType.USER_CLAIM:
-      return <UserClaimSuccess />;
+      return <UserClaimSuccess {...props} />;
     case ETxSenderType.INVESTOR_ACCEPT_PAYOUT:
-      return <InvestorAcceptPayoutSuccess />;
+      return <InvestorAcceptPayoutSuccess {...props} />;
     case ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT:
-      return <InvestorRedistributePayoutSuccess />;
-    case ETxSenderType.NEUR_WITHDRAW:
-      return <BankTransferRedeemSuccess txHash={txHash!} />;
+      return <InvestorRedistributePayoutSuccess {...props} />;
+    case ETxSenderType.NEUR_REDEEM:
+      return <BankTransferRedeemSuccess {...props} />;
+    case ETxSenderType.WITHDRAW:
+      return <WithdrawSuccess {...props} />;
     default:
-      return <WithdrawSuccess txHash={txHash!} />;
+      return <TxSuccess {...props} />;
   }
 };
 
-const TxSenderBody: React.FunctionComponent<Props> = ({ state, blockId, txHash, type, error }) => {
+const TxSenderBody: React.FunctionComponent<Props> = ({
+  state,
+  blockId,
+  txHash,
+  type,
+  error,
+  txTimestamp,
+}) => {
   switch (state) {
     case ETxSenderState.WATCHING_PENDING_TXS:
-      return <WatchPendingTxs txHash={txHash} blockId={blockId} />;
+      return <TxExternalPending txHash={txHash!} blockId={blockId} />;
 
     case ETxSenderState.INIT:
       if (!type) {
@@ -172,13 +186,25 @@ const TxSenderBody: React.FunctionComponent<Props> = ({ state, blockId, txHash, 
       return <SigningMessage />;
 
     case ETxSenderState.MINING:
-      return <TxPending blockId={blockId!} txHash={txHash!} type={type!} />;
+      if (!type) {
+        throw new Error("Transaction type needs to be set at transaction mining state");
+      }
+
+      return <TxPending blockId={blockId} txHash={txHash} type={type} />;
 
     case ETxSenderState.DONE:
-      return <SuccessComponent type={type} txHash={txHash!} />;
+      if (!type) {
+        throw new Error("Transaction type needs to be set at transaction success state");
+      }
+
+      return <SuccessComponent type={type} txHash={txHash!} txTimestamp={txTimestamp!} />;
 
     case ETxSenderState.ERROR_SIGN:
-      return <ErrorMessage type={error} />;
+      if (!type) {
+        throw new Error("Transaction type needs to be set at transaction error state");
+      }
+
+      return <TxError blockId={blockId} txHash={txHash!} type={type} error={error} />;
 
     default:
       return null;
@@ -193,6 +219,7 @@ const TxSenderModal = appConnect<IStateProps, IDispatchProps>({
     txHash: state.txSender.txHash,
     blockId: state.txSender.blockId,
     error: state.txSender.error,
+    txTimestamp: selectTxTimestamp(state),
   }),
   dispatchToProps: d => ({
     onCancel: () => d(actions.txSender.txSenderHideModal()),

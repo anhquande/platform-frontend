@@ -5,11 +5,11 @@ import { Col, Container, Row } from "reactstrap";
 import { compose } from "redux";
 
 import { etoCompaniesCards } from "../../data/etoCompanies";
-import { withContainer } from "../../utils/withContainer";
+import { withContainer } from "../../utils/withContainer.unsafe";
 import { LayoutUnauthorized } from "../layouts/LayoutUnauthorized";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutUnauthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutUnauthorized";
-import { EtoOfferingCard } from "./EtoOfferingCard";
+import { EtoOfferingCard } from "./EtoOfferingCard.unsafe";
 import { Features } from "./parts/Features";
 import { LandingFeatured } from "./parts/LandingFeatured";
 import { LandingHeader } from "./parts/LandingHeader";

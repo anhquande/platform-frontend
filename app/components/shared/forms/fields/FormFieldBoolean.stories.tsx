@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { FormFieldBoolean, FormRadioButton } from "./FormFieldBoolean";
-import { formWrapper } from "./testingUtils";
+import { formWrapper } from "./testingUtils.unsafe";
 
 storiesOf("forms/fields/FormFieldBoolean & FormRadioButton", module)
   .add(

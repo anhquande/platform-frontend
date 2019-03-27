@@ -4,8 +4,8 @@ import * as React from "react";
 import { compose } from "recompose";
 
 import { TFormikConnect } from "../../../../types";
-import { CheckboxLayout } from "../layouts/CheckboxLayout";
-import { IFormField, withFormField } from "./utils";
+import { CheckboxLayout } from "../layouts/CheckboxLayout.unsafe";
+import { IFormField, withFormField } from "./utils.unsafe";
 
 interface IFormFieldCheckboxGroupProps {
   name: string;
@@ -59,7 +59,8 @@ class FormFieldCheckbox extends React.Component<IFormFieldCheckboxProps> {
 class FormFieldCheckboxGroupLayout extends React.Component<
   IFormFieldCheckboxGroupProps & TFormikConnect
 > {
-  componentWillMount(): void {
+  constructor(props: IFormFieldCheckboxGroupProps & TFormikConnect) {
+    super(props);
     this.setDefaultValueIfNeeded();
   }
 

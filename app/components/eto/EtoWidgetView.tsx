@@ -11,8 +11,8 @@ import {
 } from "../../modules/public-etos/selectors";
 import { TEtoWithCompanyAndContract } from "../../modules/public-etos/types";
 import { appConnect } from "../../store";
-import { onEnterAction } from "../../utils/OnEnterAction";
-import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary";
+import { onEnterAction } from "../../utils/OnEnterAction.unsafe";
+import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { LoadingIndicator } from "../shared/loading-indicator";
 import { EtoOverviewStatus } from "./overview/EtoOverviewStatus";
 

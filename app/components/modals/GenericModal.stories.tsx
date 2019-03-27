@@ -2,9 +2,9 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { TestMessage } from "../translatedMessages/messages";
+import { TestMessage } from "../translatedMessages/messages.unsafe";
 import { createMessage } from "../translatedMessages/utils";
-import { GenericModalLayout } from "./GenericModal";
+import { GenericModalLayout } from "./GenericModal.unsafe";
 
 const title = createMessage(TestMessage.TEST_MESSAGE, {
   message: "C'mon, salty pants. you won't loot the quarter-deck.",

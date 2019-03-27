@@ -12,7 +12,7 @@ import {
   selectIsEuroUpgradeTargetSet,
 } from "../../../wallet/selectors";
 import { selectEthereumAddressWithChecksum } from "../../../web3/selectors";
-import { ETokenType } from "../../interfaces";
+import { ETokenType, ETxSenderType } from "../../types";
 
 export function* generateEuroUpgradeTransaction({
   contractsService,
@@ -86,9 +86,8 @@ export function* upgradeTransactionFlow(_: TGlobalDependencies, tokenType: EToke
   const generatedTxDetails: ITxData = yield neuCall(transactionGenerator);
   yield put(actions.txSender.setTransactionData(generatedTxDetails));
   yield put(
-    actions.txSender.txSenderContinueToSummary({
-      txData: generatedTxDetails,
-      additionalData: { tokenType },
+    actions.txSender.txSenderContinueToSummary<ETxSenderType.UPGRADE>({
+      tokenType,
     }),
   );
 }

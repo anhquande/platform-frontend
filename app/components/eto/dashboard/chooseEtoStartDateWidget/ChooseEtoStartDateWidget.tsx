@@ -13,17 +13,29 @@ import { isValidEtoStartDate } from "../../../../modules/eto-flow/utils";
 import { appConnect } from "../../../../store";
 import { ButtonArrowRight } from "../../../shared/buttons";
 import { DatePicker } from "../../../shared/DatePicker";
-import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary";
+import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
 import { FormError } from "../../../shared/forms";
 import { Panel } from "../../../shared/Panel";
-import { FancyTimeLeft, TimeLeft } from "../../../shared/TimeLeft";
-import { localTime, timeZone, utcTime, weekdayLocal, weekdayUTC } from "../../../shared/utils";
+import { FancyTimeLeft, TimeLeft } from "../../../shared/TimeLeft.unsafe";
+import {
+  calculateTimeLeft,
+  localTime,
+  timeZone,
+  utcTime,
+  weekdayLocal,
+  weekdayUTC,
+} from "../../../shared/utils";
 
 import * as styles from "../../EtoContentWidget.module.scss";
 
 interface IStateProps {
   etoDate?: Date;
+  minOffsetPeriod: BigNumber;
+}
+
+interface IChangeDateStateProps {
+  etoDate: Date;
   minOffsetPeriod: BigNumber;
 }
 
@@ -262,36 +274,60 @@ class DateChooser extends React.PureComponent<IDateChooserProps, IDateChooserSta
   }
 }
 
-const ChooseEtoStartDateWidgetComponent: React.ComponentType<
-  IStateProps & IDispatchProps
-> = props => {
+const ChangeDate: React.ComponentType<IChangeDateStateProps & IDispatchProps> = props => {
+  const timeLeft = calculateTimeLeft(props.etoDate, true) > 0;
+  return (
+    <>
+      <div className={styles.etoDateWrapper}>
+        {timeLeft && (
+          <>
+            <span className={styles.etoTimeLeftStart}>
+              <FormattedMessage id="eto.settings.set-eto-start-date-time-left" />:
+            </span>
+            <FancyTimeLeft finalTime={props.etoDate} asUtc={true} refresh={true} />
+          </>
+        )}
+        <table className={cn(styles.etoDate, { [styles.etoDateBold]: !timeLeft })}>
+          <tbody>
+            <tr>
+              <td>UTC:</td>
+              <td data-test-id="eto-settings-display-start-date-utc">
+                {`${weekdayUTC(props.etoDate)}, ${utcTime(props.etoDate)}`}
+              </td>
+            </tr>
+            <tr>
+              <td>{`${timeZone()}: `}</td>
+              <td>{`${weekdayLocal(props.etoDate)}, ${localTime(props.etoDate)}`}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <DateChooser {...props} />
+    </>
+  );
+};
+
+const SetNewDate: React.ComponentType<IStateProps & IDispatchProps> = props => (
+  <>
+    <FormattedHTMLMessage tagName="span" id="eto.settings.choose-eto-start-date" />
+    <DateChooser {...props} />
+  </>
+);
+
+const EtoStartDateWidgetComponent: React.ComponentType<IStateProps & IDispatchProps> = ({
+  etoDate,
+  ...props
+}) => {
   return (
     <Panel headerText={<FormattedMessage id="eto.settings.eto-start-date" />}>
       <div className={styles.content}>
         <p className={cn(styles.text, "pt-2")}>
           <FormattedMessage id="settings.choose-pre-eto-date.book-building-will-stop" />
         </p>
-        {props.etoDate ? (
-          <>
-            <div className={styles.etoDateWrapper}>
-              <span className={styles.etoTimeLeftStart}>
-                <FormattedMessage id="eto.settings.set-eto-start-date-time-left" />:
-              </span>
-              <FancyTimeLeft finalTime={props.etoDate} asUtc={true} refresh={true} />
-              <span className={styles.etoDate} data-test-id="eto-settings-display-start-date-utc">
-                {`UTC: ${weekdayUTC(props.etoDate)}, ${utcTime(props.etoDate)}`}
-              </span>
-              <span className={styles.etoDate}>
-                {`${timeZone()}: ${weekdayLocal(props.etoDate)}, ${localTime(props.etoDate)}`}
-              </span>
-            </div>
-            <DateChooser {...props} />
-          </>
+        {etoDate ? (
+          <ChangeDate etoDate={etoDate} {...props} />
         ) : (
-          <>
-            <FormattedHTMLMessage tagName="span" id="eto.settings.choose-eto-start-date" />
-            <DateChooser {...props} />
-          </>
+          <SetNewDate etoDate={etoDate} {...props} />
         )}
       </div>
     </Panel>
@@ -304,7 +340,7 @@ const ChooseEtoStartDateWidget = compose<React.FunctionComponent>(
     stateToProps: state => {
       const constants = selectPlatformTermsConstants(state);
       return {
-        etoDate: selectPreEtoStartDateFromContract(state), //new Date('Friday, 25 January 2019 18:13:00 GMT+00:00'),
+        etoDate: selectPreEtoStartDateFromContract(state),
         minOffsetPeriod: constants.DATE_TO_WHITELIST_MIN_DURATION,
       };
     },
@@ -315,6 +351,6 @@ const ChooseEtoStartDateWidget = compose<React.FunctionComponent>(
       },
     }),
   }),
-)(ChooseEtoStartDateWidgetComponent);
+)(EtoStartDateWidgetComponent);
 
-export { ChooseEtoStartDateWidgetComponent, ChooseEtoStartDateWidget };
+export { EtoStartDateWidgetComponent, ChooseEtoStartDateWidget };

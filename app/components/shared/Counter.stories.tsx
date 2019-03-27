@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { withMockedDate } from "../../utils/storybookHelpers";
-import { Counter } from "./Counter";
+import { withMockedDate } from "../../utils/storybookHelpers.unsafe";
+import { Counter } from "./Counter.unsafe";
 
 const hour = 3600000;
 const day = 24 * hour;

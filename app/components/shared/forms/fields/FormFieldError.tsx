@@ -3,7 +3,7 @@ import { FormikConsumer, getIn } from "formik";
 import * as React from "react";
 
 import { CommonHtmlProps, TTranslatedString } from "../../../../types";
-import { isNonValid } from "./utils";
+import { isNonValid } from "./utils.unsafe";
 
 import * as styles from "./FormFieldError.module.scss";
 

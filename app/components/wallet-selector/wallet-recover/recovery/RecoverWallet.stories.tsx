@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { EWalletType } from "../../../../modules/web3/types";
-import { withStore } from "../../../../utils/storeDecorator";
+import { withStore } from "../../../../utils/storeDecorator.unsafe";
 import { RecoverWallet, RecoveryProcessesComponent } from "./RecoverWallet";
 
 storiesOf("RecoveryProcesses", module)

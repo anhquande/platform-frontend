@@ -7,7 +7,7 @@ import { compose } from "redux";
 import {
   EtoLegalInformationType,
   TPartialCompanyEtoData,
-} from "../../../../lib/api/eto/EtoApi.interfaces";
+} from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { actions } from "../../../../modules/actions";
 import { selectIssuerCompany } from "../../../../modules/eto-flow/selectors";
 import { EEtoFormTypes } from "../../../../modules/eto-flow/types";
@@ -28,7 +28,7 @@ import {
   parseStringToInteger,
   removeEmptyKeyValueFields,
 } from "../../utils";
-import { EtoFormBase } from "../EtoFormBase";
+import { EtoFormBase } from "../EtoFormBase.unsafe";
 import { Section } from "../Shared";
 
 import * as styles from "../Shared.module.scss";
