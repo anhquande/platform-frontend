@@ -16,7 +16,7 @@ import { LightWallet } from "../light-wallet/LightWallet";
 import { IPersonalWallet } from "../PersonalWeb3";
 import { IEthereumNetworkConfig } from "../types";
 import { Web3Adapter } from "../Web3Adapter";
-import { Web3FactoryType } from "../Web3Batch/Web3Batch";
+import { Web3FactoryType } from "../Web3Factory/Web3Factory";
 
 const DEFAULT_UPPER_GAS_LIMIT = 2000000;
 const DEFAULT_LOWER_GAS_LIMIT = 21000;

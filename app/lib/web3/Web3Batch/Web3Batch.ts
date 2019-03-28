@@ -1,12 +1,15 @@
 import { interfaces } from "inversify";
 import * as Web3 from "web3";
 
-import { FAILED_REQUEST_WAIT_TIME, NUMBER_OF_ALLOWED_RETIRES } from "../../../config/constants";
 import { symbols } from "../../../di/symbols";
-import { SelectPropertyNames } from "../../../types";
-import { delay } from "../../../utils/delay";
 import { ILogger } from "../../dependencies/logger";
-import { NodeNotRespondingError } from "./errors";
+import {
+  Web3EthMethod,
+  Web3EthMethodNames,
+  Web3VersionMethod,
+  Web3VersionMethodNames,
+} from "../types";
+import { web3AutoRetry } from "../Web3Retry/Web3Retry";
 
 /**
  * Wrapper on top of web3 Batch API to execute batch request on the next event loop cycle
@@ -28,28 +31,17 @@ class Web3AutoExecuteBatch {
   }
 
   private execute = () => {
-    this.logger.info(`Number of web3 node rpc request batched: ${this.web3Batch.requests.length}`);
-    for (let retries = 0; retries < NUMBER_OF_ALLOWED_RETIRES; retries++) {
-      try {
-        this.web3Batch.execute();
-        this.web3Batch = undefined;
-        return;
-      } catch (e) {
-        delay(FAILED_REQUEST_WAIT_TIME);
-        continue;
-      }
+    try {
+      this.logger.info(
+        `Number of web3 node rpc request batched: ${this.web3Batch.requests.length}`,
+      );
+      web3AutoRetry(this.web3Batch.execute.bind(this.web3Batch));
+      this.web3Batch = undefined;
+    } catch (e) {
+      debugger;
     }
-    throw new NodeNotRespondingError(
-      `Failed to Connect to RPC Node after ${NUMBER_OF_ALLOWED_RETIRES} retries`,
-    );
   };
 }
-
-type Web3VersionMethodNames = SelectPropertyNames<Web3.VersionApi, Function>;
-type Web3VersionMethod = Web3.VersionApi[Web3VersionMethodNames];
-
-type Web3EthMethodNames = SelectPropertyNames<Web3.EthApi, Function>;
-type Web3EthMethod = Web3.EthApi[Web3EthMethodNames];
 
 /**
  * Extends Web3 by auto batching common ethereum RPC requests
@@ -57,20 +49,23 @@ type Web3EthMethod = Web3.EthApi[Web3EthMethodNames];
 class Web3Batch extends Web3 {
   batch: Web3AutoExecuteBatch;
 
-  constructor(provider: Web3.Provider, batchFactory: Web3BatchFactoryType, logger: ILogger) {
+  constructor(
+    provider: Web3.Provider,
+    batchFactory: Web3BatchFactoryType,
+    logger: ILogger,
+    batchMethods: { versionMethods: Web3VersionMethodNames[]; ethMethods: Web3EthMethodNames[] },
+  ) {
     super(provider);
 
     this.batch = batchFactory(this);
 
-    // List of web3.version methods which calls should be batched in one request when possible
-    const versionMethods: Web3VersionMethodNames[] = ["getNetwork"];
-    versionMethods.forEach(
+    batchMethods.versionMethods.forEach(
       method => (this.version[method] = this.forceBatchExecution(this.version[method])),
     );
 
-    // List of web3.eth methods which calls should be batched in one request when possible
-    const ethMethods: Web3EthMethodNames[] = ["call", "getCode", "getBalance"];
-    ethMethods.forEach(method => (this.eth[method] = this.forceBatchExecution(this.eth[method])));
+    batchMethods.ethMethods.forEach(
+      method => (this.eth[method] = this.forceBatchExecution(this.eth[method])),
+    );
 
     logger.info("Web3 node rpc requests auto batching enabled");
   }
@@ -86,18 +81,4 @@ const web3BatchFactory: (context: interfaces.Context) => Web3BatchFactoryType = 
   return (web3: Web3) => new Web3AutoExecuteBatch(web3, logger);
 };
 
-type Web3FactoryType = (provider: Web3.Provider) => Web3;
-
-const web3Factory: (context: interfaces.Context) => Web3FactoryType = context => {
-  const logger = context.container.get<ILogger>(symbols.logger);
-  const batchFactory = context.container.get<Web3BatchFactoryType>(symbols.web3BatchFactory);
-  return (provider: Web3.Provider) => new Web3Batch(provider, batchFactory, logger);
-};
-
-export {
-  Web3AutoExecuteBatch,
-  web3Factory,
-  Web3FactoryType,
-  web3BatchFactory,
-  Web3BatchFactoryType,
-};
+export { Web3AutoExecuteBatch, web3BatchFactory, Web3BatchFactoryType, Web3Batch };
