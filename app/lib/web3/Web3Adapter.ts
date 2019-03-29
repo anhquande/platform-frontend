@@ -34,7 +34,7 @@ enum TRANSACTION_STATUS {
 export class Web3Adapter {
   constructor(public readonly web3: Web3) {}
 
-  // Web3 Eth functions
+  // Web3 Eth methods
   private getAccountAddressFunction = promisify<EthereumAddress[]>(this.web3.eth.getAccounts);
   private getBalanceFunction = promisify<BigNumber>(this.web3.eth.getBalance);
   private estimateGasFunction = promisify<number>(this.web3.eth.estimateGas);
@@ -47,32 +47,32 @@ export class Web3Adapter {
   private sendRawTransactionFunction = promisify<string>(this.web3.eth.sendRawTransaction);
   private sendTransactionFunction = promisify<string>(this.web3.eth.sendTransaction);
   private getBlockNumberFunction = promisify<number>(this.web3.eth.getBlockNumber);
-  // Web3 Version Functions
-  private getNetwork = promisify<EthereumNetworkId>(this.web3.version.getNetwork);
+  // Web3 Version methods
+  private getNetwork = promisify<EthereumNetworkId>(this.web3.version.getNetwork.bind(this.web3));
 
   public async getNetworkId(): Promise<EthereumNetworkId> {
     // Check if method is already in the batching que
-    return versionMethodsToBatch.some(method => method === "getNetwork")
+    return (await versionMethodsToBatch.some(method => method === "getNetwork"))
       ? this.getNetwork()
-      : web3AutoRetry(this.getNetwork);
+      : web3AutoRetry(() => this.getNetwork());
   }
 
   public async getBalance(address: string): Promise<BigNumber> {
     return ethMethodsToBatch.some(method => method === "getBalance")
       ? this.getBalanceFunction(address)
-      : web3AutoRetry(this.getBalanceFunction, address);
+      : web3AutoRetry(() => this.getBalanceFunction(address));
   }
 
   public async estimateGas(txData: Partial<Web3.TxData>): Promise<number> {
     return ethMethodsToBatch.some(method => method === "estimateGas")
       ? this.estimateGasFunction(txData)
-      : web3AutoRetry(this.estimateGasFunction, txData);
+      : web3AutoRetry(() => this.estimateGasFunction(txData));
   }
 
   public async getAccountAddress(): Promise<EthereumAddress> {
     return ethMethodsToBatch.some(method => method === "getAccounts")
       ? (await this.getAccountAddressFunction())[0]
-      : (await web3AutoRetry(this.getAccountAddressFunction))[0];
+      : (await web3AutoRetry(() => this.getAccountAddressFunction()))[0];
   }
 
   // returns mixed case checksummed ethereum address according to: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
@@ -118,22 +118,22 @@ export class Web3Adapter {
   }
 
   public async getTransactionReceipt(txHash: string): Promise<Web3.TransactionReceipt | null> {
-    return await web3AutoRetry(this.getTransactionReceiptFunction, txHash);
+    return await web3AutoRetry(() => this.getTransactionReceiptFunction(txHash));
   }
 
   public async getTransactionByHash(txHash: string): Promise<Web3.Transaction> {
-    return await web3AutoRetry(this.getTransactionByHashFunction, txHash);
+    return await web3AutoRetry(() => this.getTransactionByHashFunction(txHash));
   }
 
   public async getTransactionCount(address: string): Promise<number> {
-    return await web3AutoRetry(this.getTransactionCountFunction, address);
+    return await web3AutoRetry(() => this.getTransactionCountFunction(address));
   }
 
   /**
    * This will ensure that txData has nonce value.
    */
   public async sendRawTransaction(txData: string): Promise<string> {
-    return await web3AutoRetry(this.sendRawTransactionFunction, txData);
+    return await web3AutoRetry(() => this.sendRawTransactionFunction(txData));
   }
 
   /**

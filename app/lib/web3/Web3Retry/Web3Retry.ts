@@ -9,11 +9,11 @@ const web3AutoRetry = async <T, P, K>(
 ): Promise<T> => {
   for (let i = 0; i < NUMBER_OF_ALLOWED_RETIRES; i++) {
     try {
+      debugger;
       const returnedValue = await web3Function(arg1, arg2);
+
       return returnedValue;
     } catch (e) {
-      debugger;
-
       if (e.contains("RPC")) {
         await delay(FAILED_REQUEST_WAIT_TIME);
         continue;
