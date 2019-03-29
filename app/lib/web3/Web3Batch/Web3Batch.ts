@@ -31,14 +31,15 @@ class Web3AutoExecuteBatch {
   }
 
   private execute = () => {
+    this.logger.info(`Number of web3 node rpc request batched: ${this.web3Batch.requests.length}`);
     try {
-      this.logger.info(
-        `Number of web3 node rpc request batched: ${this.web3Batch.requests.length}`,
+      web3AutoRetry(() => this.web3Batch.execute()).catch(e =>
+        this.logger.warn(`RPC Failed after a couple of attempts with error ${e}`),
       );
-      web3AutoRetry(this.web3Batch.execute.bind(this.web3Batch));
-      this.web3Batch = undefined;
     } catch (e) {
-      debugger;
+      this.logger.warn(`RPC Failed after a couple of attempts with error ${e}`);
+    } finally {
+      this.web3Batch = undefined;
     }
   };
 }

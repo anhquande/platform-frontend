@@ -52,7 +52,7 @@ export class Web3Adapter {
 
   public async getNetworkId(): Promise<EthereumNetworkId> {
     // Check if method is already in the batching que
-    return (await versionMethodsToBatch.some(method => method === "getNetwork"))
+    return versionMethodsToBatch.some(method => method === "getNetwork")
       ? this.getNetwork()
       : web3AutoRetry(() => this.getNetwork());
   }
