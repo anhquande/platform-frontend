@@ -3,18 +3,18 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Row } from "reactstrap";
 import { compose, setDisplayName, withHandlers } from "recompose";
 
-import { actions } from "../../modules/actions";
+import { actions } from "../../../modules/actions";
 import {
   IGenericModal,
   selectGenericModalComponent,
   selectGenericModalIsOpen,
   selectGenericModalObj,
-} from "../../modules/generic-modal/reducer";
-import { appConnect, AppDispatch } from "../../store";
-import { DeepReadonly } from "../../types";
-import { Button } from "../shared/buttons";
-import { getMessageTranslation } from "../translatedMessages/messages.unsafe";
-import { Modal } from "./Modal";
+} from "../../../modules/generic-modal/reducer";
+import { appConnect, AppDispatch } from "../../../store";
+import { DeepReadonly } from "../../../types";
+import { Button } from "../../shared/buttons";
+import { getMessageTranslation } from "../../translatedMessages/messages.unsafe";
+import { Modal } from "../Modal";
 
 import * as successIcon from "../../assets/img/notifications/success.svg";
 import * as warningIcon from "../../assets/img/notifications/warning.svg";

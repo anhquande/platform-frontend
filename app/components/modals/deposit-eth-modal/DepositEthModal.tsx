@@ -1,12 +1,12 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { actions } from "../../modules/actions";
-import { selectEthereumAddressWithChecksum } from "../../modules/web3/selectors";
-import { appConnect } from "../../store";
-import { AccountAddress } from "../shared/AccountAddress";
-import { EthereumQRCode } from "../shared/EthereumQRCode";
-import { Modal } from "./Modal";
+import { actions } from "../../../modules/actions";
+import { selectEthereumAddressWithChecksum } from "../../../modules/web3/selectors";
+import { appConnect } from "../../../store";
+import { AccountAddress } from "../../shared/AccountAddress";
+import { EthereumQRCode } from "../../shared/EthereumQRCode";
+import { Modal } from "../Modal";
 
 import * as styles from "./DepositEthModal.module.scss";
 

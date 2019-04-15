@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import { actions } from "../../modules/actions";
+import { actions } from "../../../modules/actions";
 import {
   IPersonProfileModal,
   selectIsOpen,
   selectPersonProfileModalObj,
-} from "../../modules/person-profile-modal/reducer";
-import { appConnect } from "../../store";
-import { DeepReadonly } from "../../types";
-import { ExternalLink } from "../shared/links";
-import { SlidePerson } from "../shared/SlidePerson";
-import { Modal } from "./Modal";
+} from "../../../modules/person-profile-modal/reducer";
+import { appConnect } from "../../../store";
+import { DeepReadonly } from "../../../types";
+import { ExternalLink } from "../../shared/links";
+import { SlidePerson } from "../../shared/SlidePerson";
+import { Modal } from "../Modal";
 
 import * as styles from "./PersonProfileModal.module.scss";
 
