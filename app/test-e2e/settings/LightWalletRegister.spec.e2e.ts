@@ -23,7 +23,7 @@ describe("Light wallet login / register", () => {
   it("should register user with light-wallet and send email", () => {
     const email = "moe@test.com";
     const password = "strongpassword";
-    makeScreenshots('balances');
+    makeScreenshots("balances");
 
     clearEmailServer();
 
