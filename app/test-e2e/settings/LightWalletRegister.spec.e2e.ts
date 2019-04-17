@@ -1,3 +1,4 @@
+import { makeScreenshots } from "../../../cypress/utils/utils/makeScreenshots";
 import {
   acceptTOS,
   assertButtonIsActive,
@@ -22,6 +23,7 @@ describe("Light wallet login / register", () => {
   it("should register user with light-wallet and send email", () => {
     const email = "moe@test.com";
     const password = "strongpassword";
+    makeScreenshots('balances');
 
     clearEmailServer();
 
