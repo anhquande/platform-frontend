@@ -93,9 +93,9 @@ jobs:
           no_output_timeout: 30m
       
       - persist_to_workspace:
-          root: /home/circleci/project
+          root: /home/circleci/app
           paths:
-            - cypress/screenshots
+            - ./cypress/screenshots
 
   codechecks-e2e:
     docker:
