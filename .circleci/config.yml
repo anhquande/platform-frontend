@@ -95,7 +95,7 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci/app
           paths:
-            - ./
+            - ./cypress/screenshots
 
   codechecks-e2e:
     docker:
