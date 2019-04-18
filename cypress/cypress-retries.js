@@ -14,8 +14,8 @@ const MAX_NUM_RUNS = 3;
 const DEFAULT_CONFIG = {
   // you can omit 'spec' if you just want all your tests to run
   spec: process.argv.some(arg => arg == "--chrome")
-    ? "**/*.spec.e2e.chrome.ts"
-    : "**/*.spec.e2e.ts",
+    ? "**/LightWalletRegister.spec.e2e.ts"
+    : "**/LightWalletRegister.spec.e2e.ts",
   browser: process.argv.some(arg => arg == "--chrome") ? "chrome" : "electron",
   record: true,
   taskTimeout: 240000,

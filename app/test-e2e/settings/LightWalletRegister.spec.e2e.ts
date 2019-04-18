@@ -28,6 +28,7 @@ describe("Light wallet login / register", () => {
     clearEmailServer();
 
     registerWithLightWallet(email, password);
+    makeScreenshots("something");
 
     assertWaitForLatestEmailSentWithSalt(email);
   });
@@ -37,8 +38,10 @@ describe("Light wallet login / register", () => {
     const password = "strongpassword";
 
     registerWithLightWallet(email, password);
+    makeScreenshots("something2");
 
     cy.get(tid("Header-logout")).awaitedClick();
+    makeScreenshots("something4");
 
     loginWithLightWallet(email, password);
 
