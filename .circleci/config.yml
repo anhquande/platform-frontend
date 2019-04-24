@@ -81,6 +81,9 @@ jobs:
       - attach_workspace:
           at: /home/circleci/app
       - checkout
+      - run: 
+          command: sudo ./scripts/log-memory.sh
+          background: true
       - run: ./.circleci/install-yarn.sh
       - restore_cache:
           keys:
