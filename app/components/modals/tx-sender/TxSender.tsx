@@ -7,6 +7,8 @@ import { actions } from "../../../modules/actions";
 import { ETransactionErrorType, ETxSenderState } from "../../../modules/tx/sender/reducer";
 import { selectTxSenderModalOpened, selectTxTimestamp } from "../../../modules/tx/sender/selectors";
 import { ETxSenderType } from "../../../modules/tx/types";
+import { selectWalletType } from "../../../modules/web3/selectors";
+import { EWalletType } from "../../../modules/web3/types";
 import { appConnect } from "../../../store";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { QuintessenceModal } from "../bank-transfer-flow/QuintessenceModal";
@@ -43,6 +45,7 @@ interface IStateProps {
   txTimestamp?: number;
   state: ETxSenderState;
   type?: ETxSenderType;
+  walletType?: EWalletType;
   details?: ITxData;
   blockId?: number;
   txHash?: string;
@@ -158,6 +161,7 @@ const TxSenderBody: React.FunctionComponent<Props> = ({
   blockId,
   txHash,
   type,
+  walletType,
   error,
   txTimestamp,
 }) => {
@@ -183,7 +187,11 @@ const TxSenderBody: React.FunctionComponent<Props> = ({
       );
 
     case ETxSenderState.SIGNING:
-      return <SigningMessage />;
+      return walletType && walletType === EWalletType.LIGHT ? (
+        <LoadingIndicator />
+      ) : (
+        <SigningMessage />
+      );
 
     case ETxSenderState.MINING:
       if (!type) {
@@ -214,6 +222,7 @@ const TxSenderBody: React.FunctionComponent<Props> = ({
 const TxSenderModal = appConnect<IStateProps, IDispatchProps>({
   stateToProps: state => ({
     isOpen: selectTxSenderModalOpened(state),
+    walletType: selectWalletType(state),
     state: state.txSender.state,
     type: state.txSender.type,
     txHash: state.txSender.txHash,
