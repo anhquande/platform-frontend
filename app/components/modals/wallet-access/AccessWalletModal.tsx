@@ -88,7 +88,7 @@ export const AccessWalletContainer = appConnect<IStateProps, IDispatchProps, IEx
       ? external.message
       : s.accessWallet.modalMessage && getMessageTranslation(s.accessWallet.modalMessage),
     inputLabel: s.accessWallet.inputLabel && getMessageTranslation(s.accessWallet.inputLabel),
-    walletType: selectWalletType(s.web3),
+    walletType: selectWalletType(s),
     isUnlocked: selectIsUnlocked(s.web3),
   }),
   dispatchToProps: dispatch => ({

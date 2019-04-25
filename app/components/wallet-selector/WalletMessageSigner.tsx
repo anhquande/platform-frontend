@@ -69,7 +69,8 @@ export const WalletMessageSigner = compose(
   appConnect<IStateProps, IDispatchProps, IOwnProps>({
     stateToProps: state => ({
       errorMsg: state.walletSelector.messageSigningError as TMessage,
-      walletType: selectWalletType(state.web3)!,
+      walletType: selectWalletType(state)!,
+      // TODO: Remove ! and add a fallback to MessageSignerComponent
     }),
     dispatchToProps: (dispatch, ownProps) => ({
       cancelSigning: () => {

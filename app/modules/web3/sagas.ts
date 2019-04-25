@@ -84,7 +84,7 @@ export function* personalWalletConnectionLost({ notificationCenter }: TGlobalDep
   const state: IAppState = yield select();
 
   const disconnectedWalletErrorMessage = () => {
-    switch (selectWalletType(state.web3)) {
+    switch (selectWalletType(state)) {
       case EWalletType.BROWSER:
         return createMessage(Web3Message.WEB3_ERROR_BROWSER);
       case EWalletType.LEDGER:

@@ -131,7 +131,7 @@ export function* connectWalletAndRunEffect(effect: Effect | Iterator<Effect>): a
   while (true) {
     try {
       const walletType: EWalletType | undefined = yield select((state: IAppState) =>
-        selectWalletType(state.web3),
+        selectWalletType(state),
       );
 
       if (walletType === EWalletType.LIGHT) {
