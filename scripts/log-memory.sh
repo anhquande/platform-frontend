@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-FILE=$CIRCLE_ARTIFACTS/memory-usage-actual.txt;
+FILE=/home/circleci/app/$CIRCLE_ARTIFACTS/memory-usage-actual.txt;
 
 while true; 
     do 

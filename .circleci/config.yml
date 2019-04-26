@@ -94,6 +94,9 @@ jobs:
       - run:
           command: source /opt/circleci/.nvm/nvm.sh && yarn test:e2e
           no_output_timeout: 30m
+      - store_artifacts:
+          path: $CIRCLE_ARTIFACTS/memory-usage-actual.txt;
+          when: always
 
   test-e2e-chrome:
     machine:
