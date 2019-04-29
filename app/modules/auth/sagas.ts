@@ -90,7 +90,12 @@ function* verifyUserEmail({ notificationCenter }: TGlobalDependencies): Iterator
 
   if (userEmail && userEmail !== urlEmail) {
     // Logout if there is different user session active
-    yield put(actions.auth.logout(undefined, true));
+
+    // We need to remove the queryString Params
+    // @SEE https://github.com/Neufund/platform-frontend/issues/2819
+    yield put(actions.routing.ReplaceHistoryAndGoToDashboard());
+
+    yield put(actions.auth.logout());
     yield notificationCenter.error(
       {
         messageType: AuthMessage.AUTH_EMAIL_VERIFICATION_FAILED_SAME_EMAIL,

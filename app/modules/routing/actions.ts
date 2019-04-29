@@ -1,4 +1,4 @@
-import { goBack, push } from "connected-react-router";
+import { goBack, push, replace } from "connected-react-router";
 import { LocationDescriptorObject, Path } from "history";
 
 import { appRoutes } from "../../components/appRoutes";
@@ -28,6 +28,7 @@ export const routingActions = {
 
   // dashboard
   goToDashboard: () => push(appRoutes.dashboard),
+  ReplaceHistoryAndGoToDashboard: () => replace(appRoutes.dashboard),
   goToProfile: () => push(appRoutes.profile),
 
   // registration
