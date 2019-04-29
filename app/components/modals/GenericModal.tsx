@@ -4,12 +4,13 @@ import { Row } from "reactstrap";
 import { compose, setDisplayName, withHandlers } from "recompose";
 
 import { actions } from "../../modules/actions";
+import { IGenericModal } from "../../modules/generic-modal/reducer";
 import {
-  IGenericModal,
   selectGenericModalComponent,
+  selectGenericModalComponentProps,
   selectGenericModalIsOpen,
   selectGenericModalObj,
-} from "../../modules/generic-modal/reducer";
+} from "../../modules/generic-modal/selectors";
 import { appConnect, AppDispatch } from "../../store";
 import { DeepReadonly } from "../../types";
 import { Button } from "../shared/buttons";
@@ -23,7 +24,8 @@ import * as styles from "./GenericModal.module.scss";
 interface IStateProps {
   isOpen: boolean;
   genericModalObj?: DeepReadonly<IGenericModal>;
-  component?: React.ComponentType<any>;
+  component?: React.ComponentType<{ closeModal: () => void }>;
+  componentProps?: object;
 }
 
 interface IHandlersProps {
@@ -36,8 +38,8 @@ interface IReduxProps {
 }
 
 export const genericModalIcons = {
-  check: <img src={successIcon} className={styles.icon} aria-hidden="true" />,
-  exclamation: <img src={warningIcon} className={styles.icon} aria-hidden="true" />,
+  check: <img src={successIcon} className={styles.icon} alt="" />,
+  exclamation: <img src={warningIcon} className={styles.icon} alt="" />,
 };
 
 const GenericModalLayout: React.FunctionComponent<IStateProps & IHandlersProps> = ({
@@ -46,11 +48,12 @@ const GenericModalLayout: React.FunctionComponent<IStateProps & IHandlersProps> 
   isOpen,
   genericModalObj,
   component: Component,
+  componentProps = {},
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={closeModal}>
       {Component ? (
-        <Component closeModal={closeModal} />
+        <Component closeModal={closeModal} {...componentProps} />
       ) : (
         <>
           <Row className="mt-5 justify-content-center">
@@ -87,9 +90,10 @@ const GenericModal = compose<IStateProps & IHandlersProps, {}>(
   setDisplayName("GenericModal"),
   appConnect<IStateProps>({
     stateToProps: state => ({
-      isOpen: selectGenericModalIsOpen(state.genericModal),
-      genericModalObj: selectGenericModalObj(state.genericModal),
-      component: selectGenericModalComponent(state.genericModal),
+      isOpen: selectGenericModalIsOpen(state),
+      genericModalObj: selectGenericModalObj(state),
+      component: selectGenericModalComponent(state),
+      componentProps: selectGenericModalComponentProps(state),
     }),
   }),
   withHandlers<IStateProps & IReduxProps, IHandlersProps>({

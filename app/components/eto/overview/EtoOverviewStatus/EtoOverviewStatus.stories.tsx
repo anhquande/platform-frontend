@@ -7,7 +7,7 @@ import {
   EETOStateOnChain,
   IEtoContractData,
   TEtoWithCompanyAndContract,
-} from "../../../../modules/public-etos/types";
+} from "../../../../modules/eto/types";
 import { withStore } from "../../../../utils/storeDecorator.unsafe";
 import { withMockedDate } from "../../../../utils/storybookHelpers.unsafe";
 import { EtoWidgetContext } from "../../EtoWidgetView";
@@ -38,8 +38,8 @@ const dummyNow = new Date("2018-10-16T05:03:56+00:00");
 storiesOf("ETO/EtoOverviewStatus", module)
   .addDecorator(
     withStore({
-      publicEtos: {
-        publicEtos: { [eto.previewCode]: eto },
+      eto: {
+        etos: { [eto.previewCode]: eto },
         companies: { [eto.companyId]: eto.company },
         contracts: { [eto.previewCode]: eto.contract },
       },

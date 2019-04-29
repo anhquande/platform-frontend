@@ -11,7 +11,7 @@ import { EUserType } from "../../lib/api/users/interfaces";
 import { actions } from "../../modules/actions";
 import { selectUserType } from "../../modules/auth/selectors";
 import { selectShouldEtoDataLoad } from "../../modules/eto-flow/selectors";
-import { selectGenericModalIsOpen } from "../../modules/generic-modal/reducer";
+import { selectGenericModalIsOpen } from "../../modules/generic-modal/selectors";
 import { selectIsClaimsVerified } from "../../modules/kyc/selectors";
 import { selectIsActionRequiredSettings } from "../../modules/notifications/selectors";
 import { appConnect } from "../../store";
@@ -275,7 +275,7 @@ const LayoutAuthorizedMenu = compose<IStateProps & IDispatchProps & IWithProps, 
       userType: selectUserType(state),
       actionRequiredSettings: selectIsActionRequiredSettings(state),
       shouldEtoDataLoad: selectShouldEtoDataLoad(state),
-      isIdentityModalOpened: selectGenericModalIsOpen(state.genericModal),
+      isIdentityModalOpened: selectGenericModalIsOpen(state),
       isClaimsVerified: selectIsClaimsVerified(state),
     }),
     dispatchToProps: dispatch => ({

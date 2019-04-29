@@ -31,7 +31,7 @@ export type TranslatedMessageType =
   | IpfsMessage
   | IcbmWalletMessage
   | ProfileMessage
-  | PublicEtosMessage
+  | EtoMessage
   | FileUploadMessage
   | RemoteFileMessage
   | Web3Message
@@ -142,7 +142,7 @@ export enum EtoDocumentsMessage {
   ETO_SUBMIT_SUCCESS = "etoSubmitSuccess",
 }
 
-export enum PublicEtosMessage {
+export enum EtoMessage {
   COULD_NOT_LOAD_ETO_PREVIEW = "couldNotLoadEtoPreview",
   COULD_NOT_LOAD_ETO = "couldNotLoadEto",
   COULD_NOT_LOAD_ETOS = "couldNotLoadEtos",
@@ -373,11 +373,11 @@ const getMessageTranslation = ({ messageType, messageData }: TMessage): TTransla
     case EtoDocumentsMessage.ETO_SUBMIT_SUCCESS:
       return <FormattedMessage id="eto.submit-success" />;
 
-    case PublicEtosMessage.COULD_NOT_LOAD_ETO_PREVIEW:
+    case EtoMessage.COULD_NOT_LOAD_ETO_PREVIEW:
       return <FormattedMessage id="eto.public-view.could-not-load-eto-preview" />;
-    case PublicEtosMessage.COULD_NOT_LOAD_ETO:
+    case EtoMessage.COULD_NOT_LOAD_ETO:
       return <FormattedMessage id="eto.public-view.could-not-load-eto" />;
-    case PublicEtosMessage.COULD_NOT_LOAD_ETOS:
+    case EtoMessage.COULD_NOT_LOAD_ETOS:
       return <FormattedMessage id="dashboard.could-not-load-etos" />;
 
     case IpfsMessage.IPFS_FAILED_TO_DOWNLOAD_IPFS_FILE:

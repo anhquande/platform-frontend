@@ -10,7 +10,7 @@ import {
   selectBookbuildingStats,
   selectMyPledge,
 } from "../../../../../modules/bookbuilding-flow/selectors";
-import { EETOStateOnChain } from "../../../../../modules/public-etos/types";
+import { EETOStateOnChain } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { onEnterAction } from "../../../../../utils/OnEnterAction";
 import { appRoutes } from "../../../../appRoutes";

@@ -129,7 +129,7 @@ const TagsWidget = compose<TLayoutProps, ITagsWidget>(
   appConnect<{}, TDispatchProps>({
     dispatchToProps: dispatch => ({
       downloadDocument: (document: IEtoDocument) =>
-        dispatch(actions.publicEtos.downloadPublicEtoDocument(document)),
+        dispatch(actions.eto.downloadEtoDocument(document)),
     }),
   }),
 )(TagsWidgetLayout);

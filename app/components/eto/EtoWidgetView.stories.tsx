@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { TEtoWithCompanyAndContract } from "../../modules/public-etos/types";
+import { TEtoWithCompanyAndContract } from "../../modules/eto/types";
 import { EtoWidget } from "./EtoWidgetView";
 
 storiesOf("ETO/EtoWidgetView", module).add("widget not found", () => (

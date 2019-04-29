@@ -5,11 +5,8 @@ import { Col } from "reactstrap";
 import { branch, compose, renderComponent } from "recompose";
 
 import { actions } from "../../modules/actions";
-import {
-  selectEtoWidgetError,
-  selectEtoWithCompanyAndContract,
-} from "../../modules/public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../modules/public-etos/types";
+import { selectEtoWidgetError, selectEtoWithCompanyAndContract } from "../../modules/eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../modules/eto/types";
 import { appConnect } from "../../store";
 import { onEnterAction } from "../../utils/OnEnterAction";
 import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
@@ -64,12 +61,12 @@ const EtoWidgetView = compose<TProps, IRouterParams>(
   appConnect<IStateProps, {}, IRouterParams>({
     stateToProps: (state, props) => ({
       eto: selectEtoWithCompanyAndContract(state, props.previewCode),
-      widgetError: selectEtoWidgetError(state.publicEtos),
+      widgetError: selectEtoWidgetError(state.eto),
     }),
   }),
   onEnterAction<IRouterParams>({
     actionCreator: (dispatch, props) => {
-      dispatch(actions.publicEtos.loadEtoPreview(props.previewCode, true));
+      dispatch(actions.eto.loadEtoPreview(props.previewCode, true));
     },
   }),
   branch<IStateProps>(props => !props.eto && !props.widgetError, renderComponent(LoadingIndicator)),

@@ -23,6 +23,7 @@ import {
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { onLeaveAction } from "../../../utils/OnLeaveAction";
+import { EColumnSpan } from "../../layouts/Container";
 import { Button, ButtonLink, EButtonLayout } from "../../shared/buttons";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { Panel } from "../../shared/Panel";
@@ -47,6 +48,7 @@ interface IStateProps {
 
 interface IOwnProps {
   step: number;
+  columnSpan?: EColumnSpan;
 }
 
 interface IDispatchProps {
@@ -263,11 +265,12 @@ export const KycStatusWidgetComponent: React.FunctionComponent<IKycStatusWidgetP
     isLoading,
     error,
     step,
+    columnSpan,
   } = props;
 
   return (
     <Panel
-      className="h-100"
+      columnSpan={columnSpan}
       headerText={<FormattedMessage id="settings.kyc-widget.header" values={{ step }} />}
       rightComponent={<StatusIcon {...props} />}
     >
@@ -280,11 +283,9 @@ export const KycStatusWidgetComponent: React.FunctionComponent<IKycStatusWidgetP
           </Row>
         </div>
       ) : error ? (
-        <section className={styles.panelBody}>
-          <WarningAlert>
-            <FormattedMessage id="settings.kyc-widget.error" />
-          </WarningAlert>
-        </section>
+        <WarningAlert>
+          <FormattedMessage id="settings.kyc-widget.error" />
+        </WarningAlert>
       ) : (
         <section className={cn(styles.section)}>
           <p className={cn(styles.text, "pt-2")}>

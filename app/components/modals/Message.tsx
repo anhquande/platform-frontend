@@ -1,11 +1,10 @@
 import * as cn from "classnames";
 import * as React from "react";
 
-import { TTranslatedString } from "../../types";
+import { TDataTestId, TTranslatedString } from "../../types";
 import { EHeadingSize, Heading } from "../shared/Heading";
 
 type TProps = {
-  "data-test-id"?: string;
   title?: TTranslatedString;
   titleClassName?: string;
   hint?: TTranslatedString;
@@ -13,7 +12,7 @@ type TProps = {
   image?: React.ReactNode;
 };
 
-const Message: React.FunctionComponent<TProps> = ({
+const Message: React.FunctionComponent<TProps & TDataTestId> = ({
   "data-test-id": dataTestId,
   titleClassName,
   image,

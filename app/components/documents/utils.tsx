@@ -7,7 +7,7 @@ import {
   TEtoDocumentTemplates,
   TStateInfo,
 } from "../../lib/api/eto/EtoFileApi.interfaces";
-import { EETOStateOnChain } from "../../modules/public-etos/types";
+import { EETOStateOnChain } from "../../modules/eto/types";
 import { DeepReadonly } from "../../types";
 
 export const getDocumentTitles = (isRetailEto: boolean) => ({

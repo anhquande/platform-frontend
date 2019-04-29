@@ -1,4 +1,4 @@
-import { genericModalIcons } from "../../components/modals/GenericModal.unsafe";
+import { genericModalIcons } from "../../components/modals/GenericModal";
 import { TMessage } from "../../components/translatedMessages/utils";
 import { AppActionTypes, AppReducer } from "../../store";
 import { DeepReadonly } from "../../types";
@@ -6,7 +6,8 @@ import { DeepReadonly } from "../../types";
 export interface IGenericModalState {
   isOpen: boolean;
   genericModalObj?: IGenericModal;
-  component?: React.ComponentType<any>;
+  component?: React.ComponentType<{ closeModal?: () => void }>;
+  componentProps?: object;
 }
 
 //Add more custom icons here
@@ -22,6 +23,8 @@ export interface IGenericModal {
 
 const initialState: IGenericModalState = {
   isOpen: false,
+  component: undefined,
+  componentProps: undefined,
 };
 
 export const genericModalReducer: AppReducer<IGenericModalState> = (
@@ -40,6 +43,7 @@ export const genericModalReducer: AppReducer<IGenericModalState> = (
         ...state,
         isOpen: true,
         component: action.payload.component,
+        componentProps: action.payload.props,
       };
     case "GENERIC_MODAL_HIDE":
       return initialState;
@@ -47,12 +51,3 @@ export const genericModalReducer: AppReducer<IGenericModalState> = (
 
   return state;
 };
-
-export const selectGenericModalIsOpen = (state: DeepReadonly<IGenericModalState>): boolean =>
-  state.isOpen;
-export const selectGenericModalObj = (
-  state: DeepReadonly<IGenericModalState>,
-): DeepReadonly<IGenericModal> | undefined => state.genericModalObj;
-export const selectGenericModalComponent = (
-  state: DeepReadonly<IGenericModalState>,
-): React.ComponentType<any> | undefined => state.component;

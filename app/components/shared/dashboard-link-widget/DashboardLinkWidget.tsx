@@ -3,6 +3,7 @@ import * as H from "history";
 import * as React from "react";
 
 import { TTranslatedString } from "../../../types";
+import { EColumnSpan } from "../../layouts/Container";
 import { ButtonArrowRight, ButtonLink } from "../buttons";
 import { Panel } from "../Panel";
 
@@ -14,6 +15,7 @@ interface IProps {
   to: H.LocationDescriptor;
   buttonText: TTranslatedString;
   buttonTid?: string;
+  columnSpan?: EColumnSpan;
 }
 
 export const DashboardLinkWidget: React.FunctionComponent<IProps> = ({
@@ -22,9 +24,10 @@ export const DashboardLinkWidget: React.FunctionComponent<IProps> = ({
   to,
   buttonText,
   buttonTid,
+  columnSpan,
 }) => {
   return (
-    <Panel headerText={title}>
+    <Panel headerText={title} columnSpan={columnSpan}>
       <div className={styles.content}>
         <p className={cn(styles.text, "pt-2")}>{text}</p>
         <div className="d-flex justify-content-center">

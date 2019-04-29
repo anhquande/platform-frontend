@@ -1,7 +1,9 @@
 import BigNumber from "bignumber.js";
 
 import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { Overwrite } from "../../types";
+import { isPastInvestment } from "../investor-portfolio/utils";
 import {
   EETOStateOnChain,
   IEtoTotalInvestment,
@@ -61,3 +63,6 @@ export function isOnChain(
 > {
   return eto.state === EEtoState.ON_CHAIN && eto.contract !== undefined;
 }
+
+export const isRestricedEto = (eto: TEtoWithCompanyAndContract): boolean =>
+  eto.product.jurisdiction === EJurisdiction.GERMANY && !isPastInvestment(eto.contract!.timedState);

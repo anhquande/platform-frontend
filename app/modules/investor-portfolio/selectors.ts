@@ -9,9 +9,9 @@ import { getShareAndTokenPrice } from "../../lib/api/eto/EtoUtils";
 import { IAppState } from "../../store";
 import { compareBigNumbers } from "../../utils/BigNumberUtils";
 import { isZero } from "../../utils/Number.utils";
-import { selectPublicEtoById, selectPublicEtos, selectTokenData } from "../public-etos/selectors";
-import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../public-etos/types";
-import { isOnChain } from "../public-etos/utils";
+import { selectEtoById, selectEtos, selectTokenData } from "../eto/selectors";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../eto/types";
+import { isOnChain } from "../eto/utils";
 import { selectLockedWalletConnected } from "../wallet/selectors";
 import { ICalculatedContribution, TETOWithInvestorTicket, TETOWithTokenData } from "./types";
 import { getRequiredIncomingAmount, isPastInvestment } from "./utils";
@@ -40,7 +40,7 @@ export const selectHasInvestorTicket = (state: IAppState, etoId: string) => {
 export const selectEtoWithInvestorTickets = (
   state: IAppState,
 ): TETOWithInvestorTicket[] | undefined => {
-  const etos = selectPublicEtos(state);
+  const etos = selectEtos(state);
   if (etos) {
     return etos
       .filter(isOnChain)
@@ -56,7 +56,7 @@ export const selectEtoWithInvestorTickets = (
 };
 
 export const selectMyAssets = (state: IAppState): TEtoWithCompanyAndContract[] | undefined => {
-  const etos = selectPublicEtos(state);
+  const etos = selectEtos(state);
 
   if (etos) {
     return etos.filter(eto => eto.contract && eto.contract.timedState === EETOStateOnChain.Payout);
@@ -119,7 +119,7 @@ export const selectEquityTokenCountByEtoId = (state: IAppState, etoId: string) =
 };
 
 export const selectCalculatedEtoTicketSizesUlpsById = (state: IAppState, etoId: string) => {
-  const eto = selectPublicEtoById(state, etoId);
+  const eto = selectEtoById(state, etoId);
   const contrib = selectCalculatedContribution(state, etoId);
   const investorTicket = selectInvestorTicket(state, etoId);
 
@@ -176,7 +176,7 @@ export const selectMyAssetsWithTokenData = (state: IAppState): TETOWithTokenData
   if (myAsssets) {
     return myAsssets.map((asset: TEtoWithCompanyAndContract) => ({
       ...asset,
-      tokenData: selectTokenData(state.publicEtos, asset.previewCode)!,
+      tokenData: selectTokenData(state.eto, asset.previewCode)!,
     }));
   }
 

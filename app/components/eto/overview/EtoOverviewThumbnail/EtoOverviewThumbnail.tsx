@@ -5,11 +5,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, withProps } from "recompose";
 
 import { EEtoState } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import { selectIsEligibleToPreEto } from "../../../../modules/investor-portfolio/selectors";
-import {
-  EETOStateOnChain,
-  TEtoWithCompanyAndContract,
-} from "../../../../modules/public-etos/types";
 import { appConnect } from "../../../../store";
 import { CommonHtmlProps } from "../../../../types";
 import { withParams } from "../../../../utils/withParams";

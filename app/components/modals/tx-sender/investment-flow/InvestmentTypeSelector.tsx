@@ -1,34 +1,45 @@
 import * as cn from "classnames";
 import * as React from "react";
+import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, FormGroup } from "reactstrap";
 
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { getCurrencyByInvestmentType } from "../../../../modules/investment-flow/utils";
+import { ETokenType } from "../../../../modules/tx/types";
 import { ERoundingMode } from "../../../../utils/Money.utils";
+import { Button, ButtonWidth, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
 import { CurrencyIcon } from "../../../shared/icons/CurrencyIcon";
 import { ECurrency, Money } from "../../../shared/Money.unsafe";
 
 import * as styles from "./InvestmentTypeSelector.module.scss";
 
-interface IEthWallet {
-  type: EInvestmentType.ICBMEth | EInvestmentType.Eth;
-  balanceEth: string;
+interface IWalletBase {
   balanceEur: string;
+  icbmBalanceEur?: string;
   name: string;
+  enabled?: boolean;
+  hasFunds?: boolean;
 }
 
-interface InEuroWallet {
+interface IEthWallet extends IWalletBase {
+  type: EInvestmentType.ICBMEth | EInvestmentType.Eth;
+  balanceEth: string;
+  icbmBalanceEth?: string;
+}
+
+interface InEuroWallet extends IWalletBase {
   type: EInvestmentType.ICBMnEuro | EInvestmentType.NEur;
   balanceNEuro: string;
-  balanceEur: string;
-  name: string;
+  icbmBalanceNEuro?: string;
 }
+
 export type WalletSelectionData = IEthWallet | InEuroWallet;
 
 interface IProps {
   wallets: WalletSelectionData[];
   currentType?: EInvestmentType;
   onSelect: (type: EInvestmentType) => void;
+  startUpgradeFlow: (token: ETokenType) => void;
 }
 
 const WalletBalance: React.FunctionComponent<WalletSelectionData> = wallet => (
@@ -47,14 +58,14 @@ const WalletBalanceValues: React.FunctionComponent<WalletSelectionData> = wallet
         <>
           <Money
             currency={ECurrency.ETH}
-            value={wallet.balanceEth}
+            value={wallet.enabled ? wallet.balanceEth : wallet.icbmBalanceEth}
             roundingMode={ERoundingMode.DOWN}
           />
           <div className={styles.balanceEur}>
             ={" "}
             <Money
               currency={ECurrency.EUR}
-              value={wallet.balanceEur}
+              value={wallet.enabled ? wallet.balanceEur : wallet.icbmBalanceEur}
               roundingMode={ERoundingMode.DOWN}
             />
           </div>
@@ -67,14 +78,14 @@ const WalletBalanceValues: React.FunctionComponent<WalletSelectionData> = wallet
         <>
           <Money
             currency={ECurrency.EUR_TOKEN}
-            value={wallet.balanceNEuro}
+            value={wallet.enabled ? wallet.balanceNEuro : wallet.icbmBalanceNEuro}
             roundingMode={ERoundingMode.DOWN}
           />
           <div className={styles.balanceEur}>
             ={" "}
             <Money
               currency={ECurrency.EUR}
-              value={wallet.balanceEur}
+              value={wallet.enabled ? wallet.balanceEur : wallet.icbmBalanceEur}
               roundingMode={ERoundingMode.DOWN}
             />
           </div>
@@ -85,11 +96,14 @@ const WalletBalanceValues: React.FunctionComponent<WalletSelectionData> = wallet
 
 export class InvestmentTypeSelector extends React.Component<IProps> {
   render(): React.ReactNode {
-    const { wallets, currentType, onSelect } = this.props;
+    const { wallets, currentType, onSelect, startUpgradeFlow } = this.props;
     return (
       <div className={styles.container}>
         {wallets.map(wallet => {
           const checked = currentType === wallet.type;
+          const token =
+            wallet.type === EInvestmentType.ICBMnEuro ? ETokenType.EURO : ETokenType.ETHER;
+
           return (
             <Col md="6" key={wallet.type}>
               <FormGroup>
@@ -101,6 +115,7 @@ export class InvestmentTypeSelector extends React.Component<IProps> {
                     type="radio"
                     name="investmentType"
                     value={wallet.type}
+                    disabled={!wallet.enabled}
                     data-test-id={`investment-type.selector.${wallet.type}`}
                   />
                   <div className={styles.box}>
@@ -108,7 +123,23 @@ export class InvestmentTypeSelector extends React.Component<IProps> {
                       currency={getCurrencyByInvestmentType(wallet.type)}
                       className={styles.icon}
                     />
-                    <div className={styles.label}>{wallet.name}</div>
+                    <div className={styles.label}>
+                      {wallet.name}
+                      {!wallet.enabled && (
+                        <Button
+                          layout={EButtonLayout.SIMPLE}
+                          theme={"green"}
+                          className={styles.enableIcbm}
+                          width={ButtonWidth.BLOCK}
+                          innerClassName="justify-content-end"
+                          onClick={() => startUpgradeFlow(token)}
+                          data-test-id={`investment-type.selector.${wallet.type}.enable-wallet`}
+                        >
+                          <FormattedMessage id="investment-flow.enable-icbm-wallet" />
+                        </Button>
+                      )}
+                    </div>
+
                     <WalletBalance {...wallet} />
                   </div>
                 </label>

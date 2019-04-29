@@ -1,6 +1,6 @@
 $loading-indicator-color: #333;
 
-@keyframes cuve {
+@keyframes curve {
   0% {
     background-color: darken($neu-piss-yellow, 20%);
     transform: rotateY(-90deg) perspective(50px);

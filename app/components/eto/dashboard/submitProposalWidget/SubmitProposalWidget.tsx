@@ -6,6 +6,7 @@ import { compose } from "redux";
 
 import { actions } from "../../../../modules/actions";
 import { appConnect } from "../../../../store";
+import { EColumnSpan } from "../../../layouts/Container";
 import { ButtonArrowRight } from "../../../shared/buttons";
 import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
@@ -17,11 +18,18 @@ interface IDispatchProps {
   submitProposal: () => void;
 }
 
-export const SubmitProposalWidgetComponent: React.FunctionComponent<IDispatchProps> = ({
-  submitProposal,
-}) => {
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
+}
+
+export const SubmitProposalWidgetComponent: React.FunctionComponent<
+  IDispatchProps & IExternalProps
+> = ({ submitProposal, columnSpan }) => {
   return (
-    <Panel headerText={<FormattedMessage id="settings.submit-your-proposal.header" />}>
+    <Panel
+      headerText={<FormattedMessage id="settings.submit-your-proposal.header" />}
+      columnSpan={columnSpan}
+    >
       <div className={styles.content}>
         <p className={cn(styles.text, "pt-2")}>
           <FormattedMessage id="settings.submit-proposal-widget.completed-fields" />
@@ -36,7 +44,7 @@ export const SubmitProposalWidgetComponent: React.FunctionComponent<IDispatchPro
   );
 };
 
-export const SubmitProposalWidget = compose<React.FunctionComponent>(
+export const SubmitProposalWidget = compose<React.FunctionComponent<IExternalProps>>(
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IDispatchProps>({
     dispatchToProps: dispatch => ({

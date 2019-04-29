@@ -4,6 +4,7 @@ import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { externalRoutes } from "../../../config/externalRoutes";
 import { CommonHtmlProps } from "../../../types";
 import { isZero } from "../../../utils/Number.utils";
+import { EColumnSpan } from "../../layouts/Container";
 import { AccountBalance } from "../../shared/AccountBalance";
 import { ECurrency } from "../../shared/Money.unsafe";
 import { VerifiedBankAccount } from "../VerifiedBankAccount";
@@ -21,7 +22,13 @@ interface IUnlockedNEURWallet {
   isUserFullyVerified: boolean;
 }
 
-export const UnlockedNEURWallet: React.FunctionComponent<IUnlockedNEURWallet & CommonHtmlProps> = ({
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
+}
+
+export const UnlockedNEURWallet: React.FunctionComponent<
+  IUnlockedNEURWallet & CommonHtmlProps & IExternalProps
+> = ({
   onPurchase,
   onRedeem,
   neuroAmount,
@@ -29,8 +36,10 @@ export const UnlockedNEURWallet: React.FunctionComponent<IUnlockedNEURWallet & C
   className,
   isUserFullyVerified,
   onVerify,
+  columnSpan,
 }) => (
   <WalletBalanceContainer
+    columnSpan={columnSpan}
     className={className}
     headerText={<FormattedMessage id="components.wallet.start.neur-wallet" />}
   >

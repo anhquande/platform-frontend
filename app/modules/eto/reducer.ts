@@ -4,8 +4,8 @@ import { DeepReadonly } from "../../types";
 import { actions } from "../actions";
 import { IEtoContractData, IEtoTokenData } from "./types";
 
-export interface IPublicEtoState {
-  publicEtos: { [previewCode: string]: TEtoSpecsData | undefined };
+export interface IEtoState {
+  etos: { [previewCode: string]: TEtoSpecsData | undefined };
   companies: { [companyId: string]: TCompanyEtoData | undefined };
   contracts: { [previewCode: string]: IEtoContractData };
   displayOrder: string[] | undefined;
@@ -14,8 +14,8 @@ export interface IPublicEtoState {
   tokenData: { [previewCode: string]: IEtoTokenData | undefined };
 }
 
-export const etoFlowInitialState: IPublicEtoState = {
-  publicEtos: {},
+export const etoFlowInitialState: IEtoState = {
+  etos: {},
   companies: {},
   contracts: {},
   displayOrder: undefined,
@@ -24,16 +24,16 @@ export const etoFlowInitialState: IPublicEtoState = {
   tokenData: {},
 };
 
-export const publicEtosReducer: AppReducer<IPublicEtoState> = (
+export const etoReducer: AppReducer<IEtoState> = (
   state = etoFlowInitialState,
   action,
-): DeepReadonly<IPublicEtoState> => {
+): DeepReadonly<IEtoState> => {
   switch (action.type) {
-    case actions.publicEtos.setPublicEtos.getType():
+    case actions.eto.setEtos.getType():
       return {
         ...state,
-        publicEtos: {
-          ...state.publicEtos,
+        etos: {
+          ...state.etos,
           ...action.payload.etos,
         },
         companies: {
@@ -41,11 +41,11 @@ export const publicEtosReducer: AppReducer<IPublicEtoState> = (
           ...action.payload.companies,
         },
       };
-    case actions.publicEtos.setPublicEto.getType():
+    case actions.eto.setEto.getType():
       return {
         ...state,
-        publicEtos: {
-          ...state.publicEtos,
+        etos: {
+          ...state.etos,
           [action.payload.eto.previewCode]: action.payload.eto,
         },
         companies: {
@@ -55,12 +55,12 @@ export const publicEtosReducer: AppReducer<IPublicEtoState> = (
             : {}),
         },
       };
-    case actions.publicEtos.setEtosDisplayOrder.getType():
+    case actions.eto.setEtosDisplayOrder.getType():
       return {
         ...state,
         displayOrder: action.payload.order,
       };
-    case actions.publicEtos.setEtoDataFromContract.getType():
+    case actions.eto.setEtoDataFromContract.getType():
       return {
         ...state,
         contracts: {
@@ -68,12 +68,12 @@ export const publicEtosReducer: AppReducer<IPublicEtoState> = (
           [action.payload.previewCode]: action.payload.data,
         },
       };
-    case actions.publicEtos.setEtoWidgetError.getType():
+    case actions.eto.setEtoWidgetError.getType():
       return {
         ...state,
         etoWidgetError: true,
       };
-    case actions.publicEtos.setTokenData.getType():
+    case actions.eto.setTokenData.getType():
       return {
         ...state,
         tokenData: {

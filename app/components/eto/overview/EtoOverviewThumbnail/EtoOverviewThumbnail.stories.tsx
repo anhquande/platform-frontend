@@ -5,10 +5,7 @@ import * as React from "react";
 import { testEto } from "../../../../../test/fixtures";
 import { EEtoState } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IBookBuildingStats } from "../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
-import {
-  EETOStateOnChain,
-  TEtoWithCompanyAndContract,
-} from "../../../../modules/public-etos/types";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import { withStore } from "../../../../utils/storeDecorator.unsafe";
 import { withMockedDate } from "../../../../utils/storybookHelpers.unsafe";
 import { EtoOverviewStatusLayout } from "./EtoOverviewThumbnail";
@@ -50,8 +47,8 @@ const withEto = ({
   props?: Partial<React.ComponentProps<typeof EtoOverviewStatusLayout>>;
 }) =>
   withStore({
-    publicEtos: {
-      publicEtos: { [eto.previewCode]: eto },
+    eto: {
+      etos: { [eto.previewCode]: eto },
       companies: { [eto.companyId]: eto.company },
       contracts: { [eto.previewCode]: eto.contract },
     },

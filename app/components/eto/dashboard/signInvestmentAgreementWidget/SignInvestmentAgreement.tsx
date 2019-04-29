@@ -15,6 +15,7 @@ import {
 import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
 import { investmentAgreementNotSigned } from "../../../documents/utils";
+import { EColumnSpan } from "../../../layouts/Container";
 import { ButtonArrowRight } from "../../../shared/buttons/Button.unsafe";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { LoadingIndicator } from "../../../shared/loading-indicator/LoadingIndicator";
@@ -33,8 +34,12 @@ interface IStateProps {
   signedInvestmentAgreementUrl: string | null;
 }
 
-export const WaitingForNominee = () => (
-  <Panel>
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
+}
+
+export const WaitingForNominee: React.FunctionComponent<IExternalProps> = ({ columnSpan }) => (
+  <Panel columnSpan={columnSpan}>
     <Heading size={EHeadingSize.SMALL} level={4}>
       <FormattedMessage id="download-agreement-widget.wait-for-nominee-to-sign" />
     </Heading>
@@ -53,13 +58,14 @@ interface IWaitingToBeSigned {
   signInvestmentAgreement: (etoId: string, ipfsHash: string) => void;
 }
 
-export const WaitingToBeSigned = ({
+export const WaitingToBeSigned: React.FunctionComponent<IWaitingToBeSigned & IExternalProps> = ({
   etoId,
   ipfsHash,
   signedInvestmentAgreementUrl,
   signInvestmentAgreement,
-}: IWaitingToBeSigned) => (
-  <Panel>
+  columnSpan,
+}) => (
+  <Panel columnSpan={columnSpan}>
     <Heading size={EHeadingSize.SMALL} level={4}>
       <FormattedMessage id="download-agreement-widget.sign-on-ethereum" />
     </Heading>
@@ -82,21 +88,28 @@ export const WaitingToBeSigned = ({
 );
 
 export const SignInvestmentAgreementLayout: React.FunctionComponent<
-  IStateProps & IDispatchProps
-> = ({ etoId, signedInvestmentAgreementUrl, uploadedAgreement, signInvestmentAgreement }) => {
+  IStateProps & IDispatchProps & IExternalProps
+> = ({
+  etoId,
+  signedInvestmentAgreementUrl,
+  uploadedAgreement,
+  signInvestmentAgreement,
+  columnSpan,
+}) => {
   return investmentAgreementNotSigned(signedInvestmentAgreementUrl, uploadedAgreement.ipfsHash) ? (
     <WaitingToBeSigned
       etoId={etoId}
       ipfsHash={uploadedAgreement.ipfsHash}
       signedInvestmentAgreementUrl={signedInvestmentAgreementUrl}
       signInvestmentAgreement={signInvestmentAgreement}
+      columnSpan={columnSpan}
     />
   ) : (
-    <WaitingForNominee />
+    <WaitingForNominee columnSpan={columnSpan} />
   );
 };
 
-export const SignInvestmentAgreement = compose<React.FunctionComponent>(
+export const SignInvestmentAgreement = compose<React.FunctionComponent<IExternalProps>>(
   appConnect<IStateProps | null, IDispatchProps>({
     stateToProps: state => {
       const uploadedAgreement = selectUploadedInvestmentAgreement(state);

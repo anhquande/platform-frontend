@@ -29,12 +29,13 @@ export const WalletBalanceContainer: React.FunctionComponent<
     CommonHtmlProps & {
       data?: IWalletValues;
     }
-> = ({ headerText, data, className, children }) => {
+> = ({ headerText, data, className, children, columnSpan }) => {
   return (
     <Panel
       headerText={headerText}
       rightComponent={data && <TotalEuro totalEurValue={data.totalEuroAmount} />}
       className={cn(className, "d-flex flex-column")}
+      columnSpan={columnSpan}
     >
       <div className={styles.wrapper}>{children}</div>
     </Panel>

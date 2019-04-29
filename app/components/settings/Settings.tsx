@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Row } from "reactstrap";
 import { compose } from "redux";
 
 import { EKycRequestType, ERequestStatus } from "../../lib/api/KycApi.interfaces";
@@ -15,8 +14,11 @@ import {
 import { selectIsLightWallet } from "../../modules/web3/selectors";
 import { appConnect } from "../../store";
 import { onEnterAction } from "../../utils/OnEnterAction";
+import { withContainer } from "../../utils/withContainer.unsafe";
 import { withMetaTags } from "../../utils/withMetaTags.unsafe";
 import { DashboardSection } from "../eto/shared/DashboardSection";
+import { Container, EColumnSpan } from "../layouts/Container";
+import { WidgetGridLayout } from "../layouts/Layout";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
@@ -25,6 +27,8 @@ import { CheckYourICBMWalletWidget } from "./icbm-wallet-widget/CheckYourICBMWal
 import { LinkedBankAccountWidget } from "./linked-bank-account/LinkedBankAccountWidget";
 import { PersonalAccountDetails } from "./personal-account-details/PersonalAccountDetails";
 import { SettingsWidgets } from "./settings-widget/SettingsWidgets";
+
+import * as layoutStyles from "../layouts/Layout.module.scss";
 
 interface IStateProps {
   isLightWallet: boolean;
@@ -49,39 +53,37 @@ export const SettingsComponent: React.FunctionComponent<IStateProps> = ({
   const isIndividual = kycRequestType === EKycRequestType.INDIVIDUAL;
 
   return (
-    <LayoutAuthorized>
-      <Row className="row-gutter-top" data-test-id="eto-profile">
-        <DashboardSection title={<FormattedMessage id="settings.security-settings.title" />} />
-        <SettingsWidgets isDynamic={false} isLightWallet={isLightWallet} />
+    <WidgetGridLayout className={layoutStyles.layoutOffset} data-test-id="eto-profile">
+      <Container columnSpan={EColumnSpan.THREE_COL}>
+        <DashboardSection
+          title={<FormattedMessage id="settings.security-settings.title" />}
+          data-test-id="eto-dashboard-application"
+        />
+      </Container>
+      <SettingsWidgets
+        isDynamic={false}
+        isLightWallet={isLightWallet}
+        columnSpan={EColumnSpan.ONE_AND_HALF_COL}
+      />
+      <Container columnSpan={EColumnSpan.THREE_COL}>
+        <DashboardSection
+          title={<FormattedMessage id="settings.account-info.title" />}
+          data-test-id="eto-dashboard-application"
+        />
+      </Container>
+      <YourEthereumAddressWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+      {process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED === "1" &&
+        !isIcbmWalletConnected &&
+        !isLockedWalletConnected &&
+        isUserInvestor && <CheckYourICBMWalletWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />}
 
-        <DashboardSection title={<FormattedMessage id="settings.account-info.title" />} />
-
-        <Col lg={4} xs={12}>
-          <YourEthereumAddressWidget />
-        </Col>
-        {process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED === "1" &&
-          !isIcbmWalletConnected &&
-          !isLockedWalletConnected &&
-          isUserInvestor && (
-            <Col lg={4} xs={12}>
-              <CheckYourICBMWalletWidget />
-            </Col>
-          )}
-
-        {isUserInvestor &&
-          isIndividual &&
-          isPersonalDataProcessed && (
-            <Col lg={4} xs={12}>
-              <PersonalAccountDetails />
-            </Col>
-          )}
-      </Row>
-      <Row className="row-gutter-top">
-        <Col lg={4} xs={12}>
-          <LinkedBankAccountWidget />
-        </Col>
-      </Row>
-    </LayoutAuthorized>
+      {isUserInvestor &&
+        isIndividual &&
+        isPersonalDataProcessed && (
+          <PersonalAccountDetails columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+        )}
+      <LinkedBankAccountWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+    </WidgetGridLayout>
   );
 };
 
@@ -103,5 +105,6 @@ export const Settings = compose<React.FunctionComponent>(
       dispatch(actions.kyc.kycLoadIndividualData());
     },
   }),
+  withContainer(LayoutAuthorized),
   withMetaTags((_, intl) => ({ title: intl.formatIntlMessage("menu.settings") })),
 )(SettingsComponent);

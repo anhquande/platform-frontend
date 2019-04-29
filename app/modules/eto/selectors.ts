@@ -2,13 +2,13 @@ import { find } from "lodash/fp";
 
 import { IAppState } from "../../store";
 import { DeepReadonly } from "../../types";
-import { IPublicEtoState } from "./reducer";
+import { IEtoState } from "./reducer";
 import { EETOStateOnChain, IEtoTokenData, TEtoWithCompanyAndContract } from "./types";
 
-const selectPublicEtosState = (state: IAppState) => state.publicEtos;
+const selectEtoState = (state: IAppState) => state.eto;
 
 const selectEtoPreviewCode = (state: IAppState, etoId: string) => {
-  const eto = find(eto => eto!.etoId === etoId, state.publicEtos.publicEtos);
+  const eto = find(eto => eto!.etoId === etoId, state.eto.etos);
 
   if (eto) {
     return eto.previewCode;
@@ -18,7 +18,7 @@ const selectEtoPreviewCode = (state: IAppState, etoId: string) => {
 };
 
 export const selectEtoTokenName = (state: IAppState, etoId: string) => {
-  const eto = find(eto => eto!.etoId === etoId, state.publicEtos.publicEtos);
+  const eto = find(eto => eto!.etoId === etoId, state.eto.etos);
 
   if (eto) {
     return eto.equityTokenName;
@@ -27,25 +27,24 @@ export const selectEtoTokenName = (state: IAppState, etoId: string) => {
   return undefined;
 };
 
-export const selectPublicEto = (state: IAppState, previewCode: string) =>
-  state.publicEtos.publicEtos[previewCode];
+export const selectEto = (state: IAppState, previewCode: string) => state.eto.etos[previewCode];
 
-export const selectPublicEtoById = (state: IAppState, etoId: string) => {
-  return state.publicEtos.publicEtos[selectEtoPreviewCode(state, etoId)!];
+export const selectEtoById = (state: IAppState, etoId: string) => {
+  return state.eto.etos[selectEtoPreviewCode(state, etoId)!];
 };
 
 export const selectEtoWithCompanyAndContract = (
   state: IAppState,
   previewCode: string,
 ): TEtoWithCompanyAndContract | undefined => {
-  const publicEtosState = selectPublicEtosState(state);
-  const eto = publicEtosState.publicEtos[previewCode];
+  const etoState = selectEtoState(state);
+  const eto = etoState.etos[previewCode];
 
   if (eto) {
     return {
       ...eto,
-      company: publicEtosState.companies[eto.companyId]!,
-      contract: publicEtosState.contracts[previewCode],
+      company: etoState.companies[eto.companyId]!,
+      contract: etoState.contracts[previewCode],
     };
   }
 
@@ -65,11 +64,11 @@ export const selectEtoWithCompanyAndContractById = (
   return undefined;
 };
 
-export const selectPublicEtos = (state: IAppState): TEtoWithCompanyAndContract[] | undefined => {
-  const publicEtosState = selectPublicEtosState(state);
+export const selectEtos = (state: IAppState): TEtoWithCompanyAndContract[] | undefined => {
+  const etoState = selectEtoState(state);
 
-  if (publicEtosState.displayOrder) {
-    return publicEtosState.displayOrder
+  if (etoState.displayOrder) {
+    return etoState.displayOrder
       .map(id => selectEtoWithCompanyAndContract(state, id)!)
       .filter(Boolean);
   }
@@ -81,7 +80,7 @@ export const selectEtoOnChainState = (
   state: IAppState,
   previewCode: string,
 ): EETOStateOnChain | undefined => {
-  const contracts = state.publicEtos.contracts[previewCode];
+  const contracts = state.eto.contracts[previewCode];
   return contracts && contracts.timedState;
 };
 
@@ -102,7 +101,7 @@ export const selectEtoOnChainNextStateStartDate = (
   return undefined;
 };
 
-export const selectEtoWidgetError = (state: DeepReadonly<IPublicEtoState>): boolean | undefined => {
+export const selectEtoWidgetError = (state: DeepReadonly<IEtoState>): boolean | undefined => {
   return state.etoWidgetError;
 };
 
@@ -115,7 +114,7 @@ export const selectEtoOnChainStateById = (
 };
 
 export const selectTokenData = (
-  state: DeepReadonly<IPublicEtoState>,
+  state: DeepReadonly<IEtoState>,
   previewCode: string,
 ): IEtoTokenData | undefined => {
   return state.tokenData[previewCode];

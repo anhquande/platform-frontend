@@ -38,15 +38,13 @@ export function* signInUser({
     // tslint:disable-next-line
     walletStorage.set(web3Manager.personalWallet!.getMetadata(), userType);
 
-    const redirectionUrl = yield select((state: IAppState) =>
-      selectRedirectURLFromQueryString(state.router),
-    );
+    const redirectionUrl = yield select(selectRedirectURLFromQueryString);
 
     // For other open browser pages
     yield userStorage.set(REGISTRATION_LOGIN_DONE);
 
     if (redirectionUrl) {
-      yield put(actions.routing.goTo(redirectionUrl));
+      yield put(actions.routing.push(redirectionUrl));
     } else {
       yield put(actions.routing.goToDashboard());
     }

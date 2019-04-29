@@ -6,7 +6,7 @@ import { Q18 } from "../../../config/constants";
 import * as etoUtils from "../../../lib/api/eto/EtoUtils";
 import { IAppState } from "../../../store";
 import { convertToBigInt } from "../../../utils/Number.utils";
-import * as publicEtoSelectors from "../../public-etos/selectors";
+import * as etoSelectors from "../../eto/selectors";
 import { IInvestorTicketsState } from "../reducer";
 import * as investorTicketSelectors from "../selectors";
 import { ITokenDisbursal } from "../types";
@@ -14,7 +14,7 @@ import { ITokenDisbursal } from "../types";
 describe("investor-portfolio > selectors", () => {
   describe("selectCalculatedEtoTicketSizesById", () => {
     beforeEach(() => {
-      sinon.stub(publicEtoSelectors, "selectPublicEtoById").returns({
+      sinon.stub(etoSelectors, "selectEtoById").returns({
         minTicketEur: 10,
         maxTicketEur: 1000,
       });
@@ -27,7 +27,7 @@ describe("investor-portfolio > selectors", () => {
     });
 
     afterEach(() => {
-      (publicEtoSelectors.selectPublicEtoById as sinon.SinonStub).restore();
+      (etoSelectors.selectEtoById as sinon.SinonStub).restore();
       (investorTicketSelectors.selectInvestorTicket as sinon.SinonStub).restore();
       (investorTicketSelectors.selectCalculatedContribution as sinon.SinonStub).restore();
       (etoUtils.getShareAndTokenPrice as sinon.SinonStub).restore();
@@ -40,7 +40,7 @@ describe("investor-portfolio > selectors", () => {
       investorTicketSelectors.selectCalculatedEtoTicketSizesUlpsById;
 
     it("returns undefined if not eto or calculatedContribution are found", () => {
-      (publicEtoSelectors.selectPublicEtoById as sinon.SinonStub).returns(undefined);
+      (etoSelectors.selectEtoById as sinon.SinonStub).returns(undefined);
       (investorTicketSelectors.selectCalculatedContribution as sinon.SinonStub).returns(undefined);
       // tslint:disable-next-line:no-unused-expression
       expect(selectCalculatedEtoTicketSizesUlpsById(state, etoId)).to.be.undefined;

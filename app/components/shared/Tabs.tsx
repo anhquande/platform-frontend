@@ -91,7 +91,7 @@ class Tabs extends React.Component<ITabsProps & CommonHtmlProps> {
     }
 
     return (
-      <div>
+      <>
         <div className={cn(styles.tabsWrapper, layoutSize, className)}>
           <div className={cn(styles.tabsOverflowWrapper, layoutPosition)}>
             {children.map((child, index) => {
@@ -100,7 +100,7 @@ class Tabs extends React.Component<ITabsProps & CommonHtmlProps> {
           </div>
         </div>
         {children[activeIndex]}
-      </div>
+      </>
     );
   }
 }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { compose } from "recompose";
+import { compose } from "redux";
 
 import { actions } from "../../../modules/actions";
 import { selectIsUserFullyVerified } from "../../../modules/auth/selectors";
@@ -11,6 +11,7 @@ import { TBankAccount } from "../../../modules/kyc/types";
 import { appConnect } from "../../../store";
 import { DeepReadonly } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
+import { EColumnSpan } from "../../layouts/Container";
 import { Button, ButtonSize, EButtonLayout } from "../../shared/buttons";
 import { Panel } from "../../shared/Panel";
 import { BankAccount } from "../../wallet/BankAccount";
@@ -27,6 +28,10 @@ interface IStateProps {
   bankAccount?: DeepReadonly<TBankAccount>;
   isBankAccountVerified: boolean;
   isUserFullyVerified: boolean;
+}
+
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
 }
 
 type IComponentProps = IStateProps & IDispatchProps;
@@ -51,8 +56,13 @@ const LinkAccount: React.FunctionComponent<IComponentProps> = ({
   </>
 );
 
-const LinkedBankAccountComponent: React.FunctionComponent<IComponentProps> = props => (
-  <Panel headerText={<FormattedMessage id="linked-bank-account-widget.header" />}>
+const LinkedBankAccountComponent: React.FunctionComponent<
+  IComponentProps & IExternalProps
+> = props => (
+  <Panel
+    headerText={<FormattedMessage id="linked-bank-account-widget.header" />}
+    columnSpan={props.columnSpan}
+  >
     <section className={styles.panelBody}>
       {props.isBankAccountVerified && props.bankAccount && props.bankAccount.hasBankAccount ? (
         <BankAccount details={props.bankAccount.details} />
@@ -75,7 +85,7 @@ const LinkedBankAccountComponent: React.FunctionComponent<IComponentProps> = pro
   </Panel>
 );
 
-const LinkedBankAccountWidget = compose<IComponentProps, {}>(
+const LinkedBankAccountWidget = compose<React.FunctionComponent<IExternalProps>>(
   onEnterAction({
     actionCreator: dispatch => {
       dispatch(actions.kyc.loadBankAccountDetails());

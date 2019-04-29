@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { EETOStateOnChain, TEtoStartOfStates } from "../../../modules/public-etos/types";
+import { EETOStateOnChain, TEtoStartOfStates } from "../../../modules/eto/types";
 import { TTranslatedString } from "../../../types";
 
 import * as styles from "./EtoTimeline.module.scss";

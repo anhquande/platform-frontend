@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { LocationDescriptorObject, Path } from "history";
 
 import { appRoutes } from "../../components/appRoutes";
@@ -7,54 +7,51 @@ import { recoverRoutes } from "../../components/wallet-selector/wallet-recover/r
 import { walletRoutes } from "../../components/wallet/routes";
 import { createActionFactory } from "../actionsUtils";
 
-const createRoutingAction = (location: Path | LocationDescriptorObject) => push(location as any);
-
 export const routingActions = {
   // navigation primitives
-  goBack: createActionFactory("GO_BACK"),
-  goTo: (location: Path | LocationDescriptorObject) => createRoutingAction(location),
+  goBack,
+  push: (location: Path | LocationDescriptorObject) => push(location as any),
 
   // default routes
-  goHome: () => createRoutingAction(appRoutes.root),
-  goEtoHome: () => createRoutingAction(appRoutes.etoLanding),
+  goHome: () => push(appRoutes.root),
+  goEtoHome: () => push(appRoutes.etoLanding),
 
   //kyc routes
-  goToKYCHome: () => createRoutingAction(kycRoutes.start),
-  goToKYCIndividualStart: () => createRoutingAction(kycRoutes.individualStart),
-  goToKYCIndividualDocumentVerification: () =>
-    createRoutingAction(kycRoutes.individualDocumentVerification),
-  goToKYCIndividualUpload: () => createRoutingAction(kycRoutes.individualUpload),
+  goToKYCHome: () => push(kycRoutes.start),
+  goToKYCIndividualStart: () => push(kycRoutes.individualStart),
+  goToKYCIndividualDocumentVerification: () => push(kycRoutes.individualDocumentVerification),
+  goToKYCIndividualUpload: () => push(kycRoutes.individualUpload),
 
-  goToKYCLegalRepresentative: () => createRoutingAction(kycRoutes.legalRepresentative),
-  goToKYCBusinessData: () => createRoutingAction(kycRoutes.businessData),
-  goToKYCBeneficialOwners: () => createRoutingAction(kycRoutes.beneficialOwners),
+  goToKYCLegalRepresentative: () => push(kycRoutes.legalRepresentative),
+  goToKYCBusinessData: () => push(kycRoutes.businessData),
+  goToKYCBeneficialOwners: () => push(kycRoutes.beneficialOwners),
 
   // dashboard
-  goToDashboard: () => createRoutingAction(appRoutes.dashboard),
-  goToProfile: () => createRoutingAction(appRoutes.profile),
+  goToDashboard: () => push(appRoutes.dashboard),
+  goToProfile: () => push(appRoutes.profile),
 
   // registration
-  goToRegister: () => createRoutingAction(appRoutes.register),
+  goToRegister: () => push(appRoutes.register),
 
   // login
-  goToLogin: () => createRoutingAction(appRoutes.login),
-  goToEtoLogin: () => createRoutingAction(appRoutes.loginEto),
+  goToLogin: () => push(appRoutes.login),
+  goToEtoLogin: () => push(appRoutes.loginEto),
 
   // Successful password recovery
-  goToSuccessfulRecovery: () => createRoutingAction(recoverRoutes.success),
+  goToSuccessfulRecovery: () => push(recoverRoutes.success),
 
   // wallet
-  goToWallet: () => createRoutingAction(appRoutes.wallet),
+  goToWallet: () => push(appRoutes.wallet),
 
   // deposit founds
-  goToDepositEuroToken: () => createRoutingAction(walletRoutes.euroToken),
-  goToDepositEth: () => createRoutingAction(walletRoutes.eth),
+  goToDepositEuroToken: () => push(walletRoutes.euroToken),
+  goToDepositEth: () => push(walletRoutes.eth),
 
   // external paths
   openInNewWindow: createActionFactory("OPEN_IN_NEW_WINDOW", (path: string) => ({ path })),
 
   // Portfolio
-  goToPortfolio: () => createRoutingAction(appRoutes.portfolio),
+  goToPortfolio: () => push(appRoutes.portfolio),
 
   // other...
 };

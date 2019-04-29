@@ -4,15 +4,21 @@ $_logo-size-sm: 80px;
 .cover {
   @include get-out-of-container-layout;
 
-  margin-bottom: $spacing-vertical-lg-1;
+  @include media-breakpoint-up(lg) {
+    margin-top: -2rem;
+  }
+
+  margin-top: -1rem;
 
   img {
     user-select: none;
+    object-fit: cover;
   }
+
 }
 
 .company-details {
-  @include responsive-size(margin-top, $_logo-size-sm *  -1.15, $_logo-size-xl * -1.15);
+  @include responsive-size(margin-top, $_logo-size-sm *  -1.35, $_logo-size-xl * -1.15);
 
   @include media-breakpoint-up(md) {
     flex-direction: row;
@@ -39,6 +45,7 @@ $_logo-size-sm: 80px;
 
   flex-shrink: 0;
   overflow: hidden;
+  object-fit: cover;
 }
 
 .details {

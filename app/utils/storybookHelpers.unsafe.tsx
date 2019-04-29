@@ -3,8 +3,8 @@ import * as React from "react";
 
 import { Modal } from "../components/modals/Modal";
 
-export const withModalBody = () => (story: any) => (
-  <Modal isOpen={true} onClose={() => {}}>
+export const withModalBody = (className?: string) => (story: any) => (
+  <Modal isOpen={true} onClose={() => {}} className={className}>
     {story()}
   </Modal>
 );

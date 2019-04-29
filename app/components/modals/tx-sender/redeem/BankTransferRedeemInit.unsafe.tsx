@@ -26,8 +26,15 @@ import { FormMaskedInput } from "../../../shared/forms/fields/FormMaskedInput.un
 import { generateMaskFromCurrency } from "../../../shared/forms/fields/utils.unsafe";
 import { Form } from "../../../shared/forms/Form";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
-import { ECurrency, EMoneyFormat, getFormattedMoney } from "../../../shared/Money.unsafe";
+import {
+  ECurrency,
+  ECurrencySymbol,
+  EMoneyFormat,
+  getFormattedMoney,
+  Money,
+} from "../../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../../shared/MoneySuiteWidget";
+import { Tooltip } from "../../../shared/tooltips/Tooltip";
 import { VerifiedBankAccount } from "../../../wallet/VerifiedBankAccount";
 import { CalculatedFee } from "./CalculatedFee";
 import { TotalRedeemed } from "./TotalRedeemed";
@@ -158,10 +165,30 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
               mask={generateMaskFromCurrency(ECurrency.EUR)}
             />
             <section className={cn(styles.section, "mt-4")}>
-              <Heading level={3} decorator={false} size={EHeadingSize.SMALL}>
-                <FormattedMessage id="bank-transfer.redeem.init.redeem-fee" />
-              </Heading>
-
+              <Tooltip
+                content={
+                  <FormattedMessage
+                    id="bank-transfer.redeem.init.redeem-fee.tooltip"
+                    values={{
+                      //  value is stored as decimal fraction Ulps formatted number
+                      // to get percentage value we have to multiply ba 100
+                      // ex value, convertToBigNumber(0.005) * 100 = 0.5%
+                      fee: (
+                        <Money
+                          value={new BigNumber(bankFee).mul(100)}
+                          format={EMoneyFormat.ULPS}
+                          currency={ECurrency.EUR}
+                          currencySymbol={ECurrencySymbol.NONE}
+                        />
+                      ),
+                    }}
+                  />
+                }
+              >
+                <Heading level={3} decorator={false} size={EHeadingSize.SMALL}>
+                  <FormattedMessage id="bank-transfer.redeem.init.redeem-fee" />
+                </Heading>
+              </Tooltip>
               <span className="text-warning">
                 {"-"} {isValid && <CalculatedFee bankFee={bankFee} amount={values.amount} />}
               </span>
@@ -174,11 +201,7 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
                 {isValid ? <TotalRedeemed bankFee={bankFee} amount={values.amount} /> : "-"}
               </span>
             </section>
-            <VerifiedBankAccount
-              className="w-100 mb-3"
-              withBorder={true}
-              onVerify={verifyBankAccount}
-            />
+            <VerifiedBankAccount withBorder={true} onVerify={verifyBankAccount} />
             <p className="text-warning mx-4 text-center">
               <FormattedMessage id="bank-transfer.redeem.init.note" />
             </p>

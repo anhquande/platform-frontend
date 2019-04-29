@@ -5,6 +5,7 @@ import * as Web3Utils from "web3-utils";
 
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
+import { EColumnSpan } from "../../layouts/Container";
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { Form, FormFieldColorful } from "../../shared/forms";
 import { Panel } from "../../shared/Panel";
@@ -15,6 +16,10 @@ import * as styles from "./CheckYourICBMWalletWidget.module.scss";
 
 interface IDispatchProps {
   loadICBMWallet: (address: string) => void;
+}
+
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
 }
 
 class FormContent extends React.Component {
@@ -45,9 +50,9 @@ class FormContent extends React.Component {
   }
 }
 
-export const CheckYourICBMWalletWidgetComponent: React.FunctionComponent<IDispatchProps> = ({
-  loadICBMWallet,
-}) => {
+export const CheckYourICBMWalletWidgetComponent: React.FunctionComponent<
+  IExternalProps & IDispatchProps
+> = ({ loadICBMWallet, columnSpan }) => {
   return (
     <Panel
       headerText={
@@ -59,7 +64,7 @@ export const CheckYourICBMWalletWidgetComponent: React.FunctionComponent<IDispat
           />
         </>
       }
-      className="h-100"
+      columnSpan={columnSpan}
       data-test-id="models.profile.icbm-wallet-widget.check-your-icbm-wallet-widget"
     >
       <Formik<{ address: string }>
@@ -78,7 +83,7 @@ export const CheckYourICBMWalletWidgetComponent: React.FunctionComponent<IDispat
   );
 };
 
-export const CheckYourICBMWalletWidget = appConnect<{}, IDispatchProps>({
+export const CheckYourICBMWalletWidget = appConnect<IDispatchProps>({
   dispatchToProps: dispatch => ({
     loadICBMWallet: (address: string) => {
       dispatch(actions.icbmWalletBalanceModal.getWalletData(address));

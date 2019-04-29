@@ -11,9 +11,9 @@ import {
 } from "../../../lib/api/eto/EtoFileApi.interfaces";
 import { ImmutableFileId } from "../../../lib/api/ImmutableStorage.interfaces";
 import { actions } from "../../../modules/actions";
+import { selectEtoWithCompanyAndContractById } from "../../../modules/eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { selectIsPendingDownload } from "../../../modules/immutable-file/selectors";
-import { selectEtoWithCompanyAndContractById } from "../../../modules/public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
 import { appConnect } from "../../../store";
 import { getDocumentTitles } from "../../documents/utils";
 import {

@@ -18,9 +18,9 @@ import { DeepReadonly } from "../../types";
 import { selectIsUserEmailVerified } from "../auth/selectors";
 import { selectPlatformTermsConstants } from "../contracts/selectors";
 import { selectEtoDocumentsLoading } from "../eto-documents/selectors";
+import { selectEto, selectEtoWithCompanyAndContract } from "../eto/selectors";
+import { EETOStateOnChain } from "../eto/types";
 import { selectKycRequestStatus } from "../kyc/selectors";
-import { selectEtoWithCompanyAndContract, selectPublicEto } from "../public-etos/selectors";
-import { EETOStateOnChain } from "../public-etos/types";
 import { isValidEtoStartDate, sortProducts } from "./utils";
 
 export const selectIssuerEtoFlow = (state: IAppState) => state.etoFlow;
@@ -30,7 +30,7 @@ export const selectIssuerEtoPreviewCode = (state: IAppState) => state.etoFlow.et
 export const selectIssuerEto = (state: IAppState) => {
   const issuerEtoPreviewCode = selectIssuerEtoPreviewCode(state);
   if (issuerEtoPreviewCode) {
-    return selectPublicEto(state, issuerEtoPreviewCode);
+    return selectEto(state, issuerEtoPreviewCode);
   }
 
   return undefined;

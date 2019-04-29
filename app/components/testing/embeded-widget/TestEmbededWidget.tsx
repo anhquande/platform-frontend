@@ -5,8 +5,8 @@ import { actions } from "../../../modules/actions";
 import {
   selectEtoWidgetError,
   selectEtoWithCompanyAndContractById,
-} from "../../../modules/public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
+} from "../../../modules/eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { withParams } from "../../../utils/withParams";
@@ -49,12 +49,12 @@ const TestEmbededWidget = compose<IStateProps, IRouterParams>(
   appConnect<IStateProps, {}, IRouterParams & IRouterParams>({
     stateToProps: (state, props) => ({
       eto: selectEtoWithCompanyAndContractById(state, props.etoId),
-      widgetError: selectEtoWidgetError(state.publicEtos),
+      widgetError: selectEtoWidgetError(state.eto),
     }),
   }),
   onEnterAction<IRouterParams>({
     actionCreator: (dispatch, props) => {
-      dispatch(actions.publicEtos.loadEto(props.etoId, true));
+      dispatch(actions.eto.loadEto(props.etoId, true));
     },
   }),
 )(TestEmbededWidgetLayout);

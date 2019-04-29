@@ -1,7 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { Container } from "reactstrap";
 
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { withModalBody } from "../../../../utils/storybookHelpers.unsafe";
@@ -13,35 +12,91 @@ export const wallets: WalletSelectionData[] = [
     balanceEth: "30000000000000000000",
     type: EInvestmentType.ICBMEth,
     name: "ICBM Wallet",
+    hasFunds: true,
+    enabled: true,
   },
   {
     balanceNEuro: "45600000000000000000",
     balanceEur: "45600000000000000000",
     type: EInvestmentType.ICBMnEuro,
     name: "ICBM Wallet",
+    hasFunds: true,
+    enabled: true,
   },
   {
     balanceEth: "50000000000000000000",
     balanceEur: "45600000000000000000",
     type: EInvestmentType.Eth,
     name: "Eth Wallet",
+    hasFunds: true,
+    enabled: true,
   },
   {
     balanceNEuro: "45600000000000000000",
     balanceEur: "45600000000000000000",
     type: EInvestmentType.NEur,
     name: "nEur Wallet",
+    hasFunds: true,
+    enabled: true,
   },
 ];
 
 storiesOf("Investment/InvestmentTypeSelector", module)
-  .addDecorator(withModalBody())
+  .addDecorator(withModalBody("big"))
   .add("default", () => (
-    <Container>
+    <InvestmentTypeSelector
+      wallets={wallets}
+      currentType={EInvestmentType.Eth}
+      onSelect={action("onSelect")}
+      startUpgradeFlow={action("startUpgradeFlow")}
+    />
+  ))
+  .add("with disabled icbm wallets", () => {
+    const icbmWallets: WalletSelectionData[] = [
+      {
+        balanceEur: "0",
+        balanceEth: "0",
+        icbmBalanceEth: "32112000000000000000000",
+        icbmBalanceEur: "5102275680000000000000000",
+        type: EInvestmentType.ICBMEth,
+        name: "ICBM Wallet",
+        hasFunds: true,
+        enabled: false,
+      },
+      {
+        balanceNEuro: "0",
+        balanceEur: "0",
+        icbmBalanceNEuro: "45600000000000000000",
+        icbmBalanceEur: "45600000000000000000",
+        type: EInvestmentType.ICBMnEuro,
+        name: "ICBM Wallet",
+        hasFunds: true,
+        enabled: false,
+      },
+      {
+        balanceEth: "50000000000000000000",
+        balanceEur: "45600000000000000000",
+        type: EInvestmentType.Eth,
+        name: "Eth Wallet",
+        hasFunds: true,
+        enabled: true,
+      },
+      {
+        balanceNEuro: "45600000000000000000",
+        balanceEur: "45600000000000000000",
+        type: EInvestmentType.NEur,
+        name: "nEur Wallet",
+        hasFunds: true,
+        enabled: true,
+      },
+    ];
+
+    return (
       <InvestmentTypeSelector
-        wallets={wallets}
+        wallets={icbmWallets}
         currentType={EInvestmentType.Eth}
         onSelect={action("onSelect")}
+        startUpgradeFlow={action("startUpgradeFlow")}
       />
-    </Container>
-  ));
+    );
+  });

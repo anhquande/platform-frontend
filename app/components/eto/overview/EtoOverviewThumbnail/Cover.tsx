@@ -29,7 +29,7 @@ const Jurisdiction: React.FunctionComponent<{ jurisdiction: EJurisdiction }> = (
           }}
         />
       );
-    case EJurisdiction.LICHTENSTEIN:
+    case EJurisdiction.LIECHTENSTEIN:
       return (
         <FormattedMessage
           id="eto-overview-thumbnail.cover.jurisdiction.li"

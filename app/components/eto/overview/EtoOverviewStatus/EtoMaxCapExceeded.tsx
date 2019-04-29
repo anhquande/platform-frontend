@@ -3,11 +3,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, withProps } from "recompose";
 
-import { selectEtoOnChainStateById } from "../../../../modules/public-etos/selectors";
-import {
-  EETOStateOnChain,
-  TEtoWithCompanyAndContract,
-} from "../../../../modules/public-etos/types";
+import { selectEtoOnChainStateById } from "../../../../modules/eto/selectors";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import { selectEtherPriceEur } from "../../../../modules/shared/tokenPrice/selectors";
 import { appConnect } from "../../../../store";
 import { divideBigNumbers } from "../../../../utils/BigNumberUtils";

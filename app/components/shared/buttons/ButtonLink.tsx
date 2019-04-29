@@ -62,7 +62,7 @@ const ButtonLink = compose<
           return dispatch(routingActions.openInNewWindow(to));
         }
 
-        return dispatch(routingActions.goTo(to));
+        return dispatch(routingActions.push(to));
       },
     }),
   }),

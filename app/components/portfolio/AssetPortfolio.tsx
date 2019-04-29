@@ -1,12 +1,12 @@
 import * as React from "react";
 import { FormattedDate } from "react-intl";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Row } from "reactstrap";
 import { branch, compose, renderComponent } from "recompose";
 
 import { actions } from "../../modules/actions";
 import { ITokenDisbursal } from "../../modules/investor-portfolio/types";
 import { appConnect } from "../../store";
+import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
 import { Button, ButtonSize, EButtonLayout } from "../shared/buttons";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
@@ -52,9 +52,9 @@ const AssetPortfolioLayout: React.FunctionComponent<ILayoutProps & IDispatchToPr
   acceptCombinedPayout,
   isVerifiedInvestor,
 }) => (
-  <Row className="mb-4">
-    <Col md={5} lg={4} sm={12}>
-      <Heading level={3} decorator={false} className="mb-4">
+  <Container type={EContainerType.INHERIT_GRID}>
+    <Container columnSpan={EColumnSpan.ONE_COL}>
+      <Heading level={3} decorator={false}>
         <FormattedMessage id="portfolio.section.asset-portfolio.title" />
       </Heading>
 
@@ -88,9 +88,9 @@ const AssetPortfolioLayout: React.FunctionComponent<ILayoutProps & IDispatchToPr
           <FormattedMessage id="portfolio.asset.amounts-to-claim-description" />
         </p>
       </Panel>
-    </Col>
-    <Col md={7} lg={8} sm={12} className="mt-4 mt-md-0">
-      <Heading level={3} decorator={neuIcon} className="mb-4">
+    </Container>
+    <Container columnSpan={EColumnSpan.TWO_COL}>
+      <Heading level={3} decorator={neuIcon}>
         <FormattedMessage id="portfolio.asset.payouts-from-neu.title" />
       </Heading>
 
@@ -160,8 +160,8 @@ const AssetPortfolioLayout: React.FunctionComponent<ILayoutProps & IDispatchToPr
           </Button>
         </NewTableRow>
       </NewTable>
-    </Col>
-  </Row>
+    </Container>
+  </Container>
 );
 
 const AssetPortfolio = compose<ILayoutProps & IDispatchToProps, IExternalProps>(

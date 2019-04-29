@@ -5,6 +5,7 @@ import { compose } from "redux";
 
 import { selectBackupCodesVerified } from "../../../modules/auth/selectors";
 import { appConnect } from "../../../store";
+import { EColumnSpan } from "../../layouts/Container";
 import { ButtonLink, EButtonLayout } from "../../shared/buttons";
 import { Panel } from "../../shared/Panel";
 import { profileRoutes } from "../routes";
@@ -20,14 +21,16 @@ interface IStateProps {
 
 interface IOwnProps {
   step: number;
+  columnSpan?: EColumnSpan;
 }
 
 const BackupSeedWidgetComponent: React.FunctionComponent<IStateProps & IOwnProps> = ({
   backupCodesVerified,
+  columnSpan,
 }) => {
   return (
     <Panel
-      className="h-100"
+      columnSpan={columnSpan}
       headerText={<FormattedMessage id="settings.backup-seed-widget.header" />}
       rightComponent={
         backupCodesVerified ? (

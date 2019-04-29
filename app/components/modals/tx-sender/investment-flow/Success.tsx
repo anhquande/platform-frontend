@@ -62,7 +62,7 @@ const InvestmentSuccess = appConnect<IStateProps, IDispatchProps>({
   }),
   dispatchToProps: dispatch => ({
     goToPortfolio: () => {
-      dispatch(actions.routing.goTo(appRoutes.portfolio));
+      dispatch(actions.routing.push(appRoutes.portfolio));
       dispatch(actions.txSender.txSenderHideModal());
     },
   }),

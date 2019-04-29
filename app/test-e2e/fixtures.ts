@@ -47,3 +47,6 @@ export const INV_ICBM_ETH_M_HAS_KYC_DUP_2 =
 
 export const INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH =
   "kid welcome lion describe repair champion submit sing sugar vault avoid jar adapt little page boost happy sing vivid stone web rescue grape bicycle";
+
+export const SPARE_1 =
+  "morning panther view ahead fashion client shallow sustain tool cost illegal wish alter demise extend trend task glory alert hurdle rail fragile vital about";

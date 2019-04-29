@@ -62,5 +62,6 @@
 
   .description {
     @include font-button-default;
+    margin-bottom: 0;
   }
 }

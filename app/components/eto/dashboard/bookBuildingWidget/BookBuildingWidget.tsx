@@ -16,6 +16,7 @@ import { appConnect } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
 import { onLeaveAction } from "../../../../utils/OnLeaveAction";
+import { EColumnSpan } from "../../../layouts/Container";
 import { ButtonArrowRight } from "../../../shared/buttons";
 import { Document } from "../../../shared/Document";
 import { DocumentTemplateButton } from "../../../shared/DocumentLink";
@@ -39,6 +40,11 @@ interface IStateProps {
   maxPledges: number | null;
   etoId: string;
   canEnableBookbuilding: boolean;
+  columnSpan?: EColumnSpan;
+}
+
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
 }
 
 interface IBookBuilding {
@@ -53,6 +59,7 @@ interface ILayoutProps {
   text: TTranslatedString;
   buttonText: TTranslatedString;
   canEnableBookbuilding: boolean;
+  columnSpan?: EColumnSpan;
 }
 
 type IProps = IDispatchProps & IStateProps;
@@ -100,8 +107,9 @@ const BookBuildingWidgetLayout: React.FunctionComponent<ILayoutProps> = ({
   text,
   buttonText,
   canEnableBookbuilding,
+  columnSpan,
 }) => (
-  <Panel headerText={headerText}>
+  <Panel headerText={headerText} columnSpan={columnSpan}>
     <div className={styles.content}>
       <p className={cn(styles.text)}>
         {canEnableBookbuilding ? (
@@ -136,6 +144,7 @@ export const BookBuildingWidgetComponent: React.FunctionComponent<IProps> = ({
   downloadCSV,
   etoId,
   canEnableBookbuilding,
+  columnSpan,
 }) => {
   if (bookBuildingStats === undefined) {
     //TODO data loading state
@@ -148,6 +157,7 @@ export const BookBuildingWidgetComponent: React.FunctionComponent<IProps> = ({
         buttonText={<FormattedMessage id="settings.book-building-widget.start-book-building" />}
         onClick={() => startBookBuilding(etoId)}
         canEnableBookbuilding={canEnableBookbuilding}
+        columnSpan={columnSpan}
       />
     );
   } else if (!bookBuildingEnabled && bookBuildingStats.investorsCount) {
@@ -160,6 +170,7 @@ export const BookBuildingWidgetComponent: React.FunctionComponent<IProps> = ({
         }
         onClick={() => startBookBuilding(etoId)}
         canEnableBookbuilding={canEnableBookbuilding}
+        columnSpan={columnSpan}
       >
         <BookBuildingStats
           bookBuildingStats={bookBuildingStats}
@@ -176,6 +187,7 @@ export const BookBuildingWidgetComponent: React.FunctionComponent<IProps> = ({
         buttonText={<FormattedMessage id="settings.book-building-widget.stop-book-building" />}
         onClick={() => stopBookBuilding(etoId)}
         canEnableBookbuilding={canEnableBookbuilding}
+        columnSpan={columnSpan}
       >
         <BookBuildingStats
           bookBuildingStats={bookBuildingStats}
@@ -187,7 +199,7 @@ export const BookBuildingWidgetComponent: React.FunctionComponent<IProps> = ({
   }
 };
 
-export const BookBuildingWidget = compose<React.FunctionComponent>(
+export const BookBuildingWidget = compose<React.FunctionComponent<IExternalProps>>(
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => {

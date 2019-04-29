@@ -1,4 +1,5 @@
 import * as cn from "classnames";
+import { isEmpty } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Redirect } from "react-router";
@@ -29,9 +30,9 @@ import {
   selectIssuerEtoTemplates,
   selectShouldEtoDataLoad,
 } from "../../modules/eto-flow/selectors";
+import { selectEtoOnChainStateById } from "../../modules/eto/selectors";
+import { EETOStateOnChain } from "../../modules/eto/types";
 import { selectPendingDownloads } from "../../modules/immutable-file/selectors";
-import { selectEtoOnChainStateById } from "../../modules/public-etos/selectors";
-import { EETOStateOnChain } from "../../modules/public-etos/types";
 import { selectAreTherePendingTxs } from "../../modules/tx/monitor/selectors";
 import { appConnect } from "../../store";
 import { DeepReadonly, TTranslatedString } from "../../types";
@@ -55,7 +56,6 @@ type IProps = IComponentStateProps & IDispatchProps;
 
 interface IComponentStateProps {
   etoFilesData: DeepReadonly<IEtoFiles>;
-  loadingData: boolean;
   etoFileLoading: boolean;
   etoState: EEtoState;
   etoTemplates: TEtoDocumentTemplates;
@@ -86,6 +86,7 @@ interface IExternalStateProps {
 }
 
 type IStateProps = IComponentStateProps & {
+  dataNotReady: boolean;
   shouldEtoDataLoad: boolean;
 };
 
@@ -156,12 +157,12 @@ const DocumentsLayout: React.FunctionComponent<IProps> = ({
                 key={key}
                 documentKey={key}
                 active={uploadAllowed(stateInfo, etoState, key, onChainState)}
-                busy={isBusy(key, transactionPending, !!documentsUploading[key])}
+                busy={isBusy(key, transactionPending, Boolean(documentsUploading[key]))}
                 typedFileName={documentTitles[key]}
                 isFileUploaded={isFileUploaded(etoDocuments, key)}
                 downloadDocumentStart={startDocumentDownload}
                 documentDownloadLinkInactive={
-                  !!documentsUploading[key] || !!documentsDownloading[key]
+                  Boolean(documentsUploading[key]) || Boolean(documentsDownloading[key])
                 }
               />
             ))}
@@ -185,6 +186,7 @@ const DocumentsLayout: React.FunctionComponent<IProps> = ({
 const Documents = compose<React.FunctionComponent>(
   createErrorBoundary(ErrorBoundaryLayoutAuthorized),
   setDisplayName("Documents"),
+  onEnterAction({ actionCreator: d => d(actions.etoDocuments.loadFileDataStart()) }),
   appConnect<null | IExternalStateProps, IDispatchProps>({
     stateToProps: state => {
       const etoId = selectEtoId(state);
@@ -192,13 +194,16 @@ const Documents = compose<React.FunctionComponent>(
       const isRetailEto = selectIssuerEtoIsRetail(state);
       const etoTemplates = selectIssuerEtoTemplates(state);
       const etoDocuments = selectIssuerEtoDocuments(state);
-
+      const etoFilesData = selectEtoDocumentData(state.etoDocuments);
+      const etoFileLoading = selectEtoDocumentsLoading(state.etoDocuments);
+      const etoFilesDataIsEmpty = isEmpty(etoFilesData.allTemplates);
       if (etoId && etoState && isRetailEto && etoTemplates && etoDocuments) {
         return {
           shouldEtoDataLoad: selectShouldEtoDataLoad(state),
           etoFilesData: selectEtoDocumentData(state.etoDocuments),
+          dataNotReady: selectIssuerEtoLoading(state) || etoFileLoading || etoFilesDataIsEmpty,
           loadingData: selectIssuerEtoLoading(state),
-          etoFileLoading: selectEtoDocumentsLoading(state.etoDocuments),
+          etoFileLoading,
           etoState,
           onChainState: selectEtoOnChainStateById(state, etoId),
           etoTemplates,
@@ -223,13 +228,12 @@ const Documents = compose<React.FunctionComponent>(
   branch<null | IExternalStateProps & IDispatchProps>(props => props === null, renderNothing),
   withMetaTags((_, intl) => ({ title: intl.formatIntlMessage("menu.documents-page") })),
   withContainer(LayoutAuthorized),
-  branch(
-    (props: IStateProps) => !props.shouldEtoDataLoad,
+  branch<IStateProps>(
+    props => !props.shouldEtoDataLoad,
     renderComponent(() => <Redirect to={appRoutes.profile} />),
   ),
-  onEnterAction({ actionCreator: d => d(actions.etoDocuments.loadFileDataStart()) }),
-  branch(
-    (props: IProps) => props.loadingData || props.etoFileLoading || !props.etoState,
+  branch<IStateProps>(
+    props => props.dataNotReady || !props.etoState,
     renderComponent(LoadingIndicator),
   ),
 )(DocumentsLayout);

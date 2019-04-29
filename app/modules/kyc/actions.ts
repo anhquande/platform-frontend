@@ -78,8 +78,9 @@ export const kycActions = {
 
   kycStartInstantId: () => createSimpleAction("KYC_START_INSTANT_ID"),
   kycCancelInstantId: () => createSimpleAction("KYC_CANCEL_INSTANT_ID"),
+
   /*
-    Business...
+    Business
    */
   kycSetBusinessType: (type: EKycBusinessType) => createAction("KYC_SET_BUSINESS_TYPE", { type }),
 

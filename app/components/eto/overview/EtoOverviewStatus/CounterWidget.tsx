@@ -2,7 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { EETOStateOnChain } from "../../../../modules/public-etos/types";
+import { EETOStateOnChain } from "../../../../modules/eto/types";
 import { TTranslatedString } from "../../../../types";
 import { Counter } from "../../../shared/Counter.unsafe";
 import { statusToName } from "../../shared/ETOState";

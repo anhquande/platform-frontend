@@ -1,6 +1,7 @@
 $divider-margin: 3%;
 
 .eto-overview-status {
+
   @include media-breakpoint-down(sm) {
     padding-right: $divider-margin;
     padding-left: $divider-margin;
@@ -15,6 +16,7 @@ $divider-margin: 3%;
     height: 200px;
   }
 
+  display: block;
   background-color: $neu-white-two;
   box-shadow: $shadow-bottom-black;
   color: $neu-slate-grey;

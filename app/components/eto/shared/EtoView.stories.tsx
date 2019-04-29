@@ -7,8 +7,8 @@ import { withStore } from "../../../utils/storeDecorator.unsafe";
 import { EtoView } from "./EtoView.unsafe";
 
 const testStore = {
-  publicEtos: {
-    publicEtos: {
+  eto: {
+    etos: {
       "deabb8a4-d081-4d15-87a7-737a09e6a87c": testEto,
     },
     contracts: {

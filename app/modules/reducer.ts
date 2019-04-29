@@ -7,6 +7,7 @@ import { contractsReducer } from "./contracts/reducer";
 import { depositEthModalReducer } from "./deposit-eth-modal/reducer";
 import { etoDocumentReducer } from "./eto-documents/reducer";
 import { etoFlowReducer } from "./eto-flow/reducer";
+import { etoReducer } from "./eto/reducer";
 import { gasReducer } from "./gas/reducer";
 import { genericModalReducer } from "./generic-modal/reducer";
 import { icbmWalletBalanceModalReducer } from "./icbm-wallet-balance-modal/reducer";
@@ -19,7 +20,6 @@ import { moneyReducer } from "./money/reducer";
 import { notificationsReducer } from "./notifications/reducer";
 import { personProfileModalReducer } from "./person-profile-modal/reducer";
 import { profileReducer } from "./profile/reducer";
-import { publicEtosReducer } from "./public-etos/reducer";
 import { tokenPriceReducer } from "./shared/tokenPrice/reducer";
 import { txMonitorReducer } from "./tx/monitor/reducer";
 import { txSenderReducer } from "./tx/sender/reducer";
@@ -58,7 +58,7 @@ export const appReducers = {
   etoFlow: etoFlowReducer,
   bookBuildingFlow: bookBuildingFlowReducer,
   etoDocuments: etoDocumentReducer,
-  publicEtos: publicEtosReducer,
+  eto: etoReducer,
   depositEthModal: depositEthModalReducer,
   txSender: txSenderReducer,
   icbmWalletBalanceModal: icbmWalletBalanceModalReducer,

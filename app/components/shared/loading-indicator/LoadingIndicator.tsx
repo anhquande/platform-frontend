@@ -29,10 +29,12 @@ const LoadingIndicator: React.FunctionComponent<ILoadingIndicatorProps & CommonH
   switch (type) {
     case ELoadingIndicator.PULSE:
       return (
-        <div
-          data-test-id="loading-indicator-pulse"
-          className={cn(className, styles.pulse, { [styles.light]: light })}
-        />
+        <div>
+          <div
+            data-test-id="loading-indicator-pulse"
+            className={cn(className, styles.pulse, { [styles.light]: light })}
+          />
+        </div>
       );
     case ELoadingIndicator.BLOCKS:
       return (

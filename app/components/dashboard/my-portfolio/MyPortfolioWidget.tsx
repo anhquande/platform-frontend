@@ -71,7 +71,6 @@ export const MyPortfolioWidgetComponentBody: React.FunctionComponent<IBodyProps>
 export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
   className,
   style,
-  isLoading,
   error,
   balanceEur,
   balanceNeu,
@@ -79,21 +78,15 @@ export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <Panel className={className} style={style}>
-      <>
-        {isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          <MyPortfolioWidgetComponentBody
-            {...{
-              balanceEur: balanceEur!,
-              balanceNeu: balanceNeu!,
-            }}
-            error={error}
-            isIncomingPayoutAvailable={isIncomingPayoutAvailable}
-            test-data-id="dashboard-my-portfolio-widget"
-          />
-        )}
-      </>
+      <MyPortfolioWidgetComponentBody
+        {...{
+          balanceEur: balanceEur!,
+          balanceNeu: balanceNeu!,
+        }}
+        error={error}
+        isIncomingPayoutAvailable={isIncomingPayoutAvailable}
+        test-data-id="dashboard-my-portfolio-widget"
+      />
     </Panel>
   );
 };

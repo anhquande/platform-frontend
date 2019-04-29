@@ -5,7 +5,7 @@ import { IWindowWithData } from "../../../test/helperTypes";
 import { ECurrency } from "../../components/shared/Money.unsafe";
 import { IS_CYPRESS, Q18 } from "../../config/constants";
 import { convertToBigInt } from "../../utils/Number.utils";
-import { EETOStateOnChain } from "../public-etos/types";
+import { EETOStateOnChain } from "../eto/types";
 import { ICalculatedContribution, IInvestorTicket, ITokenDisbursal } from "./types";
 
 export const convertToCalculatedContribution = ([

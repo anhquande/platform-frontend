@@ -46,7 +46,11 @@ type StateProps = {
 
 export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = props => {
   if (props.isLoading) {
-    return <LoadingIndicator />;
+    return (
+      <div>
+        <LoadingIndicator />
+      </div>
+    );
   } else if (props.error) {
     return <WarningAlert>{props.error}</WarningAlert>;
   } else {

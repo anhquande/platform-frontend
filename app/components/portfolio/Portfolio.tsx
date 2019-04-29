@@ -26,8 +26,8 @@ export const Portfolio = compose<TPortfolioLayoutProps, {}>(
   createErrorBoundary(ErrorBoundaryLayoutAuthorized),
   onEnterAction({
     actionCreator: dispatch => {
-      dispatch(actions.publicEtos.loadEtos());
-      dispatch(actions.publicEtos.loadTokensData());
+      dispatch(actions.eto.loadEtos());
+      dispatch(actions.eto.loadTokensData());
 
       if (process.env.NF_ASSETS_PORTFOLIO_COMPONENT_VISIBLE === "1") {
         dispatch(actions.investorEtoTicket.loadClaimables());
@@ -45,7 +45,7 @@ export const Portfolio = compose<TPortfolioLayoutProps, {}>(
     }),
     dispatchToProps: dispatch => ({
       loadTokensData: () => {
-        dispatch(actions.publicEtos.loadTokensData());
+        dispatch(actions.eto.loadTokensData());
       },
     }),
   }),

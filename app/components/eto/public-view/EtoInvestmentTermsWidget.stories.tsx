@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { testEto } from "../../../../test/fixtures";
-import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
+import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { EtoInvestmentTermsWidgetLayout } from "./EtoInvestmentTermsWidget";
 
 const eto: TEtoWithCompanyAndContract = {

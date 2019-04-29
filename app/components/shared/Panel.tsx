@@ -2,6 +2,7 @@ import * as cn from "classnames";
 import * as React from "react";
 
 import { CommonHtmlProps, TDataTestId, TTranslatedString } from "../../types";
+import { Container, EColumnSpan } from "../layouts/Container";
 import { EHeadingSize, Heading } from "./Heading";
 
 import * as styles from "./Panel.module.scss";
@@ -11,6 +12,7 @@ export interface IPanelProps {
   rightComponent?: React.ReactNode;
   icon?: string;
   narrow?: boolean;
+  columnSpan?: EColumnSpan;
 }
 
 const Panel: React.FunctionComponent<IPanelProps & CommonHtmlProps & TDataTestId> = ({
@@ -20,10 +22,14 @@ const Panel: React.FunctionComponent<IPanelProps & CommonHtmlProps & TDataTestId
   className,
   children,
   narrow,
+  columnSpan,
   "data-test-id": dataTestId,
 }) => (
-  <section
-    className={cn(styles.panel, className, { [styles.narrow]: narrow })}
+  <Container
+    columnSpan={columnSpan}
+    className={cn(styles.panel, className, {
+      [styles.narrow]: narrow,
+    })}
     data-test-id={dataTestId}
   >
     {(headerText || rightComponent) && (
@@ -36,9 +42,8 @@ const Panel: React.FunctionComponent<IPanelProps & CommonHtmlProps & TDataTestId
         {rightComponent}
       </div>
     )}
-
     {children}
-  </section>
+  </Container>
 );
 
 export { Panel };

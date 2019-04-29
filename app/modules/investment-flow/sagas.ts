@@ -11,14 +11,14 @@ import { addBigNumbers, compareBigNumbers, subtractBigNumbers } from "../../util
 import { convertToBigInt } from "../../utils/Number.utils";
 import { extractNumber } from "../../utils/StringUtils";
 import { actions, TAction } from "../actions";
+import { selectEtoById, selectEtoOnChainStateById } from "../eto/selectors";
+import { EETOStateOnChain } from "../eto/types";
 import { loadComputedContributionFromContract } from "../investor-portfolio/sagas";
 import {
   selectCalculatedContribution,
   selectCalculatedEtoTicketSizesUlpsById,
   selectIsWhitelisted,
 } from "../investor-portfolio/selectors";
-import { selectEtoOnChainStateById, selectPublicEtoById } from "../public-etos/selectors";
-import { EETOStateOnChain } from "../public-etos/types";
 import { neuCall } from "../sagasUtils";
 import { selectEtherPriceEur, selectEurPriceEther } from "../shared/tokenPrice/selectors";
 import { selectTxGasCostEthUlps } from "../tx/sender/selectors";
@@ -182,7 +182,7 @@ function* validateAndCalculateInputs({ contractsService }: TGlobalDependencies):
   yield delay(300);
 
   let state: IAppState = yield select();
-  const eto = selectPublicEtoById(state, state.investmentFlow.etoId);
+  const eto = selectEtoById(state, state.investmentFlow.etoId);
   const value = state.investmentFlow.euroValueUlps;
   if (value && eto) {
     const etoContract: ETOCommitment = yield contractsService.getETOCommitmentContract(eto.etoId);
@@ -216,7 +216,7 @@ function* start(action: TAction): any {
   yield put(actions.investmentFlow.setEtoId(etoId));
   yield put(actions.kyc.kycLoadClientData());
   yield put(actions.txTransactions.startInvestment());
-  yield put(actions.investorEtoTicket.loadEtoInvestorTicket(selectPublicEtoById(state, etoId)!));
+  yield put(actions.investorEtoTicket.loadEtoInvestorTicket(selectEtoById(state, etoId)!));
 
   yield take("TX_SENDER_SHOW_MODAL");
   yield getActiveInvestmentTypes();

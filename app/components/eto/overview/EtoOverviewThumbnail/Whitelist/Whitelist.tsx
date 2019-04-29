@@ -5,7 +5,7 @@ import { compose } from "redux";
 
 import { actions } from "../../../../../modules/actions";
 import { selectBookbuildingStats } from "../../../../../modules/bookbuilding-flow/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../../modules/public-etos/types";
+import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { onEnterAction } from "../../../../../utils/OnEnterAction";
 import { CounterWidget } from "../CounterWidget";

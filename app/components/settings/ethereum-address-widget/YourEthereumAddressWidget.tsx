@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { selectEthereumAddressWithChecksum } from "../../../modules/web3/selectors";
 import { appConnect } from "../../../store";
+import { EColumnSpan } from "../../layouts/Container";
 import { AccountAddress } from "../../shared/AccountAddress";
 import { Panel } from "../../shared/Panel";
 
@@ -12,11 +13,15 @@ interface IStateProps {
   address: string;
 }
 
-export const YourEthereumAddressWidgetComponent: React.FunctionComponent<IStateProps> = ({
-  address,
-}) => (
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
+}
+
+export const YourEthereumAddressWidgetComponent: React.FunctionComponent<
+  IStateProps & IExternalProps
+> = ({ address, columnSpan }) => (
   <Panel
-    className="h-100"
+    columnSpan={columnSpan}
     headerText={<FormattedMessage id="your-ethereum-address-widget.header" />}
   >
     <p>

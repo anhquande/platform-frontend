@@ -36,7 +36,7 @@ import {
 } from "./selectors";
 import { deserializeClaims } from "./utils";
 
-function* loadClientData(): any {
+export function* loadClientData(): Iterable<any> {
   yield put(actions.kyc.kycLoadIndividualData());
   yield put(actions.kyc.kycLoadBusinessData());
 }
@@ -649,10 +649,16 @@ export function* loadKycRequestData(): any {
 
   yield put(actions.kyc.kycLoadClaims());
 
+  yield put(actions.kyc.kycLoadClientData());
+
   yield all([
     neuTakeOnly("KYC_UPDATE_INDIVIDUAL_REQUEST_STATE", { individualRequestStateLoading: false }),
     neuTakeOnly("KYC_UPDATE_BUSINESS_REQUEST_STATE", { businessRequestStateLoading: false }),
     take("KYC_SET_CLAIMS"),
+    neuTakeOnly("KYC_UPDATE_BUSINESS_DATA", {
+      businessDataLoading: false,
+    }),
+    neuTakeOnly("KYC_UPDATE_INDIVIDUAL_DATA", { individualDataLoading: false }),
   ]);
 }
 

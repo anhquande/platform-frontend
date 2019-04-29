@@ -104,7 +104,7 @@ export const OnlyAuthorizedRoute = compose<IStateProps & IOwnProps, IOwnProps>(
     stateToProps: state => ({
       isAuthorized: selectIsAuthorized(state.auth),
       userType: selectUserType(state),
-      walletType: selectWalletTypeFromQueryString(state.router),
+      walletType: selectWalletTypeFromQueryString(state),
       routerState: state.router,
     }),
   }),

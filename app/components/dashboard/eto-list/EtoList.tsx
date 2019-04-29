@@ -4,8 +4,8 @@ import { Col, Row } from "reactstrap";
 import { compose, setDisplayName } from "recompose";
 
 import { actions } from "../../../modules/actions";
-import { selectPublicEtos } from "../../../modules/public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
+import { selectEtos } from "../../../modules/eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { appConnect } from "../../../store";
 import { RequiredByKeys } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
@@ -75,12 +75,12 @@ export const EtoList = compose<IStateProps, {}>(
   onEnterAction({
     actionCreator: d => {
       d(actions.wallet.loadWalletData());
-      d(actions.publicEtos.loadEtos());
+      d(actions.eto.loadEtos());
     },
   }),
   appConnect<IStateProps>({
     stateToProps: state => ({
-      etos: selectPublicEtos(state),
+      etos: selectEtos(state),
     }),
   }),
 )(EtoListComponent);

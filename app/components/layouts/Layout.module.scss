@@ -1,0 +1,27 @@
+.widget-layout {
+  display: grid;
+  grid-template: auto / 100%;
+  grid-gap: 1rem;
+}
+
+.layout-offset {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+@include media-breakpoint-up(md) {
+  .widget-layout {
+    grid-gap: 2rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .widget-layout {
+    grid-template: auto / repeat(6, 1fr);
+  }
+
+  .layout-offset {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+}

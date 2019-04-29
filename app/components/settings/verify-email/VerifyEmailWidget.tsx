@@ -16,6 +16,7 @@ import { selectIsCancelEmail } from "../../../modules/profile/reducer";
 import { selectIsConnectedButtonLocked } from "../../../modules/verify-email-widget/reducer";
 import { appConnect } from "../../../store";
 import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers.unsafe";
+import { EColumnSpan } from "../../layouts/Container";
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { ButtonArrowRight } from "../../shared/buttons/Button.unsafe";
 import { Form, FormField } from "../../shared/forms";
@@ -36,7 +37,9 @@ interface IStateProps {
 
 interface IOwnProps {
   step: number;
+  columnSpan?: EColumnSpan;
 }
+
 interface IEnhancedFormProps {
   handleSubmit: (values: IFormValues) => void;
   isLocked?: boolean;
@@ -247,6 +250,7 @@ export const VerifyEmailWidgetComponent: React.FunctionComponent<
   step,
   revertCancelEmail,
   abortEmailUpdate,
+  columnSpan,
 }) => {
   const shouldViewVerifiedUser =
     !isThereUnverifiedEmail && !isEmailTemporaryCancelled && isUserEmailVerified;
@@ -255,13 +259,13 @@ export const VerifyEmailWidgetComponent: React.FunctionComponent<
     (!isThereUnverifiedEmail && !verifiedEmail) || isEmailTemporaryCancelled;
   return (
     <Panel
-      className="h-100"
+      columnSpan={columnSpan}
       headerText={formatIntlMessage("settings.verify-email-widget.header", { step })}
       rightComponent={
         isUserEmailVerified && !isThereUnverifiedEmail ? (
-          <img src={successIcon} className={styles.icon} aria-hidden="true" />
+          <img src={successIcon} className={styles.icon} aria-hidden="true" alt="" />
         ) : (
-          <img src={warningIcon} className={styles.icon} aria-hidden="true" />
+          <img src={warningIcon} className={styles.icon} aria-hidden="true" alt="" />
         )
       }
       data-test-id="profile.verify-email-widget"

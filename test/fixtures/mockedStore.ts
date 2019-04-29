@@ -1,8 +1,12 @@
 import BigNumber from "bignumber.js";
 
+import { EUserType } from "../../app/lib/api/users/interfaces";
+import { EWalletSubType, EWalletType } from "../../app/modules/web3/types";
+import { IAppState } from "../../app/store";
+import { DeepPartial } from "../../app/types";
 import { testEto } from "../fixtures";
 
-export const mockedStore = {
+export const mockedStore: DeepPartial<IAppState> = {
   etoFlow: {
     etoPreviewCode: testEto.previewCode,
   },
@@ -33,18 +37,17 @@ export const mockedStore = {
       address: "0xa2133ccd9560a140c5399529d3e751bf3f13877f",
       email: "storybook@neufund.org",
       salt: "qwerty123=",
-      vault: '{"salt":"qwerty123=","hdPathString":"m/44\'/60\'/0\'","encSeed":{"encStr":""]}',
-      walletType: "LIGHT",
-      walletSubType: "UNKNOWN",
+      walletType: EWalletType.LIGHT,
+      walletSubType: EWalletSubType.UNKNOWN,
     },
     isUnlocked: true,
   },
   auth: {
     jwt: "",
     user: {
-      walletSubtype: "UNKNOWN",
-      walletType: "LIGHT",
-      type: "investor",
+      walletSubtype: EWalletSubType.UNKNOWN,
+      walletType: EWalletType.LIGHT,
+      type: EUserType.INVESTOR,
       unverifiedEmail: "storybook@neufund.org",
       language: "en",
       latestAcceptedTosIpfs: "qwerty123",
@@ -84,8 +87,8 @@ export const mockedStore = {
       neuBalance: "0",
     },
   },
-  publicEtos: {
-    publicEtos: { [testEto.previewCode]: testEto },
+  eto: {
+    etos: { [testEto.previewCode]: testEto },
     companies: { [testEto.companyId]: testEto.company },
     contracts: { [testEto.previewCode]: testEto.contract },
     displayOrder: [testEto.previewCode],
@@ -98,4 +101,4 @@ export const mockedStore = {
       },
     },
   },
-} as any;
+};

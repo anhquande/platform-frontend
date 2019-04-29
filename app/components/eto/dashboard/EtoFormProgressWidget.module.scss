@@ -17,3 +17,9 @@
   justify-content: center;
   align-items: center;
 }
+
+@include media-breakpoint-between(sm, lg) {
+  .progress-section {
+    grid-column: span 1;
+  }
+}

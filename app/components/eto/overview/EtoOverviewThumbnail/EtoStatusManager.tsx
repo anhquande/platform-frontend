@@ -3,10 +3,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { getCurrentInvestmentProgressPercentage } from "../../../../lib/api/eto/EtoUtils";
-import {
-  EETOStateOnChain,
-  TEtoWithCompanyAndContract,
-} from "../../../../modules/public-etos/types";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import { ECurrency, ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { CounterWidget } from "./CounterWidget";
 import { InvestmentStatus } from "./InvestmentStatus/InvestmentStatus";

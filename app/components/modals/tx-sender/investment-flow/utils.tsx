@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import { includes } from "lodash/fp";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
@@ -10,6 +11,9 @@ import {
 import { selectInvestmentActiveTypes } from "../../../../modules/investment-flow/selectors";
 import { EValidationState } from "../../../../modules/tx/sender/reducer";
 import {
+  selectICBMLockedEtherBalance,
+  selectICBMLockedEtherBalanceEuroAmount,
+  selectICBMLockedEuroTokenBalance,
   selectLiquidEtherBalance,
   selectLiquidEtherBalanceEuroAmount,
   selectLiquidEuroTokenBalance,
@@ -24,38 +28,67 @@ import { formatMoney } from "../../../../utils/Money.utils";
 import { formatThousands } from "../../../../utils/Number.utils";
 import { WalletSelectionData } from "./InvestmentTypeSelector";
 
+function isICBMWallet(type: EInvestmentType): boolean {
+  return includes(type, [EInvestmentType.ICBMnEuro, EInvestmentType.ICBMEth]);
+}
+
 export function createWallets(state: IAppState): WalletSelectionData[] {
   const icbmNeuro = selectLockedEuroTokenBalance(state);
   const balanceNEur = selectLiquidEuroTokenBalance(state);
+  const lockedBalanceNEur = selectICBMLockedEuroTokenBalance(state);
+  const liquidEthBalance = selectLiquidEtherBalance(state);
+  const balanceEth = selectLockedEtherBalance(state);
+  const icbmBalanceEth = selectICBMLockedEtherBalance(state);
 
   const wallets: Dictionary<WalletSelectionData> = {
     [EInvestmentType.Eth]: {
-      balanceEth: selectLiquidEtherBalance(state),
+      balanceEth: liquidEthBalance,
       balanceEur: selectLiquidEtherBalanceEuroAmount(state),
       type: EInvestmentType.Eth,
       name: "ETH Balance",
+      enabled: false,
+      hasFunds: liquidEthBalance !== "0",
     },
     [EInvestmentType.NEur]: {
       balanceNEuro: balanceNEur,
       balanceEur: balanceNEur,
       type: EInvestmentType.NEur,
       name: "nEUR Balance",
+      enabled: false,
+      hasFunds: balanceNEur !== "0",
     },
     [EInvestmentType.ICBMnEuro]: {
       type: EInvestmentType.ICBMnEuro,
       name: "ICBM Balance",
       balanceNEuro: icbmNeuro,
       balanceEur: icbmNeuro,
+      icbmBalanceNEuro: lockedBalanceNEur,
+      icbmBalanceEur: lockedBalanceNEur,
+      hasFunds: lockedBalanceNEur !== "0" || icbmNeuro !== "0",
+      enabled: false,
     },
     [EInvestmentType.ICBMEth]: {
       type: EInvestmentType.ICBMEth,
       name: "ICBM Balance",
-      balanceEth: selectLockedEtherBalance(state),
+      balanceEth: balanceEth,
       balanceEur: selectLockedEtherBalanceEuroAmount(state),
+      icbmBalanceEth: icbmBalanceEth,
+      icbmBalanceEur: selectICBMLockedEtherBalanceEuroAmount(state),
+      hasFunds: icbmBalanceEth !== "0" || balanceEth !== "0",
+      enabled: false,
     },
   };
 
-  return selectInvestmentActiveTypes(state).map(t => wallets[t]);
+  const walletsList = Object.keys(wallets);
+  const enabledWallets = selectInvestmentActiveTypes(state);
+
+  return (
+    walletsList
+      .map(w => ({ ...wallets[w], enabled: enabledWallets.some(v => v === w) }))
+      .filter(w => w.hasFunds)
+      // filter not enabled wallets that are not ICBM in current investment flow
+      .filter(w => isICBMWallet(w.type) || w.enabled)
+  );
 }
 
 export function getInputErrorMessage(

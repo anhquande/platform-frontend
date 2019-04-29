@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EColumnSpan } from "../../layouts/Container";
 import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
 import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
@@ -14,6 +15,7 @@ import * as styles from "./LegalInformationWidget.module.scss";
 
 interface IProps {
   companyData: TCompanyEtoData;
+  columnSpan?: EColumnSpan;
 }
 
 const generateShareholders = (
@@ -40,14 +42,17 @@ const generateShareholders = (
   }
 };
 
-export const LegalInformationWidget: React.FunctionComponent<IProps> = ({ companyData }) => {
+export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
+  companyData,
+  columnSpan,
+}) => {
   const shareholdersData = generateShareholders(
     companyData.shareholders,
     companyData.companyShares,
   );
 
   return (
-    <Panel className={styles.legalInformation}>
+    <Panel className={styles.legalInformation} columnSpan={columnSpan}>
       <Row>
         <Col>
           <div className={styles.group}>

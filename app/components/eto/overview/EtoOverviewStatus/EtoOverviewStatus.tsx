@@ -10,21 +10,19 @@ import { CounterWidget, TagsWidget } from ".";
 import { EEtoDocumentType } from "../../../../lib/api/eto/EtoFileApi.interfaces";
 import { getShareAndTokenPrice } from "../../../../lib/api/eto/EtoUtils";
 import { selectIsAuthorized } from "../../../../modules/auth/selectors";
+import { selectEtoOnChainStateById } from "../../../../modules/eto/selectors";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import {
   selectInitialMaxCapExceeded,
   selectIsEligibleToPreEto,
 } from "../../../../modules/investor-portfolio/selectors";
-import { selectEtoOnChainStateById } from "../../../../modules/public-etos/selectors";
-import {
-  EETOStateOnChain,
-  TEtoWithCompanyAndContract,
-} from "../../../../modules/public-etos/types";
 import { routingActions } from "../../../../modules/routing/actions";
 import { appConnect } from "../../../../store";
 import { CommonHtmlProps } from "../../../../types";
 import { formatFlexiPrecision } from "../../../../utils/Number.utils";
 import { withParams } from "../../../../utils/withParams";
 import { appRoutes } from "../../../appRoutes";
+import { Container, EColumnSpan } from "../../../layouts/Container";
 import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
 import { NumberFormat } from "../../../shared/NumberFormat";
 import { EtoWidgetContext } from "../../EtoWidgetView";
@@ -211,9 +209,10 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
   return (
     <EtoWidgetContext.Consumer>
       {previewCode => (
-        <div
+        <Container
           className={cn(styles.etoOverviewStatus, className)}
           data-test-id={`eto-overview-${eto.etoId}`}
+          columnSpan={EColumnSpan.THREE_COL}
         >
           <StatusOfEto previewCode={eto.previewCode} />
           <div
@@ -363,7 +362,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
               <FormattedMessage id="shared-component.eto-overview.more-details" />
             </Link>
           ) : null}
-        </div>
+        </Container>
       )}
     </EtoWidgetContext.Consumer>
   );

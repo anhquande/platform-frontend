@@ -5,7 +5,7 @@ import { compose } from "recompose";
 import { IEtoDocument } from "../../../lib/api/eto/EtoFileApi.interfaces";
 import { EAssetType, EJurisdiction } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions } from "../../../modules/actions";
-import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
+import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { appConnect } from "../../../store";
 import { TDataTestId, TTranslatedString } from "../../../types";
 import { DocumentTemplateButton } from "../../shared/DocumentLink";
@@ -256,7 +256,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                           id={`eto.public-view.token-terms.public-eto.product.jurisdiction.de`}
                         />
                       )}
-                      {etoData.product.jurisdiction === EJurisdiction.LICHTENSTEIN && (
+                      {etoData.product.jurisdiction === EJurisdiction.LIECHTENSTEIN && (
                         <FormattedMessage
                           id={`eto.public-view.token-terms.public-eto.product.jurisdiction.li`}
                         />
@@ -382,7 +382,7 @@ const EtoInvestmentTermsWidget = compose<TExternalProps & TDispatchProps, TExter
   appConnect<{}, TDispatchProps, TExternalProps>({
     dispatchToProps: dispatch => ({
       downloadDocument: (document: IEtoDocument) =>
-        dispatch(actions.publicEtos.downloadPublicEtoDocument(document)),
+        dispatch(actions.eto.downloadEtoDocument(document)),
     }),
   }),
 )(EtoInvestmentTermsWidgetLayout);

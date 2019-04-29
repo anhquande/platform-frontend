@@ -11,6 +11,8 @@ import { DeepReadonly } from "../../types";
 import { IKycState } from "./reducer";
 import { TBankAccount } from "./types";
 
+export const selectKyc = (state: IAppState) => state.kyc;
+
 export const selectKycRequestStatus = (state: IAppState): ERequestStatus | undefined => {
   const userKycType = selectKycRequestType(state.kyc);
   switch (userKycType) {
@@ -98,9 +100,12 @@ export const selectIndividualClientName = (state: DeepReadonly<IKycState>) => {
 export const selectClientName = (state: DeepReadonly<IKycState>) =>
   (state.businessData && state.businessData.name) || selectIndividualClientName(state);
 
-export const selectClientCountry = (state: DeepReadonly<IKycState>) =>
-  (state.businessData && state.businessData.country) ||
-  (state.individualData && state.individualData.country);
+export const selectClientJurisdiction = createSelector(
+  selectKyc,
+  (state: DeepReadonly<IKycState>) =>
+    (state.businessData && state.businessData.jurisdiction) ||
+    (state.individualData && state.individualData.nationality),
+);
 
 export const selectClaims = (state: IAppState) => state.kyc.claims;
 

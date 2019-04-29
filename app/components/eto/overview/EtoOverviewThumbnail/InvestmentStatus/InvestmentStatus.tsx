@@ -2,8 +2,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
-import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../../modules/public-etos/types";
+import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { ECurrency, Money } from "../../../../shared/Money.unsafe";
 import { InvestmentProgress } from "./InvestmentProgress";

@@ -17,7 +17,7 @@ import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { IAppState } from "../../store";
 import { actions, TAction, TActionFromCreator } from "../actions";
 import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
-import { loadEtoContact } from "../public-etos/sagas";
+import { loadEtoContact } from "../eto/sagas";
 import { neuCall, neuTakeEvery, neuTakeLatest } from "../sagasUtils";
 import { etoFlowActions } from "./actions";
 import { selectIsNewPreEtoStartDateValid, selectIssuerCompany, selectIssuerEto } from "./selectors";
@@ -38,7 +38,7 @@ export function* loadIssuerEto({
       yield neuCall(loadEtoContact, eto);
     }
 
-    yield put(actions.publicEtos.setPublicEto({ eto, company }));
+    yield put(actions.eto.setEto({ eto, company }));
 
     yield put(actions.etoFlow.setIssuerEtoPreviewCode(eto.previewCode));
   } catch (e) {
@@ -196,7 +196,7 @@ function* startSetDateTX(_: TGlobalDependencies, action: TAction): any {
 
 export function* cleanupSetDateTX(): any {
   const eto = yield select(selectIssuerEto);
-  yield put(actions.publicEtos.loadEto(eto.etoId));
+  yield put(actions.eto.loadEto(eto.etoId));
   yield put(actions.etoFlow.clearNewStartDate());
 }
 
@@ -237,7 +237,7 @@ export function* changeProductType(
       action.payload.productId,
     );
 
-    yield put(actions.publicEtos.setPublicEto({ eto }));
+    yield put(actions.eto.setEto({ eto }));
 
     notificationCenter.info(createMessage(EtoFlowMessage.ETO_TERMS_PRODUCT_CHANGE_SUCCESSFUL), {
       autoClose: 10000,

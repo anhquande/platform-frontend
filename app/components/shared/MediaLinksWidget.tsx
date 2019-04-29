@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { TTranslatedString } from "../../types";
+import { EColumnSpan } from "../layouts/Container";
 import { ExternalLink } from "./links";
 import { Panel } from "./Panel";
 
@@ -14,6 +15,7 @@ export interface ILink {
 
 interface IProps {
   links: ILink[];
+  columnSpan: EColumnSpan;
 }
 
 export const normalizedUrl = (url: string) => {
@@ -24,12 +26,12 @@ export const normalizedUrl = (url: string) => {
   return cleanUrl.startsWith("http") ? cleanUrl : `http://${cleanUrl}`;
 };
 
-export const MediaLinksWidget: React.FunctionComponent<IProps> = ({ links }) => {
+export const MediaLinksWidget: React.FunctionComponent<IProps> = ({ links, columnSpan }) => {
   if (!links.length) {
     return null;
   }
   return (
-    <Panel>
+    <Panel columnSpan={columnSpan}>
       {links.map(({ title, url, publication }, i) => {
         return (
           publication &&

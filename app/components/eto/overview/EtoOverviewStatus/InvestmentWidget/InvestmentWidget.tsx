@@ -4,9 +4,9 @@ import { compose } from "recompose";
 
 import { actions } from "../../../../../modules/actions";
 import { selectIsInvestor } from "../../../../../modules/auth/selectors";
+import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { selectIsUserVerifiedOnBlockchain } from "../../../../../modules/kyc/selectors";
-import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../../modules/public-etos/types";
 import { appConnect } from "../../../../../store";
 import { withParams } from "../../../../../utils/withParams";
 import { appRoutes } from "../../../../appRoutes";

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col } from "reactstrap";
 
 import { EEtoState } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { etoFormIsReadonly } from "../../../lib/api/eto/EtoApiUtils";
@@ -26,9 +25,16 @@ import {
 } from "../../../modules/eto-flow/utils";
 import { appConnect } from "../../../store";
 import { TTranslatedString } from "../../../types";
+import { Container, EColumnSpan, EContainerType } from "../../layouts/Container";
 import { Heading } from "../../shared/Heading";
 import { etoRegisterRoutes } from "../registration/routes";
 import { EtoFormProgressWidget } from "./EtoFormProgressWidget";
+
+import * as styles from "./ETOFormsProgressSection.module.scss";
+
+interface IEtoRegisteredRoutes {
+  [id: string]: EEtoFormTypes;
+}
 
 interface IEtoSection {
   id: EEtoFormTypes;
@@ -152,25 +158,25 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
   return (
     <>
       {groups.map((group, groupIndex) => (
-        <React.Fragment key={groupIndex}>
-          <Col xs={12}>
-            <Heading level={2} decorator={false}>
-              {group.name}
-            </Heading>
-          </Col>
-          {group.sections.filter(s => !s.hidden).map((section, sectionIndex) => (
-            <Col key={sectionIndex} lg={4} xs={12} md={6} data-test-id={section.testingId}>
+        <Container key={groupIndex} columnSpan={EColumnSpan.THREE_COL}>
+          <Heading level={2} decorator={false} className="mb-3">
+            {group.name}
+          </Heading>
+          <Container type={EContainerType.INHERIT_GRID} className={styles.progressSectionLayout}>
+            {group.sections.filter(s => !s.hidden).map((section, sectionIndex) => (
               <EtoFormProgressWidget
                 isLoading={loadingData}
-                to={etoRegisterRoutes[section.id]}
+                to={(etoRegisterRoutes as IEtoRegisteredRoutes)[section.id]}
                 progress={shouldEtoDataLoad ? section.progress : 0}
                 disabled={!shouldEtoDataLoad}
                 name={section.name}
                 readonly={etoFormIsReadonly(section.id, etoStatus)}
+                data-test-id={section.testingId}
+                key={sectionIndex}
               />
-            </Col>
-          ))}
-        </React.Fragment>
+            ))}
+          </Container>
+        </Container>
       ))}
     </>
   );

@@ -3,8 +3,8 @@ import BigNumber from "bignumber.js";
 import * as React from "react";
 
 import { testEto } from "../../../test/fixtures";
+import { EETOStateOnChain } from "../../modules/eto/types";
 import { IInvestorTicket, TETOWithInvestorTicket } from "../../modules/investor-portfolio/types";
-import { EETOStateOnChain } from "../../modules/public-etos/types";
 import { withStore } from "../../utils/storeDecorator.unsafe";
 import { PortfolioPastInvestments } from "./PortfolioPastInvestments";
 
@@ -31,8 +31,8 @@ const eto = {
 storiesOf("Portfolio/PortfolioPastInvestments", module)
   .addDecorator(
     withStore({
-      publicEtos: {
-        publicEtos: { [eto.previewCode]: eto },
+      eto: {
+        etos: { [eto.previewCode]: eto },
         contracts: { [eto.previewCode]: eto.contract },
         companies: { [eto.previewCode]: {} },
       },

@@ -2,13 +2,14 @@ import * as cn from "classnames";
 import { some } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Row } from "reactstrap";
 
 import { externalRoutes } from "../../../config/externalRoutes";
-import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
-import { isOnChain } from "../../../modules/public-etos/utils";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/eto/types";
+import { isOnChain } from "../../../modules/eto/utils";
 import { withMetaTags } from "../../../utils/withMetaTags.unsafe";
 import { withParams } from "../../../utils/withParams";
+import { Container, EColumnSpan, EContainerType } from "../../layouts/Container";
+import { WidgetGridLayout } from "../../layouts/Layout";
 import { PersonProfileModal } from "../../modals/PersonProfileModal";
 import { Accordion, AccordionElement } from "../../shared/Accordion";
 import { ButtonLink } from "../../shared/buttons";
@@ -102,7 +103,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
   return (
     <>
       <PersonProfileModal />
-      <article data-test-id="eto.public-view">
+      <WidgetGridLayout data-test-id="eto.public-view">
         <Cover
           companyName={brandName}
           companyOneliner={companyOneliner}
@@ -120,44 +121,38 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
           }}
           tags={categories}
         />
-        <EtoOverviewStatus eto={eto} className="mb-3" publicView={true} />
-        <Row>
-          <Col className="mb-4">
-            <Heading level={3} decorator={false} className="mb-3">
-              <div className={styles.headerWithButton}>
-                <FormattedMessage id="eto.public-view.eto-timeline" />
-                {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" &&
-                  !isInSetupState && (
-                    <ButtonLink
-                      to={withParams(externalRoutes.icoMonitorEto, { etoId: eto.etoId })}
-                      target="_blank"
-                    >
-                      <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
-                    </ButtonLink>
-                  )}
-              </div>
-            </Heading>
-            <Panel>
-              <EtoTimeline
-                startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined}
-              />
-            </Panel>
-          </Col>
-        </Row>
-        <Row className="align-items-stretch">
-          <Col
-            xs={12}
-            md={
-              isSlideShareAvailable ||
-              isTwitterFeedEnabled ||
-              isYouTubeVideoAvailable ||
-              hasSocialChannelsAdded
-                ? 8
-                : 12
-            }
-            className="mb-4"
-          >
-            <Heading level={3} decorator={false} className="mb-4">
+        <EtoOverviewStatus eto={eto} publicView={true} />
+        <Container columnSpan={EColumnSpan.THREE_COL}>
+          <Heading level={3} decorator={false}>
+            <div className={styles.headerWithButton}>
+              <FormattedMessage id="eto.public-view.eto-timeline" />
+              {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" &&
+                !isInSetupState && (
+                  <ButtonLink
+                    to={withParams(externalRoutes.icoMonitorEto, { etoId: eto.etoId })}
+                    target="_blank"
+                  >
+                    <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
+                  </ButtonLink>
+                )}
+            </div>
+          </Heading>
+          <Panel>
+            <EtoTimeline startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined} />
+          </Panel>
+        </Container>
+        <Container
+          columnSpan={
+            isSlideShareAvailable ||
+            isTwitterFeedEnabled ||
+            isYouTubeVideoAvailable ||
+            hasSocialChannelsAdded
+              ? EColumnSpan.TWO_COL
+              : EColumnSpan.THREE_COL
+          }
+        >
+          <Container columnSpan={EColumnSpan.TWO_COL}>
+            <Heading level={3} decorator={false}>
               <div className={styles.headerWithButton}>
                 {brandName}
                 {companyWebsite && (
@@ -169,21 +164,24 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
             </Heading>
 
             {(companyDescription || keyQuoteInvestor) && (
-              <Panel className="mb-4">
+              <Panel columnSpan={EColumnSpan.TWO_COL}>
                 {companyDescription && <p className="mb-4">{companyDescription}</p>}
                 {keyQuoteInvestor && <p className={cn(styles.quote, "mb-4")}>{keyQuoteInvestor}</p>}
               </Panel>
             )}
-
-            <Heading level={3} decorator={false} className="mb-4">
+          </Container>
+          <Container columnSpan={EColumnSpan.TWO_COL}>
+            <Heading level={3} decorator={false}>
               <FormattedMessage id="eto.public-view.legal-information.title" />
             </Heading>
 
-            <LegalInformationWidget companyData={eto.company} />
-          </Col>
-          {(isYouTubeVideoAvailable || isSlideShareAvailable) && (
-            <Col xs={12} md={4} className="mb-4 flex-column d-flex">
-              <Tabs className="mb-4" layoutSize="large" layoutOrnament={false}>
+            <LegalInformationWidget companyData={eto.company} columnSpan={EColumnSpan.THREE_COL} />
+          </Container>
+        </Container>
+        {(isYouTubeVideoAvailable || isSlideShareAvailable) && (
+          <Container columnSpan={EColumnSpan.ONE_COL}>
+            <Container>
+              <Tabs layoutSize="large" layoutOrnament={false}>
                 {isYouTubeVideoAvailable && (
                   <TabContent tab="video">
                     <Video youTubeUrl={companyVideo && companyVideo.url} hasModal />
@@ -195,6 +193,8 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                   </TabContent>
                 )}
               </Tabs>
+            </Container>
+            <Container>
               <div
                 className={cn(
                   (isSlideShareAvailable || isTwitterFeedEnabled || isYouTubeVideoAvailable) &&
@@ -203,45 +203,38 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
               >
                 <SocialProfilesList profiles={(socialChannels as IEtoSocialProfile[]) || []} />
               </div>
-              {isTwitterFeedEnabled && (
-                <>
-                  <Heading level={3} decorator={false} className="mt-4 mb-4">
-                    Twitter
-                  </Heading>
-                  <Panel
-                    narrow
-                    className={cn(styles.twitterPanel, "align-self-stretch", "flex-grow-1")}
-                  >
-                    <TwitterTimelineEmbed url={twitterUrl} userName={brandName} />
-                  </Panel>
-                </>
-              )}
-            </Col>
-          )}
-        </Row>
-        <Row>
-          <Col className="mb-4">
-            <Heading level={3} decorator={false} className="mb-4">
-              <FormattedMessage id="eto.public-view.token-terms.title" />
-            </Heading>
+            </Container>
+            {isTwitterFeedEnabled && (
+              <Container>
+                <Heading level={3} decorator={false}>
+                  Twitter
+                </Heading>
+                <Panel>
+                  <TwitterTimelineEmbed url={twitterUrl} userName={brandName} />
+                </Panel>
+              </Container>
+            )}
+          </Container>
+        )}
+        <Container columnSpan={EColumnSpan.THREE_COL}>
+          <Heading level={3} decorator={false}>
+            <FormattedMessage id="eto.public-view.token-terms.title" />
+          </Heading>
 
-            <EtoInvestmentTermsWidget etoData={eto} />
-          </Col>
-        </Row>
+          <EtoInvestmentTermsWidget etoData={eto} />
+        </Container>
         {areThereIndividuals(team) && (
-          <Row>
-            <Col className="mb-4">
-              <Heading level={3} decorator={false} className="mb-4">
-                <FormattedMessage id="eto.public-view.carousel.team" />
-              </Heading>
-              <Panel>
-                <PeopleSwiperWidget
-                  people={(team && (team.members as IPerson[])) || []}
-                  key={"team"}
-                />
-              </Panel>
-            </Col>
-          </Row>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <Heading level={3} decorator={false}>
+              <FormattedMessage id="eto.public-view.carousel.team" />
+            </Heading>
+            <Panel>
+              <PeopleSwiperWidget
+                people={(team && (team.members as IPerson[])) || []}
+                key={"team"}
+              />
+            </Panel>
+          </Container>
         )}
         {(areThereIndividuals(advisors) ||
           areThereIndividuals(notableInvestors) ||
@@ -249,89 +242,85 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
           areThereIndividuals(keyCustomers) ||
           areThereIndividuals(keyAlliances) ||
           areThereIndividuals(boardMembers)) && (
-          <Row>
-            <Col className="mb-4">
-              <Tabs
-                className="mb-4"
-                layoutSize="large"
-                layoutOrnament={false}
-                selectedIndex={selectActiveCarouselTab([
-                  advisors,
-                  notableInvestors,
-                  partners,
-                  keyCustomers,
-                  boardMembers,
-                  keyAlliances,
-                ])}
-              >
-                {areThereIndividuals(advisors) && (
-                  <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.advisors" />}>
-                    <Panel>
-                      <PeopleSwiperWidget people={advisors.members as IPerson[]} key={"team"} />
-                    </Panel>
-                  </TabContent>
-                )}
-                {areThereIndividuals(notableInvestors) && (
-                  <TabContent
-                    tab={<FormattedMessage id="eto.public-view.carousel.tab.investors" />}
-                  >
-                    <Panel>
-                      <PeopleSwiperWidget
-                        people={notableInvestors.members as IPerson[]}
-                        key="notableInvestors"
-                      />
-                    </Panel>
-                  </TabContent>
-                )}
-                {areThereIndividuals(partners) && (
-                  <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.partners" />}>
-                    <Panel>
-                      <PeopleSwiperWidget people={partners.members as IPerson[]} key="partners" />
-                    </Panel>
-                  </TabContent>
-                )}
-                {areThereIndividuals(keyCustomers) && (
-                  <TabContent
-                    tab={<FormattedMessage id="eto.public-view.carousel.tab.key-customers" />}
-                  >
-                    <Panel>
-                      <PeopleSwiperWidget
-                        key="keyCustomers"
-                        people={keyCustomers.members as IPerson[]}
-                      />
-                    </Panel>
-                  </TabContent>
-                )}
-                {areThereIndividuals(boardMembers) && (
-                  <TabContent
-                    tab={<FormattedMessage id="eto.public-view.carousel.tab.board-members" />}
-                  >
-                    <Panel>
-                      <PeopleSwiperWidget
-                        key="boardMembers"
-                        people={boardMembers.members as IPerson[]}
-                      />
-                    </Panel>
-                  </TabContent>
-                )}
-                {areThereIndividuals(keyAlliances) && (
-                  <TabContent
-                    tab={<FormattedMessage id="eto.public-view.carousel.tab.key-alliances" />}
-                  >
-                    <Panel>
-                      <PeopleSwiperWidget
-                        key="keyAlliances"
-                        people={keyAlliances.members as IPerson[]}
-                      />
-                    </Panel>
-                  </TabContent>
-                )}
-              </Tabs>
-            </Col>
-          </Row>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <Tabs
+              className="mb-3"
+              layoutSize="large"
+              layoutOrnament={false}
+              selectedIndex={selectActiveCarouselTab([
+                advisors,
+                notableInvestors,
+                partners,
+                keyCustomers,
+                boardMembers,
+                keyAlliances,
+              ])}
+            >
+              {areThereIndividuals(advisors) && (
+                <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.advisors" />}>
+                  <Panel>
+                    <PeopleSwiperWidget people={advisors.members as IPerson[]} key={"team"} />
+                  </Panel>
+                </TabContent>
+              )}
+              {areThereIndividuals(notableInvestors) && (
+                <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.investors" />}>
+                  <Panel>
+                    <PeopleSwiperWidget
+                      people={notableInvestors.members as IPerson[]}
+                      key="notableInvestors"
+                    />
+                  </Panel>
+                </TabContent>
+              )}
+              {areThereIndividuals(partners) && (
+                <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.partners" />}>
+                  <Panel>
+                    <PeopleSwiperWidget people={partners.members as IPerson[]} key="partners" />
+                  </Panel>
+                </TabContent>
+              )}
+              {areThereIndividuals(keyCustomers) && (
+                <TabContent
+                  tab={<FormattedMessage id="eto.public-view.carousel.tab.key-customers" />}
+                >
+                  <Panel>
+                    <PeopleSwiperWidget
+                      key="keyCustomers"
+                      people={keyCustomers.members as IPerson[]}
+                    />
+                  </Panel>
+                </TabContent>
+              )}
+              {areThereIndividuals(boardMembers) && (
+                <TabContent
+                  tab={<FormattedMessage id="eto.public-view.carousel.tab.board-members" />}
+                >
+                  <Panel>
+                    <PeopleSwiperWidget
+                      key="boardMembers"
+                      people={boardMembers.members as IPerson[]}
+                    />
+                  </Panel>
+                </TabContent>
+              )}
+              {areThereIndividuals(keyAlliances) && (
+                <TabContent
+                  tab={<FormattedMessage id="eto.public-view.carousel.tab.key-alliances" />}
+                >
+                  <Panel>
+                    <PeopleSwiperWidget
+                      key="keyAlliances"
+                      people={keyAlliances.members as IPerson[]}
+                    />
+                  </Panel>
+                </TabContent>
+              )}
+            </Tabs>
+          </Container>
         )}
-        <Row>
-          <Col sm={12} md={8} className="mb-4">
+        <Container columnSpan={EColumnSpan.TWO_COL} type={EContainerType.INHERIT_GRID}>
+          <Container columnSpan={EColumnSpan.TWO_COL}>
             {(inspiration ||
               companyMission ||
               customerGroup ||
@@ -346,7 +335,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
               targetMarketAndIndustry ||
               keyBenefitsForInvestors) && (
               <>
-                <Heading level={3} decorator={false} className="mb-4">
+                <Heading level={3} decorator={false}>
                   <FormattedMessage id="eto.public-view.product-vision.title" />
                 </Heading>
                 <Panel>
@@ -424,35 +413,27 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.use-of-capital" />}
                       >
-                        <Row>
-                          {useOfCapital && (
-                            <Col>
-                              <p>{useOfCapital}</p>
-                            </Col>
-                          )}
+                        {useOfCapital && <p>{useOfCapital}</p>}
 
-                          {useOfCapitalList && (
-                            <Col md={12} lg={6}>
-                              <ChartDoughnut
-                                className="pr-5 pb-4"
-                                layout="vertical"
-                                data={{
-                                  datasets: [
-                                    {
-                                      data: useOfCapitalList.map(d => d && d.percent) as number[],
-                                      backgroundColor: useOfCapitalList.map(
-                                        (_, i: number) => CHART_COLORS[i],
-                                      ),
-                                    },
-                                  ],
-                                  labels: (useOfCapitalList || []).map(
-                                    d => d && d.description,
-                                  ) as string[],
-                                }}
-                              />
-                            </Col>
-                          )}
-                        </Row>
+                        {useOfCapitalList && (
+                          <ChartDoughnut
+                            className={styles.doughnut}
+                            layout="vertical"
+                            data={{
+                              datasets: [
+                                {
+                                  data: useOfCapitalList.map(d => d && d.percent) as number[],
+                                  backgroundColor: useOfCapitalList.map(
+                                    (_, i: number) => CHART_COLORS[i],
+                                  ),
+                                },
+                              ],
+                              labels: (useOfCapitalList || []).map(
+                                d => d && d.description,
+                              ) as string[],
+                            }}
+                          />
+                        )}
                       </AccordionElement>
                     )}
                     {marketTraction && (
@@ -487,36 +468,40 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                 </Panel>
               </>
             )}
-          </Col>
-          <Col sm={12} md={4}>
-            {marketingLinks && (
-              <>
-                <Heading level={3} decorator={false} className="mb-4">
-                  <FormattedMessage id="eto.form.documents.title" />
+          </Container>
+        </Container>
+
+        <Container columnSpan={EColumnSpan.ONE_COL} type={EContainerType.INHERIT_GRID}>
+          {marketingLinks && (
+            <Container columnSpan={EColumnSpan.ONE_COL}>
+              <Heading level={3} decorator={false}>
+                <FormattedMessage id="eto.form.documents.title" />
+              </Heading>
+
+              <DocumentsWidget
+                columnSpan={EColumnSpan.THREE_COL}
+                companyMarketingLinks={marketingLinks}
+                etoTemplates={eto.templates}
+                etoDocuments={eto.documents}
+                isRetailEto={eto.allowRetailInvestors}
+              />
+            </Container>
+          )}
+
+          {companyNews &&
+            !!companyNews[0].url && (
+              <Container columnSpan={EColumnSpan.ONE_COL}>
+                <Heading level={3} decorator={false}>
+                  <FormattedMessage id="eto.form.media-links.title" />
                 </Heading>
-
-                <DocumentsWidget
-                  className="mb-4"
-                  companyMarketingLinks={marketingLinks}
-                  etoTemplates={eto.templates}
-                  etoDocuments={eto.documents}
-                  isRetailEto={eto.allowRetailInvestors}
+                <MediaLinksWidget
+                  links={[...companyNews].reverse() as ILink[]}
+                  columnSpan={EColumnSpan.THREE_COL}
                 />
-              </>
+              </Container>
             )}
-
-            {companyNews &&
-              !!companyNews[0].url && (
-                <>
-                  <Heading level={3} decorator={false} className="mb-4">
-                    <FormattedMessage id="eto.form.media-links.title" />
-                  </Heading>
-                  <MediaLinksWidget links={[...companyNews].reverse() as ILink[]} />
-                </>
-              )}
-          </Col>
-        </Row>
-      </article>
+        </Container>
+      </WidgetGridLayout>
     </>
   );
 };

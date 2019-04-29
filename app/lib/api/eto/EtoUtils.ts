@@ -1,4 +1,4 @@
-import { TEtoWithCompanyAndContract } from "../../../modules/public-etos/types";
+import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { TEtoSpecsData, TPartialEtoSpecData } from "./EtoApi.interfaces.unsafe";
 
 export const getInvestmentAmount = (eto: TPartialEtoSpecData) => {

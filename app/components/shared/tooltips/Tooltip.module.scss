@@ -28,6 +28,7 @@ $icon-size: 18px;
 
   &--text {
     .tooltip {
+      display: inline-block;
       border-bottom: 1px dotted $neu-greyish-brown;
     }
   }

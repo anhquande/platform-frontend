@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { CommonHtmlProps } from "../../../types";
 import { isZero } from "../../../utils/Number.utils";
+import { EColumnSpan } from "../../layouts/Container";
 import { AccountAddress } from "../../shared/AccountAddress";
 import { AccountBalance } from "../../shared/AccountBalance";
 import { ECurrency } from "../../shared/Money.unsafe";
@@ -20,17 +21,17 @@ interface IUnlockedETHWallet {
   totalEuroAmount: string;
 }
 
-export const UnlockedETHWallet: React.FunctionComponent<IUnlockedETHWallet & CommonHtmlProps> = ({
-  address,
-  depositEth,
-  withdrawEth,
-  className,
-  ethAmount,
-  ethEuroAmount,
-}) => {
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
+}
+
+export const UnlockedETHWallet: React.FunctionComponent<
+  IUnlockedETHWallet & CommonHtmlProps & IExternalProps
+> = ({ address, depositEth, withdrawEth, className, ethAmount, ethEuroAmount, columnSpan }) => {
   return (
     <WalletBalanceContainer
       className={className}
+      columnSpan={columnSpan}
       headerText={<FormattedMessage id="components.wallet.start.eth-wallet" />}
     >
       <p className={styles.message}>

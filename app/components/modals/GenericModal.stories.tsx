@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { TestMessage } from "../translatedMessages/messages";
 import { createMessage } from "../translatedMessages/utils";
-import { GenericModalLayout } from "./GenericModal.unsafe";
+import { GenericModalLayout } from "./GenericModal";
 
 const title = createMessage(TestMessage.TEST_MESSAGE, {
   message: "C'mon, salty pants. you won't loot the quarter-deck.",

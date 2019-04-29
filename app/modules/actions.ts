@@ -10,6 +10,7 @@ import { contractsActions } from "./contracts/actions";
 import { depositModalActions } from "./deposit-eth-modal/actions";
 import { etoDocumentsActions } from "./eto-documents/actions";
 import { etoFlowActions } from "./eto-flow/actions";
+import { etoActions } from "./eto/actions";
 import { gasActions } from "./gas/actions";
 import { genericModalActions } from "./generic-modal/actions";
 import { icbmWalletBalanceModalActions } from "./icbm-wallet-balance-modal/actions";
@@ -21,7 +22,6 @@ import { kycActions } from "./kyc/actions";
 import { notificationActions } from "./notifications/actions";
 import { personProfileModalActions } from "./person-profile-modal/actions";
 import { profileActions } from "./profile/actions";
-import { etoActions } from "./public-etos/actions";
 import { routingActions } from "./routing/actions";
 import { formSingleFileUploadActions } from "./shared/formSingleFileUpload/actions";
 import { remoteFileActions } from "./shared/remoteFile/actions";
@@ -62,7 +62,7 @@ export const actions = {
   notifications: notificationActions,
   etoFlow: etoFlowActions,
   etoDocuments: etoDocumentsActions,
-  publicEtos: etoActions,
+  eto: etoActions,
   bookBuilding: bookBuildingFlowActions,
   formSingleFileUpload: formSingleFileUploadActions,
   remoteFile: remoteFileActions,

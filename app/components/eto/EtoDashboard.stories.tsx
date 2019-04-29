@@ -1,13 +1,12 @@
+import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { Row } from "reactstrap";
 
 import { testEto } from "../../../test/fixtures";
 import { mockedStore } from "../../../test/fixtures/mockedStore";
 import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { EETOStateOnChain } from "../../modules/public-etos/types";
 import { withStore } from "../../utils/storeDecorator.unsafe";
-import { EtoDashboardStateViewComponent } from "./EtoDashboard";
+import { EtoDashboardComponent } from "./EtoDashboard";
 
 const statePreview = {
   etoState: EEtoState.PREVIEW,
@@ -17,7 +16,9 @@ const statePreview = {
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const statePreviewNoSubmissionSection = {
@@ -28,7 +29,9 @@ const statePreviewNoSubmissionSection = {
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const statePending = {
@@ -39,7 +42,9 @@ const statePending = {
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateListed_1 = {
@@ -50,7 +55,9 @@ const stateListed_1 = {
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateListed_2 = {
@@ -61,7 +68,9 @@ const stateListed_2 = {
   isOfferingDocumentSubmitted: false,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateListed_3 = {
@@ -72,7 +81,9 @@ const stateListed_3 = {
   isOfferingDocumentSubmitted: false,
   previewCode: testEto.previewCode,
   isRetailEto: false,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateProspectusApproved_1 = {
@@ -83,7 +94,9 @@ const stateProspectusApproved_1 = {
   shouldViewSubmissionSection: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateProspectusApproved_2 = {
@@ -94,7 +107,9 @@ const stateProspectusApproved_2 = {
   shouldViewSubmissionSection: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: null,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateOnChainWhitelist = {
@@ -105,7 +120,9 @@ const stateOnChainWhitelist = {
   shouldViewSubmissionSection: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: EETOStateOnChain.Whitelist,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateOnChainSigning = {
@@ -116,7 +133,9 @@ const stateOnChainSigning = {
   shouldViewSubmissionSection: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: EETOStateOnChain.Signing,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateOnChainRefund = {
@@ -127,7 +146,9 @@ const stateOnChainRefund = {
   shouldViewSubmissionSection: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: EETOStateOnChain.Refund,
+  isLightWallet: true,
+  isVerificationSectionDone: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 const stateOnChainClaim = {
@@ -138,68 +159,33 @@ const stateOnChainClaim = {
   shouldViewSubmissionSection: true,
   previewCode: testEto.previewCode,
   isRetailEto: true,
-  stateOnChain: EETOStateOnChain.Claim,
+  isVerificationSectionDone: true,
+  isLightWallet: true,
+  loadFileDataStart: action("loadFileDataStart"),
 };
 
 storiesOf("ETO-Flow/Dashboard/StateView", module)
   .addDecorator(withStore(mockedStore))
-  .add("State PREVIEW with submissionSection", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...statePreview} />
-    </Row>
-  ))
+
+  .add("State PREVIEW with submissionSection", () => <EtoDashboardComponent {...statePreview} />)
   .add("State PREVIEW, no submissionSection", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...statePreviewNoSubmissionSection} />
-    </Row>
+    <EtoDashboardComponent {...statePreviewNoSubmissionSection} />
   ))
-  .add("State PENDING", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...statePending} />
-    </Row>
-  ))
+  .add("State PENDING", () => <EtoDashboardComponent {...statePending} />)
   .add("State LISTED, retail eto, canEnableBookbuilding, eto submitted ", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateListed_1} />
-    </Row>
+    <EtoDashboardComponent {...stateListed_1} />
   ))
   .add("State LISTED, retail eto, eto not submitted", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateListed_2} />
-    </Row>
+    <EtoDashboardComponent {...stateListed_2} />
   ))
   .add("State LISTED, canEnableBookbuilding, eto not submitted", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateListed_3} />
-    </Row>
+    <EtoDashboardComponent {...stateListed_3} />
   ))
-  .add("State PROSPECTUS_APPROVED", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateProspectusApproved_1} />
-    </Row>
-  ))
+  .add("State PROSPECTUS_APPROVED", () => <EtoDashboardComponent {...stateProspectusApproved_1} />)
   .add("State PROSPECTUS_APPROVED, canEnableBookbuilding", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateProspectusApproved_2} />
-    </Row>
+    <EtoDashboardComponent {...stateProspectusApproved_2} />
   ))
-  .add("State OnChain whitelist", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateOnChainWhitelist} />
-    </Row>
-  ))
-  .add("State OnChain Signing", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateOnChainSigning} />
-    </Row>
-  ))
-  .add("State OnChain claim", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateOnChainClaim} />
-    </Row>
-  ))
-  .add("State OnChain refund", () => (
-    <Row className="row-gutter-top">
-      <EtoDashboardStateViewComponent {...stateOnChainRefund} />
-    </Row>
-  ));
+  .add("State OnChain whitelist", () => <EtoDashboardComponent {...stateOnChainWhitelist} />)
+  .add("State OnChain Signing", () => <EtoDashboardComponent {...stateOnChainSigning} />)
+  .add("State OnChain claim", () => <EtoDashboardComponent {...stateOnChainClaim} />)
+  .add("State OnChain refund", () => <EtoDashboardComponent {...stateOnChainRefund} />);

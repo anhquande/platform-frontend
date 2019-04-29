@@ -4,12 +4,10 @@ import { etoFixtureAddressByName, tid } from "../utils";
 import { createAndLoginNewUser } from "../utils/userHelpers";
 import { assertEtoView } from "./EtoViewUtils";
 
+const ETO_ID = etoFixtureAddressByName("ETONoStartDate");
+
 describe("Eto Investor View", () => {
-  let ETO_ID: string;
-  beforeEach(() => {
-    createAndLoginNewUser({ type: "investor", kyc: "business" });
-    ETO_ID = etoFixtureAddressByName("ETONoStartDate");
-  });
+  beforeEach(() => createAndLoginNewUser({ type: "investor", kyc: "business" }));
 
   it("should load empty Eto", () => {
     cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));

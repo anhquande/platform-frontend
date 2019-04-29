@@ -6,7 +6,7 @@ import { ECurrency } from "../../components/shared/Money.unsafe";
 import { InvestorPortfolioMessage } from "../../components/translatedMessages/messages";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { EEtoState, TPublicEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EEtoState, TEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IUser } from "../../lib/api/users/interfaces";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { promisify } from "../../lib/contracts/typechain-runtime";
@@ -72,7 +72,7 @@ export function* loadInvestorTicket(
 
 export function* loadComputedContributionFromContract(
   { contractsService }: TGlobalDependencies,
-  eto: TPublicEtoData,
+  eto: TEtoData,
   amountEuroUlps?: string,
   isICBM = false,
 ): any {

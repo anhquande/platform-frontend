@@ -2,10 +2,7 @@ import { storiesOf } from "@storybook/react";
 import BigNumber from "bignumber.js";
 import * as React from "react";
 
-import {
-  EETOStateOnChain,
-  TEtoWithCompanyAndContract,
-} from "../../../../modules/public-etos/types";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import { withMockedDate } from "../../../../utils/storybookHelpers.unsafe";
 import { EtoMaxCapExceededComponent } from "./EtoMaxCapExceeded";
 

@@ -3,12 +3,12 @@ import { compose, withProps } from "recompose";
 import { EUserType } from "../../../../../lib/api/users/interfaces";
 import { actions } from "../../../../../modules/actions";
 import { selectUserType } from "../../../../../modules/auth/selectors";
+import { EETOStateOnChain } from "../../../../../modules/eto/types";
 import {
   selectHasInvestorTicket,
   selectInvestorTicket,
 } from "../../../../../modules/investor-portfolio/selectors";
 import { IInvestorTicket } from "../../../../../modules/investor-portfolio/types";
-import { EETOStateOnChain } from "../../../../../modules/public-etos/types";
 import { appConnect } from "../../../../../store";
 import { Omit } from "../../../../../types";
 

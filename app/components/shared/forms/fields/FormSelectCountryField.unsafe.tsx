@@ -2,9 +2,10 @@ import { FieldAttributes } from "formik";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
+import { Dictionary, TTranslatedString } from "../../../../types";
 import { FormSelectField, NONE_KEY } from "./FormSelectField";
 
-const VALUES = {
+const VALUES: Dictionary<TTranslatedString> = {
   [NONE_KEY]: <FormattedMessage id="form.select.please-select" />,
   AF: "Afghanistan",
   AX: "ÅLand Islands",
@@ -266,4 +267,4 @@ const FormSelectCountryField: React.FunctionComponent<FieldGroupProps> = props =
   <FormSelectField {...props} values={VALUES} />
 );
 
-export { FormSelectCountryField };
+export { FormSelectCountryField, VALUES };

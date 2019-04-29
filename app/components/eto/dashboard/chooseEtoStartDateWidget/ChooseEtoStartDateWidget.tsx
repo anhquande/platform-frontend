@@ -4,13 +4,14 @@ import * as moment from "moment";
 import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { FormGroup } from "reactstrap";
-import { compose } from "redux";
+import { compose } from "recompose";
 
 import { actions } from "../../../../modules/actions";
 import { selectPlatformTermsConstants } from "../../../../modules/contracts/selectors";
 import { selectPreEtoStartDateFromContract } from "../../../../modules/eto-flow/selectors";
 import { isValidEtoStartDate } from "../../../../modules/eto-flow/utils";
 import { appConnect } from "../../../../store";
+import { EColumnSpan } from "../../../layouts/Container";
 import { ButtonArrowRight } from "../../../shared/buttons";
 import { DatePicker } from "../../../shared/DatePicker";
 import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
@@ -37,6 +38,10 @@ interface IStateProps {
 interface IChangeDateStateProps {
   etoDate: Date;
   minOffsetPeriod: BigNumber;
+}
+
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
 }
 
 interface IDispatchProps {
@@ -314,12 +319,14 @@ const SetNewDate: React.ComponentType<IStateProps & IDispatchProps> = props => (
   </>
 );
 
-const EtoStartDateWidgetComponent: React.ComponentType<IStateProps & IDispatchProps> = ({
-  etoDate,
-  ...props
-}) => {
+const EtoStartDateWidgetComponent: React.ComponentType<
+  IStateProps & IDispatchProps & IExternalProps
+> = ({ etoDate, ...props }) => {
   return (
-    <Panel headerText={<FormattedMessage id="eto.settings.eto-start-date" />}>
+    <Panel
+      headerText={<FormattedMessage id="eto.settings.eto-start-date" />}
+      columnSpan={props.columnSpan}
+    >
       <div className={styles.content}>
         <p className={cn(styles.text, "pt-2")}>
           <FormattedMessage id="settings.choose-pre-eto-date.book-building-will-stop" />
@@ -334,7 +341,10 @@ const EtoStartDateWidgetComponent: React.ComponentType<IStateProps & IDispatchPr
   );
 };
 
-const ChooseEtoStartDateWidget = compose<React.FunctionComponent>(
+const ChooseEtoStartDateWidget = compose<
+  IStateProps & IDispatchProps & IExternalProps,
+  IExternalProps
+>(
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => {

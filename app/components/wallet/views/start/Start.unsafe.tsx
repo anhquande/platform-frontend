@@ -30,6 +30,7 @@ import {
 import { selectEthereumAddressWithChecksum } from "../../../../modules/web3/selectors";
 import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
+import { EColumnSpan } from "../../../layouts/Container";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
 import { ClaimedDividends } from "../../claimed-dividends/ClaimedDividends.unsafe";
 import { IcbmWallet, IIcbmWalletValues } from "../../wallet-balance/IcbmWallet";
@@ -77,48 +78,38 @@ export const WalletStartComponent: React.FunctionComponent<TProps> = ({
   isUserFullyVerified,
 }) => (
   <>
-    <Row className="row-gutter-top" data-test-id="wallet-start-container">
-      <Col lg={6} xs={12}>
-        <UnlockedETHWallet
-          className="h-100"
-          ethAmount={liquidWalletData.ethAmount}
-          ethEuroAmount={liquidWalletData.ethEuroAmount}
-          totalEuroAmount={liquidWalletData.totalEuroAmount}
-          depositEth={depositEthUnlockedWallet}
-          withdrawEth={withdrawEthUnlockedWallet}
-          address={userAddress}
-        />
-      </Col>
+    <>
+      <UnlockedETHWallet
+        ethAmount={liquidWalletData.ethAmount}
+        ethEuroAmount={liquidWalletData.ethEuroAmount}
+        totalEuroAmount={liquidWalletData.totalEuroAmount}
+        depositEth={depositEthUnlockedWallet}
+        withdrawEth={withdrawEthUnlockedWallet}
+        address={userAddress}
+        columnSpan={EColumnSpan.ONE_AND_HALF_COL}
+      />
 
-      <Col lg={6} xs={12}>
-        <UnlockedNEURWallet
-          className="h-100"
-          neuroAmount={liquidWalletData.neuroAmount}
-          neuroEuroAmount={liquidWalletData.neuroEuroAmount}
-          onPurchase={purchaseNEur}
-          onRedeem={redeemNEur}
-          onVerify={verifyBankAccount}
-          isUserFullyVerified={isUserFullyVerified}
-        />
-      </Col>
+      <UnlockedNEURWallet
+        neuroAmount={liquidWalletData.neuroAmount}
+        neuroEuroAmount={liquidWalletData.neuroEuroAmount}
+        onPurchase={purchaseNEur}
+        onRedeem={redeemNEur}
+        onVerify={verifyBankAccount}
+        isUserFullyVerified={isUserFullyVerified}
+        columnSpan={EColumnSpan.ONE_AND_HALF_COL}
+      />
 
-      {lockedWalletData.hasFunds && (
-        <Col lg={6} xs={12}>
-          <LockedWallet className="h-100" data={lockedWalletData} />
-        </Col>
-      )}
+      {lockedWalletData.hasFunds && <LockedWallet className="h-100" data={lockedWalletData} />}
 
       {icbmWalletData.hasFunds && (
-        <Col lg={6} xs={12}>
-          <IcbmWallet
-            className="h-100"
-            onUpgradeEuroClick={upgradeWalletEuroToken}
-            onUpgradeEtherClick={upgradeWalletEtherToken}
-            data={icbmWalletData}
-          />
-        </Col>
+        <IcbmWallet
+          className="h-100"
+          onUpgradeEuroClick={upgradeWalletEuroToken}
+          onUpgradeEtherClick={upgradeWalletEtherToken}
+          data={icbmWalletData}
+        />
       )}
-    </Row>
+    </>
 
     {process.env.NF_WALLET_MY_PROCEEDS_VISIBLE === "1" && (
       <Row>

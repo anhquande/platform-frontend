@@ -25,6 +25,19 @@
 .input {
   position: absolute;
   visibility: hidden;
+
+  &:disabled + .box {
+    color: $neu-silver;
+    cursor: default;
+
+    .label {
+      padding: px-to-rem(5px) 1.25rem;
+    }
+
+    .icon {
+      opacity: .3;
+    }
+  }
 }
 
 .box {
@@ -34,11 +47,12 @@
   align-items: center;
   width: 100%;
   border: 1px solid $neu-pale-grey;
+  height: 52px;
 }
 
 .label {
-  flex-grow: 1;
   padding: .75rem 1.25rem;
+  text-align: right;
 }
 
 .balance {
@@ -46,6 +60,8 @@
   flex-direction: row;
   flex-wrap: nowrap;
   margin-right: 1.2em;
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .icon {
@@ -72,4 +88,8 @@
   .balance {
     margin-right: .7em;
   }
+}
+
+.enable-icbm {
+  @include font-label;
 }

@@ -9,6 +9,7 @@ import { getTokenPrice } from "../../modules/investor-portfolio/utils";
 import { withParams } from "../../utils/withParams";
 import { appRoutes } from "../appRoutes";
 import { EProjectStatusSize, ETOState } from "../eto/shared/ETOState";
+import { Container } from "../layouts/Container";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../shared/Money.unsafe";
@@ -22,11 +23,10 @@ interface IExternalProps {
 }
 
 const PortfolioPastInvestments: React.FunctionComponent<IExternalProps> = ({ pastInvestments }) => (
-  <>
+  <Container>
     <Heading
       level={3}
       decorator={false}
-      className="mb-4"
       description={<FormattedMessage id="portfolio.section.past-investments.description" />}
     >
       <FormattedMessage id="portfolio.section.past-investments.title" />
@@ -118,7 +118,7 @@ const PortfolioPastInvestments: React.FunctionComponent<IExternalProps> = ({ pas
         },
       )}
     </NewTable>
-  </>
+  </Container>
 );
 
 export { PortfolioPastInvestments };

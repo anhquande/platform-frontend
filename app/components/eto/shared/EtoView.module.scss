@@ -37,11 +37,6 @@
   color: $neu-greyish-brown;
 }
 
-.twitter-panel {
-  height: 100%;
-  min-height: 320px;
-}
-
 .header-with-button {
   display: flex;
   justify-content: space-between;
@@ -55,3 +50,8 @@
   font-style: italic;
   font-weight: $font-weight-bold;
 }
+
+.doughnut {
+  max-height: px-to-rem(240);
+}
+

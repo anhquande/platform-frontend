@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { EETOStateOnChain } from "../../../../../modules/public-etos/types";
+import { EETOStateOnChain } from "../../../../../modules/eto/types";
 import { withStore } from "../../../../../utils/storeDecorator.unsafe";
 import { CampaigningActivatedWidgetComponent } from "./CampaigningActivatedWidget";
 

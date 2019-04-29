@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { EtoFormProgressWidgetLayout } from "./EtoFormProgressWidget";
+import { EtoFormProgressWidget } from "./EtoFormProgressWidget";
 
 storiesOf("EtoFormProgressWidget", module)
   .add("loading", () => (
-    <EtoFormProgressWidgetLayout
+    <EtoFormProgressWidget
       to="/test"
       name="test long name"
       isLoading={true}
@@ -15,7 +15,7 @@ storiesOf("EtoFormProgressWidget", module)
     />
   ))
   .add("edit", () => (
-    <EtoFormProgressWidgetLayout
+    <EtoFormProgressWidget
       to="/test"
       name="test long name"
       isLoading={false}
@@ -25,7 +25,7 @@ storiesOf("EtoFormProgressWidget", module)
     />
   ))
   .add("complete", () => (
-    <EtoFormProgressWidgetLayout
+    <EtoFormProgressWidget
       to="/test"
       name="test long name"
       progress={0.88}
@@ -35,7 +35,7 @@ storiesOf("EtoFormProgressWidget", module)
     />
   ))
   .add("readonly", () => (
-    <EtoFormProgressWidgetLayout
+    <EtoFormProgressWidget
       to="/test"
       name="test long name"
       progress={0.88}

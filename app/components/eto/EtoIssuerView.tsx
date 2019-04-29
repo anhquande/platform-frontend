@@ -2,7 +2,7 @@ import { branch, compose, renderComponent } from "recompose";
 
 import { actions } from "../../modules/actions";
 import { selectIssuerEtoWithCompanyAndContract } from "../../modules/eto-flow/selectors";
-import { TEtoWithCompanyAndContract } from "../../modules/public-etos/types";
+import { TEtoWithCompanyAndContract } from "../../modules/eto/types";
 import { appConnect } from "../../store";
 import { onEnterAction } from "../../utils/OnEnterAction";
 import { withContainer } from "../../utils/withContainer.unsafe";

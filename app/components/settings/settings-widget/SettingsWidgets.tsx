@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Col } from "reactstrap";
 
 import { ERequestStatus } from "../../../lib/api/KycApi.interfaces";
+import { EColumnSpan } from "../../layouts/Container";
 import { BackupSeedWidget } from "../backup-seed/BackupSeedWidget";
 import { KycStatusWidget } from "../kyc-states/KycStatusWidget";
 import { VerifyEmailWidget } from "../verify-email/VerifyEmailWidget";
@@ -12,6 +12,7 @@ interface IProps {
   verifiedEmail?: string;
   backupCodesVerified?: boolean;
   requestStatus?: ERequestStatus;
+  columnSpan?: EColumnSpan;
 }
 
 export const SettingsWidgets: React.FunctionComponent<IProps> = ({
@@ -20,25 +21,19 @@ export const SettingsWidgets: React.FunctionComponent<IProps> = ({
   verifiedEmail,
   isDynamic,
   requestStatus,
+  columnSpan,
 }) => {
   let settingsStepCounter = 0;
+
   return (
     <>
       {(!isDynamic || !verifiedEmail) && (
-        <Col lg={4} xs={12}>
-          <VerifyEmailWidget step={++settingsStepCounter} />
-        </Col>
+        <VerifyEmailWidget step={++settingsStepCounter} columnSpan={columnSpan} />
       )}
       {(!isDynamic || !backupCodesVerified) &&
-        isLightWallet && (
-          <Col lg={4} xs={12}>
-            <BackupSeedWidget step={++settingsStepCounter} />
-          </Col>
-        )}
+        isLightWallet && <BackupSeedWidget step={++settingsStepCounter} columnSpan={columnSpan} />}
       {(!isDynamic || requestStatus !== ERequestStatus.ACCEPTED) && (
-        <Col lg={4} xs={12}>
-          <KycStatusWidget step={++settingsStepCounter} />
-        </Col>
+        <KycStatusWidget step={++settingsStepCounter} columnSpan={columnSpan} />
       )}
     </>
   );

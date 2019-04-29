@@ -118,7 +118,7 @@ export const assertLockedAccessModal = () => {
 
 export const assertUserInLanding = () => {
   cy.url().should("contain", appRoutes.root);
-  return cy.get(tid("landing-page"));
+  cy.get(tid("landing-page")).should("exist");
 };
 
 export const assertMoneyNotEmpty = (selector: string) => {

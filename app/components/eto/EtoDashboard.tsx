@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FormattedHTMLMessage } from "react-intl-phraseapp";
-import { Col, Row } from "reactstrap";
+import { withProps } from "recompose";
 import { compose } from "redux";
 
 import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
@@ -19,11 +19,12 @@ import {
 } from "../../modules/eto-flow/selectors";
 import { calculateGeneralEtoData } from "../../modules/eto-flow/utils";
 import { selectKycRequestStatus } from "../../modules/kyc/selectors";
-import { selectEtoOnChainState } from "../../modules/public-etos/selectors";
-import { EETOStateOnChain } from "../../modules/public-etos/types";
 import { selectIsLightWallet } from "../../modules/web3/selectors";
 import { appConnect } from "../../store";
 import { onEnterAction } from "../../utils/OnEnterAction";
+import { withContainer } from "../../utils/withContainer.unsafe";
+import { Container, EColumnSpan } from "../layouts/Container";
+import { WidgetGridLayout } from "../layouts/Layout";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { SettingsWidgets } from "../settings/settings-widget/SettingsWidgets";
 import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
@@ -55,42 +56,43 @@ interface IStateProps {
   isTermSheetSubmitted?: boolean;
   isOfferingDocumentSubmitted?: boolean;
   isRetailEto: boolean;
-  stateOnChain: EETOStateOnChain | null;
+}
+
+interface IComputedProps {
+  isVerificationSectionDone: boolean;
+  shouldViewSubmissionSection: boolean;
 }
 
 interface IDispatchProps {
   loadFileDataStart: () => void;
 }
 
-type IProps = IStateProps & IDispatchProps;
-
-const SubmitDashBoardSection: React.FunctionComponent<{ isTermSheetSubmitted?: boolean }> = ({
-  isTermSheetSubmitted,
-}) => (
+const SubmitDashBoardSection: React.FunctionComponent<{
+  isTermSheetSubmitted?: boolean;
+  columnSpan?: EColumnSpan;
+}> = ({ isTermSheetSubmitted, columnSpan }) => (
   <>
-    <DashboardSection
-      step={3}
-      title="UPLOAD FILES / SUBMIT PROPOSAL"
-      data-test-id="eto-dashboard-verification"
-    />
+    <Container columnSpan={EColumnSpan.THREE_COL}>
+      <DashboardSection
+        step={3}
+        title="UPLOAD FILES / SUBMIT PROPOSAL"
+        data-test-id="eto-dashboard-verification"
+      />
+    </Container>
     {isTermSheetSubmitted ? (
-      <Col lg={4} xs={12}>
-        <SubmitProposalWidget />
-      </Col>
+      <SubmitProposalWidget columnSpan={columnSpan} />
     ) : (
-      <Col lg={4} xs={12}>
-        <UploadTermSheetWidget />
-      </Col>
+      <UploadTermSheetWidget columnSpan={columnSpan} />
     )}
   </>
 );
 
 const EtoProgressDashboardSection: React.FunctionComponent = () => (
   <>
-    <DashboardSection step={2} title="ETO APPLICATION" />
-    <Col xs={12}>
-      <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
-    </Col>
+    <Container columnSpan={EColumnSpan.THREE_COL}>
+      <DashboardSection step={2} title="ETO APPLICATION" />
+      <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+    </Container>
     <ETOFormsProgressSection />
   </>
 );
@@ -103,7 +105,6 @@ interface IEtoStateRender {
   canEnableBookbuilding: boolean;
   previewCode?: string;
   isRetailEto: boolean;
-  stateOnChain: EETOStateOnChain | null;
 }
 
 const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> = ({
@@ -114,10 +115,13 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
   canEnableBookbuilding,
   previewCode,
   isRetailEto,
-  stateOnChain,
 }) => {
   if (!previewCode) {
-    return <LoadingIndicator />;
+    return (
+      <Container columnSpan={EColumnSpan.THREE_COL}>
+        <LoadingIndicator />
+      </Container>
+    );
   }
   const dashboardTitle = (
     <ETOState
@@ -131,7 +135,10 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           {shouldViewSubmissionSection && (
-            <SubmitDashBoardSection isTermSheetSubmitted={isTermSheetSubmitted} />
+            <SubmitDashBoardSection
+              isTermSheetSubmitted={isTermSheetSubmitted}
+              columnSpan={EColumnSpan.TWO_COL}
+            />
           )}
           <EtoProgressDashboardSection />
         </>
@@ -139,134 +146,109 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
     case EEtoState.PENDING:
       return (
         <>
-          <DashboardSection hasDecorator={false} title={dashboardTitle} />
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+          </Container>
           <ETOFormsProgressSection />
         </>
       );
     case EEtoState.LISTED:
       return (
         <>
-          <DashboardSection hasDecorator={false} title={dashboardTitle} />
-          {canEnableBookbuilding && (
-            <Col lg={8} xs={12}>
-              <BookBuildingWidget />
-            </Col>
-          )}
-          {!isOfferingDocumentSubmitted && (
-            <Col lg={4} xs={12}>
-              {isRetailEto ? <UploadProspectusWidget /> : <UploadInvestmentMemorandum />}
-            </Col>
-          )}
-          <Col xs={12}>
-            <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
-          </Col>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+          </Container>
+          {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
+          {!isOfferingDocumentSubmitted &&
+            (isRetailEto ? (
+              <UploadProspectusWidget columnSpan={EColumnSpan.ONE_COL} />
+            ) : (
+              <UploadInvestmentMemorandum columnSpan={EColumnSpan.ONE_COL} />
+            ))}
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+          </Container>
           <ETOFormsProgressSection />
         </>
       );
     case EEtoState.PROSPECTUS_APPROVED:
       return (
         <>
-          <DashboardSection hasDecorator={false} title={dashboardTitle} />
-          {canEnableBookbuilding && (
-            <Col lg={8} xs={12}>
-              <BookBuildingWidget />
-            </Col>
-          )}
-          <Col xs={12}>
-            <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
-          </Col>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+          </Container>
+          {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+          </Container>
           <ETOFormsProgressSection />
         </>
       );
     case EEtoState.ON_CHAIN:
-      // todo conditional rendering of UploadInvestmentAgreement is a quick fix until pr#2561 is merged
       return (
         <>
-          <DashboardSection hasDecorator={false} title={dashboardTitle} />
-          {stateOnChain &&
-            !(
-              stateOnChain < EETOStateOnChain.Signing || stateOnChain === EETOStateOnChain.Refund
-            ) && (
-              <Col lg={6} xs={12}>
-                <UploadInvestmentAgreement />
-              </Col>
-            )}
-          <Col lg={6} xs={12}>
-            <ChooseEtoStartDateWidget />
-          </Col>
-          <Col lg={6} xs={12}>
-            <BookBuildingWidget />
-          </Col>
-          <Col xs={12}>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+          </Container>
+          <UploadInvestmentAgreement columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+          <BookBuildingWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+          <ChooseEtoStartDateWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+          <Container columnSpan={EColumnSpan.THREE_COL}>
             <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
-          </Col>
+          </Container>
           <ETOFormsProgressSection />
         </>
       );
     default:
-      return <DashboardSection hasDecorator={false} title={dashboardTitle} />;
+      return (
+        <Container columnSpan={EColumnSpan.THREE_COL}>
+          <DashboardSection hasDecorator={false} title={dashboardTitle} />
+        </Container>
+      );
   }
 };
 
-class EtoDashboardComponent extends React.Component<IProps> {
-  componentDidMount(): void {
-    const { shouldEtoDataLoad, loadFileDataStart } = this.props;
-
-    if (shouldEtoDataLoad) loadFileDataStart();
-  }
-
+class EtoDashboardComponent extends React.Component<IStateProps & IComputedProps & IDispatchProps> {
   render(): React.ReactNode {
     const {
-      verifiedEmail,
-      backupCodesVerified,
-      requestStatus,
       etoState,
       canEnableBookbuilding,
-      etoFormProgress,
+      shouldViewSubmissionSection,
       isTermSheetSubmitted,
-      shouldEtoDataLoad,
       isOfferingDocumentSubmitted,
       previewCode,
       isRetailEto,
-      stateOnChain,
+      isVerificationSectionDone,
     } = this.props;
-    const isVerificationSectionDone = Boolean(
-      verifiedEmail && backupCodesVerified && requestStatus === ERequestStatus.ACCEPTED,
-    );
-    const shouldViewSubmissionSection = !!(
-      etoFormProgress && etoFormProgress >= SUBMIT_PROPOSAL_THRESHOLD
-    );
 
     return (
-      <LayoutAuthorized>
-        <Row className="row-gutter-top" data-test-id="eto-dashboard-application">
-          {!isVerificationSectionDone && (
-            <>
+      <WidgetGridLayout data-test-id="eto-dashboard-application">
+        {!isVerificationSectionDone && (
+          <>
+            <Container>
               <DashboardSection
                 step={1}
                 title="VERIFICATION"
                 data-test-id="eto-dashboard-verification"
               />
-              <SettingsWidgets isDynamic={true} {...this.props} />
-            </>
-          )}
-
-          {shouldEtoDataLoad ? (
-            <EtoDashboardStateViewComponent
-              isTermSheetSubmitted={isTermSheetSubmitted}
-              isOfferingDocumentSubmitted={isOfferingDocumentSubmitted}
-              shouldViewSubmissionSection={shouldViewSubmissionSection}
-              etoState={etoState}
-              canEnableBookbuilding={canEnableBookbuilding}
-              previewCode={previewCode}
-              isRetailEto={isRetailEto}
-              stateOnChain={stateOnChain}
+            </Container>
+            <SettingsWidgets
+              isDynamic={true}
+              {...this.props}
+              columnSpan={EColumnSpan.ONE_AND_HALF_COL}
             />
-          ) : (
-            <EtoProgressDashboardSection />
-          )}
-        </Row>
-      </LayoutAuthorized>
+          </>
+        )}
+        <EtoDashboardStateViewComponent
+          isTermSheetSubmitted={isTermSheetSubmitted}
+          isOfferingDocumentSubmitted={isOfferingDocumentSubmitted}
+          shouldViewSubmissionSection={shouldViewSubmissionSection}
+          etoState={etoState}
+          canEnableBookbuilding={canEnableBookbuilding}
+          previewCode={previewCode}
+          isRetailEto={isRetailEto}
+        />
+      </WidgetGridLayout>
     );
   }
 }
@@ -277,29 +259,45 @@ const EtoDashboard = compose<React.FunctionComponent>(
     actionCreator: d => d(actions.etoFlow.loadIssuerEto()),
   }),
   appConnect<IStateProps, IDispatchProps>({
-    stateToProps: s => {
-      const previewCode = selectIssuerEtoPreviewCode(s);
-      const stateOnChain = previewCode && selectEtoOnChainState(s, previewCode);
-      return {
-        verifiedEmail: selectVerifiedUserEmail(s.auth),
-        backupCodesVerified: selectBackupCodesVerified(s),
-        isLightWallet: selectIsLightWallet(s.web3),
-        shouldEtoDataLoad: selectShouldEtoDataLoad(s),
-        requestStatus: selectKycRequestStatus(s),
-        etoState: selectIssuerEtoState(s),
-        previewCode,
-        canEnableBookbuilding: selectCanEnableBookBuilding(s),
-        isTermSheetSubmitted: selectIsTermSheetSubmitted(s),
-        isOfferingDocumentSubmitted: selectIsOfferingDocumentSubmitted(s),
-        etoFormProgress: calculateGeneralEtoData(selectCombinedEtoCompanyData(s)),
-        isRetailEto: selectIssuerEtoIsRetail(s),
-        stateOnChain: stateOnChain ? stateOnChain : null,
-      };
-    },
+    stateToProps: s => ({
+      verifiedEmail: selectVerifiedUserEmail(s.auth),
+      backupCodesVerified: selectBackupCodesVerified(s),
+      isLightWallet: selectIsLightWallet(s.web3),
+      shouldEtoDataLoad: selectShouldEtoDataLoad(s),
+      requestStatus: selectKycRequestStatus(s),
+      etoState: selectIssuerEtoState(s),
+      previewCode: selectIssuerEtoPreviewCode(s),
+      canEnableBookbuilding: selectCanEnableBookBuilding(s),
+      isTermSheetSubmitted: selectIsTermSheetSubmitted(s),
+      isOfferingDocumentSubmitted: selectIsOfferingDocumentSubmitted(s),
+      etoFormProgress: calculateGeneralEtoData(selectCombinedEtoCompanyData(s)),
+      isRetailEto: selectIssuerEtoIsRetail(s),
+    }),
     dispatchToProps: dispatch => ({
       loadFileDataStart: () => dispatch(actions.etoDocuments.loadFileDataStart()),
     }),
   }),
+  withProps<IComputedProps, IStateProps>(props => ({
+    isVerificationSectionDone: Boolean(
+      props.verifiedEmail &&
+        props.backupCodesVerified &&
+        props.requestStatus === ERequestStatus.ACCEPTED,
+    ),
+    shouldViewSubmissionSection: Boolean(
+      props.etoFormProgress && props.etoFormProgress >= SUBMIT_PROPOSAL_THRESHOLD,
+    ),
+  })),
+  onEnterAction<IStateProps>({
+    actionCreator: (dispatch, props) => {
+      if (props.shouldEtoDataLoad) {
+        dispatch(actions.kyc.kycLoadIndividualDocumentList());
+      }
+      if (props.shouldEtoDataLoad) {
+        dispatch(actions.etoDocuments.loadFileDataStart());
+      }
+    },
+  }),
+  withContainer(LayoutAuthorized),
 )(EtoDashboardComponent);
 
 export { EtoDashboard, EtoDashboardComponent, EtoDashboardStateViewComponent };

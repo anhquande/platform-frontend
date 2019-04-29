@@ -10,6 +10,7 @@ import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
 import { getDocumentTitles } from "../../documents/utils";
+import { EColumnSpan } from "../../layouts/Container";
 import { DocumentLink, DocumentTemplateButton } from "../../shared/DocumentLink";
 import { InlineIcon } from "../../shared/icons";
 import { Panel } from "../../shared/Panel";
@@ -22,6 +23,7 @@ type TExternalProps = {
   etoTemplates: TEtoDocumentTemplates;
   etoDocuments: TEtoDocumentTemplates;
   isRetailEto: boolean;
+  columnSpan?: EColumnSpan;
 };
 
 type TDispatchProps = {
@@ -37,10 +39,11 @@ const DocumentsWidgetLayout: React.FunctionComponent<
   etoTemplates,
   className,
   isRetailEto,
+  columnSpan,
 }) => {
   const documentTitles = getDocumentTitles(isRetailEto);
   return (
-    <Panel className={className}>
+    <Panel className={className} columnSpan={columnSpan}>
       <section className={styles.group}>
         <div className={styles.groupName}>
           <FormattedMessage id="eto.public-view.documents.marketing-links" />
@@ -101,7 +104,7 @@ const DocumentsWidget = compose<
   appConnect<{}, TDispatchProps, TExternalProps>({
     dispatchToProps: dispatch => ({
       downloadDocument: (document: IEtoDocument) =>
-        dispatch(actions.publicEtos.downloadPublicEtoDocument(document)),
+        dispatch(actions.eto.downloadEtoDocument(document)),
     }),
   }),
 )(DocumentsWidgetLayout);

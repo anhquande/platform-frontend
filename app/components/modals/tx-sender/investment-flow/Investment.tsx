@@ -6,6 +6,8 @@ import { Col, Container, FormGroup, Label, Row } from "reactstrap";
 import { compose, withProps } from "recompose";
 
 import { actions } from "../../../../modules/actions";
+import { selectEtoWithCompanyAndContractById } from "../../../../modules/eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import {
   EInvestmentErrorState,
   EInvestmentType,
@@ -25,8 +27,6 @@ import {
   selectHasInvestorTicket,
   selectNeuRewardUlpsByEtoId,
 } from "../../../../modules/investor-portfolio/selectors";
-import { selectEtoWithCompanyAndContractById } from "../../../../modules/public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../modules/public-etos/types";
 import {
   selectEtherPriceEur,
   selectEurPriceEther,
@@ -36,6 +36,7 @@ import {
   selectTxGasCostEthUlps,
   selectTxValidationState,
 } from "../../../../modules/tx/sender/selectors";
+import { ETokenType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { addBigNumbers, multiplyBigNumbers } from "../../../../utils/BigNumberUtils";
 import { IIntlProps, injectIntlHelpers } from "../../../../utils/injectIntlHelpers.unsafe";
@@ -81,6 +82,7 @@ interface IDispatchProps {
   changeEthValue: (value: string) => void;
   changeInvestmentType: (type: EInvestmentType) => void;
   investEntireBalance: () => void;
+  startUpgradeFlow: (token: ETokenType) => void;
 }
 
 interface IWithProps {
@@ -148,6 +150,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
       showTokens,
       wallets,
       hasPreviouslyInvested,
+      startUpgradeFlow,
     } = this.props;
     const error = this.getError();
     return (
@@ -165,6 +168,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
               wallets={wallets}
               currentType={investmentType}
               onSelect={changeInvestmentType}
+              startUpgradeFlow={startUpgradeFlow}
             />
           </Row>
           <Row>
@@ -381,6 +385,7 @@ export const InvestmentSelection = compose<IProps, {}>(
       changeInvestmentType: (type: EInvestmentType) =>
         dispatch(actions.investmentFlow.selectInvestmentType(type)),
       investEntireBalance: () => dispatch(actions.investmentFlow.investEntireBalance()),
+      startUpgradeFlow: (token: ETokenType) => dispatch(actions.txTransactions.startUpgrade(token)),
     }),
   }),
   withProps<IWithProps, IStateProps>(

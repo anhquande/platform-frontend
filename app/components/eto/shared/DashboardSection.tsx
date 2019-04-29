@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Col } from "reactstrap";
 
 import { EHeadingSize, Heading } from "../../shared/Heading";
 
@@ -20,11 +19,15 @@ const DashboardSection: React.FunctionComponent<IProps> = ({
   className = "my-4",
   size,
 }) => (
-  <Col xs={12} data-test-id={dataTestId}>
-    <Heading level={3} className={className} decorator={hasDecorator} size={size}>
-      {step && <>STEP {step}:</>} {title}
-    </Heading>
-  </Col>
+  <Heading
+    level={3}
+    className={className}
+    decorator={hasDecorator}
+    size={size}
+    data-test-id={dataTestId}
+  >
+    {step && <>STEP {step}:</>} {title}
+  </Heading>
 );
 
 export { DashboardSection };

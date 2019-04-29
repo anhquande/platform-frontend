@@ -19,7 +19,7 @@ import { ScrollToTop } from "../utils/ScrollToTop.unsafe";
 import { withRootMetaTag } from "../utils/withMetaTags.unsafe";
 import { AppRouter } from "./AppRouter";
 import { CriticalError } from "./layouts/CriticalError";
-import { GenericModal } from "./modals/GenericModal.unsafe";
+import { GenericModal } from "./modals/GenericModal";
 import { VideoModal } from "./modals/VideoModal";
 import { AccessWalletModal } from "./modals/wallet-access/AccessWalletModal";
 import { LoadingIndicator } from "./shared/loading-indicator";

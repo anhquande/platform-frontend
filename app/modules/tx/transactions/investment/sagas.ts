@@ -7,6 +7,8 @@ import { ITxData } from "../../../../lib/web3/types";
 import { IAppState } from "../../../../store";
 import { compareBigNumbers } from "../../../../utils/BigNumberUtils";
 import { actions } from "../../../actions";
+import { selectEtoById, selectEtoWithCompanyAndContractById } from "../../../eto/selectors";
+import { TEtoWithCompanyAndContract } from "../../../eto/types";
 import { selectStandardGasPriceWithOverHead } from "../../../gas/selectors";
 import { EInvestmentType } from "../../../investment-flow/reducer";
 import {
@@ -19,11 +21,6 @@ import {
   selectEquityTokenCountByEtoId,
   selectNeuRewardUlpsByEtoId,
 } from "../../../investor-portfolio/selectors";
-import {
-  selectEtoWithCompanyAndContractById,
-  selectPublicEtoById,
-} from "../../../public-etos/selectors";
-import { TEtoWithCompanyAndContract } from "../../../public-etos/types";
 import { selectEtherPriceEur } from "../../../shared/tokenPrice/selectors";
 import { selectEtherTokenBalance } from "../../../wallet/selectors";
 import { selectEthereumAddressWithChecksum } from "../../../web3/selectors";
@@ -133,7 +130,7 @@ function getEtherTokenTransaction(
 export function* generateInvestmentTransaction({ contractsService }: TGlobalDependencies): any {
   const state: IAppState = yield select();
   const investmentState = state.investmentFlow;
-  const eto = selectPublicEtoById(state, investmentState.etoId)!;
+  const eto = selectEtoById(state, investmentState.etoId)!;
 
   switch (investmentState.investmentType) {
     case EInvestmentType.Eth:

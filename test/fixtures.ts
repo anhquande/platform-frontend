@@ -17,7 +17,7 @@ import {
   EOfferingDocumentType,
   EProductName,
 } from "../app/lib/api/eto/EtoProductsApi.interfaces";
-import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../app/modules/public-etos/types";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../app/modules/eto/types";
 import { EthereumAddress, EthereumAddressWithChecksum, EthereumNetworkId } from "../app/types";
 
 import * as companyBanner from "./assets/company-banner.png";

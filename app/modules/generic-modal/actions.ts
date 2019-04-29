@@ -1,10 +1,16 @@
+import * as React from "react";
+
 import { TMessage } from "../../components/translatedMessages/utils";
+import { OmitKeys } from "../../types";
 import { createAction, createSimpleAction } from "../actionsUtils";
 import { TIconType } from "./reducer";
 
 // TODO: Refactor actions to receive single object as a parameter
 export const genericModalActions = {
-  showModal: (component: React.ComponentType) => createAction("MODAL_SHOW", { component }),
+  showModal: <T extends { closeModal?: () => void }, P = OmitKeys<T, "closeModal">>(
+    component: React.ComponentType<T>,
+    props?: P,
+  ) => createAction("MODAL_SHOW", { component, props }),
 
   showGenericModal: (
     title: TMessage,

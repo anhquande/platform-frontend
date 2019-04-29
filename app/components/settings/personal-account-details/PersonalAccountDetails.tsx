@@ -7,6 +7,7 @@ import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { TTranslatedString } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
+import { EColumnSpan } from "../../layouts/Container";
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { Panel } from "../../shared/Panel";
 
@@ -27,6 +28,10 @@ interface IStateProps {
   };
 }
 
+interface IExternalProps {
+  columnSpan?: EColumnSpan;
+}
+
 interface IOwnState {
   isDataHidden: boolean;
 }
@@ -45,7 +50,10 @@ const Record: React.FunctionComponent<IRecordProps> = ({ value, label }) => {
   );
 };
 
-class PersonalAccountDetailsLayout extends React.Component<IStateProps, IOwnState> {
+class PersonalAccountDetailsLayout extends React.Component<
+  IStateProps & IExternalProps,
+  IOwnState
+> {
   state = {
     isDataHidden: true,
   };
@@ -60,7 +68,7 @@ class PersonalAccountDetailsLayout extends React.Component<IStateProps, IOwnStat
 
     return (
       <Panel
-        className="h-100"
+        columnSpan={this.props.columnSpan}
         headerText={<FormattedMessage id="settings.account-details.title" />}
         rightComponent={<img src={personImage} className={styles.image} alt="" />}
       >
@@ -126,7 +134,7 @@ class PersonalAccountDetailsLayout extends React.Component<IStateProps, IOwnStat
   }
 }
 
-const PersonalAccountDetails = compose<React.FunctionComponent>(
+const PersonalAccountDetails = compose<React.FunctionComponent<IExternalProps>>(
   appConnect<IStateProps>({
     stateToProps: s => ({
       personalData: s.kyc.individualData || {},
