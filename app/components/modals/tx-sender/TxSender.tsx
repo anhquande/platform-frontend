@@ -187,11 +187,7 @@ const TxSenderBody: React.FunctionComponent<Props> = ({
       );
 
     case ETxSenderState.SIGNING:
-      return walletType && walletType === EWalletType.LIGHT ? (
-        <LoadingIndicator />
-      ) : (
-        <SigningMessage />
-      );
+      return walletType === EWalletType.LIGHT ? <LoadingIndicator /> : <SigningMessage />;
 
     case ETxSenderState.MINING:
       if (!type) {

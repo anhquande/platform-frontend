@@ -8,7 +8,6 @@ import {
   getDummyLedgerWalletMetadata,
   getDummyLightWalletMetadata,
 } from "./fixtures";
-import { IWeb3State } from "./reducer";
 import {
   selectActivationCodeFromQueryString,
   selectIsExternalWallet,
@@ -32,21 +31,25 @@ describe("web3 > selectors", () => {
     salt,
   };
 
+  let state: Partial<IAppState> = {};
+
   describe("selectIsLightWallet", () => {
     it("should work with connected wallet", () => {
-      const state: IWeb3State = {
-        connected: true,
-        isUnlocked: false,
-        wallet: getDummyLightWalletMetadata(),
+      state = {
+        web3: {
+          connected: true,
+          isUnlocked: false,
+          wallet: getDummyLightWalletMetadata(),
+        },
       };
 
-      const isLightWallet = selectIsLightWallet(state);
+      const isLightWallet = selectIsLightWallet(state.web3!);
 
       expect(isLightWallet).to.be.true;
     });
 
     it("should work with not connected wallet", () => {
-      const state = {
+      state = {
         web3: {
           connected: false,
           previousConnectedWallet: {
@@ -57,9 +60,9 @@ describe("web3 > selectors", () => {
             salt,
           },
         },
-      } as IAppState;
+      };
 
-      const isLightWallet = selectIsLightWallet(state.web3);
+      const isLightWallet = selectIsLightWallet(state.web3!);
 
       expect(isLightWallet).to.be.true;
     });
@@ -67,43 +70,43 @@ describe("web3 > selectors", () => {
 
   describe("selectIsExternalWallet", () => {
     it("should return true for Ledger wallet", () => {
-      const state = {
+      state = {
         web3: {
           connected: true,
           isUnlocked: false,
           wallet: getDummyLedgerWalletMetadata(),
         },
-      } as IAppState;
+      };
 
-      const isExternalWallet = selectIsExternalWallet(state);
+      const isExternalWallet = selectIsExternalWallet(state as IAppState);
 
       expect(isExternalWallet).to.be.true;
     });
 
     it("should return true for Browser wallet", () => {
-      const state = {
+      state = {
         web3: {
           connected: true,
           isUnlocked: false,
           wallet: getDummyBrowserWalletMetadata(),
         },
-      } as IAppState;
+      };
 
-      const isExternalWallet = selectIsExternalWallet(state);
+      const isExternalWallet = selectIsExternalWallet(state as IAppState);
 
       expect(isExternalWallet).to.be.true;
     });
 
     it("should return false for Light wallet", () => {
-      const state = {
+      state = {
         web3: {
           connected: true,
           isUnlocked: false,
           wallet: getDummyLightWalletMetadata(),
         },
-      } as IAppState;
+      };
 
-      const isExternalWallet = selectIsExternalWallet(state);
+      const isExternalWallet = selectIsExternalWallet(state as IAppState);
 
       expect(isExternalWallet).to.be.false;
     });
