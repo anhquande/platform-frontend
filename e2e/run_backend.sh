@@ -7,6 +7,9 @@ BACKEND_SHA=dbfe37d69bcb276ccf31aaf7ca3766abedc9b201
 # we tag images with shorter SHA
 BACKEND_SHORT_SHA=${BACKEND_SHA:0:7}
 
+# for testing purposes, remove later
+BACKEND_SHORT_SHA=${BACKEND_SHA:0:8}
+
 echo "BACKEND_SHA: ${BACKEND_SHA}";
 echo "BACKEND_SHORT_SHA: ${BACKEND_SHORT_SHA}";
 
