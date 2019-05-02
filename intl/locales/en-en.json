@@ -1106,7 +1106,7 @@
   "wallet-selector.ledger.derivation-path-selector.list.row.select-button": "Select",
   "wallet-selector.ledger.derivation-path-selector.placeholder": "Please enter the derivation path",
   "wallet-selector.ledger.login": "Login with your Ledger Nano",
-  "wallet-selector.ledger.please-upgrade": "Looks like you are using a Ledger Nano with outdated firmware. For security reasons we support devices with firmware version {minimumVersion} and later. Please update your Ledger Nano to access Neufund.",
+  "wallet-selector.ledger.please-upgrade": "Looks like you are using a Ledger Nano with outdated firmware. For security reasons we support devices with firmware and Ethereum app version {minimumVersion} and later. Please update your Ledger Nano to access Neufund.",
   "wallet-selector.ledger.register": "Register with your Ledger Nano",
   "wallet-selector.ledger.select-address": "Your Ledger Nano has many addresses. Your ETH and NEU balance is displayed next to each address.<br />Please choose the one you want to proceed with.",
   "wallet-selector.ledger.select-wallet": "Select your wallet address",

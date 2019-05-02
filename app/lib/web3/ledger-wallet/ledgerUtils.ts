@@ -15,7 +15,7 @@ import {
 } from "./errors";
 import { ILedgerConfig, ILedgerOutput, IPromisifiedHookedWalletSubProvider } from "./types";
 
-export const minimumLedgerVersion = "1.5.5";
+export const minimumLedgerVersion = "1.2.4";
 
 /**
  * PathComponent contains derivation path divided into base path and index.
