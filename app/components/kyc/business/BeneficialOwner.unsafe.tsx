@@ -64,64 +64,62 @@ interface IOwnProps {
 type IProps = IStateProps & IDispatchProps;
 
 const KYCForm = injectIntlHelpers<FormikProps<IKycBeneficialOwner> & IProps>(
-  ({ intl: { formatIntlMessage }, ...props }) => {
-    return (
-      <Form>
-        <FormField label={formatIntlMessage("form.label.first-name")} name="firstName" />
-        <FormField label={formatIntlMessage("form.label.last-name")} name="lastName" />
-        <FormFieldDate label={formatIntlMessage("form.label.birth-date")} name="birthDate" />
-        <FormField label={formatIntlMessage("form.label.address")} name="street" />
-        <Row>
-          <Col xs={12} md={6} lg={8}>
-            <FormField label={formatIntlMessage("form.label.city")} name="city" />
-          </Col>
-          <Col xs={12} md={6} lg={4}>
-            <FormField label={formatIntlMessage("form.label.zip-code")} name="zipCode" />
-          </Col>
-        </Row>
-        <FormSelectCountryField label={formatIntlMessage("form.label.country")} name="country" />
-        <FormSelectCountryField
-          label={formatIntlMessage("form.label.place-of-birth")}
-          name="placeOfBirth"
-        />
-        <FormSelectNationalityField
-          label={formatIntlMessage("form.label.nationality")}
-          name="nationality"
-        />
-        <FormSelectField
-          values={PEP_VALUES}
-          label={
-            <>
-              <FormattedMessage id="kyc.business.beneficial-owner.pep" />
-              <Tooltip
-                content={
-                  <FormattedHTMLMessage
-                    id="kyc.personal.politically-exposed.tooltip"
-                    tagName="span"
-                  />
-                }
-              />
-            </>
-          }
-          name="isPoliticallyExposed"
-        />
-        <Row>
-          <Col xs={6} md={4}>
-            <FormField
-              label={formatIntlMessage("kyc.business.beneficial-owner.percent-held")}
-              name="ownership"
-              suffix="%"
+  ({ intl: { formatIntlMessage }, ...props }) => (
+    <Form>
+      <FormField label={formatIntlMessage("form.label.first-name")} name="firstName" />
+      <FormField label={formatIntlMessage("form.label.last-name")} name="lastName" />
+      <FormFieldDate label={formatIntlMessage("form.label.birth-date")} name="birthDate" />
+      <FormField label={formatIntlMessage("form.label.address")} name="street" />
+      <Row>
+        <Col xs={12} md={6} lg={8}>
+          <FormField label={formatIntlMessage("form.label.city")} name="city" />
+        </Col>
+        <Col xs={12} md={6} lg={4}>
+          <FormField label={formatIntlMessage("form.label.zip-code")} name="zipCode" />
+        </Col>
+      </Row>
+      <FormSelectCountryField label={formatIntlMessage("form.label.country")} name="country" />
+      <FormSelectCountryField
+        label={formatIntlMessage("form.label.place-of-birth")}
+        name="placeOfBirth"
+      />
+      <FormSelectNationalityField
+        label={formatIntlMessage("form.label.nationality")}
+        name="nationality"
+      />
+      <FormSelectField
+        values={PEP_VALUES}
+        label={
+          <>
+            <FormattedMessage id="kyc.business.beneficial-owner.pep" />
+            <Tooltip
+              content={
+                <FormattedHTMLMessage
+                  id="kyc.personal.politically-exposed.tooltip"
+                  tagName="span"
+                />
+              }
             />
-          </Col>
-        </Row>
-        <div className="p-4 text-center">
-          <Button type="submit" disabled={!props.isValid || props.loading}>
-            <FormattedMessage tagName="div" id="form.button.submit-changes" />
-          </Button>
-        </div>
-      </Form>
-    );
-  },
+          </>
+        }
+        name="isPoliticallyExposed"
+      />
+      <Row>
+        <Col xs={6} md={4}>
+          <FormField
+            label={formatIntlMessage("kyc.business.beneficial-owner.percent-held")}
+            name="ownership"
+            suffix="%"
+          />
+        </Col>
+      </Row>
+      <div className="p-4 text-center">
+        <Button type="submit" disabled={!props.isValid || props.loading}>
+          <FormattedMessage tagName="div" id="form.button.submit-changes" />
+        </Button>
+      </div>
+    </Form>
+  ),
 );
 
 const KYCEnhancedForm = withFormik<IProps, IKycBeneficialOwner>({

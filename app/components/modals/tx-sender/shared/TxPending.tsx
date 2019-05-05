@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { ITxData } from "../../../../lib/web3/types";
+import { actions } from "../../../../modules/actions";
 import {
   selectTxAdditionalData,
   selectTxDetails,
@@ -10,6 +11,7 @@ import {
 } from "../../../../modules/tx/sender/selectors";
 import { TSpecificTransactionState } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
+import { Button } from "../../../shared/buttons/Button.unsafe";
 import { EthereumIcon } from "../../../shared/ethereum";
 import { Message } from "../../Message";
 import { TxDetails } from "../TxDetails.unsafe";
@@ -28,12 +30,17 @@ export interface ITxPendingProps {
   type: TSpecificTransactionState["type"];
 }
 
+interface IDispatchProps {
+  deletePendingTransaction: () => void;
+}
+
 type TTxPendingLayoutProps = {
   txData?: ITxData;
   blockId?: number;
   txHash?: string;
   txTimestamp?: number;
-} & TSpecificTransactionState;
+} & TSpecificTransactionState &
+  IDispatchProps;
 
 const TxPendingLayout: React.FunctionComponent<TTxPendingLayoutProps> = props => (
   <Message
@@ -50,11 +57,22 @@ const TxPendingLayout: React.FunctionComponent<TTxPendingLayoutProps> = props =>
     <TxDetails className="mb-3" {...props} />
 
     {props.txHash && <TxHashAndBlock txHash={props.txHash} blockId={props.blockId} />}
+
+    {/* This feature is only for testing purpose should not be enabled on production environment. */}
+    {/* Because of it there is no need to include button string in translations */}
+    {process.env.NF_ENABLE_TRANSACTION_RESET === "1" && (
+      <Button className="mt-4" onClick={() => props.deletePendingTransaction()}>
+        Delete transaction
+      </Button>
+    )}
   </Message>
 );
 
 const TxPending = compose<TTxPendingLayoutProps, ITxPendingProps>(
-  appConnect<IStateProps>({
+  appConnect<IStateProps, IDispatchProps>({
+    dispatchToProps: d => ({
+      deletePendingTransaction: () => d(actions.txTransactions.deletePendingTransaction()),
+    }),
     stateToProps: state => ({
       txData: selectTxDetails(state),
       txTimestamp: selectTxTimestamp(state),

@@ -24,15 +24,13 @@ interface IProps {
 export const ChartPie: React.FunctionComponent<IProps & CommonHtmlProps> = ({
   data,
   className,
-}) => {
-  return (
-    <div className={cn(styles.chartPie, className)}>
-      <div className={styles.chartWrapper}>
-        <Pie data={data} height={100} width={100} legend={{ display: false }} />
-      </div>
-      <div className={styles.legendWrapper}>
-        <ChartLegend data={data} />
-      </div>
+}) => (
+  <div className={cn(styles.chartPie, className)}>
+    <div className={styles.chartWrapper}>
+      <Pie data={data} height={100} width={100} legend={{ display: false }} />
     </div>
-  );
-};
+    <div className={styles.legendWrapper}>
+      <ChartLegend data={data} />
+    </div>
+  </div>
+);

@@ -39,17 +39,19 @@ export const LandingComponent: React.FunctionComponent = () => (
         </Row>
 
         <Row>
-          {etoCompaniesCards.filter(e => !e.hidden).map((e, index) => (
-            <Col
-              xs={12}
-              lg={6}
-              className={styles.equityTokenCol}
-              id={`eto-card-${index}`}
-              key={index}
-            >
-              <EtoOfferingCard {...e} />
-            </Col>
-          ))}
+          {etoCompaniesCards
+            .filter(e => !e.hidden)
+            .map((e, index) => (
+              <Col
+                xs={12}
+                lg={6}
+                className={styles.equityTokenCol}
+                id={`eto-card-${index}`}
+                key={index}
+              >
+                <EtoOfferingCard {...e} />
+              </Col>
+            ))}
         </Row>
       </Container>
     </section>

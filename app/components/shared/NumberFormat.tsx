@@ -7,8 +7,8 @@ interface IProps {
   value: string | number | BigNumber;
 }
 
-const NumberFormat: React.FunctionComponent<IProps> = ({ value }) => {
-  return <>{formatThousands(`${value}`)}</>;
-};
+const NumberFormat: React.FunctionComponent<IProps> = ({ value }) => (
+  <>{formatThousands(`${value}`)}</>
+);
 
 export { NumberFormat };

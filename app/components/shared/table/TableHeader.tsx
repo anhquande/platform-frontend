@@ -17,12 +17,11 @@ export const TableHeader: React.FunctionComponent<ITableHeaderProps> = ({
   mobileActionName,
 }) => (
   <div className={styles.tableHeader}>
-    {mobileAction &&
-      mobileActionName && (
-        <span className={styles.action} onClick={mobileAction}>
-          {mobileActionName}
-        </span>
-      )}
+    {mobileAction && mobileActionName && (
+      <span className={styles.action} onClick={mobileAction}>
+        {mobileActionName}
+      </span>
+    )}
     <div className={styles.content}>{children}</div>
   </div>
 );

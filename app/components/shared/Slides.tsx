@@ -7,8 +7,8 @@ interface IProps {
   className?: string;
 }
 
-export const Slides: React.FunctionComponent<IProps> = ({ slideShareUrl, className }) => {
-  return slideShareUrl ? (
+export const Slides: React.FunctionComponent<IProps> = ({ slideShareUrl, className }) =>
+  slideShareUrl ? (
     <Proportion className={className} width={480} height={360}>
       <iframe
         src={`/external/pitch-deck-iframe.html?url=${
@@ -21,4 +21,3 @@ export const Slides: React.FunctionComponent<IProps> = ({ slideShareUrl, classNa
       />
     </Proportion>
   ) : null;
-};

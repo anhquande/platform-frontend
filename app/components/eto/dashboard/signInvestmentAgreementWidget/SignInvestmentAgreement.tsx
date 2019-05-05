@@ -95,8 +95,8 @@ export const SignInvestmentAgreementLayout: React.FunctionComponent<
   uploadedAgreement,
   signInvestmentAgreement,
   columnSpan,
-}) => {
-  return investmentAgreementNotSigned(signedInvestmentAgreementUrl, uploadedAgreement.ipfsHash) ? (
+}) =>
+  investmentAgreementNotSigned(signedInvestmentAgreementUrl, uploadedAgreement.ipfsHash) ? (
     <WaitingToBeSigned
       etoId={etoId}
       ipfsHash={uploadedAgreement.ipfsHash}
@@ -107,7 +107,6 @@ export const SignInvestmentAgreementLayout: React.FunctionComponent<
   ) : (
     <WaitingForNominee columnSpan={columnSpan} />
   );
-};
 
 export const SignInvestmentAgreement = compose<React.FunctionComponent<IExternalProps>>(
   appConnect<IStateProps | null, IDispatchProps>({

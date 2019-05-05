@@ -51,9 +51,7 @@ describe("withActionWatcher", () => {
   });
 
   it("should not call action again before it finished", async () => {
-    const asyncActionCreator = spy(async () => {
-      return delay(2000);
-    });
+    const asyncActionCreator = spy(async () => delay(2000));
     const WatchComponent = withActionWatcher({
       actionCreator: asyncActionCreator,
       interval: 1000,

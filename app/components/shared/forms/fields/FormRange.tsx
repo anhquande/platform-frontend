@@ -96,9 +96,9 @@ const FormRangeBase: React.FunctionComponent<IProps & TFormikConnect> = ({
   return (
     <Field
       name={name}
-      render={({ field }: FieldProps) => {
-        return <RangeComponent {...props} min={min} max={max} {...field} />;
-      }}
+      render={({ field }: FieldProps) => (
+        <RangeComponent {...props} min={min} max={max} {...field} />
+      )}
     />
   );
 };

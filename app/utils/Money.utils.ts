@@ -81,7 +81,7 @@ export const parseInputToNumber = (val: string | undefined): string | null => {
   if (periods && periods.length === 1 && commas && commas.length === 1) {
     /* 222.222,22 | 222,222.22 */
     value = value.replace(/([.,])(?=\d+$)/, ".");
-    value = value.replace(/(?<=^\d+)([.,])/, "");
+    value = value.replace(/(^\d+)([.,])/, "$1");
   }
 
   if (periods && periods.length > 1) {

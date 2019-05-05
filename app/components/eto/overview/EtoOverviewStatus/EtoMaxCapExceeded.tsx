@@ -31,8 +31,8 @@ interface IWithProps {
 
 const EtoMaxCapExceededComponent: React.FunctionComponent<
   IExternalProps & IStateProps & IWithProps
-> = ({ eto, etherPriceEur, isPreEto, isWaitingForNextStateToStart, nextStateStartDate }) => {
-  return isPreEto && isWaitingForNextStateToStart ? (
+> = ({ eto, etherPriceEur, isPreEto, isWaitingForNextStateToStart, nextStateStartDate }) =>
+  isPreEto && isWaitingForNextStateToStart ? (
     <div className={styles.maxCapExceeded}>
       <CounterWidget
         endDate={nextStateStartDate}
@@ -78,7 +78,6 @@ const EtoMaxCapExceededComponent: React.FunctionComponent<
       <InvestmentProgress eto={eto} />
     </div>
   );
-};
 
 const EtoMaxCapExceededWidget = compose<IExternalProps & IStateProps & IWithProps, IExternalProps>(
   appConnect<IStateProps, {}, IExternalProps>({

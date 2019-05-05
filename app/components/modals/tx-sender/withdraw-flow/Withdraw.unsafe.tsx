@@ -116,9 +116,9 @@ const WithdrawLayout: React.FunctionComponent<TProps & IIntlProps> = ({
                   data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.value"
                 />
                 {/* @SEE https://github.com/jaredpalmer/formik/issues/288 */}
-                {validationState !== EValidationState.VALIDATION_OK &&
-                  isValid &&
-                  !isValidating && <ValidationErrorMessage type={validationState} />}
+                {validationState !== EValidationState.VALIDATION_OK && isValid && !isValidating && (
+                  <ValidationErrorMessage type={validationState} />
+                )}
               </Col>
             </Row>
             <Row>

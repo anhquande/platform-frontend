@@ -18,13 +18,10 @@ export const selectActiveCarouselTab = (elements: any[]): number => {
 
 export const areThereIndividuals = (
   individual: TEtoKeyIndividualType | undefined,
-): individual is TEtoKeyIndividualType => {
-  return (
-    !!individual &&
-    !!individual.members &&
-    !!individual.members[0] &&
-    // need to check whether name is not empty
-    // due to the way key individuals form saved values in past
-    !!individual.members[0].name.length
-  );
-};
+): individual is TEtoKeyIndividualType =>
+  !!individual &&
+  !!individual.members &&
+  !!individual.members[0] &&
+  // need to check whether name is not empty
+  // due to the way key individuals form saved values in past
+  !!individual.members[0].name.length;

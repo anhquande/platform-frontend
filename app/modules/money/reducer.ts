@@ -17,6 +17,4 @@ export const moneyInitState: IMoneyState = {
 export const moneyReducer: AppReducer<IMoneyState> = (
   state = moneyInitState,
   _action,
-): IMoneyState => {
-  return state;
-};
+): IMoneyState => state;

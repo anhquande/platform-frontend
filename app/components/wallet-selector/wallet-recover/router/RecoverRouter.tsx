@@ -7,13 +7,11 @@ import { RecoverWallet } from "../recovery/RecoverWallet";
 import { RecoverySuccess } from "../success/RecoverySuccess";
 import { recoverRoutes } from "./recoverRoutes";
 
-export const RecoverRouter: React.FunctionComponent = () => {
-  return (
-    <SwitchConnected>
-      <Route path={recoverRoutes.help} component={LoginHelp} />
-      <Route path={recoverRoutes.seed} component={RecoverWallet} />
-      <Route path={recoverRoutes.success} component={RecoverySuccess} />
-      <Redirect to={recoverRoutes.help} />
-    </SwitchConnected>
-  );
-};
+export const RecoverRouter: React.FunctionComponent = () => (
+  <SwitchConnected>
+    <Route path={recoverRoutes.help} component={LoginHelp} />
+    <Route path={recoverRoutes.seed} component={RecoverWallet} />
+    <Route path={recoverRoutes.success} component={RecoverySuccess} />
+    <Redirect to={recoverRoutes.help} />
+  </SwitchConnected>
+);

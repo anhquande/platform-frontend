@@ -29,27 +29,25 @@ const FormFieldLabel: React.FunctionComponent<CommonHtmlProps & FormFieldLabelEx
   children,
   name,
   ...rawProps
-}) => {
-  return (
-    <FormikConsumer>
-      {({ validationSchema }) => {
-        if (validationSchema) {
-          return (
-            <FormLabel for={name} {...rawProps}>
-              {children}
-              {isFieldRequired(validationSchema, name) && <span aria-hidden="true"> *</span>}
-            </FormLabel>
-          );
-        }
-
+}) => (
+  <FormikConsumer>
+    {({ validationSchema }) => {
+      if (validationSchema) {
         return (
           <FormLabel for={name} {...rawProps}>
             {children}
+            {isFieldRequired(validationSchema, name) && <span aria-hidden="true"> *</span>}
           </FormLabel>
         );
-      }}
-    </FormikConsumer>
-  );
-};
+      }
+
+      return (
+        <FormLabel for={name} {...rawProps}>
+          {children}
+        </FormLabel>
+      );
+    }}
+  </FormikConsumer>
+);
 
 export { FormFieldLabel, FormLabel };

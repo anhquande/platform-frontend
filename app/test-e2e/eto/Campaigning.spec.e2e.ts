@@ -50,9 +50,9 @@ describe("Eto campaigning state", () => {
       kyc: "business",
       seed: ISSUER_SETUP,
       permissions: ["do-bookbuilding"],
-    }).then(() => {
+    }).then(() =>
       // make sure bookbuilding is off (especially after CI retry)
-      return makeAuthenticatedCall("/api/eto-listing/etos/me/bookbuilding", {
+      makeAuthenticatedCall("/api/eto-listing/etos/me/bookbuilding", {
         method: "PUT",
         body: JSON.stringify({
           is_bookbuilding: false,
@@ -115,7 +115,7 @@ describe("Eto campaigning state", () => {
             });
           });
         });
-      });
-    });
+      }),
+    );
   });
 });

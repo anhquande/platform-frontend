@@ -134,10 +134,9 @@ class RequestStateInfo extends React.Component<IProps, IState> {
               <FormattedMessage id="kyc.request-state.pending.add-files-button" />
             </Button>
           )}
-          {this.props.pendingRequestType &&
-            this.state.showAdditionalFileUpload && (
-              <KYCAddDocuments uploadType={this.props.pendingRequestType} />
-            )}
+          {this.props.pendingRequestType && this.state.showAdditionalFileUpload && (
+            <KYCAddDocuments uploadType={this.props.pendingRequestType} />
+          )}
           <br /> <br />
           {settingsButton}
         </KycPanel>

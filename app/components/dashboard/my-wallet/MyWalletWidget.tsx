@@ -130,31 +130,29 @@ export const MyWalletWidgetComponent: React.FunctionComponent<CommonHtmlProps & 
   className,
   style,
   ...props
-}) => {
-  return (
-    <Panel
-      headerText={
-        <FormattedMessage id="components.dashboard.my-wallet.my-wallet-widget.header-text" />
-      }
-      rightComponent={
-        <ButtonLink
-          to={appRoutes.wallet}
-          layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-after"
-          theme="dark"
-          svgIcon={arrowRight}
-          innerClassName={cn(styles.link, "pr-0")}
-        >
-          <FormattedMessage id="dashboard.my-wallet-widget.main-wallet-redirect-button" />
-        </ButtonLink>
-      }
-      className={className}
-      style={style}
-    >
-      <MyWalletWidgetComponentBody {...props} />
-    </Panel>
-  );
-};
+}) => (
+  <Panel
+    headerText={
+      <FormattedMessage id="components.dashboard.my-wallet.my-wallet-widget.header-text" />
+    }
+    rightComponent={
+      <ButtonLink
+        to={appRoutes.wallet}
+        layout={EButtonLayout.SECONDARY}
+        iconPosition="icon-after"
+        theme="dark"
+        svgIcon={arrowRight}
+        innerClassName={cn(styles.link, "pr-0")}
+      >
+        <FormattedMessage id="dashboard.my-wallet-widget.main-wallet-redirect-button" />
+      </ButtonLink>
+    }
+    className={className}
+    style={style}
+  >
+    <MyWalletWidgetComponentBody {...props} />
+  </Panel>
+);
 
 export const MyWalletWidget = compose<React.FunctionComponent<CommonHtmlProps>>(
   onEnterAction({ actionCreator: d => d(actions.wallet.loadWalletData()) }),

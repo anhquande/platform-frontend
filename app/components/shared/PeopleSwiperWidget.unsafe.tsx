@@ -152,10 +152,9 @@ class PeopleSwiperWidgeLayout extends React.PureComponent<IOwnProps & IDispatchP
     return maxGoLeft > 0;
   };
 
-  canGoRight = () => {
+  canGoRight = () =>
     // (translation is always negative)
-    return this.state.translation < 0;
-  };
+    this.state.translation < 0;
 
   onWindowResize = (): void => {
     const [refWidth, elementWidth] = this.getVisibleWidth();
@@ -292,21 +291,19 @@ class PeopleSwiperWidgeLayout extends React.PureComponent<IOwnProps & IDispatchP
 
 const PeopleSwiperWidget = compose<React.FunctionComponent<IOwnProps>>(
   appConnect<{}, IDispatchProps, IOwnProps>({
-    dispatchToProps: dispatch => {
-      return {
-        showPersonModal: (name, role, description, image, socialChannels, website) =>
-          dispatch(
-            actions.personProfileModal.showPersonProfileModal(
-              name,
-              role,
-              description,
-              image,
-              socialChannels,
-              website,
-            ),
+    dispatchToProps: dispatch => ({
+      showPersonModal: (name, role, description, image, socialChannels, website) =>
+        dispatch(
+          actions.personProfileModal.showPersonProfileModal(
+            name,
+            role,
+            description,
+            image,
+            socialChannels,
+            website,
           ),
-      };
-    },
+        ),
+    }),
   }),
 )(PeopleSwiperWidgeLayout);
 

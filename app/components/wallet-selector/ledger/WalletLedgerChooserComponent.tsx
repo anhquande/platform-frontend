@@ -88,17 +88,16 @@ export const WalletLedgerChooserComponent: React.FunctionComponent<
       </>
     )}
     <div className="mt-5 d-flex flex-row justify-content-between align-items-center">
-      {advanced &&
-        !loading && (
-          <button
-            className={styles.back}
-            onClick={handleAdvanced}
-            data-test-id="btn-advanced-advanced"
-          >
-            <i className={cn("fa fa-chevron-left mr-2", styles.left)} aria-hidden="true" />
-            <FormattedMessage id="form.button.back" />
-          </button>
-        )}
+      {advanced && !loading && (
+        <button
+          className={styles.back}
+          onClick={handleAdvanced}
+          data-test-id="btn-advanced-advanced"
+        >
+          <i className={cn("fa fa-chevron-left mr-2", styles.left)} aria-hidden="true" />
+          <FormattedMessage id="form.button.back" />
+        </button>
+      )}
     </div>
   </>
 );

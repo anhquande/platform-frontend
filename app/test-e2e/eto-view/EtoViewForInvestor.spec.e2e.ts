@@ -30,7 +30,7 @@ describe("Eto Investor View", () => {
     // TOKEN SALE section
     cy.get(tid("eto-public-view-tokens-per-share")).should("contain", "10 000");
     cy.get(tid("eto-public-view-token-price")).should("contain", "€0.32376189");
-    cy.get(tid("eto-public-view-ticket-size")).should("contain", "€100 - 10000000");
+    cy.get(tid("eto-public-view-ticket-size")).should("contain", "€100 - 5000000");
     cy.get(tid("eto-public-view-currencies")).should("contain", "ETH and nEUR");
     cy.get(tid("eto-public-view-pre-eto-duration")).should("contain", "7 Days");
     cy.get(tid("eto-public-view-public-eto-duration")).should("contain", "14 Days");

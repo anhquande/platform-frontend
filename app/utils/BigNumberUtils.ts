@@ -7,9 +7,7 @@ type BigNumberRepresentation = string | number | BigNumber;
  */
 export const addBigNumbers = (numbers: BigNumberRepresentation[]): string =>
   numbers
-    .reduce((acc: BigNumber, number) => {
-      return acc.plus(new BigNumber(number));
-    }, new BigNumber(0))
+    .reduce((acc: BigNumber, number) => acc.plus(new BigNumber(number)), new BigNumber(0))
     .toString();
 
 /**
@@ -17,9 +15,7 @@ export const addBigNumbers = (numbers: BigNumberRepresentation[]): string =>
  */
 export const subtractBigNumbers = ([head, ...tail]: BigNumberRepresentation[]): string =>
   tail
-    .reduce((acc: BigNumber, number) => {
-      return acc.minus(new BigNumber(number));
-    }, new BigNumber(head))
+    .reduce((acc: BigNumber, number) => acc.minus(new BigNumber(number)), new BigNumber(head))
     .toString();
 
 /**
@@ -27,9 +23,7 @@ export const subtractBigNumbers = ([head, ...tail]: BigNumberRepresentation[]): 
  */
 export const multiplyBigNumbers = (numbers: BigNumberRepresentation[]): string =>
   numbers
-    .reduce((acc: BigNumber, number) => {
-      return acc.mul(new BigNumber(number));
-    }, new BigNumber(1))
+    .reduce((acc: BigNumber, number) => acc.mul(new BigNumber(number)), new BigNumber(1))
     .toString();
 
 /**
@@ -40,9 +34,5 @@ export const divideBigNumbers = (
   divisor: BigNumberRepresentation,
 ): string => new BigNumber(dividend).div(divisor).toString();
 
-export const compareBigNumbers = (
-  a: BigNumberRepresentation,
-  b: BigNumberRepresentation,
-): number => {
-  return new BigNumber(a).comparedTo(b);
-};
+export const compareBigNumbers = (a: BigNumberRepresentation, b: BigNumberRepresentation): number =>
+  new BigNumber(a).comparedTo(b);

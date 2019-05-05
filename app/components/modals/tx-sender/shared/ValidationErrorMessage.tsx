@@ -16,13 +16,11 @@ const getValidationMessageByType = (type?: EValidationState) => {
   }
 };
 
-const ValidationErrorMessage: React.FunctionComponent<IProps> = ({ type }) => {
-  return (
-    <Message
-      data-test-id="modals.shared.validation-message"
-      hint={getValidationMessageByType(type)}
-    />
-  );
-};
+const ValidationErrorMessage: React.FunctionComponent<IProps> = ({ type }) => (
+  <Message
+    data-test-id="modals.shared.validation-message"
+    hint={getValidationMessageByType(type)}
+  />
+);
 
 export { ValidationErrorMessage };

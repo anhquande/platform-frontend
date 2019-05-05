@@ -117,26 +117,24 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
               {/* TODO: Move to translations once the format is stable */}
             </span>
           </div>
-          {isInvestor &&
-            isVerifiedInvestor && (
-              <CampaigningActivatedInvestorApprovedWidget
-                etoId={etoId}
-                minPledge={minPledge}
-                maxPledge={maxPledge}
-                pledge={pledge}
-              />
-            )}
-        </div>
-        {isInvestor &&
-          !isVerifiedInvestor && (
-            <ButtonLink
-              innerClassName="mb-3"
-              to={appRoutes.profile}
-              data-test-id="eto-overview-settings-update-required-to-invest"
-            >
-              <FormattedMessage id="shared-component.eto-overview.verify-to-whitelist" />
-            </ButtonLink>
+          {isInvestor && isVerifiedInvestor && (
+            <CampaigningActivatedInvestorApprovedWidget
+              etoId={etoId}
+              minPledge={minPledge}
+              maxPledge={maxPledge}
+              pledge={pledge}
+            />
           )}
+        </div>
+        {isInvestor && !isVerifiedInvestor && (
+          <ButtonLink
+            innerClassName="mb-3"
+            to={appRoutes.profile}
+            data-test-id="eto-overview-settings-update-required-to-invest"
+          >
+            <FormattedMessage id="shared-component.eto-overview.verify-to-whitelist" />
+          </ButtonLink>
+        )}
       </>
     );
   }

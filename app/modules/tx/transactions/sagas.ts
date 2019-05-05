@@ -6,7 +6,8 @@ import { EBankTransferType } from "../../bank-transfer-flow/reducer";
 import { selectIsBankAccountVerified } from "../../bank-transfer-flow/selectors";
 import { etoFlowActions } from "../../eto-flow/actions";
 import { onInvestmentTxModalHide } from "../../investment-flow/sagas";
-import { neuTakeLatest } from "../../sagasUtils";
+import { neuCall, neuTakeLatest } from "../../sagasUtils";
+import { deletePendingTransaction } from "../monitor/sagas";
 import { ITxSendParams, txSendSaga } from "../sender/sagas";
 import { ETxSenderType } from "../types";
 import { startClaimGenerator } from "./claim/saga";
@@ -188,6 +189,19 @@ export function* etoSignInvestmentAgreementSaga(
   }
 }
 
+export function* removePendingTransaction({ logger }: TGlobalDependencies): any {
+  try {
+    // call delete transaction saga
+    yield neuCall(deletePendingTransaction);
+
+    logger.info("Pending transaction has been deleted");
+  } catch (e) {
+    logger.error(new Error("Unable to delete pending transaction"));
+  } finally {
+    yield put(actions.txSender.txSenderHideModal());
+  }
+}
+
 export const txTransactionsSagasWatcher = function*(): Iterator<any> {
   yield fork(neuTakeLatest, "TRANSACTIONS_START_WITHDRAW_ETH", withdrawSaga);
   yield fork(neuTakeLatest, "TRANSACTIONS_START_UPGRADE", upgradeSaga);
@@ -207,6 +221,11 @@ export const txTransactionsSagasWatcher = function*(): Iterator<any> {
   );
   yield fork(neuTakeLatest, actions.txTransactions.startWithdrawNEuro, neurRedeemSaga);
   yield fork(neuTakeLatest, etoFlowActions.signInvestmentAgreement, etoSignInvestmentAgreementSaga);
+  yield fork(
+    neuTakeLatest,
+    actions.txTransactions.deletePendingTransaction,
+    removePendingTransaction,
+  );
 
   // Add new transaction types here...
 };

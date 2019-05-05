@@ -52,13 +52,11 @@ const NewTableRow: React.FunctionComponent<INewTableRow & TDataTestId> = ({
   cellLayout,
 }) => (
   <tr className={styles.row} data-test-id={dataTestId}>
-    {React.Children.toArray(children).map((child, index) => {
-      return (
-        <td className={cn(styles.cell, cellLayout)} key={index}>
-          {child}
-        </td>
-      );
-    })}
+    {React.Children.toArray(children).map((child, index) => (
+      <td className={cn(styles.cell, cellLayout)} key={index}>
+        {child}
+      </td>
+    ))}
   </tr>
 );
 
@@ -89,8 +87,8 @@ const NewTable: React.FunctionComponent<TProps> = ({
         <table className={styles.table}>
           <thead className={styles.header}>
             <tr>
-              {titles.map((value, index) => {
-                return value && typeof value === "object" && "width" in value ? (
+              {titles.map((value, index) =>
+                value && typeof value === "object" && "width" in value ? (
                   <th className={styles.cell} key={index} style={{ width: value.width }}>
                     {value.title}
                   </th>
@@ -98,8 +96,8 @@ const NewTable: React.FunctionComponent<TProps> = ({
                   <th className={styles.cell} key={index}>
                     {value}
                   </th>
-                );
-              })}
+                ),
+              )}
             </tr>
           </thead>
           <tbody>

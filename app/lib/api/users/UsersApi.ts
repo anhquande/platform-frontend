@@ -154,7 +154,9 @@ export class UsersApi {
           tx => tx.transactionType !== OOO_TRANSACTION_TYPE,
         ) as TxPendingWithMetadata,
         // move other transactions to OOO transactions
-        oooTransactions: response.body.filter(tx => tx.transactionType === OOO_TRANSACTION_TYPE),
+        oooTransactions: response.body.filter(
+          tx => tx.transactionType === OOO_TRANSACTION_TYPE,
+        ) as TxWithMetadata[],
       };
     }
     throw new Error("Error while fetching pending transaction");

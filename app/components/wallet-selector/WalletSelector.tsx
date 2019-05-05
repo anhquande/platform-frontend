@@ -48,121 +48,119 @@ export const WalletSelectorComponent: React.FunctionComponent<IStateProps & IDis
   oppositeRoute,
   userType,
   openICBMModal,
-}) => {
-  return (
-    <LayoutRegisterLogin>
-      {isMessageSigning ? (
-        <WalletMessageSigner rootPath={rootPath} />
-      ) : (
-        <>
-          <Row>
-            <Col tag="section" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }}>
-              <h1 className={cn(styles.walletChooserTitle, "my-4", "text-center")}>
-                {isLoginRoute ? (
-                  <FormattedMessage id="wallet-selector.tabs.login.title" />
-                ) : (
-                  <FormattedMessage id="wallet-selector.tabs.register.title" />
-                )}
-              </h1>
-              <div className={styles.walletChooserButtons}>
-                {(userType === "investor" ||
-                  process.env.NF_ISSUERS_CAN_LOGIN_WITH_ANY_WALLET === "1") && (
-                  <div className="m-2">
-                    <ButtonLink data-test-id="wallet-selector-light" to={`${rootPath}/light`}>
-                      {isLoginRoute ? (
-                        <FormattedMessage id="wallet-selector.tabs.neuwallet-login" />
-                      ) : (
-                        <FormattedMessage id="wallet-selector.tabs.neuwallet-register" />
-                      )}
-                    </ButtonLink>
-                  </div>
-                )}
-                {(userType === "investor" ||
-                  process.env.NF_ISSUERS_CAN_LOGIN_WITH_ANY_WALLET === "1") && (
-                  <div className="m-2">
-                    <ButtonLink data-test-id="wallet-selector-browser" to={`${rootPath}/browser`}>
-                      {isLoginRoute ? (
-                        <FormattedMessage id="wallet-selector.tabs.browser-wallet-login" />
-                      ) : (
-                        <FormattedMessage id="wallet-selector.tabs.browser-wallet-register" />
-                      )}
-                    </ButtonLink>
-                  </div>
-                )}
+}) => (
+  <LayoutRegisterLogin>
+    {isMessageSigning ? (
+      <WalletMessageSigner rootPath={rootPath} />
+    ) : (
+      <>
+        <Row>
+          <Col tag="section" md={{ size: 10, offset: 1 }} lg={{ size: 8, offset: 2 }}>
+            <h1 className={cn(styles.walletChooserTitle, "my-4", "text-center")}>
+              {isLoginRoute ? (
+                <FormattedMessage id="wallet-selector.tabs.login.title" />
+              ) : (
+                <FormattedMessage id="wallet-selector.tabs.register.title" />
+              )}
+            </h1>
+            <div className={styles.walletChooserButtons}>
+              {(userType === "investor" ||
+                process.env.NF_ISSUERS_CAN_LOGIN_WITH_ANY_WALLET === "1") && (
                 <div className="m-2">
-                  <ButtonLink data-test-id="wallet-selector-ledger" to={`${rootPath}/ledger`}>
+                  <ButtonLink data-test-id="wallet-selector-light" to={`${rootPath}/light`}>
                     {isLoginRoute ? (
-                      <FormattedMessage id="wallet-selector.tabs.ledger-login" />
+                      <FormattedMessage id="wallet-selector.tabs.neuwallet-login" />
                     ) : (
-                      <FormattedMessage id="wallet-selector.tabs.ledger-register" />
+                      <FormattedMessage id="wallet-selector.tabs.neuwallet-register" />
                     )}
                   </ButtonLink>
                 </div>
-              </div>
-
-              <p className="text-center my-4">
-                <FormattedMessage
-                  id="wallet-selector.tabs.icbm-help-text"
-                  values={{
-                    here: (
-                      <Button onClick={openICBMModal} layout={EButtonLayout.INLINE}>
-                        <strong>
-                          <FormattedMessage id="wallet-selector.tabs.icbm-help-text.here" />
-                        </strong>
-                      </Button>
-                    ),
-                  }}
-                />
-              </p>
-            </Col>
-          </Row>
-
-          <WalletRouter rootPath={rootPath} />
-
-          <Row className="mt-5">
-            <Col sm={12} md={6} className="text-center text-md-left">
-              {isLoginRoute ? (
-                <>
-                  <FormattedMessage id="wallet-selector.login.help-link" />{" "}
-                  <Link to={appRoutes.restore}>
-                    <strong>
-                      <FormattedMessage id="wallet-selector.help-link.login.label" />
-                    </strong>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <FormattedMessage id="wallet-selector.register.help-link" />{" "}
-                  <ExternalLink href={externalRoutes.neufundSupportHome}>
-                    <strong>
-                      <FormattedMessage id="wallet-selector.help-link.register.label" />
-                    </strong>
-                  </ExternalLink>
-                </>
               )}
-            </Col>
-            <Col sm={12} md={6} className="text-center text-md-right mt-3 mt-md-0">
-              {isLoginRoute ? (
-                <FormattedMessage id="wallet-selector.neuwallet.register-link-text" />
-              ) : (
-                <FormattedMessage id="wallet-selector.neuwallet.login-link-text" />
-              )}{" "}
-              <Link to={oppositeRoute} data-test-id="wallet-selector-opposite-route-link">
-                <strong>
+              {(userType === "investor" ||
+                process.env.NF_ISSUERS_CAN_LOGIN_WITH_ANY_WALLET === "1") && (
+                <div className="m-2">
+                  <ButtonLink data-test-id="wallet-selector-browser" to={`${rootPath}/browser`}>
+                    {isLoginRoute ? (
+                      <FormattedMessage id="wallet-selector.tabs.browser-wallet-login" />
+                    ) : (
+                      <FormattedMessage id="wallet-selector.tabs.browser-wallet-register" />
+                    )}
+                  </ButtonLink>
+                </div>
+              )}
+              <div className="m-2">
+                <ButtonLink data-test-id="wallet-selector-ledger" to={`${rootPath}/ledger`}>
                   {isLoginRoute ? (
-                    <FormattedMessage id="wallet-selector.register" />
+                    <FormattedMessage id="wallet-selector.tabs.ledger-login" />
                   ) : (
-                    <FormattedMessage id="wallet-selector.login" />
+                    <FormattedMessage id="wallet-selector.tabs.ledger-register" />
                   )}
-                </strong>
-              </Link>
-            </Col>
-          </Row>
-        </>
-      )}
-    </LayoutRegisterLogin>
-  );
-};
+                </ButtonLink>
+              </div>
+            </div>
+
+            <p className="text-center my-4">
+              <FormattedMessage
+                id="wallet-selector.tabs.icbm-help-text"
+                values={{
+                  here: (
+                    <Button onClick={openICBMModal} layout={EButtonLayout.INLINE}>
+                      <strong>
+                        <FormattedMessage id="wallet-selector.tabs.icbm-help-text.here" />
+                      </strong>
+                    </Button>
+                  ),
+                }}
+              />
+            </p>
+          </Col>
+        </Row>
+
+        <WalletRouter rootPath={rootPath} />
+
+        <Row className="mt-5">
+          <Col sm={12} md={6} className="text-center text-md-left">
+            {isLoginRoute ? (
+              <>
+                <FormattedMessage id="wallet-selector.login.help-link" />{" "}
+                <Link to={appRoutes.restore}>
+                  <strong>
+                    <FormattedMessage id="wallet-selector.help-link.login.label" />
+                  </strong>
+                </Link>
+              </>
+            ) : (
+              <>
+                <FormattedMessage id="wallet-selector.register.help-link" />{" "}
+                <ExternalLink href={externalRoutes.neufundSupportHome}>
+                  <strong>
+                    <FormattedMessage id="wallet-selector.help-link.register.label" />
+                  </strong>
+                </ExternalLink>
+              </>
+            )}
+          </Col>
+          <Col sm={12} md={6} className="text-center text-md-right mt-3 mt-md-0">
+            {isLoginRoute ? (
+              <FormattedMessage id="wallet-selector.neuwallet.register-link-text" />
+            ) : (
+              <FormattedMessage id="wallet-selector.neuwallet.login-link-text" />
+            )}{" "}
+            <Link to={oppositeRoute} data-test-id="wallet-selector-opposite-route-link">
+              <strong>
+                {isLoginRoute ? (
+                  <FormattedMessage id="wallet-selector.register" />
+                ) : (
+                  <FormattedMessage id="wallet-selector.login" />
+                )}
+              </strong>
+            </Link>
+          </Col>
+        </Row>
+      </>
+    )}
+  </LayoutRegisterLogin>
+);
 
 export const WalletSelector = compose<React.FunctionComponent>(
   createErrorBoundary(ErrorBoundaryLayoutUnauthorized),

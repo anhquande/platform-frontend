@@ -30,8 +30,9 @@ export const SettingsWidgets: React.FunctionComponent<IProps> = ({
       {(!isDynamic || !verifiedEmail) && (
         <VerifyEmailWidget step={++settingsStepCounter} columnSpan={columnSpan} />
       )}
-      {(!isDynamic || !backupCodesVerified) &&
-        isLightWallet && <BackupSeedWidget step={++settingsStepCounter} columnSpan={columnSpan} />}
+      {(!isDynamic || !backupCodesVerified) && isLightWallet && (
+        <BackupSeedWidget step={++settingsStepCounter} columnSpan={columnSpan} />
+      )}
       {(!isDynamic || requestStatus !== ERequestStatus.ACCEPTED) && (
         <KycStatusWidget step={++settingsStepCounter} columnSpan={columnSpan} />
       )}

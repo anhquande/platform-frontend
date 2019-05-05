@@ -12,9 +12,7 @@ describe("AsyncIntervalScheduler", () => {
 
   it("should wait for async callback execution to finish", async () => {
     const expectedFunctionDelay = 2000;
-    const asyncFunctionMock = spy(() => {
-      return delay(expectedFunctionDelay);
-    });
+    const asyncFunctionMock = spy(() => delay(expectedFunctionDelay));
     const asyncInterval = new AsyncIntervalScheduler(
       noopLogger,
       asyncFunctionMock,
@@ -64,9 +62,7 @@ describe("AsyncIntervalScheduler", () => {
 
   it("should allow to stop during callback execution", async () => {
     const expectedFunctionDelay = 2000;
-    const asyncFunctionMock = spy(() => {
-      return delay(expectedFunctionDelay);
-    });
+    const asyncFunctionMock = spy(() => delay(expectedFunctionDelay));
 
     const asyncInterval = new AsyncIntervalScheduler(
       noopLogger,
@@ -88,9 +84,7 @@ describe("AsyncIntervalScheduler", () => {
 
   it("should do nothing when starting already started instance", () => {
     const expectedFunctionDelay = 2000;
-    const asyncFunctionMock = spy(() => {
-      return delay(expectedFunctionDelay);
-    });
+    const asyncFunctionMock = spy(() => delay(expectedFunctionDelay));
     const asyncInterval = new AsyncIntervalScheduler(
       noopLogger,
       asyncFunctionMock,

@@ -243,29 +243,28 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 data-test-id="eto-public-view-public-eto-duration"
               />
             )}
-            {etoData.product &&
-              !!etoData.product.jurisdiction && (
-                <Entry
-                  label={
-                    <FormattedMessage id="eto.public-view.token-terms.public-eto.product.jurisdiction" />
-                  }
-                  value={
-                    <>
-                      {etoData.product.jurisdiction === EJurisdiction.GERMANY && (
-                        <FormattedMessage
-                          id={`eto.public-view.token-terms.public-eto.product.jurisdiction.de`}
-                        />
-                      )}
-                      {etoData.product.jurisdiction === EJurisdiction.LIECHTENSTEIN && (
-                        <FormattedMessage
-                          id={`eto.public-view.token-terms.public-eto.product.jurisdiction.li`}
-                        />
-                      )}
-                    </>
-                  }
-                  data-test-id="eto-public-view-public-eto-duration"
-                />
-              )}
+            {etoData.product && !!etoData.product.jurisdiction && (
+              <Entry
+                label={
+                  <FormattedMessage id="eto.public-view.token-terms.public-eto.product.jurisdiction" />
+                }
+                value={
+                  <>
+                    {etoData.product.jurisdiction === EJurisdiction.GERMANY && (
+                      <FormattedMessage
+                        id={`eto.public-view.token-terms.public-eto.product.jurisdiction.de`}
+                      />
+                    )}
+                    {etoData.product.jurisdiction === EJurisdiction.LIECHTENSTEIN && (
+                      <FormattedMessage
+                        id={`eto.public-view.token-terms.public-eto.product.jurisdiction.li`}
+                      />
+                    )}
+                  </>
+                }
+                data-test-id="eto-public-view-public-eto-duration"
+              />
+            )}
             {!!etoData.templates.reservationAndAcquisitionAgreement && (
               <DocumentTemplateButton
                 title={

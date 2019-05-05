@@ -197,6 +197,7 @@
   "eto-overview.campaigning.whitelist-status.label-not-subscribed-description-text": "<p>The whitelist is available to a limited number of investors on a first come first serve basis. Whitelist participation grants investors access to the typically more favorable investment terms of the presale.</p><p>Please note that the whitelist is merely for informational purposes. It does not create any legally binding obligation for you. Accordingly, you are not bound to your whitelist commitment and may change your commitment at any time. However, if your whitelist commitment is at any point changed to 0, you will be removed from the whitelist and unable to access the investment terms of the pre-sale.</p>",
   "eto-overview.campaigning.whitelist-status.label-subscribed": "You've been whitelisted",
   "eto-overview.campaigning.your-commitment": "your commitment",
+  "eto-timeline.claim-refund": "Claim your refund now ",
   "eto-timeline.eto-end": "ETO end",
   "eto-timeline.eto-start": "ETO start",
   "eto-timeline.neu-payout": "NEU payout",

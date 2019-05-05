@@ -22,51 +22,47 @@ const DatePicker: React.ComponentType<DatetimeProps & IDatePickerProps> = ({
   onChange,
   isValidDate,
   onTestInputChange,
-}) => {
-  return (
-    <TypedDatetime
-      closeOnSelect={true}
-      utc={true}
-      dateFormat={"L"}
-      timeFormat={"HH:mm z"}
-      open={false}
-      value={value}
-      onChange={onChange}
-      isValidDate={isValidDate}
-      renderInput={(props, openCalendar) => {
-        return (
-          <>
-            {IS_CYPRESS || IS_DEV ? (
-              <input //hidden input for e2e tests
-                data-test-id={dataTestId}
-                autoComplete="off"
-                type="text"
-                style={{ display: "none" }}
-                onChange={
-                  onTestInputChange &&
-                  ((e: React.ChangeEvent<HTMLInputElement>) => onTestInputChange(e))
-                }
-              />
-            ) : null}
+}) => (
+  <TypedDatetime
+    closeOnSelect={true}
+    utc={true}
+    dateFormat={"L"}
+    timeFormat={"HH:mm z"}
+    open={false}
+    value={value}
+    onChange={onChange}
+    isValidDate={isValidDate}
+    renderInput={(props, openCalendar) => (
+      <>
+        {IS_CYPRESS || IS_DEV ? (
+          <input //hidden input for e2e tests
+            data-test-id={dataTestId}
+            autoComplete="off"
+            type="text"
+            style={{ display: "none" }}
+            onChange={
+              onTestInputChange &&
+              ((e: React.ChangeEvent<HTMLInputElement>) => onTestInputChange(e))
+            }
+          />
+        ) : null}
 
-            <div className={styles.formFieldDatePicker} onClick={openCalendar}>
-              <div className={styles.icon}>
-                <InlineIcon svgIcon={iconCalendar} />
-              </div>
-              <div className={styles.chosenDate}>
-                <span>{utcTime(props.value)}</span>
-                <span>
-                  <FormattedMessage id="eto.settings.set-eto-start-date-time-left" />
-                  {`: `}
-                  <TimeLeft key={props.value} refresh={true} finalTime={props.value} asUtc={true} />
-                </span>
-              </div>
-            </div>
-          </>
-        );
-      }}
-    />
-  );
-};
+        <div className={styles.formFieldDatePicker} onClick={openCalendar}>
+          <div className={styles.icon}>
+            <InlineIcon svgIcon={iconCalendar} />
+          </div>
+          <div className={styles.chosenDate}>
+            <span>{utcTime(props.value)}</span>
+            <span>
+              <FormattedMessage id="eto.settings.set-eto-start-date-time-left" />
+              {`: `}
+              <TimeLeft key={props.value} refresh={true} finalTime={props.value} asUtc={true} />
+            </span>
+          </div>
+        </div>
+      </>
+    )}
+  />
+);
 
 export { DatePicker };

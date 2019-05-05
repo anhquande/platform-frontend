@@ -147,15 +147,13 @@ export class LightWallet implements IPersonalWallet {
     return await testWalletPassword(this.vault.walletInstance, newPassword);
   }
 
-  public getMetadata = (): ILightWalletMetadata => {
-    return {
-      address: this.ethereumAddress,
-      email: this.email,
-      salt: this.vault.salt,
-      walletType: this.walletType,
-      walletSubType: this.walletSubType,
-    };
-  };
+  public getMetadata = (): ILightWalletMetadata => ({
+    address: this.ethereumAddress,
+    email: this.email,
+    salt: this.vault.salt,
+    walletType: this.walletType,
+    walletSubType: this.walletSubType,
+  });
 }
 
 @injectable()
@@ -195,9 +193,8 @@ export class LightWalletConnector {
 
   private async setWeb3Provider(lightWalletVault: IVault): Promise<any> {
     let engine: any;
-    lightWalletVault.walletInstance.passwordProvider = (callback: any) => {
-      return callback(null, this.passwordProvider());
-    };
+    lightWalletVault.walletInstance.passwordProvider = (callback: any) =>
+      callback(null, this.passwordProvider());
 
     try {
       // hooked-wallet-subprovider required methods were manually implemented

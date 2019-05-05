@@ -109,21 +109,27 @@ export const selectClientJurisdiction = createSelector(
 
 export const selectClaims = (state: IAppState) => state.kyc.claims;
 
-export const selectIsClaimsVerified = createSelector(selectClaims, claims => {
-  if (claims) {
-    return claims.isVerified;
-  }
+export const selectIsClaimsVerified = createSelector(
+  selectClaims,
+  claims => {
+    if (claims) {
+      return claims.isVerified;
+    }
 
-  return false;
-});
+    return false;
+  },
+);
 
-export const selectIsAccountFrozen = createSelector(selectClaims, claims => {
-  if (claims) {
-    return claims.isAccountFrozen;
-  }
+export const selectIsAccountFrozen = createSelector(
+  selectClaims,
+  claims => {
+    if (claims) {
+      return claims.isAccountFrozen;
+    }
 
-  return false;
-});
+    return false;
+  },
+);
 
 export const selectIsUserVerifiedOnBlockchain = (state: IAppState) =>
   selectIsClaimsVerified(state) && !selectIsAccountFrozen(state);

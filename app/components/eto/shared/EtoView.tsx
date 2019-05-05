@@ -4,6 +4,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { externalRoutes } from "../../../config/externalRoutes";
+import { TSocialChannelsType } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { isOnChain } from "../../../modules/eto/utils";
 import { withMetaTags } from "../../../utils/withMetaTags.unsafe";
@@ -88,14 +89,17 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
   } = eto.company;
 
   const isTwitterFeedEnabled =
-    some(socialChannels, (channel: any) => channel.type === "twitter" && channel.url.length) &&
-    !disableTwitterFeed;
+    some<TSocialChannelsType[0]>(
+      socialChannels,
+      channel => channel.type === "twitter" && !!channel.url && !!channel.url.length,
+    ) && !disableTwitterFeed;
   const isYouTubeVideoAvailable = !!(companyVideo && companyVideo.url);
   const isSlideShareAvailable = !!(companySlideshare && companySlideshare.url);
   const hasSocialChannelsAdded = !!(socialChannels && socialChannels.length);
   const twitterUrl =
     isTwitterFeedEnabled && socialChannels
-      ? socialChannels.find(c => c.type === "twitter").url
+      ? socialChannels.find(c => c.type === "twitter") &&
+        socialChannels.find(c => c.type === "twitter")!.url
       : "";
 
   const isInSetupState = isOnChain(eto) && eto.contract.timedState === EETOStateOnChain.Setup;
@@ -126,19 +130,21 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
           <Heading level={3} decorator={false}>
             <div className={styles.headerWithButton}>
               <FormattedMessage id="eto.public-view.eto-timeline" />
-              {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" &&
-                !isInSetupState && (
-                  <ButtonLink
-                    to={withParams(externalRoutes.icoMonitorEto, { etoId: eto.etoId })}
-                    target="_blank"
-                  >
-                    <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
-                  </ButtonLink>
-                )}
+              {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && !isInSetupState && (
+                <ButtonLink
+                  to={withParams(externalRoutes.icoMonitorEto, { etoId: eto.etoId })}
+                  target="_blank"
+                >
+                  <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
+                </ButtonLink>
+              )}
             </div>
           </Heading>
           <Panel>
-            <EtoTimeline startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined} />
+            <EtoTimeline
+              currentState={isOnChain(eto) ? eto.contract.timedState : undefined}
+              startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined}
+            />
           </Panel>
         </Container>
         <Container
@@ -210,7 +216,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                   Twitter
                 </Heading>
                 <Panel>
-                  <TwitterTimelineEmbed url={twitterUrl} userName={brandName} />
+                  <TwitterTimelineEmbed url={twitterUrl!} userName={brandName} />
                 </Panel>
               </Container>
             )}
@@ -408,7 +414,8 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                       </AccordionElement>
                     )}
 
-                    {((useOfCapitalList && useOfCapitalList.some((e: any) => e.percent > 0)) ||
+                    {((useOfCapitalList &&
+                      useOfCapitalList.some(e => e && e.percent && e.percent > 0)) ||
                       useOfCapital) && (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.use-of-capital" />}
@@ -488,18 +495,17 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
             </Container>
           )}
 
-          {companyNews &&
-            !!companyNews[0].url && (
-              <Container columnSpan={EColumnSpan.ONE_COL}>
-                <Heading level={3} decorator={false}>
-                  <FormattedMessage id="eto.form.media-links.title" />
-                </Heading>
-                <MediaLinksWidget
-                  links={[...companyNews].reverse() as ILink[]}
-                  columnSpan={EColumnSpan.THREE_COL}
-                />
-              </Container>
-            )}
+          {companyNews && !!companyNews[0].url && (
+            <Container columnSpan={EColumnSpan.ONE_COL}>
+              <Heading level={3} decorator={false}>
+                <FormattedMessage id="eto.form.media-links.title" />
+              </Heading>
+              <MediaLinksWidget
+                links={[...companyNews].reverse() as ILink[]}
+                columnSpan={EColumnSpan.THREE_COL}
+              />
+            </Container>
+          )}
         </Container>
       </WidgetGridLayout>
     </>

@@ -16,29 +16,27 @@ interface IProps {
   steps: IStepProps[];
 }
 
-export const OffToOnCompany: React.FunctionComponent<IProps> = ({ steps }) => {
-  return (
-    <div className={styles.offToOnChainCompany}>
-      <h3 className={styles.header}>
-        <FormattedHTMLMessage tagName="span" id="off-to-on-chain.header" />
-      </h3>
-      <HorizontalLine theme="yellow" size="narrow" />
-      <div className={styles.steps}>
-        {steps.map(({ title, description }, index) => (
-          <div className={styles.step} key={index}>
-            <h4 className={styles.stepName}>{title}</h4>
-            <div className={styles.stepCount}>
-              <div className={styles.counter}>{index + 1}</div>
-            </div>
-            <p className={styles.stepDescription}>{description}</p>
+export const OffToOnCompany: React.FunctionComponent<IProps> = ({ steps }) => (
+  <div className={styles.offToOnChainCompany}>
+    <h3 className={styles.header}>
+      <FormattedHTMLMessage tagName="span" id="off-to-on-chain.header" />
+    </h3>
+    <HorizontalLine theme="yellow" size="narrow" />
+    <div className={styles.steps}>
+      {steps.map(({ title, description }, index) => (
+        <div className={styles.step} key={index}>
+          <h4 className={styles.stepName}>{title}</h4>
+          <div className={styles.stepCount}>
+            <div className={styles.counter}>{index + 1}</div>
           </div>
-        ))}
-        <InlineIcon svgIcon={arrowHead} />
-      </div>
-      <h3 className={styles.header}>
-        <FormattedHTMLMessage tagName="span" id="off-to-on-chain.footer" />
-      </h3>
-      <HorizontalLine theme="yellow" size="narrow" />
+          <p className={styles.stepDescription}>{description}</p>
+        </div>
+      ))}
+      <InlineIcon svgIcon={arrowHead} />
     </div>
-  );
-};
+    <h3 className={styles.header}>
+      <FormattedHTMLMessage tagName="span" id="off-to-on-chain.footer" />
+    </h3>
+    <HorizontalLine theme="yellow" size="narrow" />
+  </div>
+);

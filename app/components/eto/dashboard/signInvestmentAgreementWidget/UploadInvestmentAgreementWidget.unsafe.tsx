@@ -49,26 +49,24 @@ interface IEtoCompletedWidgetProps {
 
 export const UploadInvestmentAgreementLayout: React.FunctionComponent<
   IUploadComponentStateProps & IDispatchProps & IExternalProps
-> = ({ downloadAgreementTemplate, agreementTemplate, columnSpan }) => {
-  return (
-    <Panel columnSpan={columnSpan}>
-      <Heading size={EHeadingSize.SMALL} level={4}>
-        <FormattedMessage id="download-agreement-widget.signing-title" />
-      </Heading>
-      <div className={styles.content}>
-        <p className={cn(styles.text, "pt-2")}>
-          <FormattedMessage id="download-agreement-widget.signing-text" />
-        </p>
-        <ButtonArrowRight
-          data-test-id="eto-dashboard-submit-proposal"
-          onClick={() => downloadAgreementTemplate(agreementTemplate)}
-        >
-          <FormattedMessage id="download-agreement-widget.download-and-sign" />
-        </ButtonArrowRight>
-      </div>
-    </Panel>
-  );
-};
+> = ({ downloadAgreementTemplate, agreementTemplate, columnSpan }) => (
+  <Panel columnSpan={columnSpan}>
+    <Heading size={EHeadingSize.SMALL} level={4}>
+      <FormattedMessage id="download-agreement-widget.signing-title" />
+    </Heading>
+    <div className={styles.content}>
+      <p className={cn(styles.text, "pt-2")}>
+        <FormattedMessage id="download-agreement-widget.signing-text" />
+      </p>
+      <ButtonArrowRight
+        data-test-id="eto-dashboard-submit-proposal"
+        onClick={() => downloadAgreementTemplate(agreementTemplate)}
+      >
+        <FormattedMessage id="download-agreement-widget.download-and-sign" />
+      </ButtonArrowRight>
+    </div>
+  </Panel>
+);
 
 export const EtoCompletedWidgetLayout: React.ComponentType<
   IEtoCompletedWidgetProps & IExternalProps

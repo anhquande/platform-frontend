@@ -3,7 +3,7 @@ import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
 import { IEtoDocument, immutableDocumentName } from "../../lib/api/eto/EtoFileApi.interfaces";
-import { ImmutableFileId } from "../../lib/api/ImmutableStorage.interfaces";
+import { IImmutableFileId } from "../../lib/api/ImmutableStorage.interfaces";
 import { actions } from "../../modules/actions";
 import { appConnect } from "../../store";
 import { TTranslatedString } from "../../types";
@@ -21,7 +21,7 @@ interface IOwnProps {
   className?: string;
 }
 interface IDispatchProps {
-  downloadImmutableFile: (fileId: ImmutableFileId, fileName: string) => void;
+  downloadImmutableFile: (fileId: IImmutableFileId, fileName: string) => void;
 }
 
 type IProps = IOwnProps & IDispatchProps;
@@ -38,25 +38,23 @@ const SingleColDocumentsLayout: React.FunctionComponent<IProps> = ({
     <div className={className}>
       <h3 className={styles.groupName}>{title}</h3>
       <section className={styles.group}>
-        {documents.map(({ ipfsHash, mimeType, documentType }) => {
-          return (
-            <div className={styles.document} key={ipfsHash}>
-              <DocumentTemplateButton
-                onClick={() =>
-                  downloadImmutableFile(
-                    {
-                      ...{ ipfsHash, mimeType },
-                      asPdf: false,
-                    },
-                    immutableDocumentName[documentType],
-                  )
-                }
-                title={documentTemplateTitles[documentType]}
-                altIcon={<InlineIcon svgIcon={link} />}
-              />
-            </div>
-          );
-        })}
+        {documents.map(({ ipfsHash, mimeType, documentType }) => (
+          <div className={styles.document} key={ipfsHash}>
+            <DocumentTemplateButton
+              onClick={() =>
+                downloadImmutableFile(
+                  {
+                    ...{ ipfsHash, mimeType },
+                    asPdf: false,
+                  },
+                  immutableDocumentName[documentType],
+                )
+              }
+              title={documentTemplateTitles[documentType]}
+              altIcon={<InlineIcon svgIcon={link} />}
+            />
+          </div>
+        ))}
       </section>
     </div>
   );

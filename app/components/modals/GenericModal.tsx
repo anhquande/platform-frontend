@@ -49,42 +49,40 @@ const GenericModalLayout: React.FunctionComponent<IStateProps & IHandlersProps> 
   genericModalObj,
   component: Component,
   componentProps = {},
-}) => {
-  return (
-    <Modal isOpen={isOpen} onClose={closeModal}>
-      {Component ? (
-        <Component closeModal={closeModal} {...componentProps} />
-      ) : (
-        <>
-          <Row className="mt-5 justify-content-center">
-            <h5 data-test-id="components.modals.generic-modal.title">
-              {genericModalObj && getMessageTranslation(genericModalObj.title)}
-            </h5>
-          </Row>
+}) => (
+  <Modal isOpen={isOpen} onClose={closeModal}>
+    {Component ? (
+      <Component closeModal={closeModal} {...componentProps} />
+    ) : (
+      <>
+        <Row className="mt-5 justify-content-center">
+          <h5 data-test-id="components.modals.generic-modal.title">
+            {genericModalObj && getMessageTranslation(genericModalObj.title)}
+          </h5>
+        </Row>
 
-          <Row className="mb-5 justify-content-center">
-            <div className={styles.content}>
-              {genericModalObj && genericModalObj.icon && genericModalIcons[genericModalObj.icon]}{" "}
-              {genericModalObj &&
-                genericModalObj.description &&
-                getMessageTranslation(genericModalObj.description)}
-            </div>
-          </Row>
+        <Row className="mb-5 justify-content-center">
+          <div className={styles.content}>
+            {genericModalObj && genericModalObj.icon && genericModalIcons[genericModalObj.icon]}{" "}
+            {genericModalObj &&
+              genericModalObj.description &&
+              getMessageTranslation(genericModalObj.description)}
+          </div>
+        </Row>
 
-          <Row className="mb-5 justify-content-center">
-            <Button onClick={onClick} data-test-id="generic-modal-dismiss-button">
-              {genericModalObj && genericModalObj.actionLinkText ? (
-                getMessageTranslation(genericModalObj.actionLinkText)
-              ) : (
-                <FormattedMessage id="modal.generic.button.dismiss" />
-              )}
-            </Button>
-          </Row>
-        </>
-      )}
-    </Modal>
-  );
-};
+        <Row className="mb-5 justify-content-center">
+          <Button onClick={onClick} data-test-id="generic-modal-dismiss-button">
+            {genericModalObj && genericModalObj.actionLinkText ? (
+              getMessageTranslation(genericModalObj.actionLinkText)
+            ) : (
+              <FormattedMessage id="modal.generic.button.dismiss" />
+            )}
+          </Button>
+        </Row>
+      </>
+    )}
+  </Modal>
+);
 
 const GenericModal = compose<IStateProps & IHandlersProps, {}>(
   setDisplayName("GenericModal"),

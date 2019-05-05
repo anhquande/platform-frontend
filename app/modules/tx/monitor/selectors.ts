@@ -11,13 +11,11 @@ export const selectAreTherePlatformPendingTxs = (state: IAppState): boolean => {
 
 export const selectPlatformPendingTransaction = (
   state: IAppState,
-): TxPendingWithMetadata | undefined => {
-  return state.txMonitor.txs.pendingTransaction as TxPendingWithMetadata | undefined;
-};
+): TxPendingWithMetadata | undefined =>
+  state.txMonitor.txs.pendingTransaction as TxPendingWithMetadata | undefined;
 
-export const selectExternalPendingTransaction = (state: IAppState): TxWithMetadata | undefined => {
-  return state.txMonitor.txs.oooTransactions[0];
-};
+export const selectExternalPendingTransaction = (state: IAppState): TxWithMetadata | undefined =>
+  state.txMonitor.txs.oooTransactions[0];
 
 export const selectAreTherePendingTxs = createSelector(
   selectAreTherePlatformPendingTxs,

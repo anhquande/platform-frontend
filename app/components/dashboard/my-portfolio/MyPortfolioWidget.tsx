@@ -75,21 +75,19 @@ export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
   balanceEur,
   balanceNeu,
   isIncomingPayoutAvailable,
-}) => {
-  return (
-    <Panel className={className} style={style}>
-      <MyPortfolioWidgetComponentBody
-        {...{
-          balanceEur: balanceEur!,
-          balanceNeu: balanceNeu!,
-        }}
-        error={error}
-        isIncomingPayoutAvailable={isIncomingPayoutAvailable}
-        test-data-id="dashboard-my-portfolio-widget"
-      />
-    </Panel>
-  );
-};
+}) => (
+  <Panel className={className} style={style}>
+    <MyPortfolioWidgetComponentBody
+      {...{
+        balanceEur: balanceEur!,
+        balanceNeu: balanceNeu!,
+      }}
+      error={error}
+      isIncomingPayoutAvailable={isIncomingPayoutAvailable}
+      test-data-id="dashboard-my-portfolio-widget"
+    />
+  </Panel>
+);
 
 export const LoadingComponent: React.FunctionComponent<IProps> = ({ className, style }) => (
   <Panel className={className} style={style}>

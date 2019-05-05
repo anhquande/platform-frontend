@@ -24,12 +24,11 @@ export const MigrationFromLinkComponent: React.FunctionComponent<IStateProps> = 
       <Row className="row-gutter-top">
         <DashboardSection title={<FormattedMessage id="settings.account-info.title" />} />
 
-        {process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED === "1" &&
-          isUserInvestor && (
-            <Col lg={4} xs={12}>
-              <CheckYourICBMWalletWidget />
-            </Col>
-          )}
+        {process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED === "1" && isUserInvestor && (
+          <Col lg={4} xs={12}>
+            <CheckYourICBMWalletWidget />
+          </Col>
+        )}
       </Row>
     </LayoutAuthorized>
   );

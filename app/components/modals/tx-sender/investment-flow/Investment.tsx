@@ -101,9 +101,8 @@ interface IState {
 export class InvestmentSelectionComponent extends React.Component<IProps, IState> {
   state = { validationError: false };
 
-  calculateTotalCostIfValid = (gasCost: string, value: string): string | null => {
-    return this.getError() ? null : addBigNumbers([gasCost, value || "0"]);
-  };
+  calculateTotalCostIfValid = (gasCost: string, value: string): string | null =>
+    this.getError() ? null : addBigNumbers([gasCost, value || "0"]);
 
   setError = (hasError: boolean) => {
     this.setState({ validationError: hasError });
@@ -262,9 +261,9 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                     <FormattedMessage id="investment-flow.estimated-neu-tokens" />
                   </Label>
                   <InfoAlert data-test-id="invest-modal.est-neu-tokens">
-                    {(showTokens &&
-                      !error &&
-                      neuReward && <Money value={neuReward} currency={ECurrency.NEU} />) ||
+                    {(showTokens && !error && neuReward && (
+                      <Money value={neuReward} currency={ECurrency.NEU} />
+                    )) ||
                       "\xA0"}
                   </InfoAlert>
                 </FormGroup>
@@ -288,28 +287,26 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
         <Container className={styles.container} fluid>
           <Row>
             <Col className={styles.summary}>
-              {gasCostEth &&
-                !error &&
-                gasCostEth !== "0" && (
-                  <div>
-                    + <FormattedMessage id="investment-flow.estimated-gas-cost" />:{" "}
-                    <span className="text-warning" data-test-id="invest-modal-gas-cost">
-                      <Money
-                        value={gasCostEuro}
-                        format={EMoneyFormat.ULPS}
-                        currency={ECurrency.EUR}
-                        roundingMode={ERoundingMode.UP}
-                      />
-                      {" ≈ "}
-                      <Money
-                        value={gasCostEth}
-                        format={EMoneyFormat.ULPS}
-                        currency={ECurrency.ETH}
-                        roundingMode={ERoundingMode.UP}
-                      />
-                    </span>
-                  </div>
-                )}
+              {gasCostEth && !error && gasCostEth !== "0" && (
+                <div>
+                  + <FormattedMessage id="investment-flow.estimated-gas-cost" />:{" "}
+                  <span className="text-warning" data-test-id="invest-modal-gas-cost">
+                    <Money
+                      value={gasCostEuro}
+                      format={EMoneyFormat.ULPS}
+                      currency={ECurrency.EUR}
+                      roundingMode={ERoundingMode.UP}
+                    />
+                    {" ≈ "}
+                    <Money
+                      value={gasCostEth}
+                      format={EMoneyFormat.ULPS}
+                      currency={ECurrency.ETH}
+                      roundingMode={ERoundingMode.UP}
+                    />
+                  </span>
+                </div>
+              )}
               <div>
                 <FormattedMessage id="investment-flow.total" />:{" "}
                 <span className="text-warning" data-test-id="invest-modal-total-cost">
@@ -377,9 +374,8 @@ export const InvestmentSelection = compose<IProps, {}>(
     },
     dispatchToProps: dispatch => ({
       sendTransaction: () => dispatch(actions.txSender.txSenderAcceptDraft()),
-      changeEthValue: value => {
-        return dispatch(actions.investmentFlow.submitCurrencyValue(value, ECurrency.ETH));
-      },
+      changeEthValue: value =>
+        dispatch(actions.investmentFlow.submitCurrencyValue(value, ECurrency.ETH)),
       changeEuroValue: value =>
         dispatch(actions.investmentFlow.submitCurrencyValue(value, ECurrency.EUR_TOKEN)),
       changeInvestmentType: (type: EInvestmentType) =>

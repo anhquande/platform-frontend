@@ -20,20 +20,18 @@ export const selectConnectedWeb3State = (state: IWeb3State): IConnectedWeb3State
 const selectEthereumAddress = (state: IAppState): EthereumAddress =>
   state.web3.connected ? state.web3.wallet.address : state.web3.previousConnectedWallet!.address;
 
-export const selectEthereumAddressWithChecksum = createSelector(selectEthereumAddress, address => {
-  return makeEthereumAddressChecksummed(address);
-});
+export const selectEthereumAddressWithChecksum = createSelector(
+  selectEthereumAddress,
+  address => makeEthereumAddressChecksummed(address),
+);
 
-export const selectWalletPrivateData = (state: IWeb3State): IWalletPrivateData | undefined => {
-  return (
-    (state.connected &&
-      state.walletPrivateData && {
-        seed: state.walletPrivateData.seed.split(" "),
-        privateKey: state.walletPrivateData.privateKey,
-      }) ||
-    undefined
-  );
-};
+export const selectWalletPrivateData = (state: IWeb3State): IWalletPrivateData | undefined =>
+  (state.connected &&
+    state.walletPrivateData && {
+      seed: state.walletPrivateData.seed.split(" "),
+      privateKey: state.walletPrivateData.privateKey,
+    }) ||
+  undefined;
 
 export const isLightWalletReadyToLogin = (state: IWeb3State): boolean =>
   !!(
@@ -47,12 +45,9 @@ export const isLightWalletReadyToLogin = (state: IWeb3State): boolean =>
 /**
  * Works both when wallet is connected or not.
  */
-export const selectIsLightWallet = (state: IWeb3State): boolean => {
-  return (
-    (state.connected && state.wallet.walletType === EWalletType.LIGHT) ||
-    isLightWalletReadyToLogin(state)
-  );
-};
+export const selectIsLightWallet = (state: IWeb3State): boolean =>
+  (state.connected && state.wallet.walletType === EWalletType.LIGHT) ||
+  isLightWalletReadyToLogin(state);
 
 export const selectIsExternalWallet = (state: IAppState): boolean => {
   const walletType = selectWalletType(state);
@@ -80,9 +75,7 @@ export const selectCurrentLightWalletSalt = (state: IAppState): string | undefin
     state.web3.wallet.salt) ||
   undefined;
 
-export const selectIsUnlocked = (state: IWeb3State): boolean => {
-  return state.connected && state.isUnlocked;
-};
+export const selectIsUnlocked = (state: IWeb3State): boolean => state.connected && state.isUnlocked;
 
 export const selectPreviousLightWalletEmail = (state: IWeb3State): string | undefined =>
   (!state.connected &&
@@ -101,9 +94,8 @@ export const selectPreviousLightWalletSalt = (state: IAppState): string | undefi
 export const selectLightWalletSalt = createSelector(
   selectCurrentLightWalletSalt,
   selectPreviousLightWalletSalt,
-  (currentLightWalletSalt, previousLightWalletSalt) => {
-    return currentLightWalletSalt || previousLightWalletSalt;
-  },
+  (currentLightWalletSalt, previousLightWalletSalt) =>
+    currentLightWalletSalt || previousLightWalletSalt,
 );
 
 export const selectPreviousConnectedWallet = (state: IWeb3State): TWalletMetadata | undefined =>

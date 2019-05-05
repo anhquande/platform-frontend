@@ -50,37 +50,35 @@ interface IProps {
 export const KYCUploadComponent = ({
   intl: { formatIntlMessage },
   ...props
-}: IProps & IStateProps & IDispatchProps & IIntlProps) => {
-  return (
-    <KycPanel
-      title={<FormattedMessage id="kyc.panel.individual-verification" />}
-      steps={personalSteps}
-      description={formatIntlMessage("kyc.personal.uploadId.description")}
-      backLink={kycRoutes.individualStart}
-    >
-      <MultiFileUpload
-        acceptedFiles="image/*,application/pdf"
-        uploadType={EKycRequestType.INDIVIDUAL}
-        onDropFile={props.onDropFile}
-        files={props.files}
-        fileUploading={props.fileUploading}
-        data-test-id="kyc-personal-upload-dropzone"
-        layout="vertical"
-      />
+}: IProps & IStateProps & IDispatchProps & IIntlProps) => (
+  <KycPanel
+    title={<FormattedMessage id="kyc.panel.individual-verification" />}
+    steps={personalSteps}
+    description={formatIntlMessage("kyc.personal.uploadId.description")}
+    backLink={kycRoutes.individualStart}
+  >
+    <MultiFileUpload
+      acceptedFiles="image/*,application/pdf"
+      uploadType={EKycRequestType.INDIVIDUAL}
+      onDropFile={props.onDropFile}
+      files={props.files}
+      fileUploading={props.fileUploading}
+      data-test-id="kyc-personal-upload-dropzone"
+      layout="vertical"
+    />
 
-      <HorizontalLine className="my-5" />
-      <div className="p-4 text-center">
-        <Button
-          onClick={props.onDone}
-          disabled={!props.files || props.files.length === 0}
-          data-test-id="kyc-personal-upload-submit"
-        >
-          <FormattedMessage id="form.button.submit-request" />
-        </Button>
-      </div>
-    </KycPanel>
-  );
-};
+    <HorizontalLine className="my-5" />
+    <div className="p-4 text-center">
+      <Button
+        onClick={props.onDone}
+        disabled={!props.files || props.files.length === 0}
+        data-test-id="kyc-personal-upload-submit"
+      >
+        <FormattedMessage id="form.button.submit-request" />
+      </Button>
+    </div>
+  </KycPanel>
+);
 
 export const KYCPersonalUpload = compose<React.FunctionComponent>(
   appConnect<IStateProps, IDispatchProps>({

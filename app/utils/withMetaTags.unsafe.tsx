@@ -21,14 +21,12 @@ const withMetaTags = <T extends {}>(getMetaTags: (props: T, intl: IIntlHelpers) 
     );
   });
 
-const withRootMetaTag = () => (Wrapper: React.ComponentType<any>) => (props: any) => {
-  return (
-    <>
-      <Helmet title="Neufund Platform" />
+const withRootMetaTag = () => (Wrapper: React.ComponentType<any>) => (props: any) => (
+  <>
+    <Helmet title="Neufund Platform" />
 
-      <Wrapper {...props} />
-    </>
-  );
-};
+    <Wrapper {...props} />
+  </>
+);
 
 export { withMetaTags, withRootMetaTag };

@@ -90,7 +90,7 @@ jobs:
 
       - run:
           command: source /opt/circleci/.nvm/nvm.sh && yarn test:e2e
-          no_output_timeout: 30m
+          no_output_timeout: 50m
 
   test-e2e-chrome:
     machine:
@@ -115,7 +115,7 @@ jobs:
 
       - run:
           command: source /opt/circleci/.nvm/nvm.sh && yarn test:e2e:chrome
-          no_output_timeout: 30m
+          no_output_timeout: 20m
 
   codechecks:
     docker:

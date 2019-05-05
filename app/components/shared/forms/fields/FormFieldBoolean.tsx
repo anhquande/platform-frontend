@@ -20,21 +20,19 @@ class FormFieldBoolean extends React.Component<TProps> {
     return (
       <Field
         name={name}
-        render={({ field, form }: FieldProps) => {
-          return (
-            <div className={className}>
-              <CheckboxLayout
-                {...field}
-                {...rest}
-                name={name}
-                disabled={disabled}
-                checked={checked || getIn(form.values, name)}
-                onChange={() => form.setFieldValue(name, !getIn(form.values, name))}
-              />
-              <FormFieldError name={name} className="text-left" />
-            </div>
-          );
-        }}
+        render={({ field, form }: FieldProps) => (
+          <div className={className}>
+            <CheckboxLayout
+              {...field}
+              {...rest}
+              name={name}
+              disabled={disabled}
+              checked={checked || getIn(form.values, name)}
+              onChange={() => form.setFieldValue(name, !getIn(form.values, name))}
+            />
+            <FormFieldError name={name} className="text-left" />
+          </div>
+        )}
       />
     );
   }

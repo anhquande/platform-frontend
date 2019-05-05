@@ -17,38 +17,36 @@ interface IDispatchProps {
 
 const SignInvestmentAgreementComponent: React.FunctionComponent<IDispatchProps> = ({
   onAccept,
-}) => {
-  return (
-    <Container>
-      <Row>
-        <Heading size={EHeadingSize.SMALL} level={4}>
-          <FormattedMessage id="eto.settings.eto-start-date-summary.dates-title" />
-        </Heading>
-      </Row>
+}) => (
+  <Container>
+    <Row>
+      <Heading size={EHeadingSize.SMALL} level={4}>
+        <FormattedMessage id="eto.settings.eto-start-date-summary.dates-title" />
+      </Heading>
+    </Row>
 
-      <Row className="mt-4">
-        <ResponsiveImage
-          width={2}
-          height={1}
-          theme={"transparent"}
-          srcSet={{ "1x": signGraphic }}
-          alt=""
-        />
-      </Row>
+    <Row className="mt-4">
+      <ResponsiveImage
+        width={2}
+        height={1}
+        theme={"transparent"}
+        srcSet={{ "1x": signGraphic }}
+        alt=""
+      />
+    </Row>
 
-      <Row className="justify-content-center mt-4">
-        <Button
-          layout={EButtonLayout.PRIMARY}
-          type="button"
-          onClick={onAccept}
-          data-test-id="set-eto-date-summary-confirm-button"
-        >
-          <FormattedMessage id="download-agreement-widget.sign-on-ethereum" />
-        </Button>
-      </Row>
-    </Container>
-  );
-};
+    <Row className="justify-content-center mt-4">
+      <Button
+        layout={EButtonLayout.PRIMARY}
+        type="button"
+        onClick={onAccept}
+        data-test-id="set-eto-date-summary-confirm-button"
+      >
+        <FormattedMessage id="download-agreement-widget.sign-on-ethereum" />
+      </Button>
+    </Row>
+  </Container>
+);
 
 const SignInvestmentAgreementSummary = compose<IDispatchProps, {}>(
   setDisplayName("SetEtoDateSummary"),

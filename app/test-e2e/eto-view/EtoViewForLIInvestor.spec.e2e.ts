@@ -13,7 +13,8 @@ describe("Eto LI Investor View", () => {
       kyc: "business",
       seed: SPARE_1,
       hdPath: "m/44'/60'/0'/0",
-    }));
+    }),
+  );
 
   describe("for ETO with LI jurisdiction", () => {
     const ETO_ID = etoFixtureAddressByName("ETOInPublicState");

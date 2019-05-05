@@ -26,6 +26,4 @@ const props = {
   transactionPending: false,
 };
 
-storiesOf("ETO/Documents", module).add("default", () => {
-  return <DocumentsLayout {...props} />;
-});
+storiesOf("ETO/Documents", module).add("default", () => <DocumentsLayout {...props} />);

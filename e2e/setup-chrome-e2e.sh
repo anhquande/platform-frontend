@@ -43,7 +43,7 @@ else
     run_frontend
 fi
 
-yarn test:e2e:cypress:retry:chrome
+yarn test:e2e:cypress:record:chrome
 
 if [[ $frontend_pid -ne 0 ]]; then
     echo "Killing frontend server..."

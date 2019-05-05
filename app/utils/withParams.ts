@@ -10,6 +10,4 @@ export const withParams = (route: string, params: any) =>
   });
 
 export const insecureWithParams = (route: string, params: any) =>
-  route.replace(/:(\w+)/g, (_, match) => {
-    return params[match];
-  });
+  route.replace(/:(\w+)/g, (_, match) => params[match]);

@@ -50,8 +50,8 @@ const DocumentsWidgetLayout: React.FunctionComponent<
         </div>
         <Row>
           {companyMarketingLinks &&
-            companyMarketingLinks.map((link, i) => {
-              return link.url && link.url !== "" ? (
+            companyMarketingLinks.map((link, i) =>
+              link.url && link.url !== "" ? (
                 <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
                   <DocumentLink
                     url={link.url || ""}
@@ -59,8 +59,8 @@ const DocumentsWidgetLayout: React.FunctionComponent<
                     altIcon={<InlineIcon svgIcon={icon_link} />}
                   />
                 </Col>
-              ) : null;
-            })}
+              ) : null,
+            )}
         </Row>
       </section>
       <section className={styles.group}>

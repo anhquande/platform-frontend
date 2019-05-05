@@ -106,8 +106,9 @@ const IncomingPayoutCounter: React.FunctionComponent<IIncomingPayoutData & IDisp
           currency={ECurrency.EUR_TOKEN}
         />
       )}
-      {!isZero(euroTokenIncomingPayout) &&
-        !isZero(etherTokenIncomingPayout) && <span className={styles.incomingValue}> & </span>}
+      {!isZero(euroTokenIncomingPayout) && !isZero(etherTokenIncomingPayout) && (
+        <span className={styles.incomingValue}> & </span>
+      )}
       {!isZero(etherTokenIncomingPayout) && (
         <Money
           data-test-id="incoming-payout-ether-token"

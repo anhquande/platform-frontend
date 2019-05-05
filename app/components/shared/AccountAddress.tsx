@@ -19,24 +19,22 @@ const AccountAddress: React.FunctionComponent<
   address,
   className,
   "data-test-id": dataTestId = "account-address.your.ether-address.from-div",
-}) => {
-  return (
-    <div className={cn(styles.accountAddress, className)}>
-      <Avatar seed={address} />
+}) => (
+  <div className={cn(styles.accountAddress, className)}>
+    <Avatar seed={address} />
 
-      <div className={styles.addressWrapper}>
-        <div className={styles.address} data-test-id={dataTestId}>
-          {address}
-        </div>
-        <div className={styles.transactionHistory}>
-          <FormattedMessage id="shared-components.account-address.transaction-history" />{" "}
-          <EtherscanAddressLink address={address} />
-        </div>
+    <div className={styles.addressWrapper}>
+      <div className={styles.address} data-test-id={dataTestId}>
+        {address}
       </div>
-
-      <CopyToClipboardButton value={address} />
+      <div className={styles.transactionHistory}>
+        <FormattedMessage id="shared-components.account-address.transaction-history" />{" "}
+        <EtherscanAddressLink address={address} />
+      </div>
     </div>
-  );
-};
+
+    <CopyToClipboardButton value={address} />
+  </div>
+);
 
 export { AccountAddress };

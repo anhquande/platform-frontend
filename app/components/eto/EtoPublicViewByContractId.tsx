@@ -14,7 +14,7 @@ import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsaf
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { ErrorBoundaryLayoutBase } from "../shared/errorBoundary/ErrorBoundaryLayoutBase";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { EtoView } from "./shared/EtoView.unsafe";
+import { EtoView } from "./shared/EtoView";
 import { withJurisdictionDisclaimer } from "./shared/withJurisdictionDisclaimer";
 
 interface IStateProps {

@@ -172,15 +172,11 @@ export const selectUploadedInvestmentAgreement = (
   return key ? etoDocuments[key] : null;
 };
 
-export const selectInvestmentAgreementLoading = (state: DeepReadonly<IAppState>): boolean => {
-  return state.etoFlow.signedInvestmentAgreementUrlLoading;
-};
+export const selectInvestmentAgreementLoading = (state: DeepReadonly<IAppState>): boolean =>
+  state.etoFlow.signedInvestmentAgreementUrlLoading;
 
-export const selectSignedInvestmentAgreementUrl = (
-  state: DeepReadonly<IAppState>,
-): string | null => {
-  return state.etoFlow.signedInvestmentAgreementUrl;
-};
+export const selectSignedInvestmentAgreementUrl = (state: DeepReadonly<IAppState>): string | null =>
+  state.etoFlow.signedInvestmentAgreementUrl;
 
 export const selectShouldEtoDataLoad = (state: IAppState) =>
   selectKycRequestStatus(state) === ERequestStatus.ACCEPTED &&
@@ -214,17 +210,23 @@ export const selectIsNewPreEtoStartDateValid = (state: IAppState) => {
   return date && isValidEtoStartDate(date, constants.DATE_TO_WHITELIST_MIN_DURATION);
 };
 
-export const selectAvailableProducts = createSelector(selectIssuerEtoFlow, ({ products }) => {
-  if (products !== undefined) {
-    const availableProducts = products
-      .filter(product => product.available)
-      // TODO: remove after platform-backend/#1550 is done
-      .filter(product => product.name !== EProductName.FIFTH_FORCE_ETO);
+export const selectAvailableProducts = createSelector(
+  selectIssuerEtoFlow,
+  ({ products }) => {
+    if (products !== undefined) {
+      const availableProducts = products
+        .filter(product => product.available)
+        // TODO: remove after platform-backend/#1550 is done
+        .filter(product => product.name !== EProductName.FIFTH_FORCE_ETO);
 
-    return sortProducts(availableProducts);
-  }
+      return sortProducts(availableProducts);
+    }
 
-  return undefined;
-});
+    return undefined;
+  },
+);
 
-export const selectIsSaving = createSelector(selectIssuerEtoFlow, state => state.saving);
+export const selectIsSaving = createSelector(
+  selectIssuerEtoFlow,
+  state => state.saving,
+);

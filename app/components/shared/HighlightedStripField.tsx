@@ -30,38 +30,36 @@ export const HighlightedStripField: React.FunctionComponent<IProps> = ({
   withCopy,
   whiteBackground,
   dataTestId,
-}) => {
-  return (
-    <Container>
-      <Row
-        className={cn(
-          styles.highlightedField,
-          withCopy && "d-flex justify-content-between",
-          whiteBackground && styles.whiteBackground,
+}) => (
+  <Container>
+    <Row
+      className={cn(
+        styles.highlightedField,
+        withCopy && "d-flex justify-content-between",
+        whiteBackground && styles.whiteBackground,
+      )}
+      data-test-id={dataTestId}
+    >
+      <Col>
+        {icon && <img className={styles.icon} src={icon} alt="icon" />}
+        {label && <span className={styles.label}>{label}</span>}
+        {link && (
+          <div>
+            <InlineIcon className={styles.downloadIcon} svgIcon={iconDownload} />
+            <a href={link.url} download>
+              {link.title}
+            </a>
+          </div>
         )}
-        data-test-id={dataTestId}
-      >
-        <Col>
-          {icon && <img className={styles.icon} src={icon} alt="icon" />}
-          {label && <span className={styles.label}>{label}</span>}
-          {link && (
-            <div>
-              <InlineIcon className={styles.downloadIcon} svgIcon={iconDownload} />
-              <a href={link.url} download>
-                {link.title}
-              </a>
-            </div>
-          )}
+      </Col>
+      {value && (
+        <Col className="d-flex justify-content-end" xs={7}>
+          <span>
+            {withCopy && <CopyToClipboardButton value={value} className={styles.icon} />}
+            <span className={styles.value}>{value}</span>
+          </span>
         </Col>
-        {value && (
-          <Col className="d-flex justify-content-end" xs={7}>
-            <span>
-              {withCopy && <CopyToClipboardButton value={value} className={styles.icon} />}
-              <span className={styles.value}>{value}</span>
-            </span>
-          </Col>
-        )}
-      </Row>
-    </Container>
-  );
-};
+      )}
+    </Row>
+  </Container>
+);

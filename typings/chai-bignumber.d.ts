@@ -1,9 +1,7 @@
 declare module "chai-bignumber" {
   function chaiBignumber(bignumber: any): (chai: any, utils: any) => void;
 
-  namespace chaiBignumber {
-
-  }
+  namespace chaiBignumber {}
 
   export = chaiBignumber;
 }

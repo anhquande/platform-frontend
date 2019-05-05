@@ -105,13 +105,11 @@ export const IcbmWalletBalanceComponentInner: React.FunctionComponent<IProps> = 
   </div>
 );
 
-const IcbmWalletBalanceComponent: React.FunctionComponent<IProps> = (props: IProps) => {
-  return (
-    <Modal isOpen={props.isOpen} onClose={props.onCancel}>
-      <IcbmWalletBalanceComponentInner {...props} />
-    </Modal>
-  );
-};
+const IcbmWalletBalanceComponent: React.FunctionComponent<IProps> = (props: IProps) => (
+  <Modal isOpen={props.isOpen} onClose={props.onCancel}>
+    <IcbmWalletBalanceComponentInner {...props} />
+  </Modal>
+);
 
 const IcbmWalletBalanceModal = compose<any, any>(
   appConnect<IStateProps, IDispatchProps>({

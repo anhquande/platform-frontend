@@ -58,27 +58,23 @@ interface IStateProps {
   maxCapExceeded: boolean;
 }
 
-const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => {
-  return (
-    <div className={styles.statusOfEto}>
-      <span className={styles.title}>
-        <FormattedMessage id="shared-component.eto-overview.status-of-eto" />
-      </span>
-      <ETOState previewCode={previewCode} />
-    </div>
-  );
-};
+const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => (
+  <div className={styles.statusOfEto}>
+    <span className={styles.title}>
+      <FormattedMessage id="shared-component.eto-overview.status-of-eto" />
+    </span>
+    <ETOState previewCode={previewCode} />
+  </div>
+);
 
-const PoweredByNeufund = () => {
-  return (
-    <div className={styles.poweredByNeufund} data-test-id="eto-overview-powered-by">
-      <div className={styles.powered}>Powered by</div>
-      <Link className={styles.neufund} target={"_blank"} to={"https://neufund.org"}>
-        NEUFUND
-      </Link>
-    </div>
-  );
-};
+const PoweredByNeufund = () => (
+  <div className={styles.poweredByNeufund} data-test-id="eto-overview-powered-by">
+    <div className={styles.powered}>Powered by</div>
+    <Link className={styles.neufund} target={"_blank"} to={"https://neufund.org"}>
+      NEUFUND
+    </Link>
+  </div>
+);
 
 const EtoStatusManager = ({
   eto,

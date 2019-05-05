@@ -32,30 +32,26 @@ const FormFieldDatePicker: React.FunctionComponent<IProps> = () => (
   <div className={styles.formFieldDatePicker}>
     <TypedDatetime
       closeOnSelect={true}
-      renderInput={props => {
-        return (
-          <div className={styles.inputWrapper}>
-            <Field
-              {...props}
-              name={props.name}
-              render={({ field }: FieldProps) => {
-                return (
-                  <input
-                    autoComplete="off"
-                    value={field.value || props.value}
-                    type="text"
-                    className="form-control"
-                    {...props}
-                  />
-                );
-              }}
-            />
-            <div className={styles.icon}>
-              <InlineIcon svgIcon={iconCalendar} />
-            </div>
+      renderInput={props => (
+        <div className={styles.inputWrapper}>
+          <Field
+            {...props}
+            name={props.name}
+            render={({ field }: FieldProps) => (
+              <input
+                autoComplete="off"
+                value={field.value || props.value}
+                type="text"
+                className="form-control"
+                {...props}
+              />
+            )}
+          />
+          <div className={styles.icon}>
+            <InlineIcon svgIcon={iconCalendar} />
           </div>
-        );
-      }}
+        </div>
+      )}
     />
   </div>
 );

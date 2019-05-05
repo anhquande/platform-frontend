@@ -31,9 +31,9 @@ export const dateSchema = (v: Yup.StringSchema) =>
       }
       return date.format(DATE_SCHEME);
     })
-    .test("is-valid", <FormattedMessage id="form.field.error.invalid-date" /> as any, s => {
-      return parse(s).isValid();
-    });
+    .test("is-valid", <FormattedMessage id="form.field.error.invalid-date" /> as any, s =>
+      parse(s).isValid(),
+    );
 
 export const date = dateSchema(Yup.string());
 
@@ -71,9 +71,9 @@ export const isUsCitizen = citizen.test(
 export const countryCode = Yup.string();
 export const RESTRICTED_COUNTRIES = [
   ECountries.AFGHANISTAN,
-  ECountries.AMERICAN_SAMOA,
   ECountries.BAHAMAS,
   ECountries.BOTSWANA,
+  ECountries.CAMBODIA,
   ECountries.ETHIOPIA,
   ECountries.GHANA,
   ECountries.GUAM,
@@ -91,7 +91,6 @@ export const RESTRICTED_COUNTRIES = [
   ECountries.TRINIDAD_AND_TOBAGO,
   ECountries.TUNISIA,
   ECountries.UNITED_STATES,
-  ECountries.VIRGIN_ISLANDS_US,
   ECountries.YEMEN,
 ];
 

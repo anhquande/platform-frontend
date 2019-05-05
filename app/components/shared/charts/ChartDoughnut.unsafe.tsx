@@ -2,7 +2,7 @@ import * as cn from "classnames";
 import * as React from "react";
 import { Doughnut } from "react-chartjs-2";
 
-import { DEFAULT_CHART_COLOR } from "../../eto/shared/EtoView.unsafe";
+import { DEFAULT_CHART_COLOR } from "../../eto/shared/EtoView";
 import { ChartLegend } from "./ChartLegend";
 
 import * as styles from "./ChartDoughnut.module.scss";
@@ -48,7 +48,7 @@ interface ITooltipItem {
   index: number;
 }
 
-function createCustomTooltip(style: string): ((this: IChart, tooltipModel: ITooltipModel) => void) {
+function createCustomTooltip(style: string): (this: IChart, tooltipModel: ITooltipModel) => void {
   return function(this: IChart, tooltipModel: ITooltipModel): void {
     const createTooltipElement = (): HTMLElement => {
       const tooltipEl = document.createElement("div");
@@ -73,16 +73,13 @@ function createCustomTooltip(style: string): ((this: IChart, tooltipModel: ITool
       return rootNode;
     };
 
-    const getBodyLines = (body: IBody[]) => {
-      return body
+    const getBodyLines = (body: IBody[]) =>
+      body
         ? body.reduce(
-            (acc, bodyEl) => {
-              return bodyEl.lines.length ? acc.concat(bodyEl.lines) : acc;
-            },
+            (acc, bodyEl) => (bodyEl.lines.length ? acc.concat(bodyEl.lines) : acc),
             [] as string[],
           )
         : [];
-    };
 
     const clearTooltip = (rootElement: HTMLElement) => {
       [...rootElement.childNodes].forEach(el => {

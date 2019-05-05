@@ -18,7 +18,9 @@ export type FunctionWithDeps = Opaque<"FunctionWithDeps", Function>;
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>
     ? Array<DeepPartial<U>>
-    : T[P] extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : DeepPartial<T[P]>
+    : T[P] extends ReadonlyArray<infer U>
+    ? ReadonlyArray<DeepPartial<U>>
+    : DeepPartial<T[P]>
 };
 
 export type TDictionaryValues<T> = T extends Dictionary<infer U> ? U : never;
@@ -32,7 +34,11 @@ export type Primitive = string | number | boolean | undefined | null;
 type WhitelistedWritableTypes = Date | BigNumber;
 export type DeepReadonly<T> = T extends Primitive | WhitelistedWritableTypes
   ? T
-  : T extends Array<infer U> ? ReadonlyArray<U> : T extends Function ? T : DeepReadonlyObject<T>;
+  : T extends Array<infer U>
+  ? ReadonlyArray<U>
+  : T extends Function
+  ? T
+  : DeepReadonlyObject<T>;
 
 export type DeepReadonlyObject<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> };
 

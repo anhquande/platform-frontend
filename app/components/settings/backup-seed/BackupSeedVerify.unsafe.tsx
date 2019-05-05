@@ -75,8 +75,8 @@ class BackupSeedVerify extends React.Component<IBackupSeedVerifyProps, IBackupSe
 
     this.setState(
       state => ({
-        verificationWords: state.verificationWords.map(
-          (word, index) => (wordOnPageNumber === index ? verificationWord : word),
+        verificationWords: state.verificationWords.map((word, index) =>
+          wordOnPageNumber === index ? verificationWord : word,
         ),
       }),
       () => this.focusNext(wordOnPageNumber),
@@ -104,13 +104,9 @@ class BackupSeedVerify extends React.Component<IBackupSeedVerifyProps, IBackupSe
     }
   };
 
-  isInvalid = (): boolean => {
-    return this.state.verificationWords.some(word => word.isValid === false);
-  };
+  isInvalid = (): boolean => this.state.verificationWords.some(word => word.isValid === false);
 
-  isValid = (): boolean => {
-    return this.state.verificationWords.every(word => !!word.isValid);
-  };
+  isValid = (): boolean => this.state.verificationWords.every(word => !!word.isValid);
 
   generateSelect = (wordOnPageNumber: number): React.ReactNode => (
     <div data-test-id={`backup-seed-verify-word-${wordOnPageNumber}`}>

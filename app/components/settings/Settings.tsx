@@ -77,11 +77,9 @@ export const SettingsComponent: React.FunctionComponent<IStateProps> = ({
         !isLockedWalletConnected &&
         isUserInvestor && <CheckYourICBMWalletWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />}
 
-      {isUserInvestor &&
-        isIndividual &&
-        isPersonalDataProcessed && (
-          <PersonalAccountDetails columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
-        )}
+      {isUserInvestor && isIndividual && isPersonalDataProcessed && (
+        <PersonalAccountDetails columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+      )}
       <LinkedBankAccountWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
     </WidgetGridLayout>
   );

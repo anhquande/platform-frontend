@@ -4,7 +4,7 @@ import { symbols } from "../../di/symbols";
 import {} from "../../utils/transformObjectKeys";
 import { IHttpClient, IHttpResponse } from "./client/IHttpClient";
 import { FileDescriptionValidator, TFileDescription, TFileType } from "./FileStorage.interfaces";
-import { ImmutableFileId } from "./ImmutableStorage.interfaces";
+import { IImmutableFileId } from "./ImmutableStorage.interfaces";
 
 const BASE_PATH = "/api/immutable-storage";
 const DOWNLOAD_DOCUMENT_PATH = "/download/";
@@ -39,7 +39,7 @@ export class ImmutableStorageApi {
     mimeType,
     placeholders,
     asPdf,
-  }: ImmutableFileId): Promise<IHttpResponse<TFileDescription>> {
+  }: IImmutableFileId): Promise<IHttpResponse<TFileDescription>> {
     const placeHolder = placeholders ? JSON.stringify(placeholders) : "";
     const response = await this.binaryHttpClient.get<IHttpResponse<TFileDescription>>({
       baseUrl: BASE_PATH,

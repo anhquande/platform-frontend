@@ -229,16 +229,15 @@ export const getEtoTermsSchema = ({
   YupTS.object({
     currencies: YupTS.array(YupTS.string()),
     prospectusLanguage: YupTS.string(),
-    minTicketEur: YupTS.number().enhance(
-      (v: NumberSchema) =>
-        minTicketSize !== undefined
-          ? v.min(minTicketSize, (
-              <FormattedMessage
-                id="eto.form.section.eto-terms.minimum-ticket-size.error.less-than-accepted"
-                values={{ value: minTicketSize }}
-              />
-            ) as any)
-          : v,
+    minTicketEur: YupTS.number().enhance((v: NumberSchema) =>
+      minTicketSize !== undefined
+        ? v.min(minTicketSize, (
+            <FormattedMessage
+              id="eto.form.section.eto-terms.minimum-ticket-size.error.less-than-accepted"
+              values={{ value: minTicketSize }}
+            />
+          ) as any)
+        : v,
     ),
     maxTicketEur: YupTS.number()
       .optional()

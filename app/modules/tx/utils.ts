@@ -17,13 +17,11 @@ export const calculateGasPriceWithOverhead = (gasPrice: TBigNumberVariant) =>
 export const calculateGasLimitWithOverhead = (gasLimit: TBigNumberVariant) =>
   new BigNumber(multiplyBigNumbers([gasLimit, GAS_LIMIT_MULTIPLIER])).ceil().toString();
 
-export const encodeTransaction = (txData: Partial<TxData>) => {
-  return {
-    from: addHexPrefix(txData.from!),
-    to: addHexPrefix(txData.to!),
-    gas: addHexPrefix(new BigNumber(txData.gas || 0).toString(16)),
-    gasPrice: addHexPrefix(new BigNumber(txData.gasPrice || 0).toString(16)),
-    value: addHexPrefix(new BigNumber(txData.value! || 0).toString(16)),
-    data: addHexPrefix(txData.data || EMPTY_DATA),
-  };
-};
+export const encodeTransaction = (txData: Partial<TxData>) => ({
+  from: addHexPrefix(txData.from!),
+  to: addHexPrefix(txData.to!),
+  gas: addHexPrefix(new BigNumber(txData.gas || 0).toString(16)),
+  gasPrice: addHexPrefix(new BigNumber(txData.gasPrice || 0).toString(16)),
+  value: addHexPrefix(new BigNumber(txData.value! || 0).toString(16)),
+  data: addHexPrefix(txData.data || EMPTY_DATA),
+});

@@ -21,34 +21,32 @@ interface IProps {
   height?: number;
 }
 
-export const ChartBars: React.FunctionComponent<IProps> = ({ data, className, width, height }) => {
-  return (
-    <div className={cn(styles.chartBars, className)}>
-      <div className={styles.chartWrapper}>
-        <Bar
-          data={data}
-          width={width}
-          height={height}
-          legend={{ display: false }}
-          options={{
-            responsive: true,
-            maintainAspectRatio: true,
-            scales: {
-              xAxes: [
-                {
+export const ChartBars: React.FunctionComponent<IProps> = ({ data, className, width, height }) => (
+  <div className={cn(styles.chartBars, className)}>
+    <div className={styles.chartWrapper}>
+      <Bar
+        data={data}
+        width={width}
+        height={height}
+        legend={{ display: false }}
+        options={{
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            xAxes: [
+              {
+                display: false,
+                gridLines: {
                   display: false,
-                  gridLines: {
-                    display: false,
-                  },
                 },
-              ],
-            },
-          }}
-        />
-      </div>
+              },
+            ],
+          },
+        }}
+      />
     </div>
-  );
-};
+  </div>
+);
 
 ChartBars.defaultProps = {
   width: 388,

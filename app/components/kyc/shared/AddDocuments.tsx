@@ -22,18 +22,16 @@ interface IOwnProps {
 
 export const KYCAddDocumentsComponent: React.FunctionComponent<
   IStateProps & IDispatchProps & IOwnProps
-> = ({ onDropFile, files, fileUploading, uploadType }) => {
-  return (
-    <MultiFileUpload
-      acceptedFiles="image/*,application/pdf"
-      onDropFile={onDropFile}
-      files={files}
-      fileUploading={fileUploading}
-      uploadType={uploadType}
-      layout="vertical"
-    />
-  );
-};
+> = ({ onDropFile, files, fileUploading, uploadType }) => (
+  <MultiFileUpload
+    acceptedFiles="image/*,application/pdf"
+    onDropFile={onDropFile}
+    files={files}
+    fileUploading={fileUploading}
+    uploadType={uploadType}
+    layout="vertical"
+  />
+);
 
 export const KYCAddDocuments = compose<React.FunctionComponent<IOwnProps>>(
   appConnect<IStateProps, IDispatchProps, IOwnProps>({

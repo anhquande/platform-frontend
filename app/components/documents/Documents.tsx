@@ -169,9 +169,7 @@ const DocumentsLayout: React.FunctionComponent<IProps> = ({
         </section>
         {allTemplates && (
           <SingleColDocuments
-            documents={etoTemplateKeys.map(key => {
-              return allTemplates[key];
-            })}
+            documents={etoTemplateKeys.map(key => allTemplates[key])}
             title={<FormattedMessage id="documents.agreement-and-prospectus-templates" />}
             className={styles.documents}
             isRetailEto={isRetailEto}

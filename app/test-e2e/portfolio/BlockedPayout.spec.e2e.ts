@@ -10,7 +10,8 @@ describe("Investor blocked payout", () => {
       kyc: "business",
       seed: INV_ETH_ICBM_NO_KYC,
       clearPendingTransactions: true,
-    }));
+    }),
+  );
 
   it("should disable payout when account is not verified", () => {
     goToPortfolio();

@@ -80,119 +80,117 @@ interface IDispatchProps {
 type IProps = IStateProps & IDispatchProps & FormikProps<IKycIndividualData>;
 
 const KYCForm = injectIntlHelpers<IProps & IKycIndividualData>(
-  ({ intl: { formatIntlMessage }, ...props }) => {
-    return (
-      <Form>
-        <FormField
-          label={formatIntlMessage("form.label.first-name")}
-          name="firstName"
-          data-test-id="kyc-personal-start-first-name"
-        />
-        <FormField
-          label={formatIntlMessage("form.label.last-name")}
-          name="lastName"
-          data-test-id="kyc-personal-start-last-name"
-        />
-        <FormFieldDate
-          label={formatIntlMessage("form.label.birth-date")}
-          name="birthDate"
-          data-test-id="kyc-personal-start-birth-date"
-        />
-        <h5 className="my-5">
-          <FormattedMessage tagName="span" id="kyc.personal.current.address" />
-        </h5>
-        <FormField
-          label={formatIntlMessage("form.label.street-and-number")}
-          name="street"
-          data-test-id="kyc-personal-start-street"
-        />
-        <Row>
-          <Col xs={12} md={6} lg={8}>
-            <FormField
-              label={formatIntlMessage("form.label.city")}
-              name="city"
-              data-test-id="kyc-personal-start-city"
+  ({ intl: { formatIntlMessage }, ...props }) => (
+    <Form>
+      <FormField
+        label={formatIntlMessage("form.label.first-name")}
+        name="firstName"
+        data-test-id="kyc-personal-start-first-name"
+      />
+      <FormField
+        label={formatIntlMessage("form.label.last-name")}
+        name="lastName"
+        data-test-id="kyc-personal-start-last-name"
+      />
+      <FormFieldDate
+        label={formatIntlMessage("form.label.birth-date")}
+        name="birthDate"
+        data-test-id="kyc-personal-start-birth-date"
+      />
+      <h5 className="my-5">
+        <FormattedMessage tagName="span" id="kyc.personal.current.address" />
+      </h5>
+      <FormField
+        label={formatIntlMessage("form.label.street-and-number")}
+        name="street"
+        data-test-id="kyc-personal-start-street"
+      />
+      <Row>
+        <Col xs={12} md={6} lg={8}>
+          <FormField
+            label={formatIntlMessage("form.label.city")}
+            name="city"
+            data-test-id="kyc-personal-start-city"
+          />
+        </Col>
+        <Col xs={12} md={6} lg={4}>
+          <FormField
+            label={formatIntlMessage("form.label.zip-code")}
+            name="zipCode"
+            data-test-id="kyc-personal-start-zip-code"
+          />
+        </Col>
+      </Row>
+      <FormSelectCountryField
+        label={formatIntlMessage("form.label.country")}
+        name="country"
+        data-test-id="kyc-personal-start-country"
+      />
+      <FormSelectCountryField
+        label={formatIntlMessage("form.label.place-of-birth")}
+        name="placeOfBirth"
+        data-test-id="kyc-personal-start-place-of-birth"
+      />
+      <FormSelectNationalityField
+        label={formatIntlMessage("form.label.nationality")}
+        name="nationality"
+        data-test-id="kyc-personal-start-nationality"
+      />
+      <br />
+      <FormSelectField
+        values={PEP_VALUES}
+        label={
+          <>
+            <FormattedMessage id={"kyc.personal.politically-exposed.question"} />
+            <Tooltip
+              content={
+                <FormattedHTMLMessage
+                  tagName="span"
+                  id="kyc.personal.politically-exposed.tooltip"
+                />
+              }
             />
-          </Col>
-          <Col xs={12} md={6} lg={4}>
-            <FormField
-              label={formatIntlMessage("form.label.zip-code")}
-              name="zipCode"
-              data-test-id="kyc-personal-start-zip-code"
-            />
-          </Col>
-        </Row>
-        <FormSelectCountryField
-          label={formatIntlMessage("form.label.country")}
-          name="country"
-          data-test-id="kyc-personal-start-country"
-        />
-        <FormSelectCountryField
-          label={formatIntlMessage("form.label.place-of-birth")}
-          name="placeOfBirth"
-          data-test-id="kyc-personal-start-place-of-birth"
-        />
-        <FormSelectNationalityField
-          label={formatIntlMessage("form.label.nationality")}
-          name="nationality"
-          data-test-id="kyc-personal-start-nationality"
-        />
-        <br />
-        <FormSelectField
-          values={PEP_VALUES}
-          label={
-            <>
-              <FormattedMessage id={"kyc.personal.politically-exposed.question"} />
-              <Tooltip
-                content={
-                  <FormattedHTMLMessage
-                    tagName="span"
-                    id="kyc.personal.politically-exposed.tooltip"
-                  />
-                }
-              />
-            </>
-          }
-          name="isPoliticallyExposed"
-          extraMessage={
-            props.values.isPoliticallyExposed === ("true" as any) ? (
-              <FormattedMessage id={"kyc.personal.politically-exposed.disclaimer"} />
-            ) : (
-              undefined
-            )
-          }
-          data-test-id="kyc-personal-start-is-politically-exposed"
-        />
-        <FormSelectField
-          values={US_CITIZEN_VALUES}
-          label={
-            <>
-              <FormattedMessage id={"kyc.personal.us-citizen.question"} />
-              <Tooltip content={formatIntlMessage("kyc.personal.us-citizen.disclaimer")} />
-            </>
-          }
-          name="isUsCitizen"
-          data-test-id="kyc-personal-start-is-us-citizen"
-        />
-        <FormSelectField
-          values={HIGH_INCOME_VALUES}
-          label={formatIntlMessage("kyc.personal.high-income")}
-          name="isHighIncome"
-          extraMessage={<FormattedMessage id={"kyc.personal.income.disclaimer"} />}
-          data-test-id="kyc-personal-start-has-high-income"
-        />
-        <div className="p-4 text-center">
-          <Button
-            type="submit"
-            disabled={!props.isValid || props.loadingData}
-            data-test-id="kyc-personal-start-submit-form"
-          >
-            <FormattedMessage id={"form.save-and-submit"} />
-          </Button>
-        </div>
-      </Form>
-    );
-  },
+          </>
+        }
+        name="isPoliticallyExposed"
+        extraMessage={
+          props.values.isPoliticallyExposed === ("true" as any) ? (
+            <FormattedMessage id={"kyc.personal.politically-exposed.disclaimer"} />
+          ) : (
+            undefined
+          )
+        }
+        data-test-id="kyc-personal-start-is-politically-exposed"
+      />
+      <FormSelectField
+        values={US_CITIZEN_VALUES}
+        label={
+          <>
+            <FormattedMessage id={"kyc.personal.us-citizen.question"} />
+            <Tooltip content={formatIntlMessage("kyc.personal.us-citizen.disclaimer")} />
+          </>
+        }
+        name="isUsCitizen"
+        data-test-id="kyc-personal-start-is-us-citizen"
+      />
+      <FormSelectField
+        values={HIGH_INCOME_VALUES}
+        label={formatIntlMessage("kyc.personal.high-income")}
+        name="isHighIncome"
+        extraMessage={<FormattedMessage id={"kyc.personal.income.disclaimer"} />}
+        data-test-id="kyc-personal-start-has-high-income"
+      />
+      <div className="p-4 text-center">
+        <Button
+          type="submit"
+          disabled={!props.isValid || props.loadingData}
+          data-test-id="kyc-personal-start-submit-form"
+        >
+          <FormattedMessage id={"form.save-and-submit"} />
+        </Button>
+      </div>
+    </Form>
+  ),
 );
 
 const KYCEnhancedForm = withFormik<IStateProps & IDispatchProps, IKycIndividualData>({
@@ -207,19 +205,17 @@ const KYCEnhancedForm = withFormik<IStateProps & IDispatchProps, IKycIndividualD
 
 export const KYCPersonalStartComponent: React.FunctionComponent<
   IStateProps & IDispatchProps
-> = props => {
-  return (
-    <KycPanel
-      steps={personalSteps}
-      backLink={kycRoutes.start}
-      isMaxWidth={false}
-      title={<FormattedMessage id="kyc.panel.individual-verification" />}
-    >
-      <KycDisclaimer className="pb-5" />
-      <KYCEnhancedForm {...props} />
-    </KycPanel>
-  );
-};
+> = props => (
+  <KycPanel
+    steps={personalSteps}
+    backLink={kycRoutes.start}
+    isMaxWidth={false}
+    title={<FormattedMessage id="kyc.panel.individual-verification" />}
+  >
+    <KycDisclaimer className="pb-5" />
+    <KYCEnhancedForm {...props} />
+  </KycPanel>
+);
 
 export const KYCPersonalStart = compose<React.FunctionComponent>(
   appConnect<IStateProps, IDispatchProps>({

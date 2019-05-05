@@ -21,37 +21,35 @@ export const Cover: React.FunctionComponent<IProps> = ({
   companyOneliner,
   companyLogo,
   tags = [],
-}) => {
-  return (
-    <Container columnSpan={EColumnSpan.THREE_COL} className={styles.cover}>
-      <ResponsiveImage
-        width={1250}
-        height={400}
-        srcSet={companyBanner.srcSet}
-        alt={companyBanner.alt}
-      />
+}) => (
+  <Container columnSpan={EColumnSpan.THREE_COL} className={styles.cover}>
+    <ResponsiveImage
+      width={1250}
+      height={400}
+      srcSet={companyBanner.srcSet}
+      alt={companyBanner.alt}
+    />
 
-      <div className={styles.companyDetails}>
-        <div className={styles.identity}>
-          <div className={styles.logo}>
-            <ResponsiveImage
-              className={styles.logo}
-              srcSet={companyLogo.srcSet}
-              alt={companyLogo.alt}
-              theme="light"
-            />
-          </div>
-          <div className={styles.details}>
-            <h2 className={styles.name}>{companyName}</h2>
-            <h3 className={styles.shortDescription}>{companyOneliner}</h3>
-          </div>
+    <div className={styles.companyDetails}>
+      <div className={styles.identity}>
+        <div className={styles.logo}>
+          <ResponsiveImage
+            className={styles.logo}
+            srcSet={companyLogo.srcSet}
+            alt={companyLogo.alt}
+            theme="light"
+          />
         </div>
-        <div className={styles.tags}>
-          {tags.map((tag, index) => (
-            <Tag text={tag} className="ml-3" layout="bold" theme="dark" key={index} />
-          ))}
+        <div className={styles.details}>
+          <h2 className={styles.name}>{companyName}</h2>
+          <h3 className={styles.shortDescription}>{companyOneliner}</h3>
         </div>
       </div>
-    </Container>
-  );
-};
+      <div className={styles.tags}>
+        {tags.map((tag, index) => (
+          <Tag text={tag} className="ml-3" layout="bold" theme="dark" key={index} />
+        ))}
+      </div>
+    </div>
+  </Container>
+);

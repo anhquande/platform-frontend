@@ -40,82 +40,72 @@ const CampaigningActivatedInvestorApprovedWidgetLayout: React.FunctionComponent<
   deletePledge,
   minPledge,
   maxPledge,
-}) => {
-  return (
-    <>
+}) => (
+  <>
+    <div className={styles.group}>
+      <label htmlFor="consentToRevealEmail" className={styles.label}>
+        <FormattedMessage id="shared-component.eto-overview.reveal-my-email" />
+        <Tooltip
+          content={<FormattedMessage id="shared-component.eto-overview.reveal-my-email.tooltip" />}
+        />
+      </label>
+      <div className={styles.value}>
+        <CheckboxLayout
+          name="consentToRevealEmail"
+          inputId="consentToRevealEmail"
+          checked={consentToRevealEmail}
+          onChange={event => showMyEmail(event.target.checked)}
+        />
+      </div>
+    </div>
+    {formState === CampaigningFormState.VIEW ? (
       <div className={styles.group}>
-        <label htmlFor="consentToRevealEmail" className={styles.label}>
-          <FormattedMessage id="shared-component.eto-overview.reveal-my-email" />
-          <Tooltip
-            content={
-              <FormattedMessage id="shared-component.eto-overview.reveal-my-email.tooltip" />
-            }
+        <div className={styles.label} data-test-id="campaigning-your-commitment">
+          <FormattedMessage id="eto-overview.campaigning.your-commitment" />
+          <br />
+          <Money
+            value={pledgedAmount}
+            currency={ECurrency.EUR}
+            format={EMoneyFormat.FLOAT}
+            currencySymbol={ECurrencySymbol.SYMBOL}
           />
-        </label>
+        </div>
         <div className={styles.value}>
-          <CheckboxLayout
-            name="consentToRevealEmail"
-            inputId="consentToRevealEmail"
-            checked={consentToRevealEmail}
-            onChange={event => showMyEmail(event.target.checked)}
-          />
+          <button onClick={changePledge} className={styles.changePledge}>
+            <FormattedMessage id="shared-component.eto-overview.change" />
+          </button>{" "}
+          <FormattedMessage id="shared-component.eto-overview.or" />{" "}
+          <button onClick={deletePledge} className={styles.deletePledge}>
+            <FormattedMessage id="shared-component.eto-overview.delete" />
+          </button>{" "}
+          <FormattedMessage id="shared-component.eto-overview.your-pledge" />{" "}
         </div>
       </div>
-      {formState === CampaigningFormState.VIEW ? (
-        <div className={styles.group}>
-          <div className={styles.label} data-test-id="campaigning-your-commitment">
-            <FormattedMessage id="eto-overview.campaigning.your-commitment" />
-            <br />
-            <Money
-              value={pledgedAmount}
-              currency={ECurrency.EUR}
-              format={EMoneyFormat.FLOAT}
-              currencySymbol={ECurrencySymbol.SYMBOL}
-            />
+    ) : (
+      <Formik<{ amount: number | "" }>
+        initialValues={{ amount: pledgedAmount }}
+        onSubmit={({ amount }) => backNow(Number(amount))}
+        validationSchema={generateCampaigningValidation(minPledge, maxPledge)}
+      >
+        <Form className={styles.group}>
+          <div className={cn(styles.label)}>
+            <FormattedMessage id="eto-overview.campaigning.indicate-commitment" />
+            <FormInput size={InputSize.SMALL} name="amount" prefix="€" maxLength={8} type="text" />
           </div>
-          <div className={styles.value}>
-            <button onClick={changePledge} className={styles.changePledge}>
-              <FormattedMessage id="shared-component.eto-overview.change" />
-            </button>{" "}
-            <FormattedMessage id="shared-component.eto-overview.or" />{" "}
-            <button onClick={deletePledge} className={styles.deletePledge}>
-              <FormattedMessage id="shared-component.eto-overview.delete" />
-            </button>{" "}
-            <FormattedMessage id="shared-component.eto-overview.your-pledge" />{" "}
+          <div className={cn(styles.value, styles.backNow)}>
+            <Button
+              data-test-id="eto-bookbuilding-back-now"
+              type="submit"
+              size={ButtonSize.SMALL}
+              width={ButtonWidth.BLOCK}
+            >
+              <FormattedMessage id="shared-component.eto-overview.back-now" />
+            </Button>
           </div>
-        </div>
-      ) : (
-        <Formik<{ amount: number | "" }>
-          initialValues={{ amount: pledgedAmount }}
-          onSubmit={({ amount }) => backNow(Number(amount))}
-          validationSchema={generateCampaigningValidation(minPledge, maxPledge)}
-        >
-          <Form className={styles.group}>
-            <div className={cn(styles.label)}>
-              <FormattedMessage id="eto-overview.campaigning.indicate-commitment" />
-              <FormInput
-                size={InputSize.SMALL}
-                name="amount"
-                prefix="€"
-                maxLength={8}
-                type="text"
-              />
-            </div>
-            <div className={cn(styles.value, styles.backNow)}>
-              <Button
-                data-test-id="eto-bookbuilding-back-now"
-                type="submit"
-                size={ButtonSize.SMALL}
-                width={ButtonWidth.BLOCK}
-              >
-                <FormattedMessage id="shared-component.eto-overview.back-now" />
-              </Button>
-            </div>
-          </Form>
-        </Formik>
-      )}
-    </>
-  );
-};
+        </Form>
+      </Formik>
+    )}
+  </>
+);
 
 export { CampaigningActivatedInvestorApprovedWidgetLayout };

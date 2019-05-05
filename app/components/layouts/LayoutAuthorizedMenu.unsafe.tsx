@@ -84,18 +84,16 @@ const MenuEntryContent: React.FunctionComponent<IMenuContent> = ({
   svgString,
   disabled,
   ...props
-}) => {
-  return (
-    <>
-      <span className={disabled ? cn(styles.icon, styles.disabledItem) : styles.icon} {...props}>
-        <ActionRequired active={!!actionRequired}>
-          <InlineIcon svgIcon={svgString} />
-        </ActionRequired>
-      </span>
-      <span className={styles.name}>{menuName}</span>
-    </>
-  );
-};
+}) => (
+  <>
+    <span className={disabled ? cn(styles.icon, styles.disabledItem) : styles.icon} {...props}>
+      <ActionRequired active={!!actionRequired}>
+        <InlineIcon svgIcon={svgString} />
+      </ActionRequired>
+    </span>
+    <span className={styles.name}>{menuName}</span>
+  </>
+);
 
 const MenuEntryLink: React.FunctionComponent<IMenuEntry & IMenuEntryLink> = ({
   to,
@@ -126,21 +124,19 @@ const MenuEntryLink: React.FunctionComponent<IMenuEntry & IMenuEntryLink> = ({
 const MenuEntryDisabled: React.FunctionComponent<IMenuEntryDisabled> = ({
   svgString,
   menuName,
-}) => {
-  return (
-    <div className={styles.menuItem}>
-      <MenuEntryContent menuName={menuName} svgString={svgString} disabled={true} />
-    </div>
-  );
-};
+}) => (
+  <div className={styles.menuItem}>
+    <MenuEntryContent menuName={menuName} svgString={svgString} disabled={true} />
+  </div>
+);
 
 const MenuEntryButton: React.FunctionComponent<IMenuEntry & IMenuEntryButton> = ({
   onClick,
   disabled,
   isActive,
   ...props
-}) => {
-  return disabled ? (
+}) =>
+  disabled ? (
     <MenuEntryDisabled {...props} />
   ) : (
     <Button
@@ -151,7 +147,6 @@ const MenuEntryButton: React.FunctionComponent<IMenuEntry & IMenuEntryButton> = 
       <MenuEntryContent {...props} />
     </Button>
   );
-};
 
 const InvestorMenu: React.FunctionComponent<IStateProps & IDispatchProps & IWithProps> = ({
   actionRequiredSettings,

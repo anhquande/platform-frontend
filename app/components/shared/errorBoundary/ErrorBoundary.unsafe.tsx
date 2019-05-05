@@ -38,8 +38,9 @@ class ErrorBoundary extends React.Component<any, IErrorBoundaryState> {
   }
 }
 
-const createErrorBoundary = (layout: React.ReactNode): ComponentEnhancer<any, any> => {
-  return WrappedComponent => nest(withProps({ layout })(ErrorBoundary), WrappedComponent);
-};
+const createErrorBoundary = (
+  layout: React.ReactNode,
+): ComponentEnhancer<any, any> => WrappedComponent =>
+  nest(withProps({ layout })(ErrorBoundary), WrappedComponent);
 
 export { createErrorBoundary, ErrorBoundary };

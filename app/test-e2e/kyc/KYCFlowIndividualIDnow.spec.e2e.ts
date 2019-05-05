@@ -23,7 +23,7 @@ const checkCancelButton = (click?: boolean) => {
     cy.get(tid("settings.kyc-status-widget.cancel-external-kyc-button")).awaitedClick(1500);
   else cy.get(tid("settings.kyc-status-widget.cancel-external-kyc-button"));
 };
-describe("KYC Personal flow with ID Now", () => {
+describe.skip("KYC Personal flow with ID Now", () => {
   it("should go through ID Now Cancel then try ID now again", () => {
     createAndLoginNewUser({ type: "investor" }).then(() => {
       initiateIDNowKyc();

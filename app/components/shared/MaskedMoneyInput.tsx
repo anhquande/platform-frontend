@@ -42,11 +42,10 @@ export class MaskedMoneyInput extends React.Component<IProps> {
     }
   };
 
-  formatForDisplay = (currency: ECurrency, value?: string) => {
-    return value !== undefined && value !== ""
+  formatForDisplay = (currency: ECurrency, value?: string) =>
+    value !== undefined && value !== ""
       ? formatThousands(this.formatMoney(value, currency === ECurrency.EUR_TOKEN ? 2 : 4))
       : "";
-  };
 
   state = {
     value: this.props.value
@@ -111,9 +110,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
     }
   };
 
-  hasFocus = (id: string) => {
-    return !!document.activeElement && document.activeElement.id === id;
-  };
+  hasFocus = (id: string) => !!document.activeElement && document.activeElement.id === id;
 
   componentDidUpdate(): void {
     const propsValue = this.props.value

@@ -77,41 +77,37 @@ export const DocumentTile: React.FunctionComponent<IDocumentProps & IDocumentTil
   onlyDownload,
   active,
   busy,
-}) => {
-  return (
-    <div
-      className={cn(
-        styles.tile,
-        {
-          [styles.busy]: busy,
-          [styles.enabled]: !blank,
-          [styles.active]: active,
-        },
-        className,
-      )}
-    >
-      <LoadingIndicator className={busy ? styles.documentBusy : styles.documentNotBusy} />
+}) => (
+  <div
+    className={cn(
+      styles.tile,
+      {
+        [styles.busy]: busy,
+        [styles.enabled]: !blank,
+        [styles.active]: active,
+      },
+      className,
+    )}
+  >
+    <LoadingIndicator className={busy ? styles.documentBusy : styles.documentNotBusy} />
 
-      <Document extension={extension} blank={blank} className={busy && styles.documentIconBusy} />
-      <p
-        className={cn(styles.title, {
-          [styles.blankTitle]: blank,
-          [styles.disabledTitle]: !onlyDownload && !active,
-          [styles.textBusy]: busy,
-        })}
-      >
-        {title}
+    <Document extension={extension} blank={blank} className={busy && styles.documentIconBusy} />
+    <p
+      className={cn(styles.title, {
+        [styles.blankTitle]: blank,
+        [styles.disabledTitle]: !onlyDownload && !active,
+        [styles.textBusy]: busy,
+      })}
+    >
+      {title}
+    </p>
+    {!onlyDownload && blank && active && (
+      <p className={cn(styles.subTitle, { [styles.textBusy]: busy })}>
+        <FormattedMessage id="documents.drag-n-drop" />
       </p>
-      {!onlyDownload &&
-        blank &&
-        active && (
-          <p className={cn(styles.subTitle, { [styles.textBusy]: busy })}>
-            <FormattedMessage id="documents.drag-n-drop" />
-          </p>
-        )}
-    </div>
-  );
-};
+    )}
+  </div>
+);
 
 DocumentTile.defaultProps = {
   busy: false,
@@ -119,25 +115,23 @@ DocumentTile.defaultProps = {
 
 export const ClickableDocumentTile: React.FunctionComponent<
   IDocumentProps & IDocumentTileProps & IClickableDocumentTileProps
-> = ({ generateTemplate, title, document, extension, busy }) => {
-  return (
-    <div>
-      <button
-        disabled={busy}
-        className={styles.clickableArea}
-        onClick={() => generateTemplate(document)}
-      >
-        <DocumentTile
-          title={title}
-          extension={extension}
-          blank={false}
-          onlyDownload={true}
-          busy={busy}
-        />
-      </button>
-    </div>
-  );
-};
+> = ({ generateTemplate, title, document, extension, busy }) => (
+  <div>
+    <button
+      disabled={busy}
+      className={styles.clickableArea}
+      onClick={() => generateTemplate(document)}
+    >
+      <DocumentTile
+        title={title}
+        extension={extension}
+        blank={false}
+        onlyDownload={true}
+        busy={busy}
+      />
+    </button>
+  </div>
+);
 
 export const UploadableDocumentTile: React.FunctionComponent<IUploadableDocumentTileProps> = ({
   documentKey,

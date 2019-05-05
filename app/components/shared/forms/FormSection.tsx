@@ -8,11 +8,9 @@ interface IProps {
   title: TTranslatedString;
 }
 
-export const FormSection: React.FunctionComponent<IProps> = ({ title, children }) => {
-  return (
-    <section className={styles.formSection}>
-      <h3 className={styles.title}>{title}</h3>
-      <div>{children}</div>
-    </section>
-  );
-};
+export const FormSection: React.FunctionComponent<IProps> = ({ title, children }) => (
+  <section className={styles.formSection}>
+    <h3 className={styles.title}>{title}</h3>
+    <div>{children}</div>
+  </section>
+);

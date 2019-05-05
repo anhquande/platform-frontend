@@ -52,16 +52,14 @@ export const NavigationLink: React.FunctionComponent<INavigation & LinkProps> = 
   className,
   to,
   ...props
-}) => {
-  return (
-    <Link
-      to={to}
-      className={cn(className, styles.container, forward ? styles.right : styles.left)}
-      {...props}
-    >
-      {!forward && <i className={"fa fa-chevron-left mr-2"} aria-hidden="true" />}
-      {text}
-      {forward && <i className={"fa fa-chevron-right ml-2"} aria-hidden="true" />}
-    </Link>
-  );
-};
+}) => (
+  <Link
+    to={to}
+    className={cn(className, styles.container, forward ? styles.right : styles.left)}
+    {...props}
+  >
+    {!forward && <i className={"fa fa-chevron-left mr-2"} aria-hidden="true" />}
+    {text}
+    {forward && <i className={"fa fa-chevron-right ml-2"} aria-hidden="true" />}
+  </Link>
+);

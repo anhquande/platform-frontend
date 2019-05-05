@@ -9,23 +9,21 @@ export const withModalBody = (className?: string) => (story: any) => (
   </Modal>
 );
 
-export const withMockedDate = (testDate: Date) => {
-  class MockDateComp extends React.Component<{ story: any; testDate: Date }> {
-    constructor(props: any) {
-      super(props);
-      MockDate.set(this.props.testDate);
-    }
-
-    render(): React.ReactNode {
-      return this.props.story();
-    }
-
-    componentWillUnmount(): void {
-      MockDate.reset();
-    }
+class MockDateComp extends React.Component<{ story: any; testDate: Date }> {
+  constructor(props: any) {
+    super(props);
+    MockDate.set(this.props.testDate);
   }
 
-  return (story: any) => {
-    return <MockDateComp testDate={testDate} story={story} />;
-  };
-};
+  render(): React.ReactNode {
+    return this.props.story();
+  }
+
+  componentWillUnmount(): void {
+    MockDate.reset();
+  }
+}
+
+export const withMockedDate = (testDate: Date) => (story: any) => (
+  <MockDateComp testDate={testDate} story={story} />
+);

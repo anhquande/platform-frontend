@@ -11,7 +11,7 @@ import { withContainer } from "../../utils/withContainer.unsafe";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { LayoutBase } from "../layouts/LayoutBase";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { EtoView } from "./shared/EtoView.unsafe";
+import { EtoView } from "./shared/EtoView";
 import { withJurisdictionDisclaimer } from "./shared/withJurisdictionDisclaimer";
 
 interface IStateProps {

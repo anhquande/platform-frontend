@@ -35,33 +35,31 @@ const TextArea: React.FunctionComponent<FieldGroupProps> = ({
       return (
         <Field
           name={name}
-          render={({ field }: FieldProps) => {
-            return (
-              <>
-                <InputGroup>
-                  {prefix && (
-                    <InputGroupAddon addonType="prepend" className={className}>
-                      {prefix}
-                    </InputGroupAddon>
-                  )}
-                  <Input
-                    {...field}
-                    type="textarea"
-                    aria-describedby={generateErrorId(name)}
-                    aria-invalid={invalid}
-                    invalid={invalid}
-                    disabled={disabled}
-                    value={getComputedValue(field.value, charactersLimit)}
-                    placeholder={placeholder}
-                    className={cn(className, styles.inputField)}
-                  />
-                  {suffix && <InputGroupAddon addonType="append">{suffix}</InputGroupAddon>}
-                </InputGroup>
-                <FormFieldError name={name} />
-                {charactersLimit && withCountedCharacters(field.value, charactersLimit)}
-              </>
-            );
-          }}
+          render={({ field }: FieldProps) => (
+            <>
+              <InputGroup>
+                {prefix && (
+                  <InputGroupAddon addonType="prepend" className={className}>
+                    {prefix}
+                  </InputGroupAddon>
+                )}
+                <Input
+                  {...field}
+                  type="textarea"
+                  aria-describedby={generateErrorId(name)}
+                  aria-invalid={invalid}
+                  invalid={invalid}
+                  disabled={disabled}
+                  value={getComputedValue(field.value, charactersLimit)}
+                  placeholder={placeholder}
+                  className={cn(className, styles.inputField)}
+                />
+                {suffix && <InputGroupAddon addonType="append">{suffix}</InputGroupAddon>}
+              </InputGroup>
+              <FormFieldError name={name} />
+              {charactersLimit && withCountedCharacters(field.value, charactersLimit)}
+            </>
+          )}
         />
       );
     }}

@@ -34,49 +34,47 @@ const MigrateFooter: React.FunctionComponent<{
   onGotoWallet: () => void;
   step: number;
   gotoNextStep: () => void;
-}> = ({ transactionStatus, onGotoWallet, step, gotoNextStep }) => {
-  return (
-    <Container>
-      {transactionStatus === ETransactionStatus.WAITING && (
-        <Row className={styles.footerWaiting}>
-          <EthereumIcon className={styles.animatedEthereum} />
-          <FormattedMessage id="settings.modal.icbm-wallet-balance.footer.waiting-for-transaction" />
-        </Row>
-      )}
-      {transactionStatus === ETransactionStatus.SUCCESS && (
-        <Row className={styles.footerSuccess} noGutters>
-          <Col xs="auto">
-            <ConfettiEthereum className={styles.animatedEthereum} />
+}> = ({ transactionStatus, onGotoWallet, step, gotoNextStep }) => (
+  <Container>
+    {transactionStatus === ETransactionStatus.WAITING && (
+      <Row className={styles.footerWaiting}>
+        <EthereumIcon className={styles.animatedEthereum} />
+        <FormattedMessage id="settings.modal.icbm-wallet-balance.footer.waiting-for-transaction" />
+      </Row>
+    )}
+    {transactionStatus === ETransactionStatus.SUCCESS && (
+      <Row className={styles.footerSuccess} noGutters>
+        <Col xs="auto">
+          <ConfettiEthereum className={styles.animatedEthereum} />
+        </Col>
+        <Col xs="auto">
+          <Col>
+            <FormattedMessage id="settings.modal.icbm-wallet-balance.footer.transaction-successful" />
           </Col>
-          <Col xs="auto">
-            <Col>
-              <FormattedMessage id="settings.modal.icbm-wallet-balance.footer.transaction-successful" />
-            </Col>
-            <Col>
-              {step === 1 ? (
-                <ButtonArrowRight
-                  onClick={gotoNextStep}
-                  data-test-id="modals.icbm-balance-modal.balance-footer.successful-transaction"
-                  innerClassName="px-0"
-                >
-                  <FormattedMessage id="settings.modal.icbm-wallet-balance.button.go-to-next-step" />
-                </ButtonArrowRight>
-              ) : (
-                <ButtonArrowRight
-                  onClick={onGotoWallet}
-                  innerClassName="px-0"
-                  data-test-id="modals.icbm-balance-modal.balance-footer.successful-transaction"
-                >
-                  <FormattedMessage id="settings.modal.icbm-wallet-balance.button.wallet" />
-                </ButtonArrowRight>
-              )}
-            </Col>
+          <Col>
+            {step === 1 ? (
+              <ButtonArrowRight
+                onClick={gotoNextStep}
+                data-test-id="modals.icbm-balance-modal.balance-footer.successful-transaction"
+                innerClassName="px-0"
+              >
+                <FormattedMessage id="settings.modal.icbm-wallet-balance.button.go-to-next-step" />
+              </ButtonArrowRight>
+            ) : (
+              <ButtonArrowRight
+                onClick={onGotoWallet}
+                innerClassName="px-0"
+                data-test-id="modals.icbm-balance-modal.balance-footer.successful-transaction"
+              >
+                <FormattedMessage id="settings.modal.icbm-wallet-balance.button.wallet" />
+              </ButtonArrowRight>
+            )}
           </Col>
-        </Row>
-      )}
-    </Container>
-  );
-};
+        </Col>
+      </Row>
+    )}
+  </Container>
+);
 
 const MigrateHeader: React.FunctionComponent<{ step: number }> = ({ step }) => (
   <>
@@ -119,57 +117,55 @@ const MigrateHeader: React.FunctionComponent<{ step: number }> = ({ step }) => (
 
 const MigrateBody: React.FunctionComponent<{
   walletMigrationData: IWalletMigrationData;
-}> = ({ walletMigrationData }) => {
-  return (
-    <>
-      <ExternalLink
-        href={myEtherWalletUrl(
-          walletMigrationData.smartContractAddress,
-          walletMigrationData.value,
-          walletMigrationData.gasLimit,
-          walletMigrationData.migrationInputData,
-        )}
-      >
-        <HighlightedStripField
-          icon={iconMyEtherWallet}
-          label={<FormattedMessage id="settings.modal.icbm-wallet-balance.body.my-ether-wallet" />}
-          whiteBackground={true}
-        />
-      </ExternalLink>
+}> = ({ walletMigrationData }) => (
+  <>
+    <ExternalLink
+      href={myEtherWalletUrl(
+        walletMigrationData.smartContractAddress,
+        walletMigrationData.value,
+        walletMigrationData.gasLimit,
+        walletMigrationData.migrationInputData,
+      )}
+    >
       <HighlightedStripField
-        label={
-          <FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.to-smart-contract" />
-        }
-        value={walletMigrationData.smartContractAddress}
-        withCopy
-        dataTestId="modals.icbm-balance-modal.migrate-body.to"
-      />
-      <HighlightedStripField
-        label={
-          <FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.amount-to-sent" />
-        }
-        value={walletMigrationData.value}
-        withCopy
+        icon={iconMyEtherWallet}
+        label={<FormattedMessage id="settings.modal.icbm-wallet-balance.body.my-ether-wallet" />}
         whiteBackground={true}
       />
-      <HighlightedStripField
-        label={
-          <FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.gas-limit" />
-        }
-        value={walletMigrationData.gasLimit}
-        withCopy
-        dataTestId="modals.icbm-balance-modal.migrate-body.gas-limit"
-      />
-      <HighlightedStripField
-        label={<FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.data" />}
-        value={walletMigrationData.migrationInputData}
-        withCopy
-        whiteBackground={true}
-        dataTestId="modals.icbm-balance-modal.migrate-body.input-data"
-      />
-    </>
-  );
-};
+    </ExternalLink>
+    <HighlightedStripField
+      label={
+        <FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.to-smart-contract" />
+      }
+      value={walletMigrationData.smartContractAddress}
+      withCopy
+      dataTestId="modals.icbm-balance-modal.migrate-body.to"
+    />
+    <HighlightedStripField
+      label={
+        <FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.amount-to-sent" />
+      }
+      value={walletMigrationData.value}
+      withCopy
+      whiteBackground={true}
+    />
+    <HighlightedStripField
+      label={
+        <FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.gas-limit" />
+      }
+      value={walletMigrationData.gasLimit}
+      withCopy
+      dataTestId="modals.icbm-balance-modal.migrate-body.gas-limit"
+    />
+    <HighlightedStripField
+      label={<FormattedMessage id="settings.modal.icbm-wallet-balance.body.migrate.field.data" />}
+      value={walletMigrationData.migrationInputData}
+      withCopy
+      whiteBackground={true}
+      dataTestId="modals.icbm-balance-modal.migrate-body.input-data"
+    />
+  </>
+);
 
 export const MigrateModal: React.FunctionComponent<IMigrationModal> = ({
   walletMigrationData,
@@ -177,23 +173,21 @@ export const MigrateModal: React.FunctionComponent<IMigrationModal> = ({
   success,
   onGotoWallet,
   goToNextStep,
-}) => {
-  return (
-    <>
-      <Heading level={3} className={styles.header}>
-        <FormattedMessage id="settings.modal.icbm-wallet-balance.title.migrate" />
-      </Heading>
+}) => (
+  <>
+    <Heading level={3} className={styles.header}>
+      <FormattedMessage id="settings.modal.icbm-wallet-balance.title.migrate" />
+    </Heading>
 
-      <MigrateHeader step={migrationStep} />
+    <MigrateHeader step={migrationStep} />
 
-      <MigrateBody walletMigrationData={walletMigrationData} />
+    <MigrateBody walletMigrationData={walletMigrationData} />
 
-      <MigrateFooter
-        transactionStatus={success ? ETransactionStatus.SUCCESS : ETransactionStatus.WAITING}
-        onGotoWallet={onGotoWallet}
-        step={migrationStep}
-        gotoNextStep={goToNextStep}
-      />
-    </>
-  );
-};
+    <MigrateFooter
+      transactionStatus={success ? ETransactionStatus.SUCCESS : ETransactionStatus.WAITING}
+      onGotoWallet={onGotoWallet}
+      step={migrationStep}
+      gotoNextStep={goToNextStep}
+    />
+  </>
+);

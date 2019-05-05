@@ -27,13 +27,13 @@ interface IEthWallet extends IWalletBase {
   icbmBalanceEth?: string;
 }
 
-interface InEuroWallet extends IWalletBase {
+interface IInEuroWallet extends IWalletBase {
   type: EInvestmentType.ICBMnEuro | EInvestmentType.NEur;
   balanceNEuro: string;
   icbmBalanceNEuro?: string;
 }
 
-export type WalletSelectionData = IEthWallet | InEuroWallet;
+export type WalletSelectionData = IEthWallet | IInEuroWallet;
 
 interface IProps {
   wallets: WalletSelectionData[];
