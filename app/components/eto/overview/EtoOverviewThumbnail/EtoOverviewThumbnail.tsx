@@ -43,9 +43,7 @@ interface IWithProps {
 const defaultEmpty = "-";
 
 const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => (
-  <div className={styles.statusOfEtoWrapper}>
-    <ETOState className={styles.statusOfEto} previewCode={previewCode} />
-  </div>
+  <ETOState className={styles.statusOfEto} previewCode={previewCode} />
 );
 
 const EtoOverviewStatusLayout: React.FunctionComponent<

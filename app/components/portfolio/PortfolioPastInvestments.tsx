@@ -8,9 +8,9 @@ import { TETOWithInvestorTicket } from "../../modules/investor-portfolio/types";
 import { getTokenPrice } from "../../modules/investor-portfolio/utils";
 import { withParams } from "../../utils/withParams";
 import { appRoutes } from "../appRoutes";
+import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { EProjectStatusSize, ETOState } from "../eto/shared/ETOState";
 import { Container } from "../layouts/Container";
-import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
@@ -24,14 +24,10 @@ interface IExternalProps {
 
 const PortfolioPastInvestments: React.FunctionComponent<IExternalProps> = ({ pastInvestments }) => (
   <Container>
-    <Heading
-      level={3}
-      decorator={false}
+    <DashboardHeading
+      title={<FormattedMessage id="portfolio.section.past-investments.title" />}
       description={<FormattedMessage id="portfolio.section.past-investments.description" />}
-    >
-      <FormattedMessage id="portfolio.section.past-investments.title" />
-    </Heading>
-
+    />
     <NewTable
       keepRhythm={true}
       placeholder={

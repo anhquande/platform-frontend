@@ -57,13 +57,13 @@ const Cover: React.FunctionComponent<IProps & CommonHtmlProps> = ({
       alt={companyBanner.alt}
     />
 
-    <p className={cn(styles.jurisdiction, "mb-0")}>
+    <div className={cn(styles.jurisdiction, "mb-0")}>
       <Jurisdiction jurisdiction={jurisdiction} />
-    </p>
+    </div>
     <div className={styles.tags}>
       {/* Only two first tags should be shown */}
       {tags.slice(0, 2).map((tag, index) => (
-        <Tag text={tag} className="mr-2 mb-2" layout="ghost-bold" theme="white" key={index} />
+        <Tag text={tag} className={styles.tag} layout="ghost-bold" theme="white" key={index} />
       ))}
     </div>
   </div>

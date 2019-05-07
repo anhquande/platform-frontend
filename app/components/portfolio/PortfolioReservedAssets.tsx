@@ -9,9 +9,9 @@ import { TETOWithInvestorTicket } from "../../modules/investor-portfolio/types";
 import { getTokenPrice } from "../../modules/investor-portfolio/utils";
 import { withParams } from "../../utils/withParams";
 import { appRoutes } from "../appRoutes";
+import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { EProjectStatusSize, ETOState } from "../eto/shared/ETOState";
 import { Container } from "../layouts/Container";
-import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
@@ -26,14 +26,10 @@ interface IExternalProps {
 
 const PortfolioReservedAssets: React.FunctionComponent<IExternalProps> = ({ pendingAssets }) => (
   <Container>
-    <Heading
-      level={3}
-      decorator={false}
+    <DashboardHeading
+      title={<FormattedMessage id="portfolio.section.reserved-assets.title" />}
       description={<FormattedMessage id="portfolio.section.reserved-assets.description" />}
-    >
-      <FormattedMessage id="portfolio.section.reserved-assets.title" />
-    </Heading>
-
+    />
     <NewTable
       placeholder={
         <FormattedMessage id="portfolio.section.reserved-assets.table.header.placeholder" />

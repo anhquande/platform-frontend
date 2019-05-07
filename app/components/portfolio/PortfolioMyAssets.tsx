@@ -12,9 +12,9 @@ import { selectNeuBalance } from "../../modules/wallet/selectors";
 import { appConnect } from "../../store";
 import { multiplyBigNumbers } from "../../utils/BigNumberUtils";
 import { withParams } from "../../utils/withParams";
+import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container } from "../layouts/Container";
 import { Button, ButtonLink, ButtonSize, EButtonLayout } from "../shared/buttons";
-import { Heading } from "../shared/Heading";
 import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
 import { ENewTableCellLayout, NewTable, NewTableRow } from "../shared/table";
@@ -56,14 +56,10 @@ const PortfolioMyAssetsComponent: React.FunctionComponent<TComponentProps> = ({
   walletAddress,
 }) => (
   <Container>
-    <Heading
-      level={3}
-      decorator={false}
+    <DashboardHeading
+      title={<FormattedMessage id="portfolio.section.your-assets.title" />}
       description={<FormattedMessage id="portfolio.section.your-assets.description" />}
-    >
-      <FormattedMessage id="portfolio.section.your-assets.title" />
-    </Heading>
-
+    />
     <NewTable
       placeholder={<FormattedMessage id="portfolio.section.your-assets.table.placeholder" />}
       titles={[

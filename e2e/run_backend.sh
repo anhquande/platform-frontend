@@ -58,7 +58,7 @@ make docker-pull tag=dev_${BACKEND_SHORT_SHA}
 echo "Pulling images done."
 
 make prerequisites-dev
-make run-remote-dev-without-build
+make run-without-build blocks_freq=0.2 request_timeout=60
 
 cd ..
 echo "Backend running"

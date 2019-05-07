@@ -38,7 +38,7 @@ import { SubmitProposalWidget } from "./dashboard/submitProposalWidget/SubmitPro
 import { UploadInvestmentMemorandum } from "./dashboard/UploadInvestmentMemorandum";
 import { UploadProspectusWidget } from "./dashboard/UploadProspectusWidget";
 import { UploadTermSheetWidget } from "./dashboard/UploadTermSheetWidget";
-import { DashboardSection } from "./shared/DashboardSection";
+import { DashboardHeading } from "./shared/DashboardHeading";
 import { EProjectStatusLayout, EProjectStatusSize, ETOState } from "./shared/ETOState";
 
 const SUBMIT_PROPOSAL_THRESHOLD = 1;
@@ -73,7 +73,7 @@ const SubmitDashBoardSection: React.FunctionComponent<{
 }> = ({ isTermSheetSubmitted, columnSpan }) => (
   <>
     <Container columnSpan={EColumnSpan.THREE_COL}>
-      <DashboardSection
+      <DashboardHeading
         step={3}
         title="UPLOAD FILES / SUBMIT PROPOSAL"
         data-test-id="eto-dashboard-verification"
@@ -90,7 +90,7 @@ const SubmitDashBoardSection: React.FunctionComponent<{
 const EtoProgressDashboardSection: React.FunctionComponent = () => (
   <>
     <Container columnSpan={EColumnSpan.THREE_COL}>
-      <DashboardSection step={2} title="ETO APPLICATION" />
+      <DashboardHeading step={2} title="ETO APPLICATION" />
       <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
     </Container>
     <ETOFormsProgressSection />
@@ -147,7 +147,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+            <DashboardHeading title={dashboardTitle} />
           </Container>
           <ETOFormsProgressSection />
         </>
@@ -156,7 +156,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+            <DashboardHeading title={dashboardTitle} />
           </Container>
           {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
           {!isOfferingDocumentSubmitted &&
@@ -175,7 +175,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+            <DashboardHeading title={dashboardTitle} />
           </Container>
           {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
           <Container columnSpan={EColumnSpan.THREE_COL}>
@@ -188,7 +188,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <DashboardSection hasDecorator={false} title={dashboardTitle} />
+            <DashboardHeading title={dashboardTitle} />
           </Container>
           <UploadInvestmentAgreement columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
           <BookBuildingWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
@@ -202,7 +202,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
     default:
       return (
         <Container columnSpan={EColumnSpan.THREE_COL}>
-          <DashboardSection hasDecorator={false} title={dashboardTitle} />
+          <DashboardHeading title={dashboardTitle} />
         </Container>
       );
   }
@@ -226,7 +226,7 @@ class EtoDashboardComponent extends React.Component<IStateProps & IComputedProps
         {!isVerificationSectionDone && (
           <>
             <Container>
-              <DashboardSection
+              <DashboardHeading
                 step={1}
                 title="VERIFICATION"
                 data-test-id="eto-dashboard-verification"
