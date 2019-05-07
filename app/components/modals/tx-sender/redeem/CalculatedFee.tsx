@@ -1,14 +1,8 @@
 import * as React from "react";
 
 import { multiplyBigNumbers } from "../../../../utils/BigNumberUtils";
-import { ERoundingMode } from "../../../../utils/Money.utils";
-import {
-  ECurrency,
-  ECurrencySymbol,
-  EMoneyFormat,
-  getFormattedMoney,
-  Money,
-} from "../../../shared/Money.unsafe";
+import { ECurrency, EMoneyInputFormat, ERoundingMode } from "../../../shared/formatters/utils";
+import { ECurrencySymbol, getFormattedMoney, Money } from "../../../shared/Money.unsafe";
 
 const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }> = ({
   amount,
@@ -16,7 +10,13 @@ const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }
 }) => {
   const providedAmount =
     !isNaN(Number(amount)) && Number(amount) > 0
-      ? getFormattedMoney(amount, ECurrency.EUR, EMoneyFormat.FLOAT, false, ERoundingMode.HALF_UP)
+      ? getFormattedMoney(
+          amount,
+          ECurrency.EUR,
+          EMoneyInputFormat.FLOAT,
+          false,
+          ERoundingMode.HALF_UP,
+        )
       : 0;
   const calculatedFee = multiplyBigNumbers([providedAmount, bankFee]);
 

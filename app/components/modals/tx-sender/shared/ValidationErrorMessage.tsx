@@ -13,6 +13,9 @@ const getValidationMessageByType = (type?: EValidationState) => {
     case EValidationState.NOT_ENOUGH_ETHER_FOR_GAS:
       return <FormattedMessage id="modal.txsender.error-message.not-enough-ether-for-gas" />;
     //Add more validation errors
+
+    default:
+      return undefined;
   }
 };
 

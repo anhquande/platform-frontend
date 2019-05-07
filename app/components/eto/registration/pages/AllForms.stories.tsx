@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 import { EtoKeyIndividualsType } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { Panel } from "../../../shared/Panel";
 import { EtoRegistrationCompanyInformationComponent } from "./CompanyInformation";
 import { EtoEquityTokenInfoComponent } from "./EtoEquityTokenInfo";
 import { EtoRegistrationMediaComponent } from "./EtoMedia";
@@ -26,6 +27,7 @@ const loadingState = {
 };
 
 storiesOf("ETO-Flow/Registration-forms", module)
+  .addDecorator(story => <Panel>{story()}</Panel>)
   .add("EtoEquityTokenInfo", () => (
     <Provider store={createStore(() => ({}))}>
       <Formik initialValues={eto} onSubmit={() => {}}>

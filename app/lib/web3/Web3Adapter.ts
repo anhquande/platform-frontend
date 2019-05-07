@@ -182,6 +182,7 @@ export class Web3Adapter {
           return true;
         } catch (e) {
           reject(e);
+          return false;
         }
       }).catch(reject);
     });

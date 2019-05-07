@@ -189,10 +189,13 @@ export const selectNewPreEtoStartDate = (state: IAppState) => state.etoFlow.newS
 
 export const selectPreEtoStartDateFromContract = (state: IAppState) => {
   const code = selectIssuerEtoPreviewCode(state);
+
   if (code) {
     const eto = selectEtoWithCompanyAndContract(state, code);
     return eto && eto.contract && eto.contract.startOfStates[EETOStateOnChain.Whitelist];
   }
+
+  return undefined;
 };
 
 export const selectPreEtoStartDate = (state: IAppState) =>

@@ -25,7 +25,7 @@ import { IAppState } from "../../../../store";
 import { Dictionary, TTranslatedString } from "../../../../types";
 import { divideBigNumbers } from "../../../../utils/BigNumberUtils";
 import { formatMoney } from "../../../../utils/Money.utils";
-import { formatThousands } from "../../../../utils/Number.utils";
+import { formatThousands } from "../../../shared/formatters/utils";
 import { WalletSelectionData } from "./InvestmentTypeSelector";
 
 function isICBMWallet(type: EInvestmentType): boolean {

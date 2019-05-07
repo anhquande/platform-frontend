@@ -1,4 +1,4 @@
-import { INV_ICBM_ETH_M_HAS_KYC_DUP } from "../fixtures";
+import { INV_ICBM_ETH_M_HAS_KYC } from "../fixtures";
 import { closeModal, confirmAccessModal } from "../utils";
 import { tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
@@ -9,7 +9,7 @@ describe("Unlock Ether Funds", () => {
     createAndLoginNewUser({
       type: "investor",
       kyc: "business",
-      seed: INV_ICBM_ETH_M_HAS_KYC_DUP,
+      seed: INV_ICBM_ETH_M_HAS_KYC,
       hdPath: "m/44'/60'/0'/0",
       clearPendingTransactions: true,
     }).then(() => {

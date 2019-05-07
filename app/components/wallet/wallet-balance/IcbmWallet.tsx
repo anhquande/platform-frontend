@@ -3,8 +3,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { CommonHtmlProps } from "../../../types";
 import { AccountBalance } from "../../shared/AccountBalance";
+import { ECurrency } from "../../shared/formatters/utils";
 import { HorizontalLine } from "../../shared/HorizontalLine";
-import { ECurrency } from "../../shared/Money.unsafe";
 import { isWalletNotEmpty } from "./utils";
 import { IWalletValues, WalletBalanceContainer } from "./WalletBalance";
 

@@ -23,7 +23,8 @@ import { formatFlexiPrecision } from "../../../../utils/Number.utils";
 import { withParams } from "../../../../utils/withParams";
 import { appRoutes } from "../../../appRoutes";
 import { Container, EColumnSpan } from "../../../layouts/Container";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
+import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { NumberFormat } from "../../../shared/NumberFormat";
 import { EtoWidgetContext } from "../../EtoWidgetView";
 import { ETOState } from "../../shared/ETOState";
@@ -280,7 +281,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <Money
                       value={eto.preMoneyValuationEur}
                       currency={ECurrency.EUR}
-                      format={EMoneyFormat.FLOAT}
+                      format={EMoneyInputFormat.FLOAT}
                       currencySymbol={ECurrencySymbol.SYMBOL}
                     />
                   </span>
@@ -309,7 +310,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <Money
                       value={formatFlexiPrecision(tokenPrice, 8)}
                       currency={ECurrency.EUR}
-                      format={EMoneyFormat.FLOAT}
+                      format={EMoneyInputFormat.FLOAT}
                       currencySymbol={ECurrencySymbol.SYMBOL}
                     />
                     {showWhitelistDiscount && (

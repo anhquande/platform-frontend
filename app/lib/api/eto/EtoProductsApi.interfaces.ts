@@ -25,7 +25,6 @@ export enum EProductName {
   HNWI_ETO_LI = "hnwi eto li",
   PRIVATE_ETO_LI = "private eto li",
   MINI_ETO_LI = "mini eto li",
-  EU_SME_ETO_LI = "eu-sme eto li",
   RETAIL_ETO_DE = "retail eto de",
   RETAIL_ETO_LI_SECURITY = "retail eto li security",
   RETAIL_ETO_LI_VMA = "retail eto li vma",

@@ -1,4 +1,4 @@
-import { ECurrency } from "../../components/shared/Money.unsafe";
+import { ECurrency } from "../../components/shared/formatters/utils";
 import { createAction, createSimpleAction } from "../actionsUtils";
 import { EInvestmentErrorState, EInvestmentType } from "./reducer";
 

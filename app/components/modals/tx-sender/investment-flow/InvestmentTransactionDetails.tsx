@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { getShareAndTokenPrice } from "../../../../lib/api/eto/EtoUtils";
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { addBigNumbers, multiplyBigNumbers } from "../../../../utils/BigNumberUtils";
-import { formatThousands } from "../../../../utils/Number.utils";
+import { formatThousands } from "../../../shared/formatters/utils";
 import { TooltipBase } from "../../../shared/tooltips";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";

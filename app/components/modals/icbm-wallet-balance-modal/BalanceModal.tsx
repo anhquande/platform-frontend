@@ -3,9 +3,10 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { DocumentTemplateButton } from "../../shared/DocumentLink";
+import { ECurrency } from "../../shared/formatters/utils";
 import { Heading } from "../../shared/Heading";
 import { HighlightedField } from "../../shared/HighlightedField";
-import { ECurrency, Money } from "../../shared/Money.unsafe";
+import { Money } from "../../shared/Money.unsafe";
 
 import * as iconEth from "../../../assets/img/eth_icon.svg";
 import * as iconNeu from "../../../assets/img/neu_icon.svg";

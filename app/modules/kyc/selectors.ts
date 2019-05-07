@@ -92,9 +92,8 @@ export const selectWidgetError = (state: DeepReadonly<IKycState>): string | unde
 
 export const selectIndividualClientName = (state: DeepReadonly<IKycState>) => {
   const data = state.individualData;
-  if (data) {
-    return [data.firstName, data.lastName].filter(Boolean).join(" ");
-  }
+
+  return data ? [data.firstName, data.lastName].filter(Boolean).join(" ") : undefined;
 };
 
 export const selectClientName = (state: DeepReadonly<IKycState>) =>

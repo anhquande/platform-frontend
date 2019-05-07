@@ -49,11 +49,14 @@ export const convertInArray = (conversionSpec: any) => (data: any[]) => {
   }
 };
 
-const findNonEmptyKeyValueField = (data: any) => {
-  if (data !== undefined && data !== null) {
+const findNonEmptyKeyValueField = (data: ICompoundField | undefined) => {
+  if (data) {
     const keys = Object.keys(data);
+
     return data[keys[0]] !== undefined && data[keys[1]] !== undefined;
   }
+
+  return undefined;
 };
 
 //removes data left from empty key-value fields, e.g. {key:undefined,value:undefined}

@@ -3,8 +3,9 @@ import { Col, Row } from "reactstrap";
 
 import { Button, EButtonLayout } from "../../shared/buttons";
 import { Date } from "../../shared/Date";
+import { ECurrency } from "../../shared/formatters/utils";
 import { InlineIcon } from "../../shared/icons";
-import { ECurrency, EMoneyTransfer, Money } from "../../shared/Money.unsafe";
+import { EMoneyTransfer, Money } from "../../shared/Money.unsafe";
 import { TableBody } from "../../shared/table/TableBody";
 import { TableCell } from "../../shared/table/TableCell.unsafe";
 import { TableHeader } from "../../shared/table/TableHeader";

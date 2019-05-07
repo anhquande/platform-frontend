@@ -16,7 +16,8 @@ import { isZero } from "../../../utils/Number.utils";
 import { appRoutes } from "../../appRoutes";
 import { ButtonLink, EButtonLayout } from "../../shared/buttons";
 import { Counter } from "../../shared/Counter.unsafe";
-import { ECurrency, ECurrencySymbol, ETheme, Money } from "../../shared/Money.unsafe";
+import { ECurrency } from "../../shared/formatters/utils";
+import { ECurrencySymbol, ETheme, Money } from "../../shared/Money.unsafe";
 
 import * as arrowRight from "../../../assets/img/inline_icons/arrow_right.svg";
 import * as styles from "./IncomingPayoutWidget.module.scss";

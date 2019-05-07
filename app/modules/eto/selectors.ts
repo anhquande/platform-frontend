@@ -108,7 +108,8 @@ export const selectEtoOnChainStateById = (
   etoId: string,
 ): EETOStateOnChain | undefined => {
   const code = selectEtoPreviewCode(state, etoId);
-  if (code) return selectEtoOnChainState(state, code);
+
+  return code ? selectEtoOnChainState(state, code) : undefined;
 };
 
 export const selectTokenData = (

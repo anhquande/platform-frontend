@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ECurrency } from "../Money.unsafe";
+import { ECurrency } from "../formatters/utils";
 import { CurrencyIcon } from "./CurrencyIcon";
 
 storiesOf("CurrencyIcon", module).add("all currencies", () =>

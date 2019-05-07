@@ -4,7 +4,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { getCurrentInvestmentProgressPercentage } from "../../../../lib/api/eto/EtoUtils";
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
-import { ECurrency, ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
+import { ECurrency } from "../../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { CounterWidget } from "./CounterWidget";
 import { InvestmentStatus } from "./InvestmentStatus/InvestmentStatus";
 import { Whitelist } from "./Whitelist/Whitelist";

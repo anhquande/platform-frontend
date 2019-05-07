@@ -16,23 +16,18 @@ import {
 import { selectLiquidEuroTokenBalance } from "../../../../modules/wallet/selectors";
 import { doesUserHaveEnoughNEuro, doesUserWithdrawMinimal } from "../../../../modules/web3/utils";
 import { appConnect } from "../../../../store";
-import { ERoundingMode, formatToFixed } from "../../../../utils/Money.utils";
+import { formatToFixed } from "../../../../utils/Money.utils";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
 import { extractNumber } from "../../../../utils/StringUtils";
 import { Button, ButtonSize, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
 import { ButtonArrowRight } from "../../../shared/buttons/index";
+import { ECurrency, EMoneyInputFormat, ERoundingMode } from "../../../shared/formatters/utils";
 import { FormLabel } from "../../../shared/forms/fields/FormFieldLabel";
 import { FormMaskedInput } from "../../../shared/forms/fields/FormMaskedInput.unsafe";
 import { generateMaskFromCurrency } from "../../../shared/forms/fields/utils.unsafe";
 import { Form } from "../../../shared/forms/Form";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
-import {
-  ECurrency,
-  ECurrencySymbol,
-  EMoneyFormat,
-  getFormattedMoney,
-  Money,
-} from "../../../shared/Money.unsafe";
+import { ECurrencySymbol, getFormattedMoney, Money } from "../../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../../shared/MoneySuiteWidget";
 import { Tooltip } from "../../../shared/tooltips/Tooltip";
 import { VerifiedBankAccount } from "../../../wallet/VerifiedBankAccount";
@@ -81,7 +76,7 @@ const getValidators = (minAmount: string, neuroAmount: string) =>
                 minAmount: getFormattedMoney(
                   minAmount,
                   ECurrency.EUR,
-                  EMoneyFormat.ULPS,
+                  EMoneyInputFormat.ULPS,
                   false,
                   ERoundingMode.DOWN,
                 ),
@@ -142,7 +137,7 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
                   getFormattedMoney(
                     neuroAmount,
                     ECurrency.EUR,
-                    EMoneyFormat.ULPS,
+                    EMoneyInputFormat.ULPS,
                     false,
                     ERoundingMode.DOWN,
                   ),
@@ -176,7 +171,7 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
                       fee: (
                         <Money
                           value={new BigNumber(bankFee).mul(100)}
-                          format={EMoneyFormat.ULPS}
+                          format={EMoneyInputFormat.ULPS}
                           currency={ECurrency.EUR}
                           currencySymbol={ECurrencySymbol.NONE}
                         />
