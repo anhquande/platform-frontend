@@ -27,10 +27,10 @@ import { selectEthereumAddressWithChecksum } from "../../../../modules/web3/sele
 import { doesUserHaveEnoughEther, validateAddress } from "../../../../modules/web3/utils";
 import { appConnect } from "../../../../store";
 import { OmitKeys } from "../../../../types";
-import { ERoundingMode } from "../../../../utils/Money.utils";
 import { extractNumber } from "../../../../utils/StringUtils";
 import { Button } from "../../../shared/buttons";
 import { ButtonArrowRight, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
+import { ECurrency, EMoneyInputFormat, ERoundingMode } from "../../../shared/formatters/utils";
 import { Form } from "../../../shared/forms";
 import { FormLabel } from "../../../shared/forms/fields/FormFieldLabel";
 import { FormInput } from "../../../shared/forms/fields/FormInput.unsafe";
@@ -39,7 +39,7 @@ import { FormMaskedInput } from "../../../shared/forms/fields/FormMaskedInput.un
 import { generateMaskFromCurrency } from "../../../shared/forms/fields/utils.unsafe";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { EtherscanAddressLink } from "../../../shared/links/EtherscanLink";
-import { ECurrency, EMoneyFormat, getFormattedMoney } from "../../../shared/Money.unsafe";
+import { getFormattedMoney } from "../../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../../shared/MoneySuiteWidget";
 
 import * as styles from "./Withdraw.module.scss";
@@ -134,7 +134,7 @@ const WithdrawLayout: React.FunctionComponent<TProps> = ({
             ? getFormattedMoney(
                 additionalData.amount,
                 ECurrency.ETH,
-                EMoneyFormat.ULPS,
+                EMoneyInputFormat.ULPS,
                 false,
                 ERoundingMode.DOWN,
               )
@@ -213,7 +213,7 @@ const WithdrawLayout: React.FunctionComponent<TProps> = ({
                   getFormattedMoney(
                     maxEther,
                     ECurrency.ETH,
-                    EMoneyFormat.ULPS,
+                    EMoneyInputFormat.ULPS,
                     false,
                     ERoundingMode.DOWN,
                   ),

@@ -3,9 +3,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
-import { ERoundingMode } from "../../../../utils/Money.utils";
+import { ECurrency, ERoundingMode } from "../../../shared/formatters/utils";
 import { EtherscanAddressLink } from "../../../shared/links/EtherscanLink";
-import { ECurrency } from "../../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../../shared/MoneySuiteWidget";
 import { TransactionDetailsComponent } from "../types";
 
