@@ -9,14 +9,17 @@ import {
   subtractBigNumbers,
 } from "../../../utils/BigNumberUtils";
 import { actions, TAction } from "../../actions";
-import { neuCall, neuTakeEvery } from "../../sagasUtils";
+import { neuCall, neuThrottle } from "../../sagasUtils";
 import { selectEtherBalance } from "../../wallet/selectors";
 import { EValidationState } from "../sender/reducer";
 import { generateInvestmentTransaction } from "../transactions/investment/sagas";
 import { generateEthWithdrawTransaction } from "../transactions/withdraw/sagas";
 import { ETxSenderType } from "../types";
 
-export function* txValidateSaga({ logger }: TGlobalDependencies, action: TAction): any {
+export function* txValidateSaga(
+  { logger, web3Manager }: TGlobalDependencies,
+  action: TAction,
+): any {
   if (action.type !== "TX_SENDER_VALIDATE_DRAFT") return;
   // reset validation
   yield put(actions.txValidator.setValidationState());
@@ -35,8 +38,21 @@ export function* txValidateSaga({ logger }: TGlobalDependencies, action: TAction
 
   try {
     generatedTxDetails = yield neuCall(validationGenerator, action.payload);
+
+    const transactionsCount = yield web3Manager.internalWeb3Adapter.getTransactionCount(
+      generatedTxDetails!.to,
+    );
+    const isSmartContract = yield web3Manager.internalWeb3Adapter.isSmartContract(
+      generatedTxDetails!.to,
+    );
+
+    yield put(
+      actions.txSender.setAdditionalData({ isSmartContract, newAddress: transactionsCount === 0 }),
+    );
+
     yield validateGas(generatedTxDetails as ITxData);
     yield put(actions.txValidator.setValidationState(EValidationState.VALIDATION_OK));
+    yield put(actions.txSender.setTransactionData(generatedTxDetails));
   } catch (error) {
     if (error instanceof NotEnoughEtherForGasError) {
       logger.info(error);
@@ -66,5 +82,5 @@ export function* validateGas(txDetails: ITxData): any {
 }
 
 export const txValidatorSagasWatcher = function*(): Iterator<any> {
-  yield fork(neuTakeEvery, "TX_SENDER_VALIDATE_DRAFT", txValidateSaga);
+  yield fork(neuThrottle, 500, "TX_SENDER_VALIDATE_DRAFT", txValidateSaga);
 };

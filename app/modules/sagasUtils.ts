@@ -10,6 +10,7 @@ import {
   take,
   takeEvery,
   takeLatest,
+  throttle,
 } from "redux-saga/effects";
 
 import { TGlobalDependencies } from "../di/setupBindings";
@@ -122,4 +123,17 @@ export function* neuRestartIf(
       cancel: take(cancelAction),
     });
   }
+}
+
+/**
+ * Ignore incoming actions for a given period of time while processing a task.
+ * After spawning a task, it's still accepting incoming actions into the underlying buffer, keeping at most 1.
+ */
+export function* neuThrottle(
+  ms: number,
+  type: TActionType | TActionType[] | StringableActionCreator<TAction>,
+  saga: TSagaWithDeps,
+): Iterator<Effect> {
+  const deps: TGlobalDependencies = yield getContext("deps");
+  yield throttle(ms, type, saga, deps);
 }

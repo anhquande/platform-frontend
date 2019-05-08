@@ -66,6 +66,7 @@ export const FormInput: React.FunctionComponent<FormInputProps> = ({
                 value={val}
                 disabled={disabled}
                 maxLength={maxLength}
+                charactersLimit={charactersLimit}
                 customValidation={customValidation}
                 customOnBlur={customOnBlur}
                 ignoreTouched={ignoreTouched}

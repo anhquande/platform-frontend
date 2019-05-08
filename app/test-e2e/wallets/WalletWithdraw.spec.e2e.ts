@@ -69,7 +69,7 @@ export const checkTransactionWithRPCNode = (
   });
 };
 
-describe("Wallet Withdraw", () => {
+describe("Wallet WithdrawUnsafe", () => {
   it("should recover existing user with verified email from saved phrases and change email", () => {
     createAndLoginNewUser({
       type: "investor",

@@ -1,6 +1,6 @@
 .content-wrapper {
-  max-width: 400px;
-  margin: 0 auto;
+  color: $neu-silver;
+  padding: 0 50px;
 }
 
 .spinning-eth-wrapper {
@@ -13,4 +13,33 @@
   text-align: center;
   margin-bottom: $spacing-vertical-lg-1;
   margin-top: $spacing-vertical-lg-1;
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.wallet-label {
+  color: $neu-black;
+}
+
+.label {
+  color: inherit;
+}
+
+.with-etherscan {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  flex-basis: 100%;
+  flex-shrink: 0;
+}
+
+.disable {
+  pointer-events: none;
 }

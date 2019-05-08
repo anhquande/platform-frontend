@@ -14,6 +14,12 @@ export enum InputSize {
   SMALL = "sm",
 }
 
+export enum EInputAlign {
+  LEFT = "text-left",
+  RIGHT = "text-right",
+  CENTER = "text-center",
+}
+
 interface IFormInputRawExternalProps {
   min?: string;
   max?: string;
@@ -30,6 +36,7 @@ interface IFormInputRawExternalProps {
   onChange?: Function;
   customOnBlur?: Function;
   ignoreTouched?: boolean;
+  align?: EInputAlign;
 }
 
 export type FormInputComponentProps = IFormInputRawExternalProps &
@@ -58,6 +65,7 @@ const FormInputRaw: React.FunctionComponent<FormInputComponentProps> = ({
   customOnFocus,
   onFocus,
   onBlur,
+  align,
   ...props
 }) => (
   <>
@@ -77,7 +85,7 @@ const FormInputRaw: React.FunctionComponent<FormInputComponentProps> = ({
         name={name}
         id={name}
         maxLength={maxLength}
-        className={cn(className, styles.inputField)}
+        className={cn(className, styles.inputField, align)}
         onChange={onChange}
         onBlur={(e: React.FocusEvent) => {
           if (customOnBlur) {
@@ -117,6 +125,7 @@ const FormInputRaw: React.FunctionComponent<FormInputComponentProps> = ({
 
 FormInputRaw.defaultProps = {
   size: InputSize.NORMAL,
+  align: EInputAlign.LEFT,
 };
 
 export { FormInputRaw, IFormInputRawExternalProps };

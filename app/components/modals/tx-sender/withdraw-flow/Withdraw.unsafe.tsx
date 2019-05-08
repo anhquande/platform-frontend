@@ -1,7 +1,7 @@
-import { Formik, FormikErrors, yupToFormErrors } from "formik";
+import * as cn from "classnames";
+import { Formik, FormikErrors, FormikProps, yupToFormErrors } from "formik";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Container, Row } from "reactstrap";
 import { compose, withHandlers } from "recompose";
 import { NumberSchema } from "yup";
 
@@ -9,38 +9,67 @@ import { ITxData } from "../../../../lib/web3/types";
 import * as YupTS from "../../../../lib/yup-ts";
 import { actions } from "../../../../modules/actions";
 import { EValidationState } from "../../../../modules/tx/sender/reducer";
-import { selectTxValidationState } from "../../../../modules/tx/sender/selectors";
+import {
+  selectTxAdditionalData,
+  selectTxGasCostEthUlps,
+  selectTxGasCostEurUlps,
+  selectTxTotalEthUlps,
+  selectTxTotalEurUlps,
+  selectTxValidationState,
+} from "../../../../modules/tx/sender/selectors";
 import { ETxSenderType, IDraftType } from "../../../../modules/tx/types";
-import { selectMaxAvailableEther } from "../../../../modules/wallet/selectors";
+import {
+  selectLiquidEtherBalance,
+  selectLiquidEtherBalanceEuroAmount,
+  selectMaxAvailableEther,
+} from "../../../../modules/wallet/selectors";
+import { selectEthereumAddressWithChecksum } from "../../../../modules/web3/selectors";
 import { doesUserHaveEnoughEther, validateAddress } from "../../../../modules/web3/utils";
 import { appConnect } from "../../../../store";
 import { OmitKeys } from "../../../../types";
-import { IIntlProps, injectIntlHelpers } from "../../../../utils/injectIntlHelpers.unsafe";
+import { ERoundingMode } from "../../../../utils/Money.utils";
+import { extractNumber } from "../../../../utils/StringUtils";
 import { Button } from "../../../shared/buttons";
-import { EthereumIcon } from "../../../shared/ethereum";
-import { Form, FormField } from "../../../shared/forms";
-import { ValidationErrorMessage } from "../shared/ValidationErrorMessage";
+import { ButtonArrowRight, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
+import { Form } from "../../../shared/forms";
+import { FormLabel } from "../../../shared/forms/fields/FormFieldLabel";
+import { FormInput } from "../../../shared/forms/fields/FormInput.unsafe";
+import { EInputAlign, InputSize } from "../../../shared/forms/fields/FormInputRaw.unsafe";
+import { FormMaskedInput } from "../../../shared/forms/fields/FormMaskedInput.unsafe";
+import { generateMaskFromCurrency } from "../../../shared/forms/fields/utils.unsafe";
+import { EHeadingSize, Heading } from "../../../shared/Heading";
+import { EtherscanAddressLink } from "../../../shared/links/EtherscanLink";
+import { ECurrency, EMoneyFormat, getFormattedMoney } from "../../../shared/Money.unsafe";
+import { MoneySuiteWidget } from "../../../shared/MoneySuiteWidget";
 
 import * as styles from "./Withdraw.module.scss";
 
 interface IStateProps {
   maxEther: string;
   validationState?: EValidationState;
+  ethAmount: string;
+  ethEuroAmount: string;
+  walletAddress: string;
+  gasPrice: string;
+  gasPriceEur: string;
+  total: string;
+  totalEur: string;
+  additionalData?: any;
 }
 
-// tslint:disable-next-line:no-unused-variable
-interface IFormikProps {
+interface IWithdrawData {
   value: string;
   to: string;
 }
 
 interface IHandlersProps {
-  onValidateHandler: (values: IFormikProps) => void | FormikErrors<IFormikProps>;
+  onValidateHandler: (values: IWithdrawData) => void | FormikErrors<IWithdrawData>;
 }
 
 interface IDispatchProps {
   onValidate: (txDraft: IDraftType) => void;
   onAccept: (tx: Partial<ITxData>) => void;
+  onBack: () => void;
 }
 
 type TProps = IStateProps & OmitKeys<IDispatchProps, "onValidate"> & IHandlersProps;
@@ -76,84 +105,212 @@ const getWithdrawFormSchema = (maxEther: string) =>
     ),
   }).toYup();
 
-const WithdrawLayout: React.FunctionComponent<TProps & IIntlProps> = ({
+const WithdrawLayout: React.FunctionComponent<TProps> = ({
   onAccept,
   onValidateHandler,
+  ethAmount,
+  ethEuroAmount,
+  walletAddress,
+  gasPrice,
+  gasPriceEur,
+  total,
+  totalEur,
+  onBack,
   validationState,
-  intl,
+  maxEther,
+  additionalData,
 }) => (
-  <section>
-    <EthereumIcon />
-
-    <h3 className={styles.title}>
+  <section className={styles.contentWrapper}>
+    <Heading size={EHeadingSize.SMALL} level={4} className="mb-4">
       <FormattedMessage id="modal.sent-eth.title" />
-    </h3>
+    </Heading>
 
-    <Formik<IFormikProps>
+    <Formik<IWithdrawData>
       validate={onValidateHandler}
-      initialValues={{ value: "", to: "" }}
+      initialValues={{
+        to: (additionalData && additionalData.to) || "",
+        value:
+          additionalData && additionalData.amount
+            ? getFormattedMoney(
+                additionalData.amount,
+                ECurrency.ETH,
+                EMoneyFormat.ULPS,
+                false,
+                ERoundingMode.DOWN,
+              )
+            : "",
+      }}
       onSubmit={onAccept}
     >
-      {({ isValid, isValidating }) => (
+      {({
+        isValid,
+        isValidating,
+        setFieldValue,
+        setFieldTouched,
+        values,
+        errors,
+      }: FormikProps<IWithdrawData>) => (
         <Form>
-          <Container>
-            <Row>
-              <Col xs={12} className="mb-3">
-                <FormField
-                  name="to"
-                  label={<FormattedMessage id="modal.sent-eth.to-address" />}
-                  placeholder="0x0"
-                  data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.to-address"
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} className="mb-3">
-                <FormField
-                  name="value"
-                  label={<FormattedMessage id="modal.sent-eth.amount-to-send" />}
-                  placeholder={intl.formatIntlMessage("modal.sent-eth.eth-amount-placeholder")}
-                  data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.value"
-                />
-                {/* @SEE https://github.com/jaredpalmer/formik/issues/288 */}
-                {validationState !== EValidationState.VALIDATION_OK && isValid && !isValidating && (
-                  <ValidationErrorMessage type={validationState} />
-                )}
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} className="mt-3 text-center">
-                <Button
-                  type="submit"
-                  disabled={
-                    !isValid || isValidating || validationState !== EValidationState.VALIDATION_OK
-                  }
-                  data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.send-transaction-button"
-                >
-                  <FormattedMessage id="modal.sent-eth.button" />
-                </Button>
-              </Col>
-            </Row>
-          </Container>
+          <section className={styles.section}>
+            <span className={styles.fullWidth}>
+              <FormattedMessage id="modal.sent-eth.transfer-from" />
+            </span>
+            <div className={styles.withEtherscan}>
+              <span className={styles.walletLabel}>
+                <FormattedMessage id="modal.sent-eth.ether-balance" />
+              </span>
+              <EtherscanAddressLink className={"small"} address={walletAddress}>
+                <FormattedMessage id="modal.sent-eth.view-on-etherscan" />
+              </EtherscanAddressLink>
+            </div>
+            <MoneySuiteWidget
+              currency={ECurrency.ETH}
+              currencyTotal={ECurrency.EUR}
+              largeNumber={ethAmount}
+              value={ethEuroAmount}
+              theme={isValid ? "green" : undefined}
+            />
+          </section>
+
+          <section className="mb-4">
+            <FormLabel for="to" className={styles.label}>
+              <FormattedMessage id="modal.sent-eth.to-address" />
+            </FormLabel>
+            <FormInput
+              name="to"
+              data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.to-address"
+              maxLength={42}
+              charactersLimit={42}
+              size={InputSize.SMALL}
+            />
+            <EtherscanAddressLink
+              className={cn("small", { [styles.disable]: errors.to || !values.to })}
+              address={values.to}
+            >
+              <FormattedMessage id="modal.sent-eth.view-on-etherscan" />
+            </EtherscanAddressLink>
+          </section>
+
+          <section className="mb-4">
+            <FormLabel for="value" className={styles.label}>
+              <FormattedMessage id="modal.sent-eth.amount" />
+            </FormLabel>
+            <FormMaskedInput
+              data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.amount"
+              name="value"
+              suffix="ETH"
+              unmask={extractNumber}
+              mask={generateMaskFromCurrency(ECurrency.ETH)}
+              align={EInputAlign.RIGHT}
+              size={InputSize.SMALL}
+            />
+            <Button
+              data-test-id="bank-transfer.reedem-init.redeem-whole-balance"
+              className={"mt-2"}
+              onClick={() => {
+                setFieldValue(
+                  "value",
+                  getFormattedMoney(
+                    maxEther,
+                    ECurrency.ETH,
+                    EMoneyFormat.ULPS,
+                    false,
+                    ERoundingMode.DOWN,
+                  ),
+                  true,
+                );
+                setFieldTouched("value", true, true);
+              }}
+              layout={EButtonLayout.PRIMARY}
+            >
+              <FormattedMessage id="modal.sent-eth.whole-balance" />
+            </Button>
+          </section>
+
+          <section className={styles.section}>
+            <div className={styles.withEtherscan}>
+              <FormattedMessage id="modal.sent-eth.transaction-fee" />
+              <small>
+                <FormattedMessage id="modal.sent-eth.gas" />
+              </small>
+            </div>
+            <MoneySuiteWidget
+              currency={ECurrency.ETH}
+              currencyTotal={ECurrency.EUR}
+              largeNumber={gasPrice}
+              value={gasPriceEur}
+              theme={errors.value ? "orange" : "green"}
+              roundingMode={ERoundingMode.UP}
+            />
+          </section>
+
+          <section className={styles.section}>
+            <FormattedMessage id="modal.sent-eth.total" />
+            <MoneySuiteWidget
+              currency={ECurrency.ETH}
+              currencyTotal={ECurrency.EUR}
+              largeNumber={total}
+              value={totalEur}
+              theme={errors.value ? "orange" : "green"}
+              roundingMode={ERoundingMode.UP}
+            />
+          </section>
+
+          <div className={cn("text-warning", "text-center", "my-3")}>
+            {additionalData && additionalData.isSmartContract ? (
+              <FormattedMessage id="modal.sent-eth.smart-contract-address" />
+            ) : additionalData && additionalData.newAddress ? (
+              <FormattedMessage id="modal.sent-eth.new-address" />
+            ) : null}
+          </div>
+
+          <section className={styles.section}>
+            <ButtonArrowRight innerClassName="pl-0" onClick={onBack}>
+              <FormattedMessage id="modal.sent-eth.back" />
+            </ButtonArrowRight>
+
+            <Button
+              type="submit"
+              disabled={
+                !isValid || isValidating || validationState !== EValidationState.VALIDATION_OK
+              }
+              data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.send-transaction-button"
+            >
+              {additionalData && (additionalData.isSmartContract || additionalData.newAddress) ? (
+                <FormattedMessage id="modal.sent-eth.ok" />
+              ) : (
+                <FormattedMessage id="modal.sent-eth.button" />
+              )}
+            </Button>
+          </section>
         </Form>
       )}
     </Formik>
   </section>
 );
 
-const Withdraw = compose<TProps & IIntlProps, {}>(
+const WithdrawUnsafe = compose<TProps, {}>(
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => ({
+      ethAmount: selectLiquidEtherBalance(state),
+      ethEuroAmount: selectLiquidEtherBalanceEuroAmount(state),
+      walletAddress: selectEthereumAddressWithChecksum(state),
       maxEther: selectMaxAvailableEther(state),
       validationState: selectTxValidationState(state),
+      gasPrice: selectTxGasCostEthUlps(state),
+      gasPriceEur: selectTxGasCostEurUlps(state),
+      total: selectTxTotalEthUlps(state),
+      totalEur: selectTxTotalEurUlps(state),
+      additionalData: selectTxAdditionalData(state),
     }),
     dispatchToProps: d => ({
       onAccept: (tx: Partial<ITxData>) => d(actions.txSender.txSenderAcceptDraft(tx)),
+      onBack: () => d(actions.routing.goToWallet()),
       onValidate: (txDraft: IDraftType) => d(actions.txValidator.txSenderValidateDraft(txDraft)),
     }),
   }),
-  withHandlers<IStateProps & IDispatchProps, IHandlersProps>({
-    onValidateHandler: ({ onValidate, maxEther }) => (values: IFormikProps) => {
+  withHandlers<IStateProps & IDispatchProps, {}>({
+    onValidateHandler: ({ onValidate, maxEther }) => (values: IWithdrawData) => {
       const schema = getWithdrawFormSchema(maxEther);
 
       try {
@@ -171,7 +328,6 @@ const Withdraw = compose<TProps & IIntlProps, {}>(
       return undefined;
     },
   }),
-  injectIntlHelpers,
 )(WithdrawLayout);
 
-export { Withdraw, WithdrawLayout };
+export { WithdrawUnsafe, WithdrawLayout };

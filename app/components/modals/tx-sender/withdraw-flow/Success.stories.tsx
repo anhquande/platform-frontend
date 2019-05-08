@@ -11,14 +11,20 @@ const date = moment.utc(dummyNow).subtract(1, "day");
 const props = {
   txHash: "0xdb3c43a0cfc4e221ecb52655eab3c3b88ba521a",
   additionalData: {
-    to: "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
     value: "5500000000000000000",
-    cost: "123123123123123123123123",
+    walletAddress: "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
+    to: "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
+    amount: "5500000000000000000",
+    amountEur: "5500000000000000000",
+    cost: "313131232312331212",
+    costEur: "313131232312331212",
+    total: "313131232312331212",
+    totalEur: "313131232312331212",
   },
   txTimestamp: date.valueOf(),
 };
 
-storiesOf("Withdraw/Success", module)
+storiesOf("WithdrawUnsafe/Success", module)
   .addDecorator(withModalBody())
   .addDecorator(withMockedDate(dummyNow))
   .add("default", () => <WithdrawSuccessLayout {...props} />);

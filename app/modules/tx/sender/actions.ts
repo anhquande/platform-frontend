@@ -36,4 +36,8 @@ export const txSenderActions = {
   // reducer setters
   setTransactionData: (txData?: ITxData) =>
     createAction("TX_SENDER_SET_TRANSACTION_DATA", { txData }),
+  setAdditionalData: createActionFactory(
+    "TX_SENDER_SET_ADDITIONAL_DATA",
+    (additionalData: any) => ({ additionalData }),
+  ),
 };

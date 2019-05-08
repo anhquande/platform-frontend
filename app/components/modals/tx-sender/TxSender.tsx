@@ -36,7 +36,7 @@ import { UserClaimSuccess } from "./user-claim/Success";
 import { UserClaimSummary } from "./user-claim/Summary";
 import { WithdrawSuccess } from "./withdraw-flow/Success";
 import { WithdrawSummary } from "./withdraw-flow/Summary";
-import { Withdraw } from "./withdraw-flow/Withdraw.unsafe";
+import { WithdrawUnsafe } from "./withdraw-flow/Withdraw.unsafe";
 
 interface IStateProps {
   isOpen: boolean;
@@ -95,7 +95,7 @@ const InitComponent: React.FunctionComponent<{ type?: ETxSenderType }> = ({ type
     case ETxSenderType.INVEST:
       return <InvestmentSelection />;
     case ETxSenderType.WITHDRAW:
-      return <Withdraw />;
+      return <WithdrawUnsafe />;
     case ETxSenderType.INVESTOR_REDISTRIBUTE_PAYOUT:
       return <InvestorRedistributePayoutConfirm />;
     case ETxSenderType.NEUR_REDEEM:

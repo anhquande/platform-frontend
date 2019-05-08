@@ -10,9 +10,15 @@ const txData: React.ComponentProps<typeof TxErrorLayout> = {
   txHash: "af908098b968d7564564362c51836",
   type: ETxSenderType.WITHDRAW,
   additionalData: {
-    to: "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
     value: "5500000000000000000",
+    walletAddress: "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
+    to: "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
+    amount: "5500000000000000000",
+    amountEur: "5500000000000000000",
     cost: "313131232312331212",
+    costEur: "313131232312331212",
+    total: "313131232312331212",
+    totalEur: "313131232312331212",
   },
   txData: {
     from: "0x0020d330ef4de5c07d4271e0a67e8fd67a21d523",
