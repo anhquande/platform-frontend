@@ -17,7 +17,7 @@ import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { IAppState } from "../../store";
 import { actions, TAction, TActionFromCreator } from "../actions";
 import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
-import { loadEtoContact } from "../eto/sagas";
+import { loadEtoContract } from "../eto/sagas";
 import { neuCall, neuTakeEvery, neuTakeLatest } from "../sagasUtils";
 import { etoFlowActions } from "./actions";
 import { selectIsNewPreEtoStartDateValid, selectIssuerCompany, selectIssuerEto } from "./selectors";
@@ -35,7 +35,7 @@ export function* loadIssuerEto({
     const eto = etoResponse.body;
 
     if (eto.state === EEtoState.ON_CHAIN) {
-      yield neuCall(loadEtoContact, eto);
+      yield neuCall(loadEtoContract, eto);
     }
 
     yield put(actions.eto.setEto({ eto, company }));

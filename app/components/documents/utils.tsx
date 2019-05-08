@@ -1,6 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
+import { IPFS_PROTOCOL } from "../../config/constants";
 import { EEtoState, EtoStateToCamelcase } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import {
   EEtoDocumentType,
@@ -9,6 +10,7 @@ import {
 } from "../../lib/api/eto/EtoFileApi.interfaces";
 import { EETOStateOnChain } from "../../modules/eto/types";
 import { DeepReadonly } from "../../types";
+import { invariant } from "../../utils/invariant";
 
 export const getDocumentTitles = (isRetailEto: boolean) => ({
   company_token_holder_agreement: <FormattedMessage id="eto.documents.tokenholder-agreement" />,
@@ -137,7 +139,26 @@ export const uploadAllowed = (
   ) &&
   canUploadInOnChainStates(etoState, documentKey, onChainState);
 
+export const ipfsLinkFromHash = (ipfsHash: string): string => {
+  invariant(
+    typeof ipfsHash === "string" && ipfsHash.trim() !== "",
+    "invalid string supplied to ipfsLinkFromHash()",
+  );
+  return `${IPFS_PROTOCOL}:${ipfsHash}`;
+};
+export const hashFromIpfsLink = (ipfsLink: string): string => {
+  invariant(
+    typeof ipfsLink === "string" &&
+      ipfsLink.trim() !== "" &&
+      ipfsLink.startsWith(`${IPFS_PROTOCOL}:`),
+    "invalid ipfs link supplied to hashFromIpfsLink()",
+  );
+  return ipfsLink.replace(`${IPFS_PROTOCOL}:`, "");
+};
+
 export const investmentAgreementNotSigned = (
   signedInvestmentAgreementUrl: null | string,
   ipfsHash: string,
-) => signedInvestmentAgreementUrl === null || signedInvestmentAgreementUrl !== `ipfs:${ipfsHash}`;
+) =>
+  signedInvestmentAgreementUrl === null ||
+  signedInvestmentAgreementUrl !== ipfsLinkFromHash(ipfsHash);

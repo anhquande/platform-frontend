@@ -1,8 +1,9 @@
 .content {
   display: grid;
-  grid-template: 1fr auto / 1fr;
+  grid-template: 1fr / 1fr;
   grid-gap: .8rem;
   grid-auto-flow: row;
+  grid-auto-rows: auto;
   height: 100%;
 
   min-height: px-to-rem(178px);
@@ -13,6 +14,10 @@
 
   .loading-no-margin {
     margin: 0 auto;
+  }
+
+  button {
+    align-self: end;
   }
 }
 

@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, lifecycle, withState } from "recompose";
 
-import { PLATFORM_UNLOCK_FEE } from "../../../../config/constants";
+import { PLATFORM_UNLOCK_FEE, PLATFORM_ZERO_FEE } from "../../../../config/constants";
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { getUnlockedWalletEtherAmountAfterFee } from "../../../../modules/wallet/utils";
 import { multiplyBigNumbers } from "../../../../utils/BigNumberUtils";
@@ -21,12 +21,14 @@ export type TTxPendingProps = React.ComponentProps<
 
 interface IAdditionalProps {
   returnedEther: BigNumber;
+  unlockFee: number;
   updateReturnedFunds: (returnedEther: BigNumber) => void;
+  updateUnlockFee: (unlockFee: number) => void;
 }
 
 const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<
   TTxPendingProps & IAdditionalProps
-> = ({ txData, additionalData, returnedEther, className, txTimestamp }) => (
+> = ({ txData, additionalData, returnedEther, className, txTimestamp, unlockFee }) => (
   <InfoList className={className}>
     <InfoRow
       caption={<FormattedMessage id="unlock-funds-flow.eth-committed" />}
@@ -41,7 +43,7 @@ const UnlockWalletTransactionDetailsLayout: React.FunctionComponent<
         <FormattedMessage
           id="unlock-funds-flow.fee"
           values={{
-            fee: PLATFORM_UNLOCK_FEE * 100,
+            fee: unlockFee,
           }}
         />
       }
@@ -70,19 +72,22 @@ const UnlockWalletTransactionDetails = compose<
   React.ComponentProps<TransactionDetailsComponent<ETxSenderType.UNLOCK_FUNDS>>
 >(
   withState("returnedEther", "updateReturnedFunds", 0),
+  withState("unlockFee", "updateUnlockFee", PLATFORM_UNLOCK_FEE * 100),
   lifecycle<TTxPendingProps & IAdditionalProps, {}>({
-    componentDidUpdate(): void {
-      const { updateReturnedFunds, additionalData } = this.props;
+    componentDidMount(): void {
+      const { updateReturnedFunds, additionalData, updateUnlockFee } = this.props;
       const { lockedEtherUnlockDate, lockedEtherBalance } = additionalData;
-      setTimeout(() => {
-        updateReturnedFunds(
-          getUnlockedWalletEtherAmountAfterFee(
-            new BigNumber(lockedEtherBalance),
-            // TODO: Remove with https://github.com/Neufund/platform-frontend/issues/2156
-            lockedEtherUnlockDate,
-            getCurrentUTCTimestamp(),
-          ),
+      setInterval(() => {
+        const amountAfterFee = getUnlockedWalletEtherAmountAfterFee(
+          new BigNumber(lockedEtherBalance),
+          // TODO: Remove with https://github.com/Neufund/platform-frontend/issues/2156
+          lockedEtherUnlockDate,
+          getCurrentUTCTimestamp(),
         );
+        if (amountAfterFee.toString() === lockedEtherBalance) {
+          updateUnlockFee(PLATFORM_ZERO_FEE);
+        }
+        updateReturnedFunds(amountAfterFee);
       }, 1000);
     },
   }),

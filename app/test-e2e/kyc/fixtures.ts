@@ -19,7 +19,7 @@ const kycPersonBaseForm: TFormFixture = {
     type: "select",
   },
   nationality: {
-    value: "PL",
+    value: "LI",
     type: "select",
   },
   isPoliticallyExposed: {

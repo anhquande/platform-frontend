@@ -778,7 +778,8 @@ export const testEto: TEtoWithCompanyAndContract = {
   currencies: ["eth", "eur_t"],
   discountScheme: "40%",
   documents: etoDocuments,
-  enableTransferOnSuccess: false,
+  enableTransferOnSuccess: true,
+  tokenTradeableOnSuccess: false,
   equityTokenImage:
     "https://documents.neufund.io/0x64Ee2B334454A920cE99f39Cc7557b428db8D5B8/a03810cf-7e99-4264-8a94-24303dce4e3b.png",
   equityTokenName: "Quintessence",

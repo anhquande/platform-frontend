@@ -16,6 +16,7 @@ export const kycActions = {
    * General
    */
   kycLoadClientData: () => createSimpleAction("KYC_LOAD_CLIENT_DATA"),
+  kycFinishedLoadingData: () => createSimpleAction("KYC_FINISHED_LOADING_DATA"),
 
   /**
    * Widget watchers

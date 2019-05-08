@@ -86,7 +86,7 @@ describe("Pending Transactions During TX flow", () => {
       // It's not possible to that transaction will move to success/error state as
       // this is a mock transaction that doesn't exist on a blockchain
 
-      clearPendingTransactions(txHash);
+      clearPendingTransactions();
     });
   });
 });

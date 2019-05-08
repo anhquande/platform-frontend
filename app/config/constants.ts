@@ -9,6 +9,7 @@ export const LIGHT_WALLET_PRIVATE_DATA_CACHE_TIME = process.env.IS_CYPRESS ? 100
  */
 
 export const PLATFORM_UNLOCK_FEE = 0.1;
+export const PLATFORM_ZERO_FEE = 0;
 /**
  * We assume common digits for all currencies on our platform.
  */
@@ -90,3 +91,5 @@ export const IS_DEV = process.env.NODE_ENV === "development";
  */
 
 export const REDIRECT_CHANNEL_WATCH_DELAY = 5000;
+
+export const IPFS_PROTOCOL = "ipfs";

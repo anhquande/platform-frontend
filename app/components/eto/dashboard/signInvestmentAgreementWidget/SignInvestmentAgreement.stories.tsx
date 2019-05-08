@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { EEtoDocumentType, TEtoFormType } from "../../../../lib/api/eto/EtoFileApi.interfaces";
+import { ipfsLinkFromHash } from "../../../documents/utils";
 import { SignInvestmentAgreementLayout } from "./SignInvestmentAgreement";
 
 const ipfsHash = "1243654we645";
@@ -30,12 +31,12 @@ const noDocSignedData = {
 
 const needToSignAgainData = {
   ...commonData,
-  signedInvestmentAgreementUrl: "ipfs:newHash",
+  signedInvestmentAgreementUrl: ipfsLinkFromHash("newHash"),
 };
 
 const waitingForNomineeData = {
   ...commonData,
-  signedInvestmentAgreementUrl: `ipfs:${ipfsHash}`,
+  signedInvestmentAgreementUrl: ipfsLinkFromHash(ipfsHash),
 };
 
 storiesOf("ETO/SignInvestmentAgreement", module)

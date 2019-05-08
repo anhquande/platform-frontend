@@ -3,6 +3,7 @@ import { toChecksumAddress } from "ethereumjs-util";
 import { delay } from "redux-saga";
 import { call, fork, put, select } from "redux-saga/effects";
 
+import { hashFromIpfsLink } from "../../components/documents/utils";
 import { IcbmWalletMessage } from "../../components/translatedMessages/messages";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
@@ -31,10 +32,10 @@ const didUserConductFirstTransaction = (
   currentEthAddress: string,
 ) =>
   // If a user added more than one address then we consider him to be a power user
-  !!(
+  Boolean(
     investorMigrationWallet[0].length === 1 &&
-    investorMigrationWallet[0][0] &&
-    investorMigrationWallet[0][0].toLowerCase() === currentEthAddress.toLowerCase()
+      investorMigrationWallet[0][0] &&
+      investorMigrationWallet[0][0].toLowerCase() === currentEthAddress.toLowerCase(),
   );
 
 function* loadIcbmWalletMigrationTransactionSaga({
@@ -171,7 +172,7 @@ function* downloadICBMWalletAgreement(
       : contractsService.euroLock;
 
   const [, , agreementUrl] = yield lockInstance.currentAgreement();
-  const fileUri = agreementUrl.replace("ipfs:", "");
+  const fileUri = hashFromIpfsLink(agreementUrl);
 
   try {
     const generatedDocument = yield apiImmutableStorage.getFile({

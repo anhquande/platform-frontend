@@ -301,31 +301,32 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 data-test-id="eto-public-view-public-offer-duration"
               />
             )}
+
             <Entry
-              label={<FormattedMessage id="eto.public-view.token-terms.token-tradability" />}
+              label={<FormattedMessage id="eto.public-view.token-transferability" />}
               value={
-                <>
-                  {etoData.enableTransferOnSuccess ? (
-                    <FormattedMessage id="eto.public-view.token-terms.enabled" />
-                  ) : (
-                    <FormattedMessage id="eto.public-view.token-terms.disabled" />
-                  )}
-                </>
+                etoData.enableTransferOnSuccess ? (
+                  <FormattedMessage id="eto.public-view.token-transferability.yes" />
+                ) : (
+                  <FormattedMessage id="eto.public-view.token-transferability.no" />
+                )
               }
-              data-test-id="eto-public-view-token-tradability"
+              data-test-id="eto-public-view-token-transferability"
             />
 
-            {etoData.product && (
+            {etoData.enableTransferOnSuccess && (
               <Entry
-                label={<FormattedMessage id="eto.public-view.token-transferability" />}
+                label={<FormattedMessage id="eto.public-view.token-terms.token-tradability" />}
                 value={
-                  etoData.product.assetType === EAssetType.SECURITY ? (
-                    <FormattedMessage id="eto.public-view.token-transferability.yes" />
-                  ) : (
-                    <FormattedMessage id="eto.public-view.token-transferability.no" />
-                  )
+                  <>
+                    {etoData.tokenTradeableOnSuccess ? (
+                      <FormattedMessage id="eto.public-view.token-terms.enabled" />
+                    ) : (
+                      <FormattedMessage id="eto.public-view.token-terms.disabled" />
+                    )}
+                  </>
                 }
-                data-test-id="eto-public-view-token-transferability"
+                data-test-id="eto-public-view-token-tradability"
               />
             )}
 

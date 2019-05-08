@@ -101,7 +101,7 @@ export const etoTermsRequiredForm: TFormFixture = {
     value: "15",
     type: "range",
   },
-  enableTransferOnSuccess: {
+  tokenTradeableOnSuccess: {
     checked: false,
     type: "toggle",
   },

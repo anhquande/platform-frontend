@@ -16,6 +16,7 @@ describe("Start upgrade flow from investment", () => {
     }).then(() => {
       goToDashboard();
 
+      cy.get(tid(`eto-overview-${PUBLIC_ETO_ID}`)).click();
       // click invest now button
       cy.get(tid(`eto-invest-now-button-${PUBLIC_ETO_ID}`)).click();
 
@@ -43,6 +44,7 @@ describe("Start upgrade flow from investment", () => {
       goToDashboard();
 
       // verify ETO with disabled ETH wallet
+      cy.get(tid(`eto-overview-${WHITELIST_ETO_ID}`)).click();
       // click invest now button
       cy.get(tid(`eto-invest-now-button-${WHITELIST_ETO_ID}`)).click();
 
@@ -52,7 +54,9 @@ describe("Start upgrade flow from investment", () => {
       // close investment modal
       cy.get(tid("modal-close-button")).click();
 
+      goToDashboard();
       // verify ETO with enabled ETH wallet
+      cy.get(tid(`eto-overview-${PUBLIC_ETO_ID}`)).click();
       // click invest now button
       cy.get(tid(`eto-invest-now-button-${PUBLIC_ETO_ID}`)).click();
 
