@@ -6,7 +6,7 @@ import { CommonHtmlProps } from "../../../types";
 import { isZero } from "../../../utils/Number.utils";
 import { EColumnSpan } from "../../layouts/Container";
 import { AccountBalance } from "../../shared/AccountBalance";
-import { ECurrency } from "../../shared/Money.unsafe";
+import { ECurrency } from "../../shared/formatters/utils";
 import { VerifiedBankAccount } from "../VerifiedBankAccount";
 import { WalletBalanceContainer } from "./WalletBalance";
 

@@ -7,14 +7,14 @@ import {
   selectIsInvestor,
   selectIsUserEmailVerified,
 } from "../auth/selectors";
-import { selectKycRequestStatus, selectWidgetLoading } from "../kyc/selectors";
+import { selectKycLoading, selectKycRequestStatus } from "../kyc/selectors";
 import { INotification, settingsNotification, settingsNotificationInvestor } from "./reducer";
 
 export const selectNotifications = (state: IAppState): ReadonlyArray<INotification> =>
   state.notifications.notifications;
 
 export const selectIsActionRequiredSettings = (state: IAppState): boolean => {
-  if (selectWidgetLoading(state.kyc)) {
+  if (selectKycLoading(state.kyc)) {
     return false;
   }
   return (

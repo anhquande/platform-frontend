@@ -6,7 +6,7 @@ import { isZero } from "../../../utils/Number.utils";
 import { EColumnSpan } from "../../layouts/Container";
 import { AccountAddress } from "../../shared/AccountAddress";
 import { AccountBalance } from "../../shared/AccountBalance";
-import { ECurrency } from "../../shared/Money.unsafe";
+import { ECurrency } from "../../shared/formatters/utils";
 import { WalletBalanceContainer } from "./WalletBalance";
 
 import * as ethIcon from "../../../assets/img/eth_icon.svg";

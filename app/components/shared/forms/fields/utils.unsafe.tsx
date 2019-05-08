@@ -6,7 +6,8 @@ import { createNumberMask } from "text-mask-addons/dist/textMaskAddons";
 
 import { Dictionary, TTranslatedString } from "../../../../types";
 import { getFieldSchema, isRequired } from "../../../../utils/yupUtils";
-import { ECurrency, selectDecimalPlaces } from "../../Money.unsafe";
+import { ECurrency } from "../../formatters/utils";
+import { selectDecimalPlaces } from "../../Money.unsafe";
 import { FormFieldLabel } from "./FormFieldLabel";
 
 export interface IFormField {

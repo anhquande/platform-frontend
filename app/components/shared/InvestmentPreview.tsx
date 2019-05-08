@@ -3,7 +3,8 @@ import { FormattedPlural } from "react-intl";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { Button, ButtonLink, EButtonLayout } from "./buttons";
-import { ECurrency, ETheme, Money } from "./Money.unsafe";
+import { ECurrency } from "./formatters/utils";
+import { ETheme, Money } from "./Money.unsafe";
 import { PercentageIndicatorBar } from "./PercentageIndicatorBar";
 import { ITag, Tag } from "./Tag.unsafe";
 

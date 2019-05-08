@@ -94,7 +94,11 @@ export function* markTransactionAsPending(
   yield put(actions.txMonitor.setPendingTxs({ pendingTransaction }));
 }
 
-export function* updatePendingTxs({ apiUserService, web3Manager }: TGlobalDependencies): any {
+export function* updatePendingTxs({
+  apiUserService,
+  web3Manager,
+  logger,
+}: TGlobalDependencies): any {
   let apiPendingTx: TPendingTxs = yield apiUserService.pendingTxs();
 
   const pendingTransaction = apiPendingTx.pendingTransaction;
@@ -102,6 +106,12 @@ export function* updatePendingTxs({ apiUserService, web3Manager }: TGlobalDepend
   // check whether transaction was mined
   if (pendingTransaction) {
     const txHash = pendingTransaction.transaction.hash;
+
+    if (pendingTransaction.transactionStatus === undefined) {
+      logger.warn(
+        new Error(`Transaction status is not defined for pending transaction with hash ${txHash}.`),
+      );
+    }
 
     try {
       const transaction: Web3.Transaction | null = yield web3Manager.internalWeb3Adapter.getTransactionOrThrow(

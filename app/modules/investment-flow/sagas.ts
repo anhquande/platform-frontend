@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { delay } from "redux-saga";
 import { put, select, take, takeEvery, takeLatest } from "redux-saga/effects";
 
-import { ECurrency } from "../../components/shared/Money.unsafe";
+import { ECurrency } from "../../components/shared/formatters/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { ITxData } from "../../lib/web3/types";

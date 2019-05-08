@@ -11,11 +11,6 @@ import * as airprofile2hover from "../assets/img/eto_offers/airprofilehover@2x.j
 import * as emflux from "../assets/img/eto_offers/emflux.jpg";
 import * as emfluxhover from "../assets/img/eto_offers/emfluxhover@1x.jpg";
 import * as emflux2hover from "../assets/img/eto_offers/emfluxhover@2x.jpg";
-import * as foundersbank from "../assets/img/eto_offers/foundersbank.png";
-import * as foundersbank2 from "../assets/img/eto_offers/foundersbank@2x.png";
-import * as foundersbankhover2 from "../assets/img/eto_offers/Foundersbankhover.png";
-import * as foundersbankhover from "../assets/img/eto_offers/Foundersbankhover@1x.png";
-import * as foundersbankhover3 from "../assets/img/eto_offers/Foundersbankhover@3x.png";
 import * as myswoop from "../assets/img/eto_offers/myswoop.jpg";
 import * as myswoop2 from "../assets/img/eto_offers/myswoop@2x.jpg";
 import * as myswoopbadge from "../assets/img/eto_offers/myswoopbadge@1x.jpg";
@@ -119,47 +114,6 @@ export const etoCompaniesCards: IEtoOfferingProps[] = [
       width: 71,
     },
     to: "http://www.myswooop.de/",
-  },
-  {
-    tags: [
-      {
-        text: "community",
-        layout: "ghost-bold",
-        theme: "white",
-      },
-      {
-        text: "banking",
-        layout: "ghost-bold",
-        theme: "white",
-      },
-      {
-        text: "crypto",
-        layout: "ghost-bold",
-        theme: "white",
-      },
-    ],
-    description:
-      "Founders focused bank empowering tech and crypto. Progressive banking solutions for investors and inventors.",
-    topImage: {
-      src: "",
-      srcSet: {
-        "1x": "",
-      },
-      alt: "",
-      height: 50,
-      width: 100,
-    },
-    quoteImage: {
-      src: "",
-      srcSet: {
-        "1x": "",
-      },
-      alt: "",
-      height: 35,
-      width: 100,
-    },
-    teaser: true,
-    replaceSelector: "founders",
   },
   {
     roundName: "seed",
@@ -383,52 +337,3 @@ export const etoCompaniesCards: IEtoOfferingProps[] = [
     hidden: true,
   },
 ];
-
-if (process.env.NF_FOUNDERS_BANK_VISIBLE) {
-  const foundersIndex = etoCompaniesCards.findIndex(v => v.replaceSelector === "founders");
-
-  etoCompaniesCards[foundersIndex] = {
-    tags: [
-      {
-        text: "community",
-        layout: "ghost-bold",
-        theme: "white",
-      },
-      {
-        text: "banking",
-        layout: "ghost-bold",
-        theme: "white",
-      },
-      {
-        text: "crypto",
-        layout: "ghost-bold",
-        theme: "white",
-      },
-    ],
-    name: "Founders Bank",
-    description:
-      "Once licensed, Founders Bank will bridge the gap between the traditional world of finance and innovative crypto companies, delivering high tech banking solutions. Focused on and owned by founders.",
-    topImage: {
-      src: foundersbank,
-      srcSet: {
-        "1x": foundersbank,
-        "2x": foundersbank2,
-      },
-      alt: "",
-      height: 50,
-      width: 100,
-    },
-    quoteImage: {
-      src: "",
-      srcSet: {
-        "1x": foundersbankhover,
-        "2x": foundersbankhover2,
-        "3x": foundersbankhover3,
-      },
-      alt: "Founders bank",
-      height: 35,
-      width: 100,
-    },
-    to: "https://www.foundersbank.org",
-  };
-}

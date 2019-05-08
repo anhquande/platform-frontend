@@ -38,14 +38,22 @@ describe("Eto Investor View", () => {
     // TOKEN HOLDER RIGHTS section
     cy.get(tid("eto-public-view-nominee")).should("contain", "Neumini NOMINEE_NEUMINI");
     cy.get(tid("eto-public-view-public-offer-duration")).should("contain", "14 Days");
-    cy.get(tid("eto-public-view-token-tradability")).should("contain", "In the future");
-    /** For now /api/eto-listing/etos/{id} endpoint is not providing product details
-     * TODO: Enable when endpoint ready
-     * cy.get(tid("eto-public-view-token-transferability")).should("contain", "Yes");
-     * cy.get(tid("eto-public-view-asset-type")).should("contain", "Security");
-     *
-     */
+    cy.get(tid("eto-public-view-token-transferability")).should("contain", "No");
+    cy.get(tid("eto-public-view-asset-type")).should("contain", "Security");
     cy.get(tid("eto-public-view-voting-rights")).should("contain", "Yes");
     cy.get(tid("eto-public-view-dividend-rights")).should("contain", "Yes");
+  });
+
+  it("should should tradability when transferability is set to true", () => {
+    const ETO_ID_WITH_TRANSFERABILITY_ALLOWED = etoFixtureAddressByName("ETOInWhitelistState");
+
+    cy.visit(
+      withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID_WITH_TRANSFERABILITY_ALLOWED }),
+    );
+    assertEtoView("Neufund - Rich (RCH)");
+
+    // TOKEN HOLDER RIGHTS section
+    cy.get(tid("eto-public-view-token-transferability")).should("contain", "Yes");
+    cy.get(tid("eto-public-view-token-tradability")).should("contain", "In the future");
   });
 });

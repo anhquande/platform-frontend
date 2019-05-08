@@ -3,7 +3,7 @@ import { isArray } from "lodash/fp";
 import { createSelector } from "reselect";
 
 import { shouldShowToken } from "../../components/portfolio/utils";
-import { ECurrency } from "../../components/shared/Money.unsafe";
+import { ECurrency } from "../../components/shared/formatters/utils";
 import { Q18 } from "../../config/constants";
 import { getShareAndTokenPrice } from "../../lib/api/eto/EtoUtils";
 import { IAppState } from "../../store";

@@ -96,11 +96,11 @@ const EtoRegistrationTermsAllowedChanges: React.FunctionComponent<IProps> = ({
 
     {values.product.canSetTransferability && (
       <div className="form-group">
-        <FormFieldLabel name="enableTransferOnSuccess">
+        <FormFieldLabel name="tokenTradeableOnSuccess">
           <FormattedMessage id="eto.form.section.eto-terms.when-token-tradable.label" />
         </FormFieldLabel>
         <FormToggle
-          name="enableTransferOnSuccess"
+          name="tokenTradeableOnSuccess"
           enabledLabel={
             <FormattedMessage id="eto.form.section.eto-terms.when-token-tradable.value.enabled" />
           }
@@ -116,7 +116,7 @@ const EtoRegistrationTermsAllowedChanges: React.FunctionComponent<IProps> = ({
       <Col>
         <FormField
           label={<FormattedMessage id="eto.form.section.eto-terms.minimum-ticket-size" />}
-          placeholder="1"
+          placeholder={values.product.minTicketSize || "Unlimited"}
           prefix="€"
           name="minTicketEur"
           disabled={readonly}
@@ -125,7 +125,7 @@ const EtoRegistrationTermsAllowedChanges: React.FunctionComponent<IProps> = ({
       <Col>
         <FormField
           label={<FormattedMessage id="eto.form.section.eto-terms.maximum-ticket-size" />}
-          placeholder="Unlimited"
+          placeholder={values.product.maxTicketSize || "Unlimited"}
           prefix="€"
           name="maxTicketEur"
           disabled={readonly}
@@ -366,7 +366,7 @@ const EtoRegistrationProductType: React.FunctionComponent<IProps> = ({
         </FormFieldLabel>
 
         <FormToggle
-          name="product.canSetTransferability"
+          name="enableTransferOnSuccess"
           enabledLabel={<FormattedMessage id="form.select.yes" />}
           disabledLabel={<FormattedMessage id="form.select.no" />}
           disabled={true}

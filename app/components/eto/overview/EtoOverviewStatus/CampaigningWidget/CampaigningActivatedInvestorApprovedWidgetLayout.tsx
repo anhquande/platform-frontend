@@ -5,8 +5,9 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { generateCampaigningValidation } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { Button, ButtonSize, ButtonWidth } from "../../../../shared/buttons";
+import { ECurrency, EMoneyInputFormat } from "../../../../shared/formatters/utils";
 import { CheckboxLayout, Form, FormInput, InputSize } from "../../../../shared/forms";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../../shared/Money.unsafe";
+import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
 import { Tooltip } from "../../../../shared/tooltips";
 
 import * as styles from "../EtoOverviewStatus.module.scss";
@@ -66,7 +67,7 @@ const CampaigningActivatedInvestorApprovedWidgetLayout: React.FunctionComponent<
           <Money
             value={pledgedAmount}
             currency={ECurrency.EUR}
-            format={EMoneyFormat.FLOAT}
+            format={EMoneyInputFormat.FLOAT}
             currencySymbol={ECurrencySymbol.SYMBOL}
           />
         </div>

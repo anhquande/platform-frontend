@@ -12,9 +12,9 @@ import { appConnect } from "../../../../store";
 import { EthereumAddressWithChecksum } from "../../../../types";
 import { withParams } from "../../../../utils/withParams";
 import { Button } from "../../../shared/buttons";
+import { selectCurrencyCode } from "../../../shared/formatters/Money";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { ExternalLink } from "../../../shared/links";
-import { selectCurrencyCode } from "../../../shared/Money.unsafe";
 import { AcceptTransactionDetails } from "./AcceptTransactionDetails";
 
 interface IStateProps {

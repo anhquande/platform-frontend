@@ -10,7 +10,7 @@ import {
 import { IPledge } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { actions } from "../../../../../modules/actions";
 import { appConnect } from "../../../../../store";
-import { ECurrency } from "../../../../shared/Money.unsafe";
+import { ECurrency } from "../../../../shared/formatters/utils";
 import {
   CampaigningActivatedInvestorApprovedWidgetLayout,
   CampaigningFormState,

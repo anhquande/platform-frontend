@@ -73,7 +73,7 @@ jobs:
       image: circleci/classic:edge
       docker_layer_caching: true
 
-    parallelism: 4
+    parallelism: 5
 
     working_directory: /home/circleci/app
 
@@ -90,7 +90,7 @@ jobs:
 
       - run:
           command: source /opt/circleci/.nvm/nvm.sh && yarn test:e2e
-          no_output_timeout: 50m
+          no_output_timeout: 20m
 
   test-e2e-chrome:
     machine:

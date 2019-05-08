@@ -2,12 +2,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import * as Yup from "yup";
 
-import {
-  ECurrency,
-  ECurrencySymbol,
-  EMoneyFormat,
-  Money,
-} from "../../../components/shared/Money.unsafe";
+import { ECurrency, EMoneyInputFormat } from "../../../components/shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../../components/shared/Money.unsafe";
 
 export interface IPledge {
   amountEur: number;
@@ -31,7 +27,7 @@ export const generateCampaigningValidation = (minPledge: number, maxPledge?: num
             <Money
               value={minPledge}
               currency={ECurrency.EUR}
-              format={EMoneyFormat.FLOAT}
+              format={EMoneyInputFormat.FLOAT}
               currencySymbol={ECurrencySymbol.SYMBOL}
             />
           ),
@@ -51,7 +47,7 @@ export const generateCampaigningValidation = (minPledge: number, maxPledge?: num
                 <Money
                   value={maxPledge}
                   currency={ECurrency.EUR}
-                  format={EMoneyFormat.FLOAT}
+                  format={EMoneyInputFormat.FLOAT}
                   currencySymbol={ECurrencySymbol.SYMBOL}
                 />
               ),

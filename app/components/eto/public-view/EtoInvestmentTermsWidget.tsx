@@ -9,13 +9,9 @@ import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { appConnect } from "../../../store";
 import { TDataTestId, TTranslatedString } from "../../../types";
 import { DocumentTemplateButton } from "../../shared/DocumentLink";
-import {
-  ECurrency,
-  ECurrencySymbol,
-  EMoneyFormat,
-  Money,
-  selectCurrencyCode,
-} from "../../shared/Money.unsafe";
+import { selectCurrencyCode } from "../../shared/formatters/Money";
+import { ECurrency, EMoneyInputFormat } from "../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
 import { Panel } from "../../shared/Panel";
 import { Percentage } from "../../shared/Percentage";
@@ -70,7 +66,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                   <Money
                     value={etoData.preMoneyValuationEur}
                     currency={ECurrency.EUR}
-                    format={EMoneyFormat.FLOAT}
+                    format={EMoneyInputFormat.FLOAT}
                     currencySymbol={ECurrencySymbol.SYMBOL}
                   />
                 }
@@ -117,7 +113,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 <Money
                   value={computedNewSharePrice}
                   currency={ECurrency.EUR}
-                  format={EMoneyFormat.FLOAT}
+                  format={EMoneyInputFormat.FLOAT}
                   currencySymbol={ECurrencySymbol.SYMBOL}
                 />
               }
@@ -160,7 +156,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                   <Money
                     value={computedNewSharePrice / etoData.equityTokensPerShare}
                     currency={ECurrency.EUR}
-                    format={EMoneyFormat.FLOAT}
+                    format={EMoneyInputFormat.FLOAT}
                     currencySymbol={ECurrencySymbol.SYMBOL}
                   />
                 }
@@ -305,31 +301,32 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 data-test-id="eto-public-view-public-offer-duration"
               />
             )}
+
             <Entry
-              label={<FormattedMessage id="eto.public-view.token-terms.token-tradability" />}
+              label={<FormattedMessage id="eto.public-view.token-transferability" />}
               value={
-                <>
-                  {etoData.enableTransferOnSuccess ? (
-                    <FormattedMessage id="eto.public-view.token-terms.enabled" />
-                  ) : (
-                    <FormattedMessage id="eto.public-view.token-terms.disabled" />
-                  )}
-                </>
+                etoData.enableTransferOnSuccess ? (
+                  <FormattedMessage id="eto.public-view.token-transferability.yes" />
+                ) : (
+                  <FormattedMessage id="eto.public-view.token-transferability.no" />
+                )
               }
-              data-test-id="eto-public-view-token-tradability"
+              data-test-id="eto-public-view-token-transferability"
             />
 
-            {etoData.product && (
+            {etoData.enableTransferOnSuccess && (
               <Entry
-                label={<FormattedMessage id="eto.public-view.token-transferability" />}
+                label={<FormattedMessage id="eto.public-view.token-terms.token-tradability" />}
                 value={
-                  etoData.product.assetType === EAssetType.SECURITY ? (
-                    <FormattedMessage id="eto.public-view.token-transferability.yes" />
-                  ) : (
-                    <FormattedMessage id="eto.public-view.token-transferability.no" />
-                  )
+                  <>
+                    {etoData.tokenTradeableOnSuccess ? (
+                      <FormattedMessage id="eto.public-view.token-terms.enabled" />
+                    ) : (
+                      <FormattedMessage id="eto.public-view.token-terms.disabled" />
+                    )}
+                  </>
                 }
-                data-test-id="eto-public-view-token-transferability"
+                data-test-id="eto-public-view-token-tradability"
               />
             )}
 

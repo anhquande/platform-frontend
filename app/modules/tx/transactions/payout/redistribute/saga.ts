@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { put, select, take } from "redux-saga/effects";
 
-import { ECurrency } from "../../../../../components/shared/Money.unsafe";
+import { ECurrency } from "../../../../../components/shared/formatters/utils";
 import { TGlobalDependencies } from "../../../../../di/setupBindings";
 import { ITxData } from "../../../../../lib/web3/types";
 import { invariant } from "../../../../../utils/invariant";

@@ -1,5 +1,5 @@
 import { appRoutes } from "../../components/appRoutes";
-import { formatThousands } from "../../utils/Number.utils";
+import { formatThousands } from "../../components/shared/formatters/utils";
 import { withParams } from "../../utils/withParams";
 import { ISSUER_SETUP } from "../fixtures";
 import {

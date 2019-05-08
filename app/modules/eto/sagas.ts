@@ -27,6 +27,7 @@ import { divideBigNumbers } from "../../utils/BigNumberUtils";
 import { actions, TActionFromCreator } from "../actions";
 import { selectIsUserVerified, selectUserType } from "../auth/selectors";
 import { selectMyAssets } from "../investor-portfolio/selectors";
+import { waitForKycStatus } from "../kyc/sagas";
 import { selectClientJurisdiction } from "../kyc/selectors";
 import { neuCall, neuFork, neuTakeEvery, neuTakeLatest, neuTakeUntil } from "../sagasUtils";
 import { selectEthereumAddressWithChecksum } from "../web3/selectors";
@@ -38,7 +39,12 @@ import {
   selectEtoWithCompanyAndContract,
 } from "./selectors";
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "./types";
-import { convertToEtoTotalInvestment, convertToStateStartDate, isRestricedEto } from "./utils";
+import {
+  convertToEtoTotalInvestment,
+  convertToStateStartDate,
+  filterEtosByRestrictedJurisdictions,
+  isRestrictedEto,
+} from "./utils";
 
 export function* loadEtoPreview(
   { apiEtoService, notificationCenter, logger }: TGlobalDependencies,
@@ -66,7 +72,7 @@ export function* loadEtoPreview(
         yield put(actions.investorEtoTicket.loadEtoInvestorTicket(eto));
       }
 
-      yield neuCall(loadEtoContact, eto);
+      yield neuCall(loadEtoContract, eto);
     }
 
     yield put(actions.eto.setEto({ eto, company }));
@@ -109,7 +115,7 @@ export function* loadEto(
         yield put(actions.investorEtoTicket.loadEtoInvestorTicket(eto));
       }
 
-      yield neuCall(loadEtoContact, eto);
+      yield neuCall(loadEtoContract, eto);
     }
 
     yield put(actions.eto.setEto({ eto, company }));
@@ -128,7 +134,7 @@ export function* loadEto(
   }
 }
 
-export function* loadEtoContact(
+export function* loadEtoContract(
   { contractsService, logger }: TGlobalDependencies,
   eto: TEtoData,
 ): any {
@@ -272,28 +278,35 @@ function* watchEto(_: TGlobalDependencies, previewCode: string): any {
 
 function* loadEtos({ apiEtoService, logger, notificationCenter }: TGlobalDependencies): any {
   try {
+    yield waitForKycStatus();
     const etosResponse: IHttpResponse<TEtoData[]> = yield apiEtoService.getEtos();
     const etos = etosResponse.body;
+
+    const jurisdiction: string | undefined = yield select(selectClientJurisdiction);
+    const filteredEtosByJurisdictionRestrictions = filterEtosByRestrictedJurisdictions(
+      etos,
+      jurisdiction,
+    );
 
     const companies = compose(
       keyBy((eto: TCompanyEtoData) => eto.companyId),
       map((eto: TEtoData) => eto.company),
-    )(etos);
+    )(filteredEtosByJurisdictionRestrictions);
 
     const etosByPreviewCode = compose(
       keyBy((eto: TEtoSpecsData) => eto.previewCode),
       // remove company prop from eto
       // it's saved separately for consistency with other endpoints
       map(omit("company")),
-    )(etos);
+    )(filteredEtosByJurisdictionRestrictions);
 
-    const order = etosResponse.body.map(eto => eto.previewCode);
+    const order = filteredEtosByJurisdictionRestrictions.map(eto => eto.previewCode);
 
     yield all(
       order
         .map(id => etosByPreviewCode[id])
         .filter(eto => eto.state === EEtoState.ON_CHAIN)
-        .map(eto => neuCall(loadEtoContact, eto)),
+        .map(eto => neuCall(loadEtoContract, eto)),
     );
 
     // load investor tickets
@@ -409,7 +422,7 @@ function* verifyEtoAccess(
     selectIsUserVerified,
   );
 
-  if (isRestricedEto(eto)) {
+  if (isRestrictedEto(eto)) {
     if (isUserLoggedInAndVerified) {
       const jurisdiction: ReturnType<typeof selectClientJurisdiction> = yield select(
         selectClientJurisdiction,

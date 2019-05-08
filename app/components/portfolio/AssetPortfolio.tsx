@@ -9,10 +9,11 @@ import { appConnect } from "../../store";
 import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
 import { Button, ButtonSize, EButtonLayout } from "../shared/buttons";
+import { selectCurrencyCode } from "../shared/formatters/Money";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { ETheme, Money, selectCurrencyCode } from "../shared/Money.unsafe";
+import { ETheme, Money } from "../shared/Money.unsafe";
 import { Panel } from "../shared/Panel";
 import { NewTable, NewTableRow } from "../shared/table";
 

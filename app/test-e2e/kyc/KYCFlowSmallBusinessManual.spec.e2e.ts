@@ -1,4 +1,5 @@
 import { kycRoutes } from "../../components/kyc/routes";
+import { assertAllJurisdictionEtosExist } from "../investor-dashboard/utils";
 import { confirmAccessModal } from "../utils";
 import { fillForm } from "../utils/forms";
 import { tid } from "../utils/selectors";
@@ -13,6 +14,10 @@ import {
 describe("KYC Small Business flow with manual verification", () => {
   it("went through KYC Small Business flow", () => {
     createAndLoginNewUser({ type: "investor" }).then(() => {
+      // TODO: Move to a separate test
+      // Tests multi jurisdiction
+      assertAllJurisdictionEtosExist();
+
       // go to the small business starting page
       cy.visit(kycRoutes.start);
       cy.get(tid("kyc-start-go-to-company")).awaitedClick();
@@ -31,6 +36,10 @@ describe("KYC Small Business flow with manual verification", () => {
 
       // panel should now be in pending state
       cy.get(tid("kyc-panel-pending"));
+
+      // TODO: Move to a separate test
+      // Tests multi jurisdiction
+      assertAllJurisdictionEtosExist();
     });
   });
 });

@@ -5,6 +5,7 @@ import { Col, Row } from "reactstrap";
 import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
+import { COMPANY_TAGS_LIMIT } from "../../../../config/constants";
 import {
   EtoCompanyInformationType,
   TPartialCompanyEtoData,
@@ -78,11 +79,12 @@ const EtoRegistrationCompanyInformationComponent = (
       />
 
       <EtoTagWidget
-        selectedTagsLimit={5}
+        selectedTagsLimit={COMPANY_TAGS_LIMIT}
         options={generateTagOptions(tagList)}
         name="categories"
         className="mb-4"
       />
+
       <Row>
         <Col>
           <FormSingleFileUpload

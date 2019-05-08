@@ -76,6 +76,9 @@ export const EtoCompletedWidgetLayout: React.ComponentType<
       <FormattedMessage id="download-agreement-widget.success-title" />
     </Heading>
     <div className={styles.content}>
+      <p className={cn(styles.text, "pt-2")}>
+        <FormattedMessage id="download-agreement-widget.success-text" />
+      </p>
       <ButtonArrowRight data-test-id="eto-dashboard-submit-proposal" onClick={goToWallet}>
         <FormattedMessage id="download-agreement-widget.go-to-wallet" />
       </ButtonArrowRight>

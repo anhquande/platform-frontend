@@ -255,6 +255,7 @@ export const getEtoTermsSchema = ({
         return v;
       }),
     enableTransferOnSuccess: YupTS.boolean(),
+    tokenTradeableOnSuccess: YupTS.boolean().optional(),
     notUnderCrowdfundingRegulations: YupTS.onlyTrue(
       <FormattedMessage id="eto.form.section.eto-terms.is-not-crowdfunding.error" />,
     ),

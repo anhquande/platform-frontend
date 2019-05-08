@@ -50,7 +50,7 @@ describe("Eto Terms", () => {
 
     cy.get(tid("eto-flow-product-changed-successfully")).should("exist");
 
-    cy.get(formField("enableTransferOnSuccess")).should("not.exist");
+    cy.get(formField("tokenTradeableOnSuccess")).should("not.exist");
 
     // should show transferable toggle
     fillForm(
@@ -65,6 +65,6 @@ describe("Eto Terms", () => {
 
     cy.get(tid("eto-flow-product-changed-successfully")).should("exist");
 
-    cy.get(formField("enableTransferOnSuccess")).should("exist");
+    cy.get(formField("tokenTradeableOnSuccess")).should("exist");
   });
 });

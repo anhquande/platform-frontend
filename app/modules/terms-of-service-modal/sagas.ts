@@ -1,5 +1,6 @@
 import { Effect, fork, put, select } from "redux-saga/effects";
 
+import { hashFromIpfsLink } from "../../components/documents/utils";
 import {
   AuthMessage,
   getMessageTranslation,
@@ -12,9 +13,9 @@ import { IUser } from "../../lib/api/users/interfaces";
 import { actions } from "../actions";
 import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
 import { selectCurrentAgreementHash } from "../auth/selectors";
+import { EInitType } from "../init/reducer";
 import { selectIsSmartContractInitDone } from "../init/selectors";
 import { neuCall, neuTakeEvery, neuTakeOnly } from "../sagasUtils";
-import { EInitType } from "./../init/reducer";
 
 /**
  * Handle ToS / agreement
@@ -34,7 +35,7 @@ export function* loadCurrentAgreement({
   try {
     const result = yield contractsService.universeContract.currentAgreement();
     let currentAgreementHash = result[2] as string;
-    currentAgreementHash = currentAgreementHash.replace("ipfs:", "");
+    currentAgreementHash = hashFromIpfsLink(currentAgreementHash);
     yield put(actions.tosModal.setCurrentAgreementHash(currentAgreementHash));
   } catch (e) {
     logger.error("Could not load current agreement", e);

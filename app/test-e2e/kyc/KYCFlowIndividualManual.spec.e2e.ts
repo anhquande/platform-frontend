@@ -1,4 +1,8 @@
 import { kycRoutes } from "../../components/kyc/routes";
+import {
+  assertAllJurisdictionEtosExist,
+  assertFilteredDeJurisdiction,
+} from "../investor-dashboard/utils";
 import { confirmAccessModal } from "../utils";
 import { fillForm, uploadMultipleFilesToFieldWithTid } from "../utils/forms";
 import { tid } from "../utils/selectors";
@@ -8,6 +12,9 @@ import { kycInvidualForm } from "./fixtures";
 describe("KYC Personal flow with manual verification", () => {
   it("went through KYC flow with personal data", () => {
     createAndLoginNewUser({ type: "investor" }).then(() => {
+      // TODO: Move to a separate test
+      // Tests multi jurisdiction
+      assertAllJurisdictionEtosExist();
       // go to kyc select and then individual page
       cy.visit(kycRoutes.start);
       cy.get(tid("kyc-start-go-to-personal")).awaitedClick();
@@ -29,6 +36,9 @@ describe("KYC Personal flow with manual verification", () => {
 
       // panel should now be in pending state
       cy.get(tid("kyc-panel-pending"));
+      // TODO: Move to a separate test
+      // Tests multi jurisdiction
+      assertFilteredDeJurisdiction();
     });
   });
 });

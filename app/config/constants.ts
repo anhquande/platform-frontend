@@ -9,6 +9,7 @@ export const LIGHT_WALLET_PRIVATE_DATA_CACHE_TIME = process.env.IS_CYPRESS ? 100
  */
 
 export const PLATFORM_UNLOCK_FEE = 0.1;
+export const PLATFORM_ZERO_FEE = 0;
 /**
  * We assume common digits for all currencies on our platform.
  */
@@ -52,18 +53,6 @@ export const PlatformTerms = {
  */
 
 export const MIN_COMPANY_SHARES = 100;
-export const WHITELIST_DURATION_DAYS = {
-  min: 1,
-  max: 14,
-};
-export const PUBLIC_DURATION_DAYS = {
-  min: 0,
-  max: 60,
-};
-export const SIGNING_DURATION_DAYS = {
-  min: 14,
-  max: 60,
-};
 export const MIN_SHARE_NOMINAL_VALUE_EUR = 1;
 export const MIN_PRE_MONEY_VALUATION_EUR = 100000;
 export const MIN_EXISTING_COMPANY_SHARES = 1;
@@ -71,6 +60,7 @@ export const MIN_NEW_SHARES_TO_ISSUE = 1;
 export const NEW_SHARES_TO_ISSUE_IN_WHITELIST = 1;
 export const NEW_SHARES_TO_ISSUE_IN_FIXED_SLOTS = 1;
 export const BOOKBUILDING_WATCHER_DELAY = 6000;
+export const COMPANY_TAGS_LIMIT = 6;
 
 /**
  * Constants for react components
@@ -90,3 +80,5 @@ export const IS_DEV = process.env.NODE_ENV === "development";
  */
 
 export const REDIRECT_CHANNEL_WATCH_DELAY = 5000;
+
+export const IPFS_PROTOCOL = "ipfs";

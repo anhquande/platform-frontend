@@ -5,7 +5,7 @@ import { Col, Row } from "reactstrap";
 
 import { externalRoutes } from "../../../config/externalRoutes";
 import { ButtonLink, EButtonLayout } from "../../shared/buttons";
-import { ECurrency } from "../../shared/Money.unsafe";
+import { ECurrency } from "../../shared/formatters/utils";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget";
 
 import * as arrowRight from "../../../assets/img/inline_icons/arrow_right.svg";
