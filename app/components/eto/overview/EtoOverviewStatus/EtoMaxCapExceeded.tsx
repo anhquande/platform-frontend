@@ -8,7 +8,7 @@ import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../module
 import { selectEtherPriceEur } from "../../../../modules/shared/tokenPrice/selectors";
 import { appConnect } from "../../../../store";
 import { divideBigNumbers } from "../../../../utils/BigNumberUtils";
-import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../../shared/formatters/utils";
 import { Money } from "../../../shared/Money.unsafe";
 import { CounterWidget } from "./CounterWidget";
 import { InvestmentProgress } from "./InvestmentWidget/InvestmentProgress";
@@ -69,7 +69,7 @@ const EtoMaxCapExceededComponent: React.FunctionComponent<
           <Money
             value={eto.contract!.totalInvestment.totalTokensInt.toNumber()}
             currency={ECurrency.EUR_TOKEN}
-            format={EMoneyInputFormat.FLOAT}
+            format={ENumberInputFormat.FLOAT}
           />
         </div>
         <div className={cn(styles.capReached, "text-uppercase")}>

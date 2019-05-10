@@ -10,7 +10,7 @@ import { appConnect } from "../../../store";
 import { TDataTestId, TTranslatedString } from "../../../types";
 import { DocumentTemplateButton } from "../../shared/DocumentLink";
 import { selectCurrencyCode } from "../../shared/formatters/Money";
-import { ECurrency, EMoneyInputFormat } from "../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
 import { Panel } from "../../shared/Panel";
@@ -66,7 +66,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                   <Money
                     value={etoData.preMoneyValuationEur}
                     currency={ECurrency.EUR}
-                    format={EMoneyInputFormat.FLOAT}
+                    format={ENumberInputFormat.FLOAT}
                     currencySymbol={ECurrencySymbol.SYMBOL}
                   />
                 }
@@ -113,7 +113,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 <Money
                   value={computedNewSharePrice}
                   currency={ECurrency.EUR}
-                  format={EMoneyInputFormat.FLOAT}
+                  format={ENumberInputFormat.FLOAT}
                   currencySymbol={ECurrencySymbol.SYMBOL}
                 />
               }
@@ -156,7 +156,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                   <Money
                     value={computedNewSharePrice / etoData.equityTokensPerShare}
                     currency={ECurrency.EUR}
-                    format={EMoneyInputFormat.FLOAT}
+                    format={ENumberInputFormat.FLOAT}
                     currencySymbol={ECurrencySymbol.SYMBOL}
                   />
                 }

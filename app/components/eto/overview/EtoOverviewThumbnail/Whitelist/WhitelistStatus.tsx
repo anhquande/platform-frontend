@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ECurrency, EMoneyInputFormat } from "../../../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
 import { WhitelistProgress } from "./WhitelistProgress";
 
@@ -28,7 +28,7 @@ const WhitelistStatus: React.FunctionComponent<IInvestmentWidgetProps> = ({
               <Money
                 value={pledgedAmount}
                 currency={ECurrency.EUR}
-                format={EMoneyInputFormat.FLOAT}
+                format={ENumberInputFormat.FLOAT}
                 currencySymbol={ECurrencySymbol.SYMBOL}
               />
             ),

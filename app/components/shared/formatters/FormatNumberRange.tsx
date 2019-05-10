@@ -2,7 +2,13 @@ import BigNumber from "bignumber.js";
 import * as cn from "classnames";
 import * as React from "react";
 
-import { EHumanReadableFormat, EMoneyInputFormat, ERoundingMode, formatNumber } from "./utils";
+import {
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+  formatNumber,
+  THumanReadableFormat,
+} from "./utils";
 
 import * as styles from "./FormatNumber.module.scss";
 
@@ -11,8 +17,8 @@ interface INumberRangeProps {
   valueUpto: string | BigNumber | number | undefined | null;
   defaultValue?: string;
   decimalPlaces?: number;
-  inputFormat?: EMoneyInputFormat;
-  outputFormat?: EHumanReadableFormat;
+  inputFormat: ENumberInputFormat;
+  outputFormat: THumanReadableFormat;
   isPrice?: boolean;
   roundingMode?: ERoundingMode;
   separator?: string;
@@ -25,8 +31,8 @@ export const FormatNumberRange: React.FunctionComponent<INumberRangeProps> = ({
   defaultValue = "",
   roundingMode = ERoundingMode.UP,
   decimalPlaces = 4,
-  inputFormat = EMoneyInputFormat.ULPS,
-  outputFormat = EHumanReadableFormat.FULL,
+  inputFormat = ENumberInputFormat.ULPS,
+  outputFormat = ENumberOutputFormat.FULL,
   isPrice = false,
   separator = "–", //todo nowrap before (?)
   className,

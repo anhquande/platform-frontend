@@ -15,7 +15,7 @@ import { withParams } from "../../utils/withParams";
 import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container } from "../layouts/Container";
 import { Button, ButtonLink, ButtonSize, EButtonLayout } from "../shared/buttons";
-import { ECurrency, EMoneyInputFormat } from "../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
 import { ENewTableCellLayout, NewTable, NewTableRow } from "../shared/table";
@@ -90,7 +90,7 @@ const PortfolioMyAssetsComponent: React.FunctionComponent<TComponentProps> = ({
           <Money
             value={neuPrice}
             currency={ECurrency.EUR}
-            format={EMoneyInputFormat.FLOAT}
+            format={ENumberInputFormat.FLOAT}
             currencySymbol={ECurrencySymbol.SYMBOL}
             isPrice={true}
           />

@@ -6,11 +6,12 @@ import { FormatNumber } from "./FormatNumber";
 import { FormatShortNumber } from "./FormatShortNumber";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   EPriceFormat,
   ERoundingMode,
   selectDecimalPlaces,
+  THumanReadableFormat,
   TMoneyFormat,
 } from "./utils";
 
@@ -37,14 +38,14 @@ interface IMoneyProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 interface IMoneyCommonProps {
-  inputFormat?: EMoneyInputFormat;
+  inputFormat: ENumberInputFormat;
   moneyFormat: TMoneyFormat;
+  outputFormat: THumanReadableFormat;
   roundingMode?: ERoundingMode;
   currencySymbol?: ECurrencySymbol;
   currencyClassName?: string;
   transfer?: EMoneyTransfer;
   theme?: ETheme;
-  outputFormat?: EHumanReadableFormat;
   defaultValue?: string;
 }
 
@@ -70,8 +71,8 @@ export const selectCurrencyCode = (moneyFormat: TMoneyFormat): string => {
 //todo will rename it to Money after the old money is gone
 const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
   value,
-  inputFormat = EMoneyInputFormat.ULPS,
-  outputFormat = EHumanReadableFormat.FULL,
+  inputFormat = ENumberInputFormat.ULPS,
+  outputFormat = ENumberOutputFormat.FULL,
   moneyFormat,
   currencySymbol = ECurrencySymbol.CODE,
   defaultValue = "-",
@@ -86,8 +87,9 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
     //todo: this should pass through 0 as well. Use isValidNumber from the #2687 PR when it's merged
     const decimalPlaces = selectDecimalPlaces(moneyFormat, outputFormat);
     formattedValue =
-      outputFormat === EHumanReadableFormat.FULL ||
-      outputFormat === EHumanReadableFormat.INTEGER ? (
+      outputFormat === ENumberOutputFormat.FULL ||
+      outputFormat === ENumberOutputFormat.ONLY_NONZERO_DECIMALS ||
+      outputFormat === ENumberOutputFormat.INTEGER ? (
         <FormatNumber
           value={value}
           defaultValue={defaultValue}

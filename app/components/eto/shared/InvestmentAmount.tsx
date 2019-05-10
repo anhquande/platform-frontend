@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { getInvestmentAmount } from "../../../lib/api/eto/EtoUtils";
 import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
-import { ECurrency, EMoneyInputFormat } from "../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { ToHumanReadableForm } from "../../shared/ToHumanReadableForm";
 
@@ -21,7 +21,7 @@ const InvestmentAmount: React.FunctionComponent<TExternalProps> = ({ etoData }) 
 
   return (
     <Money
-      format={EMoneyInputFormat.FLOAT}
+      format={ENumberInputFormat.FLOAT}
       currencySymbol={ECurrencySymbol.SYMBOL}
       currency={ECurrency.EUR}
       value={value}

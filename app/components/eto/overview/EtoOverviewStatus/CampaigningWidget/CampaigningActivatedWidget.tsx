@@ -15,7 +15,7 @@ import { appConnect } from "../../../../../store";
 import { onEnterAction } from "../../../../../utils/OnEnterAction";
 import { appRoutes } from "../../../../appRoutes";
 import { ButtonLink } from "../../../../shared/buttons";
-import { ECurrency, EMoneyInputFormat } from "../../../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
 import { Tooltip } from "../../../../shared/tooltips";
 import { CounterWidget } from "../index";
@@ -101,7 +101,7 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
               <Money
                 value={pledgedAmount}
                 currency={ECurrency.EUR}
-                format={EMoneyInputFormat.FLOAT}
+                format={ENumberInputFormat.FLOAT}
                 currencySymbol={ECurrencySymbol.SYMBOL}
               />
             </span>
@@ -156,7 +156,7 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
                       value={pledgedAmount}
                       currency={ECurrency.EUR}
                       currencySymbol={ECurrencySymbol.SYMBOL}
-                      format={EMoneyInputFormat.FLOAT}
+                      format={ENumberInputFormat.FLOAT}
                     />
                   ),
                   totalInvestors: investorsCount,

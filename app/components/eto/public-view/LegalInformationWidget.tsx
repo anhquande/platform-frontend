@@ -5,7 +5,7 @@ import { Col, Row } from "reactstrap";
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EColumnSpan } from "../../layouts/Container";
 import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
-import { ECurrency, EMoneyInputFormat } from "../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
 import { Panel } from "../../shared/Panel";
@@ -125,7 +125,7 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <Money
                     value={companyData.lastFundingSizeEur}
                     currency={ECurrency.EUR}
-                    format={EMoneyInputFormat.FLOAT}
+                    format={ENumberInputFormat.FLOAT}
                     currencySymbol={ECurrencySymbol.SYMBOL}
                   />
                 </span>

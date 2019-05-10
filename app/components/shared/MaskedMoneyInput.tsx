@@ -3,8 +3,8 @@ import * as React from "react";
 import { TTranslatedString } from "../../types";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   ERoundingMode,
   formatNumber,
   isEmptyValue,
@@ -39,7 +39,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
       return toFixedPrecision({
         value,
         roundingMode: ERoundingMode.DOWN,
-        inputFormat: EMoneyInputFormat.FLOAT,
+        inputFormat: ENumberInputFormat.FLOAT,
         decimalPlaces: this.decimals,
       });
     } else {
@@ -49,7 +49,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
 
   formatForDisplay = (
     value: string | undefined,
-    inputFormat: EMoneyInputFormat = EMoneyInputFormat.ULPS,
+    inputFormat: ENumberInputFormat = ENumberInputFormat.ULPS,
   ) =>
     value !== undefined && value !== ""
       ? formatNumber({
@@ -57,7 +57,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
           inputFormat,
           roundingMode: ERoundingMode.DOWN,
           decimalPlaces: this.decimals,
-          outputFormat: EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+          outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
         })
       : "";
 
@@ -100,7 +100,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
 
   onBlur = (value?: string) => {
     if (isEmptyValue(value) || isValidNumber(value)) {
-      this.setState({ value: this.formatForDisplay(value, EMoneyInputFormat.FLOAT) });
+      this.setState({ value: this.formatForDisplay(value, ENumberInputFormat.FLOAT) });
     }
   };
 

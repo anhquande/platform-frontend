@@ -22,7 +22,7 @@ import { Document } from "../../../shared/Document";
 import { DocumentTemplateButton } from "../../../shared/DocumentLink";
 import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
-import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../../shared/formatters/utils";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
 import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { Panel } from "../../../shared/Panel";
@@ -75,7 +75,7 @@ const BookBuildingStats = ({ bookBuildingStats, maxPledges, downloadCSV }: IBook
         <Money
           value={bookBuildingStats.pledgedAmount}
           currency={ECurrency.EUR}
-          format={EMoneyInputFormat.FLOAT}
+          format={ENumberInputFormat.FLOAT}
           currencySymbol={ECurrencySymbol.SYMBOL}
         />
       </span>
