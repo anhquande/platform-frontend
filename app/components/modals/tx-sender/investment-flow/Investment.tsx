@@ -192,7 +192,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
           <Row>
             <Col>
               <MaskedMoneyInput
-                name={"euroValue"}
+                name="euroValue"
                 value={this.props.euroValue}
                 currency={ECurrency.EUR_TOKEN}
                 dispatchFn={this.props.changeEuroValue}
