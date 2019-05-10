@@ -10,13 +10,15 @@
 }
 
 .cover {
-  @include remove-panel-padding;
-
-  margin-bottom: auto;
+  div {
+    @include remove-panel-padding;
+    margin-bottom: auto;
+  }
 }
 
 .content {
   height: 220px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,17 +62,8 @@
   margin-bottom: auto;
 }
 
-.status-of-eto-wrapper {
-  @include remove-panel-padding;
-  @include clearfix;
-
-  // clear negative margin added by `remove-panel-padding`
-  margin-top: auto;
-  margin-bottom: auto;
-
-  .status-of-eto {
-    margin: .5em 1em;
-    font-size: 12px;
-    float: right;
-  }
+.status-of-eto {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
 }

@@ -25,6 +25,7 @@ describe("Invest with ethereum", () => {
       goToDashboard();
 
       // click invest now button
+      cy.get(tid(`eto-overview-${PUBLIC_ETO_ID}`)).click();
       cy.get(tid(`eto-invest-now-button-${PUBLIC_ETO_ID}`)).click();
 
       cy.get(tid("invest-modal-eth-field"))

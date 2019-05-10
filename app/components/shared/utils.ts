@@ -13,11 +13,10 @@ const calculateTimeLeftUnits = (timeLeft: number): [number, number, number] => {
   return [days, hours, minutes];
 };
 
-const calculateTimeLeft = (value: moment.Moment | Date, asUtc: boolean) => {
-  return asUtc
+const calculateTimeLeft = (value: moment.Moment | Date, asUtc: boolean) =>
+  asUtc
     ? moment.utc(value).diff(moment().utc(), "seconds")
     : moment(value).diff(moment(), "seconds");
-};
 
 const utcTime = (value: moment.MomentInput) => moment.utc(value).format("MMMM Do YYYY, HH:mm");
 const localTime = (value: moment.MomentInput) => moment(value).format("MMMM Do YYYY, HH:mm");

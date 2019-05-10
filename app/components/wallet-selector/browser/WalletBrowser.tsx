@@ -1,7 +1,6 @@
-import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Row } from "reactstrap";
+import { Row } from "reactstrap";
 import { compose } from "redux";
 
 import { actions } from "../../../modules/actions";
@@ -9,8 +8,6 @@ import { selectIsLoginRoute } from "../../../modules/wallet-selector/selectors";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { Button } from "../../shared/buttons";
-import { HiResImage } from "../../shared/HiResImage";
-import { HorizontalLine } from "../../shared/HorizontalLine";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { StepCard } from "../../shared/StepCard";
 import { WarningAlert } from "../../shared/WarningAlert";
@@ -83,24 +80,6 @@ export const WalletBrowserComponent: React.FunctionComponent<
           />
           <StepCard img={reload} text={<FormattedMessage id="wallet-selector.browser.steps.3" />} />
         </div>
-
-        <HorizontalLine className="mb-4" />
-
-        <Row className="text-center mb-4">
-          <Col>
-            <span className="font-weight-bold">
-              <FormattedMessage id="wallet-selector.browser.supports" />
-            </span>
-          </Col>
-        </Row>
-        <Row className={cn("justify-content-center text-center", styles.walletLogos)}>
-          <Col sm="auto">
-            <HiResImage partialPath="wallet_selector/logo_parity" alt="Parity" title="Parity" />
-          </Col>
-          <Col sm="auto">
-            <HiResImage partialPath="wallet_selector/logo_mist" alt="Mist" title="Mist" />
-          </Col>
-        </Row>
       </div>
     )}
   </div>

@@ -50,3 +50,6 @@ export const INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH =
 
 export const SPARE_1 =
   "morning panther view ahead fashion client shallow sustain tool cost illegal wish alter demise extend trend task glory alert hurdle rail fragile vital about";
+
+export const INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO =
+  "subway ritual clarify city picnic mean trip vocal neglect candy gaze parrot rocket typical hammer nasty library govern engage afford smooth wild rookie able";

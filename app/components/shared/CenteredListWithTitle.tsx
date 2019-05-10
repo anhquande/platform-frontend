@@ -11,18 +11,16 @@ interface IProps {
   list: string[];
 }
 
-export const CenteredListWithTitle: React.FunctionComponent<IProps> = ({ title, list }) => {
-  return (
-    <Col xs={12} md={6} className="py-4">
-      <Heading decorator={false} level={3} size={EHeadingSize.HUGE} titleClassName={styles.title}>
-        {title}
-      </Heading>
-      <HorizontalLine theme="yellow" size="narrow" className="my-3" />
-      <div>
-        {list.map((listElement, index) => (
-          <div key={index}>{listElement}</div>
-        ))}
-      </div>
-    </Col>
-  );
-};
+export const CenteredListWithTitle: React.FunctionComponent<IProps> = ({ title, list }) => (
+  <Col xs={12} md={6} className="py-4">
+    <Heading decorator={false} level={3} size={EHeadingSize.HUGE} titleClassName={styles.title}>
+      {title}
+    </Heading>
+    <HorizontalLine theme="yellow" size="narrow" className="my-3" />
+    <div>
+      {list.map((listElement, index) => (
+        <div key={index}>{listElement}</div>
+      ))}
+    </div>
+  </Col>
+);

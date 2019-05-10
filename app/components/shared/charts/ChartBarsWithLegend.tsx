@@ -19,34 +19,32 @@ interface IProps {
   data: IChartBarsData;
 }
 
-export const ChartBarsWithLegend: React.FunctionComponent<IProps> = ({ data }) => {
-  return (
-    <div className={styles.chartBars}>
-      <div className={styles.chartWrapper}>
-        <Bar
-          data={data}
-          width={388}
-          height={244}
-          legend={{ display: false }}
-          options={{
-            responsive: true,
-            maintainAspectRatio: true,
-            scales: {
-              xAxes: [
-                {
+export const ChartBarsWithLegend: React.FunctionComponent<IProps> = ({ data }) => (
+  <div className={styles.chartBars}>
+    <div className={styles.chartWrapper}>
+      <Bar
+        data={data}
+        width={388}
+        height={244}
+        legend={{ display: false }}
+        options={{
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            xAxes: [
+              {
+                display: false,
+                gridLines: {
                   display: false,
-                  gridLines: {
-                    display: false,
-                  },
                 },
-              ],
-            },
-          }}
-        />
-      </div>
-      <div className={styles.legendWrapper}>
-        <ChartLegend data={data} />
-      </div>
+              },
+            ],
+          },
+        }}
+      />
     </div>
-  );
-};
+    <div className={styles.legendWrapper}>
+      <ChartLegend data={data} />
+    </div>
+  </div>
+);

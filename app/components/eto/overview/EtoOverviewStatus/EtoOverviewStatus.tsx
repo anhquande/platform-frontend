@@ -23,7 +23,8 @@ import { formatFlexiPrecision } from "../../../../utils/Number.utils";
 import { withParams } from "../../../../utils/withParams";
 import { appRoutes } from "../../../appRoutes";
 import { Container, EColumnSpan } from "../../../layouts/Container";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
+import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { NumberFormat } from "../../../shared/NumberFormat";
 import { EtoWidgetContext } from "../../EtoWidgetView";
 import { ETOState } from "../../shared/ETOState";
@@ -58,27 +59,23 @@ interface IStateProps {
   maxCapExceeded: boolean;
 }
 
-const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => {
-  return (
-    <div className={styles.statusOfEto}>
-      <span className={styles.title}>
-        <FormattedMessage id="shared-component.eto-overview.status-of-eto" />
-      </span>
-      <ETOState previewCode={previewCode} />
-    </div>
-  );
-};
+const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => (
+  <div className={styles.statusOfEto}>
+    <span className={styles.title}>
+      <FormattedMessage id="shared-component.eto-overview.status-of-eto" />
+    </span>
+    <ETOState previewCode={previewCode} />
+  </div>
+);
 
-const PoweredByNeufund = () => {
-  return (
-    <div className={styles.poweredByNeufund} data-test-id="eto-overview-powered-by">
-      <div className={styles.powered}>Powered by</div>
-      <Link className={styles.neufund} target={"_blank"} to={"https://neufund.org"}>
-        NEUFUND
-      </Link>
-    </div>
-  );
-};
+const PoweredByNeufund = () => (
+  <div className={styles.poweredByNeufund} data-test-id="eto-overview-powered-by">
+    <div className={styles.powered}>Powered by</div>
+    <Link className={styles.neufund} target={"_blank"} to={"https://neufund.org"}>
+      NEUFUND
+    </Link>
+  </div>
+);
 
 const EtoStatusManager = ({
   eto,
@@ -248,7 +245,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
             <div className={styles.tagsWrapper}>
               <TagsWidget
                 etoId={eto.etoId}
-                allowRetailEto={eto.allowRetailInvestors}
+                offeringDocumentType={eto.product.offeringDocumentType}
                 termSheet={documentsByType[EEtoDocumentType.SIGNED_TERMSHEET]}
                 prospectusApproved={
                   documentsByType[EEtoDocumentType.APPROVED_INVESTOR_OFFERING_DOCUMENT]
@@ -284,7 +281,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <Money
                       value={eto.preMoneyValuationEur}
                       currency={ECurrency.EUR}
-                      format={EMoneyFormat.FLOAT}
+                      format={EMoneyInputFormat.FLOAT}
                       currencySymbol={ECurrencySymbol.SYMBOL}
                     />
                   </span>
@@ -313,7 +310,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <Money
                       value={formatFlexiPrecision(tokenPrice, 8)}
                       currency={ECurrency.EUR}
-                      format={EMoneyFormat.FLOAT}
+                      format={EMoneyInputFormat.FLOAT}
                       currencySymbol={ECurrencySymbol.SYMBOL}
                     />
                     {showWhitelistDiscount && (

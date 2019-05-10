@@ -124,18 +124,17 @@ const DateChooserOpen = ({
             currentDate.isAfter(moment.utc().add(minOffsetPeriodInMinutes, "minutes"))
           }
         />
-        {newDateIsSet &&
-          !newDateIsValid(newEtoDate) && (
-            <FormError
-              name="etoStartDate"
-              message={
-                <FormattedMessage
-                  id="eto.settings.error-message.eto-start-date-too-early"
-                  values={{ days: minOffsetPeriodInMinutes / 60 / 24 }}
-                />
-              }
-            />
-          )}
+        {newDateIsSet && !newDateIsValid(newEtoDate) && (
+          <FormError
+            name="etoStartDate"
+            message={
+              <FormattedMessage
+                id="eto.settings.error-message.eto-start-date-too-early"
+                values={{ days: minOffsetPeriodInMinutes / 60 / 24 }}
+              />
+            }
+          />
+        )}
       </FormGroup>
       <div className={styles.widgetButton}>
         <ButtonArrowRight
@@ -321,25 +320,23 @@ const SetNewDate: React.ComponentType<IStateProps & IDispatchProps> = props => (
 
 const EtoStartDateWidgetComponent: React.ComponentType<
   IStateProps & IDispatchProps & IExternalProps
-> = ({ etoDate, ...props }) => {
-  return (
-    <Panel
-      headerText={<FormattedMessage id="eto.settings.eto-start-date" />}
-      columnSpan={props.columnSpan}
-    >
-      <div className={styles.content}>
-        <p className={cn(styles.text, "pt-2")}>
-          <FormattedMessage id="settings.choose-pre-eto-date.book-building-will-stop" />
-        </p>
-        {etoDate ? (
-          <ChangeDate etoDate={etoDate} {...props} />
-        ) : (
-          <SetNewDate etoDate={etoDate} {...props} />
-        )}
-      </div>
-    </Panel>
-  );
-};
+> = ({ etoDate, ...props }) => (
+  <Panel
+    headerText={<FormattedMessage id="eto.settings.eto-start-date" />}
+    columnSpan={props.columnSpan}
+  >
+    <div className={styles.content}>
+      <p className={cn(styles.text, "pt-2")}>
+        <FormattedMessage id="settings.choose-pre-eto-date.book-building-will-stop" />
+      </p>
+      {etoDate ? (
+        <ChangeDate etoDate={etoDate} {...props} />
+      ) : (
+        <SetNewDate etoDate={etoDate} {...props} />
+      )}
+    </div>
+  </Panel>
+);
 
 const ChooseEtoStartDateWidget = compose<
   IStateProps & IDispatchProps & IExternalProps,

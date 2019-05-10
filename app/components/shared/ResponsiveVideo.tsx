@@ -38,21 +38,19 @@ const ResponsiveVideo: React.FunctionComponent<ResponsiveVideoProps> = ({
   width,
   onClick,
   banner,
-}) => {
-  return (
-    <Proportion
-      width={width}
-      height={height}
-      className={cn(styles.responsiveVideo, className, theme, { [styles.banner]: banner })}
-      onClick={onClick}
-    >
-      <video className={styles.video} autoPlay loop muted playsInline>
-        <source src={sources.webm} type="video/webm" />
-        <source src={sources.mp4} type="video/mp4" />
-      </video>
-    </Proportion>
-  );
-};
+}) => (
+  <Proportion
+    width={width}
+    height={height}
+    className={cn(styles.responsiveVideo, className, theme, { [styles.banner]: banner })}
+    onClick={onClick}
+  >
+    <video className={styles.video} autoPlay loop muted playsInline>
+      <source src={sources.webm} type="video/webm" />
+      <source src={sources.mp4} type="video/mp4" />
+    </video>
+  </Proportion>
+);
 
 ResponsiveVideo.defaultProps = {
   theme: EVideoTheme.dark,

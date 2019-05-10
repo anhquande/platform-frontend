@@ -7,9 +7,8 @@ import { getComputedValue, isNonValid } from "./utils.unsafe";
 
 export type FormInputProps = IFormInputRawExternalProps & FieldAttributes<any> & CommonHtmlProps;
 
-const transform = (value: string, charactersLimit?: number) => {
-  return value !== undefined ? getComputedValue(value, charactersLimit) : "";
-};
+const transform = (value: string, charactersLimit?: number) =>
+  value !== undefined ? getComputedValue(value, charactersLimit) : "";
 
 const transformBack = (value: number | string) => {
   if (typeof value === "number") {

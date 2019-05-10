@@ -43,19 +43,20 @@ const convertField = (input: any, f: any) => {
 
 export const convertInArray = (conversionSpec: any) => (data: any[]) => {
   if (Array.isArray(data)) {
-    return data.map(element => {
-      return convert(element, conversionSpec);
-    });
+    return data.map(element => convert(element, conversionSpec));
   } else {
     return data;
   }
 };
 
-const findNonEmptyKeyValueField = (data: any) => {
-  if (data !== undefined && data !== null) {
+const findNonEmptyKeyValueField = (data: ICompoundField | undefined) => {
+  if (data) {
     const keys = Object.keys(data);
+
     return data[keys[0]] !== undefined && data[keys[1]] !== undefined;
   }
+
+  return undefined;
 };
 
 //removes data left from empty key-value fields, e.g. {key:undefined,value:undefined}
@@ -69,9 +70,8 @@ export const removeEmptyKeyValueFields = () => (data: ICompoundField[] | undefin
 };
 
 //removes empty key-value fields, e.g. {key:undefined,value:undefined}
-export const removeEmptyKeyValueField = () => (data: ICompoundField | undefined) => {
-  return findNonEmptyKeyValueField(data) ? data : undefined;
-};
+export const removeEmptyKeyValueField = () => (data: ICompoundField | undefined) =>
+  findNonEmptyKeyValueField(data) ? data : undefined;
 
 export const convertPercentageToFraction = () => (data: number) =>
   parseFloat((data / 100).toPrecision(4));
@@ -105,9 +105,8 @@ export const convertToPrecision = (precision: number) => (data: number) => {
   }
 };
 
-export const setDefaultValueIfUndefined = (defaultValue: any) => (data: any) => {
-  return data === undefined ? defaultValue : data;
-};
+export const setDefaultValueIfUndefined = (defaultValue: any) => (data: any) =>
+  data === undefined ? defaultValue : data;
 
 export const removeEmptyField = () => (data: any) => {
   if (data === [] || data === null || Number.isNaN(data)) {
@@ -118,24 +117,18 @@ export const removeEmptyField = () => (data: any) => {
 
 // this is to generate unique keys
 // that we supply to react elements when mapping over an array of data
-export const generateKeys = () => (data: { key: string }[]) => {
-  return (
-    data &&
-    data.map(arrayElement => {
-      arrayElement.key = Math.random().toString();
-      return arrayElement;
-    })
-  );
-};
+export const generateKeys = () => (data: { key: string }[]) =>
+  data &&
+  data.map(arrayElement => {
+    arrayElement.key = Math.random().toString();
+    return arrayElement;
+  });
 
 // removes unique keys created with generateKeys()
 // if API doesn't accept them
-export const removeKeys = () => (data: { key: string }[]) => {
-  return (
-    data &&
-    data.map(arrayElement => {
-      delete arrayElement.key;
-      return arrayElement;
-    })
-  );
-};
+export const removeKeys = () => (data: { key: string }[]) =>
+  data &&
+  data.map(arrayElement => {
+    delete arrayElement.key;
+    return arrayElement;
+  });

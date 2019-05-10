@@ -2,12 +2,13 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { EEtoDocumentType, TEtoFormType } from "../../lib/api/eto/EtoFileApi.interfaces";
+import { ipfsLinkFromHash } from "../documents/utils";
 import { ClickableDocumentTile, Document, DocumentTile, UploadableDocumentTile } from "./Document";
 
 const document = {
   documentType: EEtoDocumentType.INVESTMENT_AND_SHAREHOLDER_AGREEMENT,
   form: "asdf" as TEtoFormType,
-  ipfsHash: "ipfs:bla",
+  ipfsHash: ipfsLinkFromHash("bla"),
   mimeType: "bla/bla",
   name: "document_name",
 };

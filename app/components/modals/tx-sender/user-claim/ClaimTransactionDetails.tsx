@@ -2,7 +2,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
-import { ECurrency, ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
+import { ECurrency } from "../../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { InfoList } from "../shared/InfoList";
 import { InfoRow } from "../shared/InfoRow";
 import { TimestampRow } from "../shared/TimestampRow";

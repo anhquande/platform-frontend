@@ -36,13 +36,12 @@ export const KYCBeneficialOwnersComponent: React.FunctionComponent<IProps> = pro
       <FormattedMessage id="kyc.business.beneficial-owner.beneficial-owners-disclaimer" />
     </p>
     <Accordion>
-      {props.beneficialOwners.map(
-        (owner, index) =>
-          owner.id ? (
-            <KYCBeneficialOwner key={owner.id} owner={owner} index={index} id={owner.id} />
-          ) : (
-            <div />
-          ),
+      {props.beneficialOwners.map((owner, index) =>
+        owner.id ? (
+          <KYCBeneficialOwner key={owner.id} owner={owner} index={index} id={owner.id} />
+        ) : (
+          <div />
+        ),
       )}
     </Accordion>
     <div className="p-4 text-center">

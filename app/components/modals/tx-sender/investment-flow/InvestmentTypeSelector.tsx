@@ -6,10 +6,10 @@ import { Col, FormGroup } from "reactstrap";
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { getCurrencyByInvestmentType } from "../../../../modules/investment-flow/utils";
 import { ETokenType } from "../../../../modules/tx/types";
-import { ERoundingMode } from "../../../../utils/Money.utils";
 import { Button, ButtonWidth, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
+import { ECurrency, ERoundingMode } from "../../../shared/formatters/utils";
 import { CurrencyIcon } from "../../../shared/icons/CurrencyIcon";
-import { ECurrency, Money } from "../../../shared/Money.unsafe";
+import { Money } from "../../../shared/Money.unsafe";
 
 import * as styles from "./InvestmentTypeSelector.module.scss";
 
@@ -27,13 +27,13 @@ interface IEthWallet extends IWalletBase {
   icbmBalanceEth?: string;
 }
 
-interface InEuroWallet extends IWalletBase {
+interface IInEuroWallet extends IWalletBase {
   type: EInvestmentType.ICBMnEuro | EInvestmentType.NEur;
   balanceNEuro: string;
   icbmBalanceNEuro?: string;
 }
 
-export type WalletSelectionData = IEthWallet | InEuroWallet;
+export type WalletSelectionData = IEthWallet | IInEuroWallet;
 
 interface IProps {
   wallets: WalletSelectionData[];

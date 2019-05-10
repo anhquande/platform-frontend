@@ -15,7 +15,8 @@ import { appConnect } from "../../../../../store";
 import { onEnterAction } from "../../../../../utils/OnEnterAction";
 import { appRoutes } from "../../../../appRoutes";
 import { ButtonLink } from "../../../../shared/buttons";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../../shared/Money.unsafe";
+import { ECurrency, EMoneyInputFormat } from "../../../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
 import { Tooltip } from "../../../../shared/tooltips";
 import { CounterWidget } from "../index";
 import { Message } from "../Message";
@@ -100,7 +101,7 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
               <Money
                 value={pledgedAmount}
                 currency={ECurrency.EUR}
-                format={EMoneyFormat.FLOAT}
+                format={EMoneyInputFormat.FLOAT}
                 currencySymbol={ECurrencySymbol.SYMBOL}
               />
             </span>
@@ -117,26 +118,24 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
               {/* TODO: Move to translations once the format is stable */}
             </span>
           </div>
-          {isInvestor &&
-            isVerifiedInvestor && (
-              <CampaigningActivatedInvestorApprovedWidget
-                etoId={etoId}
-                minPledge={minPledge}
-                maxPledge={maxPledge}
-                pledge={pledge}
-              />
-            )}
-        </div>
-        {isInvestor &&
-          !isVerifiedInvestor && (
-            <ButtonLink
-              innerClassName="mb-3"
-              to={appRoutes.profile}
-              data-test-id="eto-overview-settings-update-required-to-invest"
-            >
-              <FormattedMessage id="shared-component.eto-overview.verify-to-whitelist" />
-            </ButtonLink>
+          {isInvestor && isVerifiedInvestor && (
+            <CampaigningActivatedInvestorApprovedWidget
+              etoId={etoId}
+              minPledge={minPledge}
+              maxPledge={maxPledge}
+              pledge={pledge}
+            />
           )}
+        </div>
+        {isInvestor && !isVerifiedInvestor && (
+          <ButtonLink
+            innerClassName="mb-3"
+            to={appRoutes.profile}
+            data-test-id="eto-overview-settings-update-required-to-invest"
+          >
+            <FormattedMessage id="shared-component.eto-overview.verify-to-whitelist" />
+          </ButtonLink>
+        )}
       </>
     );
   }
@@ -157,7 +156,7 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
                       value={pledgedAmount}
                       currency={ECurrency.EUR}
                       currencySymbol={ECurrencySymbol.SYMBOL}
-                      format={EMoneyFormat.FLOAT}
+                      format={EMoneyInputFormat.FLOAT}
                     />
                   ),
                   totalInvestors: investorsCount,

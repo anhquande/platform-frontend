@@ -91,9 +91,7 @@ export const assertErrorModal = () => {
   cy.get(tid("components.modals.generic-modal.title")).should("exist");
 };
 
-export const assertButtonIsActive = (id: string) => {
-  return cy.get(tid(id)).should("be.not.disabled");
-};
+export const assertButtonIsActive = (id: string) => cy.get(tid(id)).should("be.not.disabled");
 
 export const assertWaitForExternalPendingTransactionCount = (
   count: number,

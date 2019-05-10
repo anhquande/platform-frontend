@@ -15,12 +15,10 @@ const data = {
 };
 
 storiesOf("BookBuildingWidget", module)
-  .add("bookbuilding disabled", () => {
-    return <BookBuildingWidgetComponent {...data} canEnableBookbuilding={false} />;
-  })
-  .add("whitelisting not started", () => {
-    return <BookBuildingWidgetComponent {...data} />;
-  })
+  .add("bookbuilding disabled", () => (
+    <BookBuildingWidgetComponent {...data} canEnableBookbuilding={false} />
+  ))
+  .add("whitelisting not started", () => <BookBuildingWidgetComponent {...data} />)
   .add("whitelisting started, no data yet", () => {
     const testData = {
       ...data,

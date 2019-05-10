@@ -11,7 +11,7 @@ import {
   IEtoDocument,
   TEtoDocumentTemplates,
 } from "../../lib/api/eto/EtoFileApi.interfaces";
-import { EProductName } from "../../lib/api/eto/EtoProductsApi.interfaces";
+import { EOfferingDocumentType, EProductName } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { ERequestStatus } from "../../lib/api/KycApi.interfaces";
 import { IAppState } from "../../store";
 import { DeepReadonly } from "../../types";
@@ -62,7 +62,7 @@ export const selectMaxPledges = (state: IAppState) => {
   return eto !== undefined ? eto.maxPledges : null;
 };
 
-export const selectEtoId = (state: IAppState): string | undefined => {
+export const selectIssuerEtoId = (state: IAppState): string | undefined => {
   const eto = selectIssuerEto(state);
   if (eto) {
     return eto.etoId;
@@ -90,14 +90,16 @@ export const selectIssuerEtoState = (state: IAppState): EEtoState | undefined =>
   return undefined;
 };
 
-export const selectIssuerEtoIsRetail = (state: IAppState): boolean => {
+export const selectIssuerEtoOfferingDocumentType = (
+  state: IAppState,
+): EOfferingDocumentType | undefined => {
   const eto = selectIssuerEto(state);
 
   if (eto) {
-    return eto.allowRetailInvestors;
+    return eto.product.offeringDocumentType;
   }
 
-  return false;
+  return undefined;
 };
 
 export const selectIssuerCompany = (state: IAppState): TCompanyEtoData | undefined => {
@@ -172,15 +174,11 @@ export const selectUploadedInvestmentAgreement = (
   return key ? etoDocuments[key] : null;
 };
 
-export const selectInvestmentAgreementLoading = (state: DeepReadonly<IAppState>): boolean => {
-  return state.etoFlow.signedInvestmentAgreementUrlLoading;
-};
+export const selectInvestmentAgreementLoading = (state: DeepReadonly<IAppState>): boolean =>
+  state.etoFlow.signedInvestmentAgreementUrlLoading;
 
-export const selectSignedInvestmentAgreementUrl = (
-  state: DeepReadonly<IAppState>,
-): string | null => {
-  return state.etoFlow.signedInvestmentAgreementUrl;
-};
+export const selectSignedInvestmentAgreementUrl = (state: DeepReadonly<IAppState>): string | null =>
+  state.etoFlow.signedInvestmentAgreementUrl;
 
 export const selectShouldEtoDataLoad = (state: IAppState) =>
   selectKycRequestStatus(state) === ERequestStatus.ACCEPTED &&
@@ -193,10 +191,13 @@ export const selectNewPreEtoStartDate = (state: IAppState) => state.etoFlow.newS
 
 export const selectPreEtoStartDateFromContract = (state: IAppState) => {
   const code = selectIssuerEtoPreviewCode(state);
+
   if (code) {
     const eto = selectEtoWithCompanyAndContract(state, code);
     return eto && eto.contract && eto.contract.startOfStates[EETOStateOnChain.Whitelist];
   }
+
+  return undefined;
 };
 
 export const selectPreEtoStartDate = (state: IAppState) =>
@@ -214,17 +215,23 @@ export const selectIsNewPreEtoStartDateValid = (state: IAppState) => {
   return date && isValidEtoStartDate(date, constants.DATE_TO_WHITELIST_MIN_DURATION);
 };
 
-export const selectAvailableProducts = createSelector(selectIssuerEtoFlow, ({ products }) => {
-  if (products !== undefined) {
-    const availableProducts = products
-      .filter(product => product.available)
-      // TODO: remove after platform-backend/#1550 is done
-      .filter(product => product.name !== EProductName.FIFTH_FORCE_ETO);
+export const selectAvailableProducts = createSelector(
+  selectIssuerEtoFlow,
+  ({ products }) => {
+    if (products !== undefined) {
+      const availableProducts = products
+        .filter(product => product.available)
+        // TODO: remove after platform-backend/#1550 is done
+        .filter(product => product.name !== EProductName.FIFTH_FORCE_ETO);
 
-    return sortProducts(availableProducts);
-  }
+      return sortProducts(availableProducts);
+    }
 
-  return undefined;
-});
+    return undefined;
+  },
+);
 
-export const selectIsSaving = createSelector(selectIssuerEtoFlow, state => state.saving);
+export const selectIsSaving = createSelector(
+  selectIssuerEtoFlow,
+  state => state.saving,
+);

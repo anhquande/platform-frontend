@@ -41,15 +41,12 @@ export const LedgerWalletMessageSignPrompt: React.FunctionComponent = () => (
   </Row>
 );
 
-export const MessageSignPromptComponent: React.FunctionComponent<IStateProps> = ({
-  walletType,
-}) => {
-  return walletType === EWalletType.LEDGER ? (
+export const MessageSignPromptComponent: React.FunctionComponent<IStateProps> = ({ walletType }) =>
+  walletType === EWalletType.LEDGER ? (
     <LedgerWalletMessageSignPrompt />
   ) : (
     <BrowserWalletMessageSignPrompt />
   );
-};
 
 export const MessageSignPrompt = appConnect<IStateProps>({
   stateToProps: s => ({

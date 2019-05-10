@@ -46,8 +46,8 @@ export interface IIntlProps {
  */
 export const injectIntlHelpers = <OwnProps extends {}>(
   Component: ComponentConstructor<OwnProps & IIntlProps>,
-): ComponentConstructor<OwnProps> => {
-  return injectIntl<any>(({ intl, ...props }) => {
+): ComponentConstructor<OwnProps> =>
+  injectIntl<any>(({ intl, ...props }) => {
     const newIntl: IIntlHelpers = {
       ...intl,
       // we dont need to pass description
@@ -57,6 +57,5 @@ export const injectIntlHelpers = <OwnProps extends {}>(
 
     return <Component intl={newIntl} {...props} />;
   }) as any;
-};
 
 // TODO: Delete injectIntlHelpers completely

@@ -10,7 +10,7 @@ import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { EtoView } from "./shared/EtoView.unsafe";
+import { EtoView } from "./shared/EtoView";
 
 type TProps = {
   eto: TEtoWithCompanyAndContract;

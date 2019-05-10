@@ -94,9 +94,9 @@ class Tabs extends React.Component<ITabsProps & CommonHtmlProps> {
       <>
         <div className={cn(styles.tabsWrapper, layoutSize, className)}>
           <div className={cn(styles.tabsOverflowWrapper, layoutPosition)}>
-            {children.map((child, index) => {
-              return child && typeof child !== "boolean" && this.renderTab(index, child);
-            })}
+            {children.map(
+              (child, index) => child && typeof child !== "boolean" && this.renderTab(index, child),
+            )}
           </div>
         </div>
         {children[activeIndex]}

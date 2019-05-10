@@ -25,17 +25,15 @@ export const DashboardLinkWidget: React.FunctionComponent<IProps> = ({
   buttonText,
   buttonTid,
   columnSpan,
-}) => {
-  return (
-    <Panel headerText={title} columnSpan={columnSpan}>
-      <div className={styles.content}>
-        <p className={cn(styles.text, "pt-2")}>{text}</p>
-        <div className="d-flex justify-content-center">
-          <ButtonLink to={to} component={ButtonArrowRight} data-test-id={buttonTid}>
-            {buttonText}
-          </ButtonLink>
-        </div>
+}) => (
+  <Panel headerText={title} columnSpan={columnSpan}>
+    <div className={styles.content}>
+      <p className={cn(styles.text, "pt-2")}>{text}</p>
+      <div className="d-flex justify-content-center">
+        <ButtonLink to={to} component={ButtonArrowRight} data-test-id={buttonTid}>
+          {buttonText}
+        </ButtonLink>
       </div>
-    </Panel>
-  );
-};
+    </div>
+  </Panel>
+);

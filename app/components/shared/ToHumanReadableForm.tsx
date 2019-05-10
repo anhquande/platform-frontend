@@ -2,6 +2,10 @@ import { findLast, floor } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
+/*
+ * @deprecated
+ * use app/components/shared/formatters/utils.ts
+ * */
 export enum EHumanReadableFormat {
   LONG = "long",
   SHORT = "short",

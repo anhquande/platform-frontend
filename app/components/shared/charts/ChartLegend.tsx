@@ -20,22 +20,18 @@ function formatPercent(value: number, numbers: number[]): string {
   return `${Math.round((value / numbers.reduce((a, b) => a + b)) * 100)}%`;
 }
 
-export const ChartLegend: React.FunctionComponent<IProps> = ({ data }) => {
-  return (
-    <div>
-      {data.datasets.map(dataset => {
-        return dataset.data.map((value, index) => {
-          return (
-            <div className={styles.chartLegend} key={data.labels[index]}>
-              <div
-                className={styles.indicator}
-                style={{ backgroundColor: dataset.backgroundColor[index] }}
-              />
-              <div>{`${data.labels[index]} ${formatPercent(value, dataset.data)}`}</div>
-            </div>
-          );
-        });
-      })}
-    </div>
-  );
-};
+export const ChartLegend: React.FunctionComponent<IProps> = ({ data }) => (
+  <div>
+    {data.datasets.map(dataset =>
+      dataset.data.map((value, index) => (
+        <div className={styles.chartLegend} key={data.labels[index]}>
+          <div
+            className={styles.indicator}
+            style={{ backgroundColor: dataset.backgroundColor[index] }}
+          />
+          <div>{`${data.labels[index]} ${formatPercent(value, dataset.data)}`}</div>
+        </div>
+      )),
+    )}
+  </div>
+);

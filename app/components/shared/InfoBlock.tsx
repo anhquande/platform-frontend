@@ -7,6 +7,6 @@ interface IProps {
   className?: string;
 }
 
-export const InfoBlock: React.FunctionComponent<IProps> = ({ className, children }) => {
-  return <div className={cn(styles.infoBlock, className)}>{children}</div>;
-};
+export const InfoBlock: React.FunctionComponent<IProps> = ({ className, children }) => (
+  <div className={cn(styles.infoBlock, className)}>{children}</div>
+);

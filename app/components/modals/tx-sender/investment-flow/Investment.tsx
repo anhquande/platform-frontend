@@ -40,15 +40,20 @@ import { ETokenType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { addBigNumbers, multiplyBigNumbers } from "../../../../utils/BigNumberUtils";
 import { IIntlProps, injectIntlHelpers } from "../../../../utils/injectIntlHelpers.unsafe";
-import { ERoundingMode, formatMoney } from "../../../../utils/Money.utils";
-import { formatThousands } from "../../../../utils/Number.utils";
+import { formatMoney } from "../../../../utils/Money.utils";
 import { appRoutes } from "../../../appRoutes";
 import { InfoAlert } from "../../../shared/Alerts";
 import { Button, EButtonLayout } from "../../../shared/buttons";
 import { ButtonSize, ButtonTextPosition } from "../../../shared/buttons/Button.unsafe";
+import {
+  ECurrency,
+  EMoneyInputFormat,
+  ERoundingMode,
+  formatThousands,
+} from "../../../shared/formatters/utils";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { MaskedMoneyInput } from "../../../shared/MaskedMoneyInput";
-import { ECurrency, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
+import { Money } from "../../../shared/Money.unsafe";
 import { InvestmentTypeSelector, WalletSelectionData } from "./InvestmentTypeSelector";
 import { createWallets, formatEur, getInputErrorMessage } from "./utils";
 
@@ -101,9 +106,8 @@ interface IState {
 export class InvestmentSelectionComponent extends React.Component<IProps, IState> {
   state = { validationError: false };
 
-  calculateTotalCostIfValid = (gasCost: string, value: string): string | null => {
-    return this.getError() ? null : addBigNumbers([gasCost, value || "0"]);
-  };
+  calculateTotalCostIfValid = (gasCost: string, value: string): string | null =>
+    this.getError() ? null : addBigNumbers([gasCost, value || "0"]);
 
   setError = (hasError: boolean) => {
     this.setState({ validationError: hasError });
@@ -262,9 +266,9 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                     <FormattedMessage id="investment-flow.estimated-neu-tokens" />
                   </Label>
                   <InfoAlert data-test-id="invest-modal.est-neu-tokens">
-                    {(showTokens &&
-                      !error &&
-                      neuReward && <Money value={neuReward} currency={ECurrency.NEU} />) ||
+                    {(showTokens && !error && neuReward && (
+                      <Money value={neuReward} currency={ECurrency.NEU} />
+                    )) ||
                       "\xA0"}
                   </InfoAlert>
                 </FormGroup>
@@ -288,41 +292,39 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
         <Container className={styles.container} fluid>
           <Row>
             <Col className={styles.summary}>
-              {gasCostEth &&
-                !error &&
-                gasCostEth !== "0" && (
-                  <div>
-                    + <FormattedMessage id="investment-flow.estimated-gas-cost" />:{" "}
-                    <span className="text-warning" data-test-id="invest-modal-gas-cost">
-                      <Money
-                        value={gasCostEuro}
-                        format={EMoneyFormat.ULPS}
-                        currency={ECurrency.EUR}
-                        roundingMode={ERoundingMode.UP}
-                      />
-                      {" ≈ "}
-                      <Money
-                        value={gasCostEth}
-                        format={EMoneyFormat.ULPS}
-                        currency={ECurrency.ETH}
-                        roundingMode={ERoundingMode.UP}
-                      />
-                    </span>
-                  </div>
-                )}
+              {gasCostEth && !error && gasCostEth !== "0" && (
+                <div>
+                  + <FormattedMessage id="investment-flow.estimated-gas-cost" />:{" "}
+                  <span className="text-warning" data-test-id="invest-modal-gas-cost">
+                    <Money
+                      value={gasCostEuro}
+                      format={EMoneyInputFormat.ULPS}
+                      currency={ECurrency.EUR}
+                      roundingMode={ERoundingMode.UP}
+                    />
+                    {" ≈ "}
+                    <Money
+                      value={gasCostEth}
+                      format={EMoneyInputFormat.ULPS}
+                      currency={ECurrency.ETH}
+                      roundingMode={ERoundingMode.UP}
+                    />
+                  </span>
+                </div>
+              )}
               <div>
                 <FormattedMessage id="investment-flow.total" />:{" "}
                 <span className="text-warning" data-test-id="invest-modal-total-cost">
                   <Money
                     value={this.calculateTotalCostIfValid(gasCostEuro, euroValue)}
-                    format={EMoneyFormat.ULPS}
+                    format={EMoneyInputFormat.ULPS}
                     currency={ECurrency.EUR}
                     roundingMode={ERoundingMode.DOWN}
                   />
                   {" ≈ "}
                   <Money
                     value={this.calculateTotalCostIfValid(gasCostEth, ethValue)}
-                    format={EMoneyFormat.ULPS}
+                    format={EMoneyInputFormat.ULPS}
                     currency={ECurrency.ETH}
                     roundingMode={ERoundingMode.DOWN}
                   />
@@ -377,9 +379,8 @@ export const InvestmentSelection = compose<IProps, {}>(
     },
     dispatchToProps: dispatch => ({
       sendTransaction: () => dispatch(actions.txSender.txSenderAcceptDraft()),
-      changeEthValue: value => {
-        return dispatch(actions.investmentFlow.submitCurrencyValue(value, ECurrency.ETH));
-      },
+      changeEthValue: value =>
+        dispatch(actions.investmentFlow.submitCurrencyValue(value, ECurrency.ETH)),
       changeEuroValue: value =>
         dispatch(actions.investmentFlow.submitCurrencyValue(value, ECurrency.EUR_TOKEN)),
       changeInvestmentType: (type: EInvestmentType) =>

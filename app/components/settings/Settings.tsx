@@ -16,7 +16,7 @@ import { appConnect } from "../../store";
 import { onEnterAction } from "../../utils/OnEnterAction";
 import { withContainer } from "../../utils/withContainer.unsafe";
 import { withMetaTags } from "../../utils/withMetaTags.unsafe";
-import { DashboardSection } from "../eto/shared/DashboardSection";
+import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container, EColumnSpan } from "../layouts/Container";
 import { WidgetGridLayout } from "../layouts/Layout";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
@@ -55,7 +55,7 @@ export const SettingsComponent: React.FunctionComponent<IStateProps> = ({
   return (
     <WidgetGridLayout className={layoutStyles.layoutOffset} data-test-id="eto-profile">
       <Container columnSpan={EColumnSpan.THREE_COL}>
-        <DashboardSection
+        <DashboardHeading
           title={<FormattedMessage id="settings.security-settings.title" />}
           data-test-id="eto-dashboard-application"
         />
@@ -66,7 +66,7 @@ export const SettingsComponent: React.FunctionComponent<IStateProps> = ({
         columnSpan={EColumnSpan.ONE_AND_HALF_COL}
       />
       <Container columnSpan={EColumnSpan.THREE_COL}>
-        <DashboardSection
+        <DashboardHeading
           title={<FormattedMessage id="settings.account-info.title" />}
           data-test-id="eto-dashboard-application"
         />
@@ -77,11 +77,9 @@ export const SettingsComponent: React.FunctionComponent<IStateProps> = ({
         !isLockedWalletConnected &&
         isUserInvestor && <CheckYourICBMWalletWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />}
 
-      {isUserInvestor &&
-        isIndividual &&
-        isPersonalDataProcessed && (
-          <PersonalAccountDetails columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
-        )}
+      {isUserInvestor && isIndividual && isPersonalDataProcessed && (
+        <PersonalAccountDetails columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
+      )}
       <LinkedBankAccountWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
     </WidgetGridLayout>
   );

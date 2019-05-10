@@ -20,20 +20,18 @@ interface IProps {
 export const VerificationStatus: React.FunctionComponent<IProps & CommonHtmlProps> = ({
   steps,
   ...props
-}) => {
-  return (
-    <div {...props} className={cn(styles.verificationStatus, props.className)}>
-      {steps.map(({ label, isChecked, onClick }, index) => (
-        <div className={styles.step} style={{ flexBasis: `${100 / steps.length}%` }} key={index}>
-          <button
-            className={cn(styles.indicator, isChecked && "is-checked")}
-            onClick={onClick ? () => onClick() : () => {}}
-          >
-            {isChecked ? <InlineIcon svgIcon={icon} /> : index + 1}
-          </button>
-          <div className={styles.label}>{label}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
+}) => (
+  <div {...props} className={cn(styles.verificationStatus, props.className)}>
+    {steps.map(({ label, isChecked, onClick }, index) => (
+      <div className={styles.step} style={{ flexBasis: `${100 / steps.length}%` }} key={index}>
+        <button
+          className={cn(styles.indicator, isChecked && "is-checked")}
+          onClick={onClick ? () => onClick() : () => {}}
+        >
+          {isChecked ? <InlineIcon svgIcon={icon} /> : index + 1}
+        </button>
+        <div className={styles.label}>{label}</div>
+      </div>
+    ))}
+  </div>
+);

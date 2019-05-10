@@ -9,7 +9,7 @@ import {
   IEtoDocument,
   immutableDocumentName,
 } from "../../../lib/api/eto/EtoFileApi.interfaces";
-import { ImmutableFileId } from "../../../lib/api/ImmutableStorage.interfaces";
+import { IImmutableFileId } from "../../../lib/api/ImmutableStorage.interfaces";
 import { actions } from "../../../modules/actions";
 import { selectEtoWithCompanyAndContractById } from "../../../modules/eto/selectors";
 import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
@@ -39,7 +39,7 @@ interface IStateProps {
 interface IDispatchProps {
   onClose?: () => void;
   generateTemplateByEtoId: (immutableFileId: IEtoDocument, etoId: string) => void;
-  downloadDocument: (immutableFileId: ImmutableFileId, fileName: string) => void;
+  downloadDocument: (immutableFileId: IImmutableFileId, fileName: string) => void;
 }
 
 type IComponentProps = IStateProps & IDispatchProps;
@@ -51,23 +51,23 @@ const DownloadTokenAgreementModalComponent: React.FunctionComponent<IComponentPr
   downloadDocument,
   eto,
   isPendingDownload,
-}) => {
-  return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <Container>
-        <Row className="mb-4">
-          <Col>
-            <Heading size={EHeadingSize.SMALL} level={4}>
-              <FormattedMessage id="portfolio.section.my-assets.modal.header" />
-            </Heading>
-          </Col>
-        </Row>
-        {eto && (
-          <InfoList>
-            <>
-              {/* Based on https://github.com/Neufund/platform-frontend/issues/2102#issuecomment-453086304 */}
-              {map((document: IEtoDocument) => {
-                return [EEtoDocumentType.SIGNED_INVESTMENT_AND_SHAREHOLDER_AGREEMENT].includes(
+}) => (
+  <Modal isOpen={isOpen} onClose={onClose}>
+    <Container>
+      <Row className="mb-4">
+        <Col>
+          <Heading size={EHeadingSize.SMALL} level={4}>
+            <FormattedMessage id="portfolio.section.my-assets.modal.header" />
+          </Heading>
+        </Col>
+      </Row>
+      {eto && (
+        <InfoList>
+          <>
+            {/* Based on https://github.com/Neufund/platform-frontend/issues/2102#issuecomment-453086304 */}
+            {map(
+              (document: IEtoDocument) =>
+                [EEtoDocumentType.SIGNED_INVESTMENT_AND_SHAREHOLDER_AGREEMENT].includes(
                   document.documentType,
                 ) ? (
                   <InfoRow
@@ -75,7 +75,9 @@ const DownloadTokenAgreementModalComponent: React.FunctionComponent<IComponentPr
                     caption={
                       <DocumentTemplateLabel
                         onClick={() => {}}
-                        title={getDocumentTitles(eto.allowRetailInvestors)[document.documentType]}
+                        title={
+                          getDocumentTitles(eto.product.offeringDocumentType)[document.documentType]
+                        }
                       />
                     }
                     value={
@@ -99,10 +101,12 @@ const DownloadTokenAgreementModalComponent: React.FunctionComponent<IComponentPr
                       />
                     }
                   />
-                ) : null;
-              }, eto.documents)}
-              {map((template: IEtoDocument) => {
-                return [
+                ) : null,
+              eto.documents,
+            )}
+            {map(
+              (template: IEtoDocument) =>
+                [
                   EEtoDocumentType.COMPANY_TOKEN_HOLDER_AGREEMENT,
                   EEtoDocumentType.RESERVATION_AND_ACQUISITION_AGREEMENT,
                 ].includes(template.documentType) ? (
@@ -111,7 +115,9 @@ const DownloadTokenAgreementModalComponent: React.FunctionComponent<IComponentPr
                     caption={
                       <DocumentTemplateLabel
                         onClick={() => {}}
-                        title={getDocumentTitles(eto.allowRetailInvestors)[template.documentType]}
+                        title={
+                          getDocumentTitles(eto.product.offeringDocumentType)[template.documentType]
+                        }
                       />
                     }
                     value={
@@ -128,15 +134,15 @@ const DownloadTokenAgreementModalComponent: React.FunctionComponent<IComponentPr
                       />
                     }
                   />
-                ) : null;
-              }, eto.templates)}
-            </>
-          </InfoList>
-        )}
-      </Container>
-    </Modal>
-  );
-};
+                ) : null,
+              eto.templates,
+            )}
+          </>
+        </InfoList>
+      )}
+    </Container>
+  </Modal>
+);
 
 const DownloadTokenAgreementModal = compose<IComponentProps, {}>(
   appConnect<IStateProps, IDispatchProps>({
@@ -150,7 +156,7 @@ const DownloadTokenAgreementModal = compose<IComponentProps, {}>(
       };
     },
     dispatchToProps: dispatch => ({
-      downloadDocument: (immutableFileId: ImmutableFileId, fileName: string) => {
+      downloadDocument: (immutableFileId: IImmutableFileId, fileName: string) => {
         dispatch(actions.immutableStorage.downloadImmutableFile(immutableFileId, fileName));
       },
       generateTemplateByEtoId: (immutableFileId: IEtoDocument, etoId: string) => {

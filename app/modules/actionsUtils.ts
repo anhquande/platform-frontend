@@ -2,17 +2,16 @@
  * @deprecated Use `createActionFactory` instead
  * @todo if `createActionFactory` is adopted, remove `createAction`
  */
-export const createAction = <T extends string, P extends {}>(type: T, payload: P) => {
-  return { type, payload };
-};
+export const createAction = <T extends string, P extends {}>(type: T, payload: P) => ({
+  type,
+  payload,
+});
 
 /**
  * @deprecated Use `createActionFactory` instead
  * @todo if `createActionFactory` is adopted, remove `createSimpleAction`
  */
-export const createSimpleAction = <T extends string>(type: T) => {
-  return { type };
-};
+export const createSimpleAction = <T extends string>(type: T) => ({ type });
 
 type StringableActionCreator<R extends string, T extends any[], P extends object> = {
   (...args: T): P;

@@ -4,7 +4,7 @@ import { Container } from "reactstrap";
 
 import { testCompany, testContract, testEto } from "../../../../test/fixtures";
 import { withStore } from "../../../utils/storeDecorator.unsafe";
-import { EtoView } from "./EtoView.unsafe";
+import { EtoView } from "./EtoView";
 
 const testStore = {
   eto: {

@@ -110,9 +110,7 @@ const RegisterEnhancedLightWalletForm: React.FunctionComponent = compose<any>(
       password: "",
       repeatPassword: "",
     }),
-    handleSubmit: (values, props) => {
-      return props.props.submitForm(values);
-    },
+    handleSubmit: (values, props) => props.props.submitForm(values),
   }),
 )(RegisterLightWalletForm);
 

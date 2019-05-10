@@ -2,6 +2,7 @@
   "extends": "typestrict",
   "rulesDirectory": ["./node_modules/tslint-eslint-rules/dist/rules", "./test/rules"],
   "rules": {
+    "arrow-return-shorthand": [true, "multiline"],
     "interface-name": [true, "always-prefix"],
     "no-invalid-template-strings": true,
     "no-sparse-arrays": true,

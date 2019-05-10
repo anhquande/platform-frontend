@@ -34,7 +34,6 @@ export const Heading: React.FunctionComponent<IProps & TDataTestId & CommonHtmlP
     !isString(decorator) || !description,
     "Svg icon and description at the same time are not supported",
   );
-
   return (
     <header
       data-test-id={dataTestId}

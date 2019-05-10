@@ -48,28 +48,26 @@ const NotificationContent: React.FunctionComponent<INotificationContentProps> = 
   </div>
 );
 
-const Notification: React.FunctionComponent<INotificationProps> = ({ type, text, onClick }) => {
-  return (
-    <section data-test-id="notification" className={cn(styles.notificationWrapper)}>
-      {onClick ? (
-        <Button
-          data-test-id="notification-button"
-          layout={EButtonLayout.SIMPLE}
-          width={ButtonWidth.BLOCK}
-          textPosition={ButtonTextPosition.LEFT}
-          onClick={onClick}
-        >
-          <NotificationContent text={text} type={type} />
-        </Button>
-      ) : (
+const Notification: React.FunctionComponent<INotificationProps> = ({ type, text, onClick }) => (
+  <section data-test-id="notification" className={cn(styles.notificationWrapper)}>
+    {onClick ? (
+      <Button
+        data-test-id="notification-button"
+        layout={EButtonLayout.SIMPLE}
+        width={ButtonWidth.BLOCK}
+        textPosition={ButtonTextPosition.LEFT}
+        onClick={onClick}
+      >
         <NotificationContent text={text} type={type} />
-      )}
+      </Button>
+    ) : (
+      <NotificationContent text={text} type={type} />
+    )}
 
-      {onClick && (
-        <ButtonClose className={styles.close} data-test-id="notification-close" onClick={onClick} />
-      )}
-    </section>
-  );
-};
+    {onClick && (
+      <ButtonClose className={styles.close} data-test-id="notification-close" onClick={onClick} />
+    )}
+  </section>
+);
 
 export { Notification, NotificationContent };

@@ -1,6 +1,6 @@
 import * as YupTS from "../yup-ts";
 
-export interface ImmutableFileId {
+export interface IImmutableFileId {
   ipfsHash: string;
   mimeType: string;
   placeholders?: { [key: string]: string };

@@ -30,6 +30,7 @@ import { selectIsSmartContractInitDone } from "../init/selectors";
 import { neuCall, neuTakeEvery, neuTakeOnly } from "../sagasUtils";
 import {
   selectCombinedBeneficialOwnerOwnership,
+  selectKycLoading,
   selectKycRequestOutsourcedStatus,
   selectKycRequestStatus,
   selectKycRequestType,
@@ -637,6 +638,18 @@ function* loadBankAccountDetails({
   }
 }
 
+export function* waitForKycStatus(): Iterator<any> {
+  const kycLoading = yield select((s: IAppState) => selectKycLoading(s.kyc));
+  if (kycLoading) {
+    yield take("KYC_FINISHED_LOADING_DATA");
+  }
+}
+
+function* waitForKycStatusLoad(): Iterator<any> {
+  yield take(["KYC_LOAD_BUSINESS_DATA", "KYC_LOAD_INDIVIDUAL_DATA"]);
+  yield put(actions.kyc.kycFinishedLoadingData());
+}
+
 export function* loadKycRequestData(): any {
   // Wait for contracts to init
   const isSmartContractsInitialized = yield select(selectIsSmartContractInitDone);
@@ -701,6 +714,7 @@ export function* kycSagas(): any {
 
   yield fork(neuTakeEvery, "KYC_LOAD_CLAIMS", loadIdentityClaim);
 
+  yield fork(waitForKycStatusLoad);
   yield fork(kycRefreshWidgetSagaWatcher);
   yield fork(kycRefreshWidgetSagaWatcherStop);
 }

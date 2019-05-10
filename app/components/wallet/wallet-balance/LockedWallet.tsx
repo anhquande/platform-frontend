@@ -3,8 +3,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { CommonHtmlProps } from "../../../types";
 import { AccountBalance } from "../../shared/AccountBalance";
+import { ECurrency } from "../../shared/formatters/utils";
 import { HorizontalLine } from "../../shared/HorizontalLine";
-import { ECurrency } from "../../shared/Money.unsafe";
 import { isWalletNotEmpty } from "./utils";
 import { IWalletValues, WalletBalanceContainer } from "./WalletBalance";
 
@@ -19,43 +19,42 @@ interface ILockedWallet {
 export const LockedWallet: React.FunctionComponent<ILockedWallet & CommonHtmlProps> = ({
   data,
   className,
-}) => {
-  return (
-    <WalletBalanceContainer
-      className={className}
-      headerText={<FormattedMessage id="components.wallet.start.locked-wallet" />}
-    >
-      <p className={styles.message}>
-        <FormattedMessage id="shared-component.wallet-icbm.already-upgraded-message" />
-      </p>
+}) => (
+  <WalletBalanceContainer
+    className={className}
+    headerText={<FormattedMessage id="components.wallet.start.locked-wallet" />}
+  >
+    <p className={styles.message}>
+      <FormattedMessage id="shared-component.wallet-icbm.already-upgraded-message" />
+    </p>
 
-      <section>
-        <h4 className={styles.title}>
-          <FormattedMessage id="shared-component.wallet-balance.title.account-balance" />
-        </h4>
-        {isWalletNotEmpty(data.neuroEuroAmount) && (
-          <AccountBalance
-            icon={neuroIcon}
-            currency={ECurrency.EUR_TOKEN}
-            currencyTotal={ECurrency.EUR}
-            largeNumber={data.neuroAmount}
-            value={data.neuroEuroAmount}
-            data-test-id="locked-wallet.eur"
-          />
-        )}
-        {isWalletNotEmpty(data.neuroAmount) &&
-          isWalletNotEmpty(data.ethAmount) && <HorizontalLine className="my-3" />}
-        {isWalletNotEmpty(data.ethAmount) && (
-          <AccountBalance
-            icon={ethIcon}
-            currency={ECurrency.ETH}
-            currencyTotal={ECurrency.EUR}
-            largeNumber={data.ethAmount}
-            value={data.ethEuroAmount}
-            data-test-id="locked-wallet.eth"
-          />
-        )}
-      </section>
-    </WalletBalanceContainer>
-  );
-};
+    <section>
+      <h4 className={styles.title}>
+        <FormattedMessage id="shared-component.wallet-balance.title.account-balance" />
+      </h4>
+      {isWalletNotEmpty(data.neuroEuroAmount) && (
+        <AccountBalance
+          icon={neuroIcon}
+          currency={ECurrency.EUR_TOKEN}
+          currencyTotal={ECurrency.EUR}
+          largeNumber={data.neuroAmount}
+          value={data.neuroEuroAmount}
+          data-test-id="locked-wallet.eur"
+        />
+      )}
+      {isWalletNotEmpty(data.neuroAmount) && isWalletNotEmpty(data.ethAmount) && (
+        <HorizontalLine className="my-3" />
+      )}
+      {isWalletNotEmpty(data.ethAmount) && (
+        <AccountBalance
+          icon={ethIcon}
+          currency={ECurrency.ETH}
+          currencyTotal={ECurrency.EUR}
+          largeNumber={data.ethAmount}
+          value={data.ethEuroAmount}
+          data-test-id="locked-wallet.eth"
+        />
+      )}
+    </section>
+  </WalletBalanceContainer>
+);

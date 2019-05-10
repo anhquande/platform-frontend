@@ -8,7 +8,7 @@ import { IEtoDocument } from "../../../../lib/api/eto/EtoFileApi.interfaces";
 import { actions } from "../../../../modules/actions";
 import { selectEtoDocumentData } from "../../../../modules/eto-documents/selectors";
 import {
-  selectEtoId,
+  selectIssuerEtoId,
   selectUploadedInvestmentAgreement,
 } from "../../../../modules/eto-flow/selectors";
 import { selectEtoOnChainStateById } from "../../../../modules/eto/selectors";
@@ -49,26 +49,24 @@ interface IEtoCompletedWidgetProps {
 
 export const UploadInvestmentAgreementLayout: React.FunctionComponent<
   IUploadComponentStateProps & IDispatchProps & IExternalProps
-> = ({ downloadAgreementTemplate, agreementTemplate, columnSpan }) => {
-  return (
-    <Panel columnSpan={columnSpan}>
-      <Heading size={EHeadingSize.SMALL} level={4}>
-        <FormattedMessage id="download-agreement-widget.signing-title" />
-      </Heading>
-      <div className={styles.content}>
-        <p className={cn(styles.text, "pt-2")}>
-          <FormattedMessage id="download-agreement-widget.signing-text" />
-        </p>
-        <ButtonArrowRight
-          data-test-id="eto-dashboard-submit-proposal"
-          onClick={() => downloadAgreementTemplate(agreementTemplate)}
-        >
-          <FormattedMessage id="download-agreement-widget.download-and-sign" />
-        </ButtonArrowRight>
-      </div>
-    </Panel>
-  );
-};
+> = ({ downloadAgreementTemplate, agreementTemplate, columnSpan }) => (
+  <Panel columnSpan={columnSpan}>
+    <Heading size={EHeadingSize.SMALL} level={4}>
+      <FormattedMessage id="download-agreement-widget.signing-title" />
+    </Heading>
+    <div className={styles.content}>
+      <p className={cn(styles.text, "pt-2")}>
+        <FormattedMessage id="download-agreement-widget.signing-text" />
+      </p>
+      <ButtonArrowRight
+        data-test-id="eto-dashboard-submit-proposal"
+        onClick={() => downloadAgreementTemplate(agreementTemplate)}
+      >
+        <FormattedMessage id="download-agreement-widget.download-and-sign" />
+      </ButtonArrowRight>
+    </div>
+  </Panel>
+);
 
 export const EtoCompletedWidgetLayout: React.ComponentType<
   IEtoCompletedWidgetProps & IExternalProps
@@ -78,6 +76,9 @@ export const EtoCompletedWidgetLayout: React.ComponentType<
       <FormattedMessage id="download-agreement-widget.success-title" />
     </Heading>
     <div className={styles.content}>
+      <p className={cn(styles.text, "pt-2")}>
+        <FormattedMessage id="download-agreement-widget.success-text" />
+      </p>
       <ButtonArrowRight data-test-id="eto-dashboard-submit-proposal" onClick={goToWallet}>
         <FormattedMessage id="download-agreement-widget.go-to-wallet" />
       </ButtonArrowRight>
@@ -89,7 +90,7 @@ export const UploadInvestmentAgreement = compose<React.FunctionComponent<IExtern
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IStateProps | null, IDispatchProps>({
     stateToProps: state => {
-      const etoId = selectEtoId(state);
+      const etoId = selectIssuerEtoId(state);
       if (etoId) {
         return {
           stateOnChain: selectEtoOnChainStateById(state, etoId)!,

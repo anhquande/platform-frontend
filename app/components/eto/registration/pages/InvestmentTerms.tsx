@@ -24,11 +24,12 @@ import { appConnect } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
 import { formatMoney } from "../../../../utils/Money.utils";
 import { Button, EButtonLayout } from "../../../shared/buttons";
+import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
 import { FormField } from "../../../shared/forms";
 import { FormFieldRaw } from "../../../shared/forms/fields/FormFieldRaw";
 import { NumberTransformingField } from "../../../shared/forms/fields/NumberTransformingField.unsafe";
 import { FormHighlightGroup } from "../../../shared/forms/FormHighlightGroup";
-import { ECurrency, EMoneyFormat, getFormattedMoney } from "../../../shared/Money.unsafe";
+import { getFormattedMoney } from "../../../shared/Money.unsafe";
 import {
   convert,
   convertFractionToPercentage,
@@ -200,7 +201,11 @@ const EtoInvestmentTermsComponent: React.FunctionComponent<IProps> = ({
                 prefix="€"
                 placeholder="read only"
                 name="minNumberOfTokens"
-                value={getFormattedMoney(minInvestmentAmount, ECurrency.EUR, EMoneyFormat.FLOAT)}
+                value={getFormattedMoney(
+                  minInvestmentAmount,
+                  ECurrency.EUR,
+                  EMoneyInputFormat.FLOAT,
+                )}
                 readOnly={true}
               />
             </Col>
@@ -210,7 +215,11 @@ const EtoInvestmentTermsComponent: React.FunctionComponent<IProps> = ({
                 prefix="€"
                 placeholder="read only"
                 name="totalInvestment"
-                value={getFormattedMoney(maxInvestmentAmount, ECurrency.EUR, EMoneyFormat.FLOAT)}
+                value={getFormattedMoney(
+                  maxInvestmentAmount,
+                  ECurrency.EUR,
+                  EMoneyInputFormat.FLOAT,
+                )}
                 readOnly={true}
               />
             </Col>

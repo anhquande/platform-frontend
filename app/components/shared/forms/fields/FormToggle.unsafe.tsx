@@ -29,28 +29,26 @@ export const ToggleComponent: React.FunctionComponent<IProps & IInternalProps> =
   name,
   disabled,
   "data-test-id": dataTestId,
-}) => {
-  return (
-    <div className={styles.toggle}>
-      <div>{disabledLabel}</div>
-      <label className={styles.toggleWrapper}>
-        <input
-          type="checkbox"
-          className={styles.input}
-          name={name}
-          onChange={onChange}
-          checked={value}
-          disabled={disabled}
-          data-test-id={dataTestId}
-        />
-        <div className={cn(styles.track)}>
-          <div className={styles.indicator} />
-        </div>
-      </label>
-      <div>{enabledLabel}</div>
-    </div>
-  );
-};
+}) => (
+  <div className={styles.toggle}>
+    <div>{disabledLabel}</div>
+    <label className={styles.toggleWrapper}>
+      <input
+        type="checkbox"
+        className={styles.input}
+        name={name}
+        onChange={onChange}
+        checked={value}
+        disabled={disabled}
+        data-test-id={dataTestId}
+      />
+      <div className={cn(styles.track)}>
+        <div className={styles.indicator} />
+      </div>
+    </label>
+    <div>{enabledLabel}</div>
+  </div>
+);
 
 class FormToggleLayout extends React.Component<IProps & TFormikConnect> {
   static defaultProps = {

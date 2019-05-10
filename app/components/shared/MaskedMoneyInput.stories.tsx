@@ -2,8 +2,8 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
+import { ECurrency } from "./formatters/utils";
 import { MaskedMoneyInput } from "./MaskedMoneyInput";
-import { ECurrency } from "./Money.unsafe";
 
 const defaultProps = {
   name: "ethInput",

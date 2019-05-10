@@ -5,7 +5,8 @@ import { branch, compose, renderComponent, StateHandler, withStateHandlers } fro
 import { selectBankTransferMinAmount } from "../../../../modules/bank-transfer-flow/selectors";
 import { appConnect } from "../../../../store";
 import { ButtonArrowRight } from "../../../shared/buttons";
-import { ECurrency, Money } from "../../../shared/Money.unsafe";
+import { ECurrency } from "../../../shared/formatters/utils";
+import { Money } from "../../../shared/Money.unsafe";
 import { Message } from "../../Message";
 import { BankTransferAgreement } from "../shared/BankTransferAgreement";
 

@@ -3,27 +3,20 @@ import * as cn from "classnames";
 import * as React from "react";
 
 import { MONEY_DECIMALS } from "../../config/constants";
-import { ERoundingMode, formatMoney } from "../../utils/Money.utils";
+import { formatMoney } from "../../utils/Money.utils";
+import { selectCurrencyCode } from "./formatters/Money";
+import { ECurrency, EMoneyInputFormat, ERoundingMode } from "./formatters/utils";
 import { NumberFormat } from "./NumberFormat";
 
 import * as styles from "./Money.module.scss";
 
+/*
+ * @deprecated
+ * */
 enum ECurrencySymbol {
   SYMBOL = "symbol",
   CODE = "code",
   NONE = "none",
-}
-
-enum ECurrency {
-  NEU = "neu",
-  EUR = "eur",
-  EUR_TOKEN = "eur_t",
-  ETH = "eth",
-}
-
-enum EMoneyFormat {
-  ULPS = "ulps",
-  FLOAT = "float",
 }
 
 enum EMoneyTransfer {
@@ -40,7 +33,7 @@ enum ETheme {
 interface IOwnProps extends React.HTMLAttributes<HTMLSpanElement> {
   currency: ECurrency;
   value?: React.ReactElement<any> | string | BigNumber | number | null;
-  format?: EMoneyFormat;
+  format?: EMoneyInputFormat;
   currencySymbol?: ECurrencySymbol;
   currencyClassName?: string;
   transfer?: EMoneyTransfer;
@@ -69,19 +62,6 @@ const selectDecimalPlaces = (currency: ECurrency, isPrice?: boolean): number => 
   }
 };
 
-const selectCurrencyCode = (currency: ECurrency): string => {
-  switch (currency) {
-    case ECurrency.ETH:
-      return "ETH";
-    case ECurrency.NEU:
-      return "NEU";
-    case ECurrency.EUR:
-      return "EUR";
-    case ECurrency.EUR_TOKEN:
-      return "nEUR";
-  }
-};
-
 const selectCurrencySymbol = (currency: ECurrency): string => {
   switch (currency) {
     case ECurrency.EUR:
@@ -91,21 +71,27 @@ const selectCurrencySymbol = (currency: ECurrency): string => {
   }
 };
 
-function getFormatDecimals(format: EMoneyFormat): number {
+/*
+ * @deprecated
+ * */
+function getFormatDecimals(format: EMoneyInputFormat): number {
   switch (format) {
-    case EMoneyFormat.ULPS:
+    case EMoneyInputFormat.ULPS:
       return MONEY_DECIMALS;
-    case EMoneyFormat.FLOAT:
+    case EMoneyInputFormat.FLOAT:
       return 0;
     default:
       throw new Error("Unsupported money format");
   }
 }
-
+/*
+ * @deprecated
+ * Use app/components/shared/formatters/MoneyNew or app/components/shared/formatters/FormatNumber
+ * */
 export function getFormattedMoney(
   value: string | number | BigNumber,
   currency: ECurrency,
-  format: EMoneyFormat,
+  format: EMoneyInputFormat,
   isPrice?: boolean,
   roundingMode?: ERoundingMode,
 ): string {
@@ -116,10 +102,13 @@ export function getFormattedMoney(
     roundingMode,
   );
 }
-
+/*
+ * @deprecated
+ * Use app/components/shared/formatters/MoneyNew
+ * */
 const Money: React.FunctionComponent<IProps> = ({
   value,
-  format = EMoneyFormat.ULPS,
+  format = EMoneyInputFormat.ULPS,
   currency,
   currencyClassName,
   transfer,
@@ -134,7 +123,7 @@ const Money: React.FunctionComponent<IProps> = ({
   }
 
   const money =
-    (format === EMoneyFormat.ULPS && !React.isValidElement(value)) || isPrice
+    (format === EMoneyInputFormat.ULPS && !React.isValidElement(value)) || isPrice
       ? getFormattedMoney(value as BigNumber, currency, format, isPrice, roundingMode)
       : value;
   const formattedMoney = !React.isValidElement(money) ? (
@@ -164,11 +153,8 @@ const Money: React.FunctionComponent<IProps> = ({
 export {
   Money,
   selectCurrencySymbol,
-  selectCurrencyCode,
   selectDecimalPlaces,
   EMoneyTransfer,
-  EMoneyFormat,
-  ECurrency,
   ECurrencySymbol,
   ETheme,
 };

@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
 
 import { symbols } from "../../di/symbols";
+import { assertNever } from "../../utils/assertNever";
 import { invariant } from "../../utils/invariant";
 import { EUserType } from "../api/users/interfaces";
 import { ILogger } from "../dependencies/logger";
@@ -62,7 +63,7 @@ export class WalletStorage<TWalletMetadata> {
       case EUserType.INVESTOR:
         return this.walletMetadataStorageInvestor.get();
       default:
-        invariant(false, "Unknown user type");
+        return assertNever(userType, "Unknown user type");
     }
   }
 

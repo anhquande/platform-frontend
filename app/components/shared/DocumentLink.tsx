@@ -46,19 +46,17 @@ const DocumentTemplateButton: React.FunctionComponent<IDocumentTemplateButtonPro
   title,
   altIcon,
   layout,
-}) => {
-  return (
-    <Button
-      layout={layout}
-      onClick={onClick}
-      innerClassName={styles.documentButton}
-      textPosition={ButtonTextPosition.LEFT}
-    >
-      {altIcon || <Document extension="pdf" />}
-      {title}
-    </Button>
-  );
-};
+}) => (
+  <Button
+    layout={layout}
+    onClick={onClick}
+    innerClassName={styles.documentButton}
+    textPosition={ButtonTextPosition.LEFT}
+  >
+    {altIcon || <Document extension="pdf" />}
+    {title}
+  </Button>
+);
 export interface IDocumentTemplateButtonProps {
   title: string | React.ReactNode;
   altIcon?: React.ReactNode;
@@ -69,14 +67,12 @@ const DocumentTemplateLabel: React.FunctionComponent<IDocumentTemplateButtonProp
   title,
   altIcon,
   className,
-}) => {
-  return (
-    <div className={cn(styles.documentButton, className)}>
-      {altIcon || <Document extension="pdf" />}
-      {title}
-    </div>
-  );
-};
+}) => (
+  <div className={cn(styles.documentButton, className)}>
+    {altIcon || <Document extension="pdf" />}
+    {title}
+  </div>
+);
 
 DocumentTemplateButton.defaultProps = {
   layout: EButtonLayout.INLINE,

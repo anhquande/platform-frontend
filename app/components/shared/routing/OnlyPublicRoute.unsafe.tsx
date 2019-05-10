@@ -19,9 +19,7 @@ interface IComponentProps {
 const OnlyPublicRouteComponent: React.FunctionComponent<IComponentProps> = ({
   component: Component,
   ...rest
-}) => {
-  return <Component {...rest} />;
-};
+}) => <Component {...rest} />;
 
 export const OnlyPublicRoute = compose<IComponentProps, RouteProps>(
   appConnect<IStateProps, {}, RouteProps>({

@@ -6,10 +6,17 @@ import { selectBackupCodesVerified } from "../../../modules/auth/selectors";
 import { IWalletPrivateData } from "../../../modules/web3/reducer";
 import { selectIsUnlocked, selectWalletPrivateData } from "../../../modules/web3/selectors";
 import { appConnect } from "../../../store";
+import { withContainer } from "../../../utils/withContainer.unsafe";
+import { LayoutAuthorized } from "../../layouts/LayoutAuthorized";
 import { createErrorBoundary } from "../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { LoadingIndicator } from "../../shared/loading-indicator";
-import { BackupSeedFlowContainer } from "./BackupSeedFlowContainer.unsafe";
+
+const BackupSeedFlowContainer = React.lazy(() =>
+  import("./BackupSeedFlowContainer.unsafe").then(imp => ({
+    default: imp.BackupSeedFlowContainer,
+  })),
+);
 
 interface IDispatchProps {
   verifyBackupPhrase: () => void;
@@ -68,4 +75,5 @@ export const BackupSeed = compose<React.FunctionComponent>(
       clearSeed: () => dispatch(actions.web3.clearWalletPrivateDataFromState()),
     }),
   }),
+  withContainer(LayoutAuthorized),
 )(BackupSeedComponent);

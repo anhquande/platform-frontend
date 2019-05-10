@@ -36,9 +36,7 @@ module.exports = merge.smart(configCommon, {
     filename: "[chunkhash].[name].min.js",
   },
   plugins: [
-    new CleanWebpackPlugin(paths.dist, {
-      root: paths.root,
-    }),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "[contenthash].[name].css",
     }),

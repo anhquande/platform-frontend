@@ -45,6 +45,7 @@ export const dummyEthereumAddressWithChecksum = "0xfB6916095ca1df60bB79Ce92cE3Ea
 
 export const testCompany: TCompanyEtoData = {
   companyBanner,
+  companyLegalDescription: "Est castus ionicis tormento, cesaris.",
   companyStage: "a_round",
   city: "Berlin",
   businessModel: undefined,
@@ -772,13 +773,13 @@ export const testEto: TEtoWithCompanyAndContract = {
   additionalTerms: undefined,
   authorizedCapitalShares: undefined,
   newSharesToIssueInFixedSlots: undefined,
-  allowRetailInvestors: true,
   canEnableBookbuilding: false,
   companyId: "0xC8f867Cf4Ed30b4fF0Aa4c4c8c6b684397B219B0",
   currencies: ["eth", "eur_t"],
   discountScheme: "40%",
   documents: etoDocuments,
-  enableTransferOnSuccess: false,
+  enableTransferOnSuccess: true,
+  tokenTradeableOnSuccess: false,
   equityTokenImage:
     "https://documents.neufund.io/0x64Ee2B334454A920cE99f39Cc7557b428db8D5B8/a03810cf-7e99-4264-8a94-24303dce4e3b.png",
   equityTokenName: "Quintessence",
@@ -797,7 +798,6 @@ export const testEto: TEtoWithCompanyAndContract = {
   newSharesToIssue: 3452,
   newSharesToIssueInWhitelist: 1534,
   nominee: "0xCB6470fa4b5D56C8f494e7c1CE56B28c548931a6",
-  notUnderCrowdfundingRegulations: true,
   preMoneyValuationEur: 132664672.0464,
   previewCode: "deabb8a4-d081-4d15-87a7-737a09e6a87c",
   prospectusLanguage: "de",

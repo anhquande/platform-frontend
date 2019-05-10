@@ -27,51 +27,49 @@ export class FormFieldColorful extends React.Component<FieldGroupProps> {
 
     return (
       <FormikConsumer>
-        {({ touched, errors, submitCount }) => {
-          return (
-            <FormGroup>
-              {label && <FormFieldLabel name={name}>{label}</FormFieldLabel>}
-              <Field
-                name={name}
-                render={({ field }: FieldProps) => {
-                  const validClass = () => {
-                    if (field.value) {
-                      return errors[name] !== undefined ? "is-invalid" : "is-valid";
-                    }
+        {({ touched, errors, submitCount }) => (
+          <FormGroup>
+            {label && <FormFieldLabel name={name}>{label}</FormFieldLabel>}
+            <Field
+              name={name}
+              render={({ field }: FieldProps) => {
+                const validClass = () => {
+                  if (field.value) {
+                    return errors[name] !== undefined ? "is-invalid" : "is-valid";
+                  }
 
-                    return "";
-                  };
+                  return "";
+                };
 
-                  const invalid = isNonValid(touched, errors, name, submitCount);
+                const invalid = isNonValid(touched, errors, name, submitCount);
 
-                  return (
-                    <>
-                      <div className={cn(styles.inputWrapper, validClass())}>
-                        <Input
-                          {...field}
-                          aria-describedby={generateErrorId(name)}
-                          aria-invalid={invalid}
-                          invalid={invalid}
-                          className={cn(styles.input, className)}
-                          type={type}
-                          value={field.value}
-                          placeholder={placeholder || label}
-                          {...props}
-                        />
-                        {showAvatar && (
-                          <div className={styles.addon}>
-                            <Avatar seed={field.value || ""} />
-                          </div>
-                        )}
-                      </div>
-                      <FormFieldError name={name} />
-                    </>
-                  );
-                }}
-              />
-            </FormGroup>
-          );
-        }}
+                return (
+                  <>
+                    <div className={cn(styles.inputWrapper, validClass())}>
+                      <Input
+                        {...field}
+                        aria-describedby={generateErrorId(name)}
+                        aria-invalid={invalid}
+                        invalid={invalid}
+                        className={cn(styles.input, className)}
+                        type={type}
+                        value={field.value}
+                        placeholder={placeholder || label}
+                        {...props}
+                      />
+                      {showAvatar && (
+                        <div className={styles.addon}>
+                          <Avatar seed={field.value || ""} />
+                        </div>
+                      )}
+                    </div>
+                    <FormFieldError name={name} />
+                  </>
+                );
+              }}
+            />
+          </FormGroup>
+        )}
       </FormikConsumer>
     );
   }

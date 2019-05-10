@@ -1,7 +1,8 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ECurrency, Money } from "../shared/Money.unsafe";
+import { ECurrency } from "../shared/formatters/utils";
+import { Money } from "../shared/Money.unsafe";
 
 import * as styles from "./TotalEuro.module.scss";
 

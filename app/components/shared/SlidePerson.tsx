@@ -28,28 +28,26 @@ const SlidePerson: React.FunctionComponent<IProps> = ({
   showLabels,
   isClickable,
   description,
-}) => {
-  return (
-    <div className={cn(styles.slidePerson, layout)}>
-      <div className={styles.profile}>
-        <div className={styles.image}>
-          <ResponsiveImage srcSet={srcSet} alt={name} theme={"transparent"} />
-        </div>
-        <h5 className={styles.name}>{name}</h5>
-        {role && <h6 className={styles.title}>{role}</h6>}
-        {socialChannels && (
-          <SocialProfilesList
-            profiles={socialChannels}
-            layoutIconSize="small"
-            layoutIconsPosition="center"
-            showLabels={showLabels}
-            isClickable={isClickable}
-          />
-        )}
+}) => (
+  <div className={cn(styles.slidePerson, layout)}>
+    <div className={styles.profile}>
+      <div className={styles.image}>
+        <ResponsiveImage srcSet={srcSet} alt={name} theme={"transparent"} />
       </div>
-      {layout === "horizontal" && <p className={styles.bio}>{description}</p>}
+      <h5 className={styles.name}>{name}</h5>
+      {role && <h6 className={styles.title}>{role}</h6>}
+      {socialChannels && (
+        <SocialProfilesList
+          profiles={socialChannels}
+          layoutIconSize="small"
+          layoutIconsPosition="center"
+          showLabels={showLabels}
+          isClickable={isClickable}
+        />
+      )}
     </div>
-  );
-};
+    {layout === "horizontal" && <p className={styles.bio}>{description}</p>}
+  </div>
+);
 
 export { SlidePerson };

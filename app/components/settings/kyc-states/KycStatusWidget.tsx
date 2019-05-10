@@ -15,10 +15,10 @@ import {
 } from "../../../modules/auth/selectors";
 import {
   selectExternalKycUrl,
+  selectKycLoading,
   selectKycRequestOutsourcedStatus,
   selectKycRequestStatus,
   selectWidgetError,
-  selectWidgetLoading,
 } from "../../../modules/kyc/selectors";
 import { appConnect } from "../../../store";
 import { onEnterAction } from "../../../utils/OnEnterAction";
@@ -307,7 +307,7 @@ export const KycStatusWidget = compose<React.ComponentClass<IOwnProps>>(
       requestStatus: selectKycRequestStatus(state),
       requestOutsourcedStatus: selectKycRequestOutsourcedStatus(state.kyc),
       externalKycUrl: selectExternalKycUrl(state.kyc),
-      isLoading: selectWidgetLoading(state.kyc),
+      isLoading: selectKycLoading(state.kyc),
       error: selectWidgetError(state.kyc),
     }),
     dispatchToProps: dispatch => ({

@@ -1,16 +1,19 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
+import { IPFS_PROTOCOL } from "../../config/constants";
 import { EEtoState, EtoStateToCamelcase } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import {
   EEtoDocumentType,
   TEtoDocumentTemplates,
   TStateInfo,
 } from "../../lib/api/eto/EtoFileApi.interfaces";
+import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { EETOStateOnChain } from "../../modules/eto/types";
 import { DeepReadonly } from "../../types";
+import { invariant } from "../../utils/invariant";
 
-export const getDocumentTitles = (isRetailEto: boolean) => ({
+export const getDocumentTitles = (documentType: EOfferingDocumentType) => ({
   company_token_holder_agreement: <FormattedMessage id="eto.documents.tokenholder-agreement" />,
   reservation_and_acquisition_agreement: (
     <FormattedMessage id="eto.documents.reservation-and-acquisition-agreement" />
@@ -31,15 +34,16 @@ export const getDocumentTitles = (isRetailEto: boolean) => ({
   signed_investment_and_shareholder_agreement: (
     <FormattedMessage id="eto.documents.signed-investment-and-shareholder-agreement" />
   ),
-  approved_investor_offering_document: isRetailEto ? (
-    <FormattedMessage id="eto.documents.approved-investor-prospectus-document" />
-  ) : (
-    <FormattedMessage id="eto.documents.approved-investment-memorandum-document" />
-  ),
+  approved_investor_offering_document:
+    documentType === EOfferingDocumentType.PROSPECTUS ? (
+      <FormattedMessage id="eto.documents.approved-investor-prospectus-document" />
+    ) : (
+      <FormattedMessage id="eto.documents.approved-investment-memorandum-document" />
+    ),
   signed_termsheet: <FormattedMessage id="eto.documents.signed-termsheet" />,
 });
 
-export const getDocumentTemplateTitles = (isRetailEto: boolean) => ({
+export const getDocumentTemplateTitles = (documentType: EOfferingDocumentType) => ({
   company_token_holder_agreement: (
     <FormattedMessage id="eto.documents.tokenholder-agreement-template" />
   ),
@@ -59,11 +63,12 @@ export const getDocumentTemplateTitles = (isRetailEto: boolean) => ({
   investment_and_shareholder_agreement: (
     <FormattedMessage id="eto.documents.signed-investment-and-shareholder-agreement-template" />
   ),
-  approved_investor_offering_document: isRetailEto ? (
-    <FormattedMessage id="eto.documents.investor-prospectus-document-template" />
-  ) : (
-    <FormattedMessage id="eto.documents.investment-memorandum-document-template" />
-  ),
+  approved_investor_offering_document:
+    documentType === EOfferingDocumentType.PROSPECTUS ? (
+      <FormattedMessage id="eto.documents.investor-prospectus-document-template" />
+    ) : (
+      <FormattedMessage id="eto.documents.investment-memorandum-document-template" />
+    ),
   signed_termsheet: null,
   signed_investment_and_shareholder_agreement: null,
 });
@@ -137,7 +142,26 @@ export const uploadAllowed = (
   ) &&
   canUploadInOnChainStates(etoState, documentKey, onChainState);
 
+export const ipfsLinkFromHash = (ipfsHash: string): string => {
+  invariant(
+    typeof ipfsHash === "string" && ipfsHash.trim() !== "",
+    "invalid string supplied to ipfsLinkFromHash()",
+  );
+  return `${IPFS_PROTOCOL}:${ipfsHash}`;
+};
+export const hashFromIpfsLink = (ipfsLink: string): string => {
+  invariant(
+    typeof ipfsLink === "string" &&
+      ipfsLink.trim() !== "" &&
+      ipfsLink.startsWith(`${IPFS_PROTOCOL}:`),
+    "invalid ipfs link supplied to hashFromIpfsLink()",
+  );
+  return ipfsLink.replace(`${IPFS_PROTOCOL}:`, "");
+};
+
 export const investmentAgreementNotSigned = (
   signedInvestmentAgreementUrl: null | string,
   ipfsHash: string,
-) => signedInvestmentAgreementUrl === null || signedInvestmentAgreementUrl !== `ipfs:${ipfsHash}`;
+) =>
+  signedInvestmentAgreementUrl === null ||
+  signedInvestmentAgreementUrl !== ipfsLinkFromHash(ipfsHash);

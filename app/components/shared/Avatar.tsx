@@ -14,10 +14,8 @@ export const Avatar: React.FunctionComponent<IProps & CommonHtmlProps> = ({
   seed,
   className,
   style,
-}) => {
-  return (
-    <div className={cn(styles.avatar, className)} style={style}>
-      <Blockies seed={seed} />
-    </div>
-  );
-};
+}) => (
+  <div className={cn(styles.avatar, className)} style={style}>
+    <Blockies seed={seed} />
+  </div>
+);

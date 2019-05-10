@@ -71,31 +71,29 @@ export class FormFieldDate extends React.Component<IProps> {
                 <div className={styles.inputsWrapper}>
                   <Field
                     name={name}
-                    render={({ field }: FieldProps) => {
-                      return (
-                        <div className={styles.inputWrapper}>
-                          <Input
-                            {...field}
-                            data-test-id="form-field-date-day"
-                            aria-describedby={generateErrorId(name)}
-                            aria-invalid={invalid}
-                            invalid={invalid}
-                            disabled={disabled}
-                            onChange={e => {
-                              this.onChange("day", e, field.onChange);
-                              // auto advance to next field
-                              const realValue = this.fromValue("day", e.target.value);
-                              if (realValue.length === 2) {
-                                this.monthInput!.focus();
-                              }
-                            }}
-                            value={this.fromValue("day", field.value)}
-                            placeholder="DD"
-                            maxLength={2}
-                          />
-                        </div>
-                      );
-                    }}
+                    render={({ field }: FieldProps) => (
+                      <div className={styles.inputWrapper}>
+                        <Input
+                          {...field}
+                          data-test-id="form-field-date-day"
+                          aria-describedby={generateErrorId(name)}
+                          aria-invalid={invalid}
+                          invalid={invalid}
+                          disabled={disabled}
+                          onChange={e => {
+                            this.onChange("day", e, field.onChange);
+                            // auto advance to next field
+                            const realValue = this.fromValue("day", e.target.value);
+                            if (realValue.length === 2) {
+                              this.monthInput!.focus();
+                            }
+                          }}
+                          value={this.fromValue("day", field.value)}
+                          placeholder="DD"
+                          maxLength={2}
+                        />
+                      </div>
+                    )}
                   />
                   {"/"}
                   <Field

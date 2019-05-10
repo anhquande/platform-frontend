@@ -27,30 +27,28 @@ const PersonProfileModalComponent: React.FunctionComponent<IStateProps & IDispat
   onDismiss,
   isOpen,
   personProfileModalObj,
-}) => {
-  return (
-    <Modal isOpen={isOpen} onClose={onDismiss}>
-      <SlidePerson
-        description={(personProfileModalObj && personProfileModalObj.description) || ""}
-        socialChannels={(personProfileModalObj && personProfileModalObj.socialChannels) || []}
-        role={(personProfileModalObj && personProfileModalObj.role) || ""}
-        name={(personProfileModalObj && personProfileModalObj.name) || ""}
-        srcSet={{ "1x": (personProfileModalObj && personProfileModalObj.image) || "" }}
-        layout="vertical"
-      />
-      <p className={styles.description}>
-        {personProfileModalObj && personProfileModalObj.description}
-      </p>
-      {personProfileModalObj && (
-        <div className={styles.linkWrapper}>
-          <ExternalLink href={personProfileModalObj.website}>
-            {personProfileModalObj.website}
-          </ExternalLink>
-        </div>
-      )}
-    </Modal>
-  );
-};
+}) => (
+  <Modal isOpen={isOpen} onClose={onDismiss}>
+    <SlidePerson
+      description={(personProfileModalObj && personProfileModalObj.description) || ""}
+      socialChannels={(personProfileModalObj && personProfileModalObj.socialChannels) || []}
+      role={(personProfileModalObj && personProfileModalObj.role) || ""}
+      name={(personProfileModalObj && personProfileModalObj.name) || ""}
+      srcSet={{ "1x": (personProfileModalObj && personProfileModalObj.image) || "" }}
+      layout="vertical"
+    />
+    <p className={styles.description}>
+      {personProfileModalObj && personProfileModalObj.description}
+    </p>
+    {personProfileModalObj && (
+      <div className={styles.linkWrapper}>
+        <ExternalLink href={personProfileModalObj.website}>
+          {personProfileModalObj.website}
+        </ExternalLink>
+      </div>
+    )}
+  </Modal>
+);
 
 export const PersonProfileModal = appConnect<IStateProps, IDispatchProps>({
   stateToProps: s => ({

@@ -5,7 +5,7 @@
   $color-green-transparent: rgba($neu-seaweed, .1);
   $color-gray: #aabcca;
 
-  &:global(.blue) {
+  &.theme-blue {
     .block-background {
       fill: $neu-pale-blue;
     }
@@ -15,7 +15,7 @@
     }
   }
 
-  &:global(.fluorescent-blue) {
+  &.theme-fluorescent-blue {
     .block-background {
       fill: $color-green-transparent;
     }
@@ -25,7 +25,7 @@
     }
   }
 
-  &:global(.green) {
+  &.theme-green {
     .block-background {
       fill: $color-green-transparent;
     }
@@ -35,7 +35,7 @@
     }
   }
 
-  &:global(.gray) {
+  &.theme-gray {
     .block-background {
       fill: $neu-pale-blue;
     }
@@ -45,14 +45,24 @@
     }
   }
 
-  &:global(.gray-opacity) {
+  &.theme-silver {
     .block-background {
       fill: $neu-pale-blue;
     }
 
     .block-border-bottom {
-      fill: $neu-pale-grey;
-      fill-opacity: .7;
+      fill: $neu-silver;
+    }
+  }
+
+  &.theme-orange {
+    .block-background {
+      fill: $neu-bright-orange;
+      fill-opacity: .3;
+    }
+
+    .block-border-bottom {
+      fill: $neu-silver;
     }
   }
 }
@@ -67,35 +77,4 @@
   $color-gray-light: #c3d0d9;
 
   fill: $neu-seaweed;
-}
-
-.pointer {
-  fill: $neu-slate-grey;
-}
-
-.pointer-label,
-.date {
-  font-family: $headings-font-family;
-  font-size: px-to-rem(8px);
-  text-transform: uppercase;
-}
-
-.date {
-  fill: $neu-seaweed;
-}
-
-.date-past {
-  fill: $neu-bright-orange;
-}
-
-.pointer-label {
-  fill: $color-black;
-}
-
-.date-point {
-  fill: $neu-seaweed;
-
-  &:global(.short) {
-    fill: $neu-slate-grey;
-  }
 }

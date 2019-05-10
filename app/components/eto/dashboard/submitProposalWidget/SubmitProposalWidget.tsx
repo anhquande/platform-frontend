@@ -24,25 +24,23 @@ interface IExternalProps {
 
 export const SubmitProposalWidgetComponent: React.FunctionComponent<
   IDispatchProps & IExternalProps
-> = ({ submitProposal, columnSpan }) => {
-  return (
-    <Panel
-      headerText={<FormattedMessage id="settings.submit-your-proposal.header" />}
-      columnSpan={columnSpan}
-    >
-      <div className={styles.content}>
-        <p className={cn(styles.text, "pt-2")}>
-          <FormattedMessage id="settings.submit-proposal-widget.completed-fields" />
-        </p>
-        <Col className="d-flex justify-content-center">
-          <ButtonArrowRight data-test-id="eto-dashboard-submit-proposal" onClick={submitProposal}>
-            Submit
-          </ButtonArrowRight>
-        </Col>
-      </div>
-    </Panel>
-  );
-};
+> = ({ submitProposal, columnSpan }) => (
+  <Panel
+    headerText={<FormattedMessage id="settings.submit-your-proposal.header" />}
+    columnSpan={columnSpan}
+  >
+    <div className={styles.content}>
+      <p className={cn(styles.text, "pt-2")}>
+        <FormattedMessage id="settings.submit-proposal-widget.completed-fields" />
+      </p>
+      <Col className="d-flex justify-content-center">
+        <ButtonArrowRight data-test-id="eto-dashboard-submit-proposal" onClick={submitProposal}>
+          Submit
+        </ButtonArrowRight>
+      </Col>
+    </div>
+  </Panel>
+);
 
 export const SubmitProposalWidget = compose<React.FunctionComponent<IExternalProps>>(
   createErrorBoundary(ErrorBoundaryPanel),

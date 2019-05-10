@@ -41,14 +41,12 @@ interface IRecordProps {
   value: TTranslatedString;
 }
 
-const Record: React.FunctionComponent<IRecordProps> = ({ value, label }) => {
-  return (
-    <div className={styles.record}>
-      <div className={styles.label}>{label}</div>
-      <div className={styles.value}>{value}</div>
-    </div>
-  );
-};
+const Record: React.FunctionComponent<IRecordProps> = ({ value, label }) => (
+  <div className={styles.record}>
+    <div className={styles.label}>{label}</div>
+    <div className={styles.value}>{value}</div>
+  </div>
+);
 
 class PersonalAccountDetailsLayout extends React.Component<
   IStateProps & IExternalProps,
@@ -74,13 +72,12 @@ class PersonalAccountDetailsLayout extends React.Component<
       >
         <div className={styles.content}>
           <div>
-            {personalData.firstName &&
-              personalData.lastName && (
-                <Record
-                  label={<FormattedMessage id="settings.account-details.full-name" />}
-                  value={`${personalData.firstName} ${personalData.lastName}`}
-                />
-              )}
+            {personalData.firstName && personalData.lastName && (
+              <Record
+                label={<FormattedMessage id="settings.account-details.full-name" />}
+                value={`${personalData.firstName} ${personalData.lastName}`}
+              />
+            )}
             {!isDataHidden && (
               <>
                 {personalData.birthDate && (

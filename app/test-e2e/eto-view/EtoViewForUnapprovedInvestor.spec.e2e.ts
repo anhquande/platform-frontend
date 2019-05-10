@@ -11,7 +11,7 @@ describe("Eto Unapproved Investor View", () => {
     const ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
     cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
-    assertEtoView("Neufund - Quintessence (QTT)");
+    assertEtoView("ETOInPublicState retail eto li security - Quintessence (QTT)");
 
     cy.get(tid("eto-overview-settings-update-required-to-invest")).should("exist");
   });
@@ -26,7 +26,7 @@ describe("Eto Unapproved Investor View", () => {
 
       cy.get(tid("jurisdiction-disclaimer-modal.confirm")).click();
 
-      assertEtoView("Neufund - Rich (RCH)");
+      assertEtoView("ETOInWhitelistState ff eto - Rich (RCH)");
     });
 
     it("should show jurisdiction disclaimer modal and navigate to dashboard on deny", () => {

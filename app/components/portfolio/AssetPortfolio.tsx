@@ -6,12 +6,14 @@ import { branch, compose, renderComponent } from "recompose";
 import { actions } from "../../modules/actions";
 import { ITokenDisbursal } from "../../modules/investor-portfolio/types";
 import { appConnect } from "../../store";
+import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
 import { Button, ButtonSize, EButtonLayout } from "../shared/buttons";
+import { selectCurrencyCode } from "../shared/formatters/Money";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { ETheme, Money, selectCurrencyCode } from "../shared/Money.unsafe";
+import { ETheme, Money } from "../shared/Money.unsafe";
 import { Panel } from "../shared/Panel";
 import { NewTable, NewTableRow } from "../shared/table";
 
@@ -34,15 +36,14 @@ interface IDispatchToProps {
 }
 
 const AssetPortfolioLayoutNoPayouts: React.FunctionComponent = () => (
-  <Heading
-    level={3}
-    data-test-id="asset-portfolio.no-payouts"
-    decorator={false}
-    className="mb-4"
-    description={<FormattedMessage id="portfolio.asset.payouts-from-neu.no-payouts" />}
-  >
-    <FormattedMessage id="portfolio.section.asset-portfolio.title" />
-  </Heading>
+  <Container>
+    <DashboardHeading
+      data-test-id="asset-portfolio.no-payouts"
+      className="mb-4"
+      title={<FormattedMessage id="portfolio.section.asset-portfolio.title" />}
+      description={<FormattedMessage id="portfolio.asset.payouts-from-neu.no-payouts" />}
+    />
+  </Container>
 );
 
 const AssetPortfolioLayout: React.FunctionComponent<ILayoutProps & IDispatchToProps> = ({

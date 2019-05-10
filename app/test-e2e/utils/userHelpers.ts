@@ -3,7 +3,7 @@ import * as ethSig from "eth-sig-util";
 import { addHexPrefix, hashPersonalMessage, toBuffer } from "ethereumjs-util";
 import { toChecksumAddress } from "web3-utils";
 
-import { TxPendingWithMetadata } from "../../lib/api/users/interfaces";
+import { TxPendingWithMetadata, TxWithMetadata } from "../../lib/api/users/interfaces";
 import { getVaultKey } from "../../modules/wallet-selector/light-wizard/utils";
 import { promisify } from "../../utils/promisify";
 import { tid } from "./selectors";
@@ -68,9 +68,7 @@ export const createAndLoginNewUser = (params: {
       // set correct agreement
 
       if (params.clearPendingTransactions) {
-        // TODO: This should not pass user address but rather pending transaction hash
-        // I hope we can
-        // clearPendingTransactions(address);
+        clearPendingTransactions();
       }
 
       cy.log(
@@ -263,17 +261,29 @@ export const addPendingTransactions = (
     })
     .then(response => response.body);
 
-export const clearPendingTransactions = (address: string) =>
+export const clearPendingTransactions = () =>
   cy
     .request({
-      url: PENDING_TRANSACTIONS_PATH + "/" + address,
-      method: "DELETE",
+      url: PENDING_TRANSACTIONS_PATH,
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${JSON.parse(localStorage.getItem(JWT_KEY)!)}`,
       },
     })
-    .then(response => response.body);
+    .then(async response => {
+      const pendingTransactions = response.body;
+      await pendingTransactions.map((TxWithMetadataSchema: TxWithMetadata) =>
+        cy.request({
+          url: `${PENDING_TRANSACTIONS_PATH}/${TxWithMetadataSchema.transaction.hash}`,
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(localStorage.getItem(JWT_KEY)!)}`,
+          },
+        }),
+      );
+    });
 
 export const getPendingTransactions = (): Cypress.Chainable<
   ReadonlyArray<{ transaction_type: string }>

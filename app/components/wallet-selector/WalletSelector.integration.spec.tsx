@@ -18,6 +18,7 @@ import { getDummyUser } from "../../lib/api/users/fixtures";
 import { UsersApi } from "../../lib/api/users/UsersApi";
 import { IdentityRegistry } from "../../lib/contracts/IdentityRegistry";
 import { Neumark } from "../../lib/contracts/Neumark";
+import { Storage } from "../../lib/persistence/Storage";
 import {
   IBrowserWalletMetadata,
   ILedgerWalletMetadata,
@@ -109,6 +110,7 @@ describe("Wallet selector integration", () => {
       ledgerWalletConnectorMock,
       signatureAuthApiMock,
       usersApiMock,
+      storageMock: new Storage({}),
       contractsMock,
       initialState: {
         browser: {
@@ -167,9 +169,7 @@ describe("Wallet selector integration", () => {
       getMultipleAccounts: async () => ({
         [expectedDerivationPath]: "0x12345123123",
       }),
-      finishConnecting: async () => {
-        return ledgerWalletMock;
-      },
+      finishConnecting: async () => ledgerWalletMock,
     });
     ledgerWalletMock.reMock({
       testConnection: async () => true,
@@ -273,6 +273,7 @@ describe("Wallet selector integration", () => {
       browserWalletConnectorMock,
       signatureAuthApiMock,
       usersApiMock,
+      storageMock: new Storage({}),
       contractsMock,
       initialRoute: appRoutes.register,
       initialState: {

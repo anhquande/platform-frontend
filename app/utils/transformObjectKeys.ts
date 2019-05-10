@@ -16,10 +16,6 @@ const transformKeys = (mapper: StringMapper, object: any): any => {
   return object;
 };
 
-export const toCamelCase = (object: any) => {
-  return transformKeys(camelCase, object);
-};
+export const toCamelCase = (object: any) => transformKeys(camelCase, object);
 
-export const toSnakeCase = (object: any) => {
-  return transformKeys(snakeCase, object);
-};
+export const toSnakeCase = (object: any) => transformKeys(snakeCase, object);

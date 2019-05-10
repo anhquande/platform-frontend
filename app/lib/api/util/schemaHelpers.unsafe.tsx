@@ -31,9 +31,9 @@ export const dateSchema = (v: Yup.StringSchema) =>
       }
       return date.format(DATE_SCHEME);
     })
-    .test("is-valid", <FormattedMessage id="form.field.error.invalid-date" /> as any, s => {
-      return parse(s).isValid();
-    });
+    .test("is-valid", <FormattedMessage id="form.field.error.invalid-date" /> as any, s =>
+      parse(s).isValid(),
+    );
 
 export const date = dateSchema(Yup.string());
 

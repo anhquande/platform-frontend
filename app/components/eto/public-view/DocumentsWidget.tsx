@@ -6,6 +6,7 @@ import { compose } from "recompose";
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IEtoDocument, TEtoDocumentTemplates } from "../../../lib/api/eto/EtoFileApi.interfaces";
 import { ignoredDocuments, ignoredTemplates } from "../../../lib/api/eto/EtoFileUtils";
+import { EOfferingDocumentType } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
@@ -22,7 +23,7 @@ type TExternalProps = {
   companyMarketingLinks: TCompanyEtoData["marketingLinks"];
   etoTemplates: TEtoDocumentTemplates;
   etoDocuments: TEtoDocumentTemplates;
-  isRetailEto: boolean;
+  offeringDocumentType: EOfferingDocumentType;
   columnSpan?: EColumnSpan;
 };
 
@@ -38,10 +39,10 @@ const DocumentsWidgetLayout: React.FunctionComponent<
   etoDocuments,
   etoTemplates,
   className,
-  isRetailEto,
+  offeringDocumentType,
   columnSpan,
 }) => {
-  const documentTitles = getDocumentTitles(isRetailEto);
+  const documentTitles = getDocumentTitles(offeringDocumentType);
   return (
     <Panel className={className} columnSpan={columnSpan}>
       <section className={styles.group}>
@@ -50,8 +51,8 @@ const DocumentsWidgetLayout: React.FunctionComponent<
         </div>
         <Row>
           {companyMarketingLinks &&
-            companyMarketingLinks.map((link, i) => {
-              return link.url && link.url !== "" ? (
+            companyMarketingLinks.map((link, i) =>
+              link.url && link.url !== "" ? (
                 <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
                   <DocumentLink
                     url={link.url || ""}
@@ -59,8 +60,8 @@ const DocumentsWidgetLayout: React.FunctionComponent<
                     altIcon={<InlineIcon svgIcon={icon_link} />}
                   />
                 </Col>
-              ) : null;
-            })}
+              ) : null,
+            )}
         </Row>
       </section>
       <section className={styles.group}>

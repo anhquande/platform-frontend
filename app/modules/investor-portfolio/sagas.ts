@@ -2,11 +2,11 @@ import BigNumber from "bignumber.js";
 import { filter, map } from "lodash/fp";
 import { all, fork, put, select } from "redux-saga/effects";
 
-import { ECurrency } from "../../components/shared/Money.unsafe";
+import { ECurrency } from "../../components/shared/formatters/utils";
 import { InvestorPortfolioMessage } from "../../components/translatedMessages/messages";
 import { createMessage } from "../../components/translatedMessages/utils";
 import { TGlobalDependencies } from "../../di/setupBindings";
-import { EEtoState, TEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EEtoState, TEtoData, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IUser } from "../../lib/api/users/interfaces";
 import { ETOCommitment } from "../../lib/contracts/ETOCommitment";
 import { promisify } from "../../lib/contracts/typechain-runtime";
@@ -31,7 +31,7 @@ export function* loadInvestorTickets({ logger }: TGlobalDependencies, action: TA
   try {
     yield all(
       map(
-        eto => put(actions.investorEtoTicket.loadEtoInvestorTicket(eto)),
+        (eto: TEtoSpecsData) => put(actions.investorEtoTicket.loadEtoInvestorTicket(eto)),
         filter(eto => eto.state === EEtoState.ON_CHAIN, action.payload.etos),
       ),
     );

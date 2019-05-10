@@ -5,11 +5,12 @@ import { Col, Row } from "reactstrap";
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EColumnSpan } from "../../layouts/Container";
 import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../shared/Money.unsafe";
+import { ECurrency, EMoneyInputFormat } from "../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
 import { Panel } from "../../shared/Panel";
-import { FUNDING_ROUNDS } from "../registration/pages/LegalInformation";
-import { CHART_COLORS } from "../shared/EtoView.unsafe";
+import { FUNDING_ROUNDS } from "../constants";
+import { CHART_COLORS } from "../shared/EtoView";
 
 import * as styles from "./LegalInformationWidget.module.scss";
 
@@ -25,9 +26,10 @@ const generateShareholders = (
   if (shareholders === undefined) {
     return [];
   } else {
-    const assignedShares = shareholders.reduce((acc, shareholder) => {
-      return shareholder && shareholder.shares ? (acc += shareholder.shares) : acc;
-    }, 0);
+    const assignedShares = shareholders.reduce(
+      (acc, shareholder) => (shareholder && shareholder.shares ? (acc += shareholder.shares) : acc),
+      0,
+    );
 
     if (assignedShares < companyShares) {
       return [
@@ -123,7 +125,7 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <Money
                     value={companyData.lastFundingSizeEur}
                     currency={ECurrency.EUR}
-                    format={EMoneyFormat.FLOAT}
+                    format={EMoneyInputFormat.FLOAT}
                     currencySymbol={ECurrencySymbol.SYMBOL}
                   />
                 </span>

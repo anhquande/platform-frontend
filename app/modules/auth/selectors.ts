@@ -68,10 +68,10 @@ export const selectCurrentAgreementHash = (state: IAppState): string | undefined
   state.auth.currentAgreementHash;
 
 export const selectIsLatestAgreementAccepted = (state: IAppState): boolean =>
-  !!(
+  Boolean(
     state.auth.user &&
-    state.auth.currentAgreementHash &&
-    state.auth.user.latestAcceptedTosIpfs === state.auth.currentAgreementHash
+      state.auth.currentAgreementHash &&
+      state.auth.user.latestAcceptedTosIpfs === state.auth.currentAgreementHash,
   );
 
 export const selectIsLatestAgreementLoaded = (state: IAppState) =>

@@ -20,31 +20,29 @@ interface IStateProps {
 export const DepositEthComponent: React.FunctionComponent<IProps & IStateProps> = ({
   path,
   ethAddress,
-}) => {
-  return (
-    <DepositFunds path={path}>
-      <div className={styles.methodEth}>
-        <h2 className={styles.title}>
-          <FormattedMessage
-            id="wallet.deposit-funds.eth.header"
-            values={{ icon: <img src={icon} className={styles.icon} alt="ETH icon" /> }}
-          />
-        </h2>
-        <p className={styles.description}>
-          <FormattedMessage id="wallet.deposit-funds.eth.email-notification" />
-        </p>
-        <div className={styles.background}>
-          <div className={styles.details}>
-            <div className={styles.label}>
-              <FormattedMessage id="wallet.deposit-funds.eth.your-eth-address" />
-            </div>
-            <div className={styles.ethAddress}>{ethAddress}</div>
+}) => (
+  <DepositFunds path={path}>
+    <div className={styles.methodEth}>
+      <h2 className={styles.title}>
+        <FormattedMessage
+          id="wallet.deposit-funds.eth.header"
+          values={{ icon: <img src={icon} className={styles.icon} alt="ETH icon" /> }}
+        />
+      </h2>
+      <p className={styles.description}>
+        <FormattedMessage id="wallet.deposit-funds.eth.email-notification" />
+      </p>
+      <div className={styles.background}>
+        <div className={styles.details}>
+          <div className={styles.label}>
+            <FormattedMessage id="wallet.deposit-funds.eth.your-eth-address" />
           </div>
+          <div className={styles.ethAddress}>{ethAddress}</div>
         </div>
       </div>
-    </DepositFunds>
-  );
-};
+    </div>
+  </DepositFunds>
+);
 
 export const DepositEth = compose(
   appConnect<IStateProps>({

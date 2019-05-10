@@ -171,21 +171,19 @@ describe("Wallet selector > Ledger wizard > actions", () => {
   });
 
   describe("goToNextPageAndLoadDataAction", () => {
-    it("should work", () => {
-      return expectSaga(goToNextPageAndLoadData)
+    it("should work", () =>
+      expectSaga(goToNextPageAndLoadData)
         .put(actions.walletSelector.ledgerWizardAccountsListNextPage())
         .put(actions.walletSelector.ledgerLoadAccounts())
-        .run();
-    });
+        .run());
   });
 
   describe("goToPreviousPageAndLoadDataAction", () => {
-    it("should work", () => {
-      return expectSaga(goToPreviousPageAndLoadData)
+    it("should work", () =>
+      expectSaga(goToPreviousPageAndLoadData)
         .put(actions.walletSelector.ledgerWizardAccountsListPreviousPage())
         .put(actions.walletSelector.ledgerLoadAccounts())
-        .run();
-    });
+        .run());
   });
 
   describe("setDerivationPathPrefixAction", () => {
@@ -203,8 +201,8 @@ describe("Wallet selector > Ledger wizard > actions", () => {
       },
     };
 
-    it("should do not fire when there is no change in derivationPathPrefix", () => {
-      return expectSaga(
+    it("should do not fire when there is no change in derivationPathPrefix", () =>
+      expectSaga(
         setDerivationPathPrefix,
         null,
         actions.walletSelector.ledgerSetDerivationPathPrefix(DEFAULT_DERIVATION_PATH_PREFIX),
@@ -212,11 +210,10 @@ describe("Wallet selector > Ledger wizard > actions", () => {
         .withState(dummyState)
         .not.put(actions.walletSelector.ledgerLoadAccounts())
         .not.put(actions.walletSelector.setLedgerWizardDerivationPathPrefix(newDP))
-        .run();
-    });
+        .run());
 
-    it("should fire when there is change in derivationPathPrefix", () => {
-      return expectSaga(
+    it("should fire when there is change in derivationPathPrefix", () =>
+      expectSaga(
         setDerivationPathPrefix,
         null,
         actions.walletSelector.ledgerSetDerivationPathPrefix(newDP),
@@ -224,8 +221,7 @@ describe("Wallet selector > Ledger wizard > actions", () => {
         .withState(dummyState)
         .put(actions.walletSelector.ledgerLoadAccounts())
         .put(actions.walletSelector.setLedgerWizardDerivationPathPrefix(newDP))
-        .run();
-    });
+        .run());
   });
 
   describe("finishSettingUpLedgerConnectorAction", () => {

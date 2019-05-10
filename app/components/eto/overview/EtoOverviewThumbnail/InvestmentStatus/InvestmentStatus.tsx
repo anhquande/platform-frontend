@@ -5,7 +5,8 @@ import { compose } from "recompose";
 import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/selectors";
 import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
-import { ECurrency, Money } from "../../../../shared/Money.unsafe";
+import { ECurrency } from "../../../../shared/formatters/utils";
+import { Money } from "../../../../shared/Money.unsafe";
 import { InvestmentProgress } from "./InvestmentProgress";
 
 import * as styles from "./InvestmentStatus.module.scss";

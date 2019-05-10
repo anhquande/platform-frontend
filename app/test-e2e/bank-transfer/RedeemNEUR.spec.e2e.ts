@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 
-import { ERoundingMode, formatMoney } from "../../utils/Money.utils";
-import { formatThousands } from "../../utils/Number.utils";
-import { INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH } from "../fixtures";
+import { ERoundingMode, formatThousands } from "../../components/shared/formatters/utils";
+import { formatMoney } from "../../utils/Money.utils";
+import { INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO } from "../fixtures";
 import { fillForm } from "../utils/forms";
 import {
   acceptWallet,
@@ -18,12 +18,12 @@ import { formField, tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
 import { assertBankAccountDetails } from "./assertions";
 
-describe("Redeem NEUR", () => {
+describe.skip("Redeem NEUR", () => {
   before(() => {
     createAndLoginNewUser({
       type: "investor",
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH,
+      seed: INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO,
       hdPath: "m/44'/60'/0'/0",
     }).then(() => {
       // go to portfolio and claim neur before all tests
@@ -51,7 +51,7 @@ describe("Redeem NEUR", () => {
     createAndLoginNewUser({
       type: "investor",
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH,
+      seed: INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO,
       hdPath: "m/44'/60'/0'/0",
     }).then(() => {
       // store actual balance

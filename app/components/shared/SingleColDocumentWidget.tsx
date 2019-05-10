@@ -3,7 +3,8 @@ import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
 import { IEtoDocument, immutableDocumentName } from "../../lib/api/eto/EtoFileApi.interfaces";
-import { ImmutableFileId } from "../../lib/api/ImmutableStorage.interfaces";
+import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
+import { IImmutableFileId } from "../../lib/api/ImmutableStorage.interfaces";
 import { actions } from "../../modules/actions";
 import { appConnect } from "../../store";
 import { TTranslatedString } from "../../types";
@@ -15,13 +16,13 @@ import * as link from "../../assets/img/inline_icons/social_link.svg";
 import * as styles from "./SingleColDocumentWidget.module.scss";
 
 interface IOwnProps {
-  isRetailEto: boolean;
+  offeringDocumentType: EOfferingDocumentType;
   documents: IEtoDocument[];
   title: TTranslatedString;
   className?: string;
 }
 interface IDispatchProps {
-  downloadImmutableFile: (fileId: ImmutableFileId, fileName: string) => void;
+  downloadImmutableFile: (fileId: IImmutableFileId, fileName: string) => void;
 }
 
 type IProps = IOwnProps & IDispatchProps;
@@ -31,32 +32,30 @@ const SingleColDocumentsLayout: React.FunctionComponent<IProps> = ({
   className,
   title,
   downloadImmutableFile,
-  isRetailEto,
+  offeringDocumentType,
 }) => {
-  const documentTemplateTitles = getDocumentTemplateTitles(isRetailEto);
+  const documentTemplateTitles = getDocumentTemplateTitles(offeringDocumentType);
   return (
     <div className={className}>
       <h3 className={styles.groupName}>{title}</h3>
       <section className={styles.group}>
-        {documents.map(({ ipfsHash, mimeType, documentType }) => {
-          return (
-            <div className={styles.document} key={ipfsHash}>
-              <DocumentTemplateButton
-                onClick={() =>
-                  downloadImmutableFile(
-                    {
-                      ...{ ipfsHash, mimeType },
-                      asPdf: false,
-                    },
-                    immutableDocumentName[documentType],
-                  )
-                }
-                title={documentTemplateTitles[documentType]}
-                altIcon={<InlineIcon svgIcon={link} />}
-              />
-            </div>
-          );
-        })}
+        {documents.map(({ ipfsHash, mimeType, documentType }) => (
+          <div className={styles.document} key={ipfsHash}>
+            <DocumentTemplateButton
+              onClick={() =>
+                downloadImmutableFile(
+                  {
+                    ...{ ipfsHash, mimeType },
+                    asPdf: false,
+                  },
+                  immutableDocumentName[documentType],
+                )
+              }
+              title={documentTemplateTitles[documentType]}
+              altIcon={<InlineIcon svgIcon={link} />}
+            />
+          </div>
+        ))}
       </section>
     </div>
   );

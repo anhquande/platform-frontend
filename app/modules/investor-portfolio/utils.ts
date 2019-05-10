@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { includes } from "lodash/fp";
 
 import { IWindowWithData } from "../../../test/helperTypes";
-import { ECurrency } from "../../components/shared/Money.unsafe";
+import { ECurrency } from "../../components/shared/formatters/utils";
 import { IS_CYPRESS, Q18 } from "../../config/constants";
 import { convertToBigInt } from "../../utils/Number.utils";
 import { EETOStateOnChain } from "../eto/types";

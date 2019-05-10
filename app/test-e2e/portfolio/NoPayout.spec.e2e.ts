@@ -10,7 +10,8 @@ describe("Investor empty payout", () => {
       kyc: "business",
       seed: INV_EMPTY_HAS_KYC,
       clearPendingTransactions: true,
-    }));
+    }),
+  );
 
   it("should show message that there are no payouts", () => {
     goToPortfolio();

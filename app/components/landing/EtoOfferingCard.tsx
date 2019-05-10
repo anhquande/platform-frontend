@@ -44,19 +44,17 @@ interface IPropsRoundLabel {
   text: string | React.ReactNode;
 }
 
-const RoundLabel: React.FunctionComponent<IPropsRoundLabel> = ({ text }) => {
-  return (
-    <div className={styles.roundLabel}>
-      <svg viewBox="0 0 170 100">
-        <path
-          className={styles.curvyBackground}
-          d="M0,102 L0,0 L170.694,0 C166.486,25.398 156.794,41.95 141.616,49.655 C128.623,56.253 93.071,57.423 48.428,72.351 C35.003,76.84 18.86,86.723 0,102 Z"
-        />
-      </svg>
-      <span>{text}</span>
-    </div>
-  );
-};
+const RoundLabel: React.FunctionComponent<IPropsRoundLabel> = ({ text }) => (
+  <div className={styles.roundLabel}>
+    <svg viewBox="0 0 170 100">
+      <path
+        className={styles.curvyBackground}
+        d="M0,102 L0,0 L170.694,0 C166.486,25.398 156.794,41.95 141.616,49.655 C128.623,56.253 93.071,57.423 48.428,72.351 C35.003,76.84 18.86,86.723 0,102 Z"
+      />
+    </svg>
+    <span>{text}</span>
+  </div>
+);
 
 interface IState {
   isClicked: boolean;
@@ -233,17 +231,16 @@ export class EtoOfferingCardComponent extends React.Component<
               )}
               {!props.teaser && (
                 <>
-                  {props.quote &&
-                    props.quote.text && (
-                      <div className={styles.quoteWrapper}>
-                        <p>
-                          {'"'}
-                          {props.quote.text}
-                          {'"'}
-                        </p>
-                        <p>{props.quote.credits}</p>
-                      </div>
-                    )}
+                  {props.quote && props.quote.text && (
+                    <div className={styles.quoteWrapper}>
+                      <p>
+                        {'"'}
+                        {props.quote.text}
+                        {'"'}
+                      </p>
+                      <p>{props.quote.credits}</p>
+                    </div>
+                  )}
                 </>
               )}
             </blockquote>

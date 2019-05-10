@@ -1,10 +1,5 @@
 import { isFunction } from "lodash";
 
-import { assertEtoDashboard } from "../utils";
-import { fillForm, TFormFixture } from "../utils/forms";
-import { goToEtoDashboard } from "../utils/navigation";
-import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
 import {
   aboutForm,
   equityTokenInfoForm,
@@ -15,7 +10,12 @@ import {
   mediaForm,
   productVisionForm,
   votingRights,
-} from "./fixtures";
+} from "../eto-registration/fixtures";
+import { assertEtoDashboard } from "../utils";
+import { fillForm, TFormFixture } from "../utils/forms";
+import { goToEtoDashboard } from "../utils/navigation";
+import { tid } from "../utils/selectors";
+import { createAndLoginNewUser } from "../utils/userHelpers";
 
 const fillAndAssert = (section: string, sideEffect: TFormFixture | (() => void)) => {
   cy.get(tid(section, "button")).click();

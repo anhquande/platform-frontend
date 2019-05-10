@@ -11,7 +11,8 @@ describe("Investor redistribute payout", () => {
       seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP,
       hdPath: "m/44'/60'/0'/0",
       clearPendingTransactions: true,
-    }));
+    }),
+  );
 
   it("eth payout", () => {
     goToPortfolio();

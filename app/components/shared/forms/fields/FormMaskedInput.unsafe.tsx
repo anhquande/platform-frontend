@@ -71,27 +71,25 @@ export class FormMaskedInput extends React.Component<FormInputProps> {
                     }}
                     mask={mask}
                     guide={guided}
-                    render={(ref, props) => {
-                      return (
-                        <FormInputRaw
-                          innerRef={ref}
-                          name={name}
-                          placeholder={placeholder}
-                          className={className}
-                          addonStyle={addonStyle}
-                          prefix={prefix}
-                          suffix={suffix}
-                          errorMsg={errorMsg}
-                          size={size}
-                          disabled={disabled}
-                          maxLength={maxLength}
-                          invalid={invalid}
-                          customOnBlur={customOnBlur}
-                          {...props}
-                          {...mainProps}
-                        />
-                      );
-                    }}
+                    render={(ref, props) => (
+                      <FormInputRaw
+                        innerRef={ref}
+                        name={name}
+                        placeholder={placeholder}
+                        className={className}
+                        addonStyle={addonStyle}
+                        prefix={prefix}
+                        suffix={suffix}
+                        errorMsg={errorMsg}
+                        size={size}
+                        disabled={disabled}
+                        maxLength={maxLength}
+                        invalid={invalid}
+                        customOnBlur={customOnBlur}
+                        {...props}
+                        {...mainProps}
+                      />
+                    )}
                   />
                 );
               }}

@@ -9,7 +9,7 @@ describe("Eto Unauthorized View", () => {
 
     it("should not show jurisdiction disclaimer modal ", () => {
       cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
-      assertEtoView("Neufund - Quintessence (QTT)");
+      assertEtoView("ETOInPublicState retail eto li security - Quintessence (QTT)");
 
       cy.get(tid("jurisdiction-disclaimer-modal")).should("not.exist");
     });
@@ -25,7 +25,7 @@ describe("Eto Unauthorized View", () => {
 
       cy.get(tid("jurisdiction-disclaimer-modal.confirm")).click();
 
-      assertEtoView("Neufund - Rich (RCH)");
+      assertEtoView("ETOInWhitelistState ff eto - Rich (RCH)");
     });
 
     it("should show jurisdiction disclaimer modal and navigate to dashboard on deny", () => {

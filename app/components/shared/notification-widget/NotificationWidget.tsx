@@ -25,20 +25,18 @@ type IProps = IStateProps & IDispatchProps;
 const NotificationWidgetComponent: React.FunctionComponent<IProps> = ({
   notifications,
   dispatch,
-}) => {
-  return (
-    <div className={styles.widget}>
-      {notifications.map((notification, index) => (
-        <Notification
-          key={notification.text + index.toString(10)}
-          type={notification.type}
-          text={notification.text}
-          onClick={() => dispatch(notification.onClickAction)}
-        />
-      ))}
-    </div>
-  );
-};
+}) => (
+  <div className={styles.widget}>
+    {notifications.map((notification, index) => (
+      <Notification
+        key={notification.text + index.toString(10)}
+        type={notification.type}
+        text={notification.text}
+        onClick={() => dispatch(notification.onClickAction)}
+      />
+    ))}
+  </div>
+);
 
 export const NotificationWidget = compose<IProps, {}>(
   appConnect<IStateProps, IDispatchProps>({

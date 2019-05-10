@@ -4,6 +4,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { externalRoutes } from "../../../config/externalRoutes";
+import { TSocialChannelsType } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { isOnChain } from "../../../modules/eto/utils";
 import { withMetaTags } from "../../../utils/withMetaTags.unsafe";
@@ -14,7 +15,6 @@ import { PersonProfileModal } from "../../modals/PersonProfileModal";
 import { Accordion, AccordionElement } from "../../shared/Accordion";
 import { ButtonLink } from "../../shared/buttons";
 import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
-import { Heading } from "../../shared/Heading";
 import { ExternalLink } from "../../shared/links";
 import { ILink, MediaLinksWidget, normalizedUrl } from "../../shared/MediaLinksWidget";
 import { Panel } from "../../shared/Panel";
@@ -30,6 +30,7 @@ import { Cover } from "../public-view/Cover";
 import { DocumentsWidget } from "../public-view/DocumentsWidget";
 import { EtoInvestmentTermsWidget } from "../public-view/EtoInvestmentTermsWidget";
 import { LegalInformationWidget } from "../public-view/LegalInformationWidget";
+import { DashboardHeading } from "./DashboardHeading";
 import { areThereIndividuals, selectActiveCarouselTab } from "./EtoView.utils";
 
 import * as styles from "./EtoView.module.scss";
@@ -88,14 +89,17 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
   } = eto.company;
 
   const isTwitterFeedEnabled =
-    some(socialChannels, (channel: any) => channel.type === "twitter" && channel.url.length) &&
-    !disableTwitterFeed;
+    some<TSocialChannelsType[0]>(
+      socialChannels,
+      channel => channel.type === "twitter" && !!channel.url && !!channel.url.length,
+    ) && !disableTwitterFeed;
   const isYouTubeVideoAvailable = !!(companyVideo && companyVideo.url);
   const isSlideShareAvailable = !!(companySlideshare && companySlideshare.url);
   const hasSocialChannelsAdded = !!(socialChannels && socialChannels.length);
   const twitterUrl =
     isTwitterFeedEnabled && socialChannels
-      ? socialChannels.find(c => c.type === "twitter").url
+      ? socialChannels.find(c => c.type === "twitter") &&
+        socialChannels.find(c => c.type === "twitter")!.url
       : "";
 
   const isInSetupState = isOnChain(eto) && eto.contract.timedState === EETOStateOnChain.Setup;
@@ -123,11 +127,11 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
         />
         <EtoOverviewStatus eto={eto} publicView={true} />
         <Container columnSpan={EColumnSpan.THREE_COL}>
-          <Heading level={3} decorator={false}>
-            <div className={styles.headerWithButton}>
-              <FormattedMessage id="eto.public-view.eto-timeline" />
-              {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" &&
-                !isInSetupState && (
+          <DashboardHeading
+            title={
+              <div className={styles.headerWithButton}>
+                <FormattedMessage id="eto.public-view.eto-timeline" />
+                {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && !isInSetupState && (
                   <ButtonLink
                     to={withParams(externalRoutes.icoMonitorEto, { etoId: eto.etoId })}
                     target="_blank"
@@ -135,10 +139,14 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                     <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
                   </ButtonLink>
                 )}
-            </div>
-          </Heading>
+              </div>
+            }
+          />
           <Panel>
-            <EtoTimeline startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined} />
+            <EtoTimeline
+              currentState={isOnChain(eto) ? eto.contract.timedState : undefined}
+              startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined}
+            />
           </Panel>
         </Container>
         <Container
@@ -152,16 +160,18 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
           }
         >
           <Container columnSpan={EColumnSpan.TWO_COL}>
-            <Heading level={3} decorator={false}>
-              <div className={styles.headerWithButton}>
-                {brandName}
-                {companyWebsite && (
-                  <ExternalLink href={normalizedUrl(companyWebsite)}>
-                    {companyWebsite.split("//")[1] || DEFAULT_PLACEHOLDER}
-                  </ExternalLink>
-                )}
-              </div>
-            </Heading>
+            <DashboardHeading
+              title={
+                <div className={styles.headerWithButton}>
+                  {brandName}
+                  {companyWebsite && (
+                    <ExternalLink href={normalizedUrl(companyWebsite)}>
+                      {companyWebsite.split("//")[1] || DEFAULT_PLACEHOLDER}
+                    </ExternalLink>
+                  )}
+                </div>
+              }
+            />
 
             {(companyDescription || keyQuoteInvestor) && (
               <Panel columnSpan={EColumnSpan.TWO_COL}>
@@ -171,10 +181,9 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
             )}
           </Container>
           <Container columnSpan={EColumnSpan.TWO_COL}>
-            <Heading level={3} decorator={false}>
-              <FormattedMessage id="eto.public-view.legal-information.title" />
-            </Heading>
-
+            <DashboardHeading
+              title={<FormattedMessage id="eto.public-view.legal-information.title" />}
+            />
             <LegalInformationWidget companyData={eto.company} columnSpan={EColumnSpan.THREE_COL} />
           </Container>
         </Container>
@@ -206,28 +215,23 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
             </Container>
             {isTwitterFeedEnabled && (
               <Container>
-                <Heading level={3} decorator={false}>
-                  Twitter
-                </Heading>
+                <DashboardHeading
+                  title={<FormattedMessage id={"eto.public-view.twitter-feed"} />}
+                />
                 <Panel>
-                  <TwitterTimelineEmbed url={twitterUrl} userName={brandName} />
+                  <TwitterTimelineEmbed url={twitterUrl!} userName={brandName} />
                 </Panel>
               </Container>
             )}
           </Container>
         )}
         <Container columnSpan={EColumnSpan.THREE_COL}>
-          <Heading level={3} decorator={false}>
-            <FormattedMessage id="eto.public-view.token-terms.title" />
-          </Heading>
-
+          <DashboardHeading title={<FormattedMessage id="eto.public-view.token-terms.title" />} />
           <EtoInvestmentTermsWidget etoData={eto} />
         </Container>
         {areThereIndividuals(team) && (
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <Heading level={3} decorator={false}>
-              <FormattedMessage id="eto.public-view.carousel.team" />
-            </Heading>
+            <DashboardHeading title={<FormattedMessage id="eto.public-view.carousel.team" />} />
             <Panel>
               <PeopleSwiperWidget
                 people={(team && (team.members as IPerson[])) || []}
@@ -335,9 +339,9 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
               targetMarketAndIndustry ||
               keyBenefitsForInvestors) && (
               <>
-                <Heading level={3} decorator={false}>
-                  <FormattedMessage id="eto.public-view.product-vision.title" />
-                </Heading>
+                <DashboardHeading
+                  title={<FormattedMessage id="eto.public-view.product-vision.title" />}
+                />
                 <Panel>
                   <Accordion>
                     {inspiration && (
@@ -408,7 +412,8 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                       </AccordionElement>
                     )}
 
-                    {((useOfCapitalList && useOfCapitalList.some((e: any) => e.percent > 0)) ||
+                    {((useOfCapitalList &&
+                      useOfCapitalList.some(e => e && e.percent && e.percent > 0)) ||
                       useOfCapital) && (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.use-of-capital" />}
@@ -474,32 +479,26 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
         <Container columnSpan={EColumnSpan.ONE_COL} type={EContainerType.INHERIT_GRID}>
           {marketingLinks && (
             <Container columnSpan={EColumnSpan.ONE_COL}>
-              <Heading level={3} decorator={false}>
-                <FormattedMessage id="eto.form.documents.title" />
-              </Heading>
-
+              <DashboardHeading title={<FormattedMessage id="eto.form.documents.title" />} />
               <DocumentsWidget
                 columnSpan={EColumnSpan.THREE_COL}
                 companyMarketingLinks={marketingLinks}
                 etoTemplates={eto.templates}
                 etoDocuments={eto.documents}
-                isRetailEto={eto.allowRetailInvestors}
+                offeringDocumentType={eto.product.offeringDocumentType}
               />
             </Container>
           )}
 
-          {companyNews &&
-            !!companyNews[0].url && (
-              <Container columnSpan={EColumnSpan.ONE_COL}>
-                <Heading level={3} decorator={false}>
-                  <FormattedMessage id="eto.form.media-links.title" />
-                </Heading>
-                <MediaLinksWidget
-                  links={[...companyNews].reverse() as ILink[]}
-                  columnSpan={EColumnSpan.THREE_COL}
-                />
-              </Container>
-            )}
+          {companyNews && !!companyNews[0].url && (
+            <Container columnSpan={EColumnSpan.ONE_COL}>
+              <DashboardHeading title={<FormattedMessage id="eto.form.media-links.title" />} />
+              <MediaLinksWidget
+                links={[...companyNews].reverse() as ILink[]}
+                columnSpan={EColumnSpan.THREE_COL}
+              />
+            </Container>
+          )}
         </Container>
       </WidgetGridLayout>
     </>

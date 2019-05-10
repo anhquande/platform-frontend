@@ -8,8 +8,8 @@ import { actions } from "../../../../modules/actions";
 import { selectBookbuildingStats } from "../../../../modules/bookbuilding-flow/selectors";
 import {
   selectCanEnableBookBuilding,
-  selectEtoId,
   selectIsBookBuilding,
+  selectIssuerEtoId,
   selectMaxPledges,
 } from "../../../../modules/eto-flow/selectors";
 import { appConnect } from "../../../../store";
@@ -22,8 +22,9 @@ import { Document } from "../../../shared/Document";
 import { DocumentTemplateButton } from "../../../shared/DocumentLink";
 import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
+import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../../../shared/Money.unsafe";
+import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { Panel } from "../../../shared/Panel";
 
 import * as styles from "../../EtoContentWidget.module.scss";
@@ -74,7 +75,7 @@ const BookBuildingStats = ({ bookBuildingStats, maxPledges, downloadCSV }: IBook
         <Money
           value={bookBuildingStats.pledgedAmount}
           currency={ECurrency.EUR}
-          format={EMoneyFormat.FLOAT}
+          format={EMoneyInputFormat.FLOAT}
           currencySymbol={ECurrencySymbol.SYMBOL}
         />
       </span>
@@ -203,7 +204,7 @@ export const BookBuildingWidget = compose<React.FunctionComponent<IExternalProps
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => {
-      const etoId = selectEtoId(state);
+      const etoId = selectIssuerEtoId(state);
 
       if (!etoId) {
         throw new Error("Eto id is required for bookbuilding");

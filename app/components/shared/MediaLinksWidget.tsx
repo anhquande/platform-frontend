@@ -32,8 +32,8 @@ export const MediaLinksWidget: React.FunctionComponent<IProps> = ({ links, colum
   }
   return (
     <Panel columnSpan={columnSpan}>
-      {links.map(({ title, url, publication }, i) => {
-        return (
+      {links.map(
+        ({ title, url, publication }, i) =>
           publication &&
           url &&
           title && (
@@ -42,9 +42,8 @@ export const MediaLinksWidget: React.FunctionComponent<IProps> = ({ links, colum
                 {publication}: {title}
               </ExternalLink>
             </div>
-          )
-        );
-      })}
+          ),
+      )}
     </Panel>
   );
 };

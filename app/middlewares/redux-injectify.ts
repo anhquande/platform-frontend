@@ -18,9 +18,7 @@ export function createInjectMiddleware(
 
         depSanityCheck(deps);
 
-        const injections = deps.map(dep => {
-          return container.get(dep);
-        });
+        const injections = deps.map(dep => container.get(dep));
 
         return action(...injections);
       }

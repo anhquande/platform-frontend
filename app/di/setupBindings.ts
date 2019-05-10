@@ -48,7 +48,6 @@ import { symbols } from "./symbols";
 
 export function setupBindings(config: IConfig): Container {
   const container = new Container();
-  const storage = new Storage(window.localStorage);
 
   // functions
   container
@@ -103,7 +102,7 @@ export function setupBindings(config: IConfig): Container {
     .to(UsersApi)
     .inSingletonScope();
 
-  container.bind<Storage>(symbols.storage).toConstantValue(storage);
+  container.bind<Storage>(symbols.storage).toConstantValue(new Storage(window.localStorage));
   container
     .bind<NotificationCenter>(symbols.notificationCenter)
     .to(NotificationCenter)

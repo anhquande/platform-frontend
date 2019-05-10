@@ -26,19 +26,15 @@ const minute = second * 60;
 const hour = minute * 60;
 const day = hour * 24;
 
-const Plate: React.FunctionComponent<IPlateProps> = ({ value, label }) => {
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.plate}>{value}</div>
-      <div className={styles.label}>{label}</div>
-    </div>
-  );
-};
+const Plate: React.FunctionComponent<IPlateProps> = ({ value, label }) => (
+  <div className={styles.wrapper}>
+    <div className={styles.plate}>{value}</div>
+    <div className={styles.label}>{label}</div>
+  </div>
+);
 
 export class Counter extends React.Component<IProps & CommonHtmlProps, IState> {
-  getTimeLeft = () => {
-    return this.props.endDate.getTime() - Date.now();
-  };
+  getTimeLeft = () => this.props.endDate.getTime() - Date.now();
 
   state = {
     timeLeft: this.getTimeLeft(),

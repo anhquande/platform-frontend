@@ -6,7 +6,7 @@ import { isZero } from "../../../utils/Number.utils";
 import { EColumnSpan } from "../../layouts/Container";
 import { AccountAddress } from "../../shared/AccountAddress";
 import { AccountBalance } from "../../shared/AccountBalance";
-import { ECurrency } from "../../shared/Money.unsafe";
+import { ECurrency } from "../../shared/formatters/utils";
 import { WalletBalanceContainer } from "./WalletBalance";
 
 import * as ethIcon from "../../../assets/img/eth_icon.svg";
@@ -27,52 +27,50 @@ interface IExternalProps {
 
 export const UnlockedETHWallet: React.FunctionComponent<
   IUnlockedETHWallet & CommonHtmlProps & IExternalProps
-> = ({ address, depositEth, withdrawEth, className, ethAmount, ethEuroAmount, columnSpan }) => {
-  return (
-    <WalletBalanceContainer
-      className={className}
-      columnSpan={columnSpan}
-      headerText={<FormattedMessage id="components.wallet.start.eth-wallet" />}
-    >
-      <p className={styles.message}>
-        <FormattedMessage id={"shared-component.eth-wallet-balance.explanation"} />
-      </p>
+> = ({ address, depositEth, withdrawEth, className, ethAmount, ethEuroAmount, columnSpan }) => (
+  <WalletBalanceContainer
+    className={className}
+    columnSpan={columnSpan}
+    headerText={<FormattedMessage id="components.wallet.start.eth-wallet" />}
+  >
+    <p className={styles.message}>
+      <FormattedMessage id={"shared-component.eth-wallet-balance.explanation"} />
+    </p>
 
-      <section>
-        <h4 className={styles.title}>
-          <FormattedMessage id="shared-component.wallet-balance.title.account-address" />
-        </h4>
-        <AccountAddress address={address} />
-      </section>
+    <section>
+      <h4 className={styles.title}>
+        <FormattedMessage id="shared-component.wallet-balance.title.account-address" />
+      </h4>
+      <AccountAddress address={address} />
+    </section>
 
-      <section>
-        <h4 className={styles.title}>
-          <FormattedMessage id="shared-component.wallet-balance.title.account-balance" />
-        </h4>
+    <section>
+      <h4 className={styles.title}>
+        <FormattedMessage id="shared-component.wallet-balance.title.account-balance" />
+      </h4>
 
-        <AccountBalance
-          icon={ethIcon}
-          currency={ECurrency.ETH}
-          currencyTotal={ECurrency.EUR}
-          largeNumber={ethAmount}
-          value={ethEuroAmount}
-          data-test-id="wallet-balance.ether"
-          actions={[
-            {
-              name: <FormattedMessage id="shared-component.account-balance.withdraw" />,
-              onClick: withdrawEth,
-              disabled: process.env.NF_WITHDRAW_ENABLED !== "1" || isZero(ethAmount),
-              "data-test-id": "wallet.eth.withdraw.button",
-            },
-            {
-              name: <FormattedMessage id="shared-component.account-balance.deposit" />,
-              onClick: depositEth,
-              disabled: process.env.NF_WITHDRAW_ENABLED !== "1",
-              "data-test-id": "wallet.eth.transfer.button",
-            },
-          ]}
-        />
-      </section>
-    </WalletBalanceContainer>
-  );
-};
+      <AccountBalance
+        icon={ethIcon}
+        currency={ECurrency.ETH}
+        currencyTotal={ECurrency.EUR}
+        largeNumber={ethAmount}
+        value={ethEuroAmount}
+        data-test-id="wallet-balance.ether"
+        actions={[
+          {
+            name: <FormattedMessage id="shared-component.account-balance.withdraw" />,
+            onClick: withdrawEth,
+            disabled: process.env.NF_WITHDRAW_ENABLED !== "1" || isZero(ethAmount),
+            "data-test-id": "wallet.eth.withdraw.button",
+          },
+          {
+            name: <FormattedMessage id="shared-component.account-balance.deposit" />,
+            onClick: depositEth,
+            disabled: process.env.NF_WITHDRAW_ENABLED !== "1",
+            "data-test-id": "wallet.eth.transfer.button",
+          },
+        ]}
+      />
+    </section>
+  </WalletBalanceContainer>
+);

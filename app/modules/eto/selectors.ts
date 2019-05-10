@@ -29,9 +29,8 @@ export const selectEtoTokenName = (state: IAppState, etoId: string) => {
 
 export const selectEto = (state: IAppState, previewCode: string) => state.eto.etos[previewCode];
 
-export const selectEtoById = (state: IAppState, etoId: string) => {
-  return state.eto.etos[selectEtoPreviewCode(state, etoId)!];
-};
+export const selectEtoById = (state: IAppState, etoId: string) =>
+  state.eto.etos[selectEtoPreviewCode(state, etoId)!];
 
 export const selectEtoWithCompanyAndContract = (
   state: IAppState,
@@ -101,21 +100,19 @@ export const selectEtoOnChainNextStateStartDate = (
   return undefined;
 };
 
-export const selectEtoWidgetError = (state: DeepReadonly<IEtoState>): boolean | undefined => {
-  return state.etoWidgetError;
-};
+export const selectEtoWidgetError = (state: DeepReadonly<IEtoState>): boolean | undefined =>
+  state.etoWidgetError;
 
 export const selectEtoOnChainStateById = (
   state: IAppState,
   etoId: string,
 ): EETOStateOnChain | undefined => {
   const code = selectEtoPreviewCode(state, etoId);
-  if (code) return selectEtoOnChainState(state, code);
+
+  return code ? selectEtoOnChainState(state, code) : undefined;
 };
 
 export const selectTokenData = (
   state: DeepReadonly<IEtoState>,
   previewCode: string,
-): IEtoTokenData | undefined => {
-  return state.tokenData[previewCode];
-};
+): IEtoTokenData | undefined => state.tokenData[previewCode];

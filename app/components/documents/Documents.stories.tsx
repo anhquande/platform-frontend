@@ -4,19 +4,18 @@ import * as React from "react";
 
 import { etoDocuments, etoFilesData, etoTemplates } from "../../../test/fixtures";
 import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { EETOStateOnChain } from "../../modules/eto/types";
 import { DocumentsLayout } from "./Documents";
-import { getDocumentTitles } from "./utils";
 
-const props = {
+const props: React.ComponentProps<typeof DocumentsLayout> = {
+  isLoading: false,
+  shouldEtoDataLoad: true,
   etoFilesData: etoFilesData,
-  loadingData: false,
-  etoFileLoading: false,
   etoState: EEtoState.ON_CHAIN,
   etoTemplates: etoTemplates,
   etoDocuments: etoDocuments,
-  documentTitles: getDocumentTitles(false),
-  isRetailEto: false,
+  offeringDocumentType: EOfferingDocumentType.MEMORANDUM,
   generateTemplate: action("generateTemplate"),
   startDocumentDownload: action("startDocumentDownload"),
   onChainState: EETOStateOnChain.Signing,
@@ -26,6 +25,4 @@ const props = {
   transactionPending: false,
 };
 
-storiesOf("ETO/Documents", module).add("default", () => {
-  return <DocumentsLayout {...props} />;
-});
+storiesOf("ETO/Documents", module).add("default", () => <DocumentsLayout {...props} />);

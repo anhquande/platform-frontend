@@ -1,16 +1,20 @@
-import { BigNumber } from "bignumber.js";
 import * as React from "react";
 
-import { MONEY_DECIMALS } from "../../config/constants";
 import { TTranslatedString } from "../../types";
 import {
-  isValidNumberOrEmpty,
+  ECurrency,
+  EHumanReadableFormat,
+  EMoneyInputFormat,
+  ERoundingMode,
+  formatNumber,
+  isEmptyValue,
+  isValidNumber,
   parseInputToNumber,
+  selectDecimalPlaces,
   stripNumberFormatting,
-} from "../../utils/Money.utils";
-import { formatThousands } from "../../utils/Number.utils";
+  toFixedPrecision,
+} from "./formatters/utils";
 import { FormInputRaw } from "./forms/fields/FormInputRaw.unsafe";
-import { ECurrency } from "./Money.unsafe";
 
 interface IProps {
   name: string;
@@ -26,48 +30,49 @@ interface IProps {
 }
 
 export class MaskedMoneyInput extends React.Component<IProps> {
-  moneyToPrimaryBase = (value: string | BigNumber | number, currencyDecimals: number) => {
-    const money = value instanceof BigNumber ? value : new BigNumber(value.toString());
-    return money.div(new BigNumber(10).pow(currencyDecimals)).toString();
-  };
+  decimals = selectDecimalPlaces(this.props.currency);
 
-  formatMoney = (value: string, decimalPlaces: number): string => {
-    if (isValidNumberOrEmpty(value)) {
-      const money = new BigNumber(stripNumberFormatting(value));
-      return decimalPlaces !== undefined
-        ? money.toFixed(decimalPlaces, BigNumber.ROUND_UP)
-        : money.toString();
+  formatValue = (value: string): string => {
+    if (isEmptyValue(value)) {
+      return "";
+    } else if (isValidNumber(value)) {
+      return toFixedPrecision({
+        value,
+        roundingMode: ERoundingMode.DOWN,
+        inputFormat: EMoneyInputFormat.FLOAT,
+        decimalPlaces: this.decimals,
+      });
     } else {
       return value;
     }
   };
 
-  formatForDisplay = (currency: ECurrency, value?: string) => {
-    return value !== undefined && value !== ""
-      ? formatThousands(this.formatMoney(value, currency === ECurrency.EUR_TOKEN ? 2 : 4))
+  formatForDisplay = (
+    value: string | undefined,
+    inputFormat: EMoneyInputFormat = EMoneyInputFormat.ULPS,
+  ) =>
+    value !== undefined && value !== ""
+      ? formatNumber({
+          value,
+          inputFormat,
+          roundingMode: ERoundingMode.DOWN,
+          decimalPlaces: this.decimals,
+          outputFormat: EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+        })
       : "";
-  };
 
   state = {
-    value: this.props.value
-      ? this.formatForDisplay(
-          this.props.currency,
-          this.moneyToPrimaryBase(this.props.value, MONEY_DECIMALS),
-        )
-      : "",
+    value: this.formatForDisplay(this.props.value),
   };
 
-  formatOnChange = (value: string, stateValue: string | undefined, decimalPlaces: number) => {
-    const strippedValue = stripNumberFormatting(value);
-    const decimals = strippedValue.split(".")[1];
+  formatOnChange = (value: string, stateValue: string | undefined) => {
+    const decimals = value.split(".")[1];
 
-    if (decimals !== undefined && decimals.length > decimalPlaces) {
+    if (decimals !== undefined && decimals.length > this.decimals) {
       /*ignore last character if we already have max decimal places, otherwise round value*/
-      return stateValue && strippedValue.startsWith(stateValue)
-        ? stateValue
-        : this.formatMoney(strippedValue, decimalPlaces);
+      return stateValue && value.startsWith(stateValue) ? stateValue : this.formatValue(value);
     } else {
-      return strippedValue;
+      return value;
     }
   };
 
@@ -75,11 +80,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
     const validValue: string | null = parseInputToNumber(value);
 
     if (validValue !== null) {
-      const newValue = this.formatOnChange(
-        validValue,
-        this.state.value,
-        this.props.currency === ECurrency.ETH ? 4 : 2,
-      );
+      const newValue = this.formatOnChange(validValue, this.state.value);
       if (newValue !== this.state.value) {
         this.setState({ value: newValue });
         this.props.dispatchFn(newValue);
@@ -98,32 +99,25 @@ export class MaskedMoneyInput extends React.Component<IProps> {
   };
 
   onBlur = (value?: string) => {
-    if (isValidNumberOrEmpty(value)) {
-      this.setState({ value: this.formatForDisplay(this.props.currency, value) });
+    if (isEmptyValue(value) || isValidNumber(value)) {
+      this.setState({ value: this.formatForDisplay(value, EMoneyInputFormat.FLOAT) });
     }
   };
 
   onFocus = (value?: string) => {
-    if (isValidNumberOrEmpty(value)) {
+    if (isEmptyValue(value) || isValidNumber(value)) {
       this.setState({ value: value && stripNumberFormatting(value) });
     } else {
       this.setState({ value });
     }
   };
 
-  hasFocus = (id: string) => {
-    return !!document.activeElement && document.activeElement.id === id;
-  };
+  hasFocus = (id: string) => !!document.activeElement && document.activeElement.id === id;
 
   componentDidUpdate(): void {
-    const propsValue = this.props.value
-      ? this.formatForDisplay(
-          this.props.currency,
-          this.moneyToPrimaryBase(this.props.value, MONEY_DECIMALS),
-        )
-      : "";
-    const stateValue = this.state.value;
-    if (!this.hasFocus(this.props.name) && propsValue !== stateValue) {
+    const propsValue = this.formatForDisplay(this.props.value);
+
+    if (!this.hasFocus(this.props.name) && propsValue !== this.state.value) {
       this.setState({ value: propsValue });
     }
   }
@@ -146,4 +140,5 @@ export class MaskedMoneyInput extends React.Component<IProps> {
     );
   }
 }
+
 //TODO add api calls error handling

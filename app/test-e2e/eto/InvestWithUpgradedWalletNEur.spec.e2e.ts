@@ -15,6 +15,7 @@ describe("Invest with euro token", () => {
     }).then(() => {
       goToDashboard();
 
+      cy.get(tid(`eto-overview-${PUBLIC_ETO_ID}`)).click();
       // click invest now button
       cy.get(tid("eto-invest-now-button-" + PUBLIC_ETO_ID), { timeout: LONG_WAIT_TIME }).click();
       // select euro from icbm wallet

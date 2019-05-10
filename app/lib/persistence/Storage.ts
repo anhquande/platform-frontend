@@ -33,9 +33,12 @@ export class Storage {
     if (this.checkIsSupported()) {
       return this.localStorage.getItem(key);
     }
+
     if (this.inMemoryStorage.hasOwnProperty(name)) {
       return this.inMemoryStorage[name];
     }
+
+    return undefined;
   }
 
   public removeKey(key: string): void {

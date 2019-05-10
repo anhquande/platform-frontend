@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { IEtoDocument } from "../../../../lib/api/eto/EtoFileApi.interfaces";
+import { EOfferingDocumentType } from "../../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions } from "../../../../modules/actions";
 import { appConnect } from "../../../../store";
 import { withParams } from "../../../../utils/withParams";
@@ -16,7 +17,7 @@ export interface ITagsWidget {
   prospectusApproved: IEtoDocument;
   smartContractOnChain: boolean;
   etoId: string;
-  allowRetailEto?: boolean;
+  offeringDocumentType: EOfferingDocumentType;
   innerClass?: string;
 }
 
@@ -35,14 +36,15 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
   smartContractOnChain,
   etoId,
   downloadDocument,
-  allowRetailEto,
+  offeringDocumentType,
   innerClass,
 }) => {
-  const approvedDocumentTitle = allowRetailEto ? (
-    <FormattedMessage id="shared-component.eto-overview.prospectus-approved" />
-  ) : (
-    <FormattedMessage id="shared-component.eto-overview.investment-memorandum" />
-  );
+  const approvedDocumentTitle =
+    offeringDocumentType === EOfferingDocumentType.PROSPECTUS ? (
+      <FormattedMessage id="shared-component.eto-overview.prospectus-approved" />
+    ) : (
+      <FormattedMessage id="shared-component.eto-overview.investment-memorandum" />
+    );
 
   return (
     <EtoWidgetContext.Consumer>

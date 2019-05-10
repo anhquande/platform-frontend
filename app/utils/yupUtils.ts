@@ -18,10 +18,6 @@ const findSchemaConstraint = (constraintName: string, schema: any) => {
   return schemaTest && schemaTest.TEST.params[constraintName];
 };
 
-export const findMin = (schema: any) => {
-  return findSchemaConstraint("min", schema);
-};
+export const findMin = (schema: any) => findSchemaConstraint("min", schema);
 
-export const findMax = (schema: any) => {
-  return findSchemaConstraint("max", schema);
-};
+export const findMax = (schema: any) => findSchemaConstraint("max", schema);

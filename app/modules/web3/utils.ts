@@ -1,10 +1,11 @@
 import { isAddress, toChecksumAddress } from "web3-utils";
 
+import { ERoundingMode } from "../../components/shared/formatters/utils";
 import { MONEY_DECIMALS } from "../../config/constants";
 import { TBigNumberVariant } from "../../lib/web3/types";
 import { EthereumAddress, EthereumAddressWithChecksum, EthereumNetworkId } from "../../types";
 import { compareBigNumbers } from "../../utils/BigNumberUtils";
-import { ERoundingMode, formatMoney } from "../../utils/Money.utils";
+import { formatMoney } from "../../utils/Money.utils";
 import { convertToBigInt } from "../../utils/Number.utils";
 
 export function makeEthereumAddressChecksummed(

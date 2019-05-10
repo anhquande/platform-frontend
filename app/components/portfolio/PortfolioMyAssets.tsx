@@ -12,10 +12,11 @@ import { selectNeuBalance } from "../../modules/wallet/selectors";
 import { appConnect } from "../../store";
 import { multiplyBigNumbers } from "../../utils/BigNumberUtils";
 import { withParams } from "../../utils/withParams";
+import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container } from "../layouts/Container";
 import { Button, ButtonLink, ButtonSize, EButtonLayout } from "../shared/buttons";
-import { Heading } from "../shared/Heading";
-import { ECurrency, ECurrencySymbol, EMoneyFormat, Money } from "../shared/Money.unsafe";
+import { ECurrency, EMoneyInputFormat } from "../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
 import { ENewTableCellLayout, NewTable, NewTableRow } from "../shared/table";
 
@@ -56,14 +57,10 @@ const PortfolioMyAssetsComponent: React.FunctionComponent<TComponentProps> = ({
   walletAddress,
 }) => (
   <Container>
-    <Heading
-      level={3}
-      decorator={false}
+    <DashboardHeading
+      title={<FormattedMessage id="portfolio.section.your-assets.title" />}
       description={<FormattedMessage id="portfolio.section.your-assets.description" />}
-    >
-      <FormattedMessage id="portfolio.section.your-assets.title" />
-    </Heading>
-
+    />
     <NewTable
       placeholder={<FormattedMessage id="portfolio.section.your-assets.table.placeholder" />}
       titles={[
@@ -93,7 +90,7 @@ const PortfolioMyAssetsComponent: React.FunctionComponent<TComponentProps> = ({
           <Money
             value={neuPrice}
             currency={ECurrency.EUR}
-            format={EMoneyFormat.FLOAT}
+            format={EMoneyInputFormat.FLOAT}
             currencySymbol={ECurrencySymbol.SYMBOL}
             isPrice={true}
           />
@@ -114,46 +111,44 @@ const PortfolioMyAssetsComponent: React.FunctionComponent<TComponentProps> = ({
         myAssets
           .filter(v => v.tokenData)
           .filter(v => v.tokenData.balance !== "0")
-          .map(({ equityTokenImage, equityTokenName, etoId, tokenData, equityTokenSymbol }) => {
-            return (
-              <NewTableRow
-                key={etoId}
-                cellLayout={ENewTableCellLayout.MIDDLE}
-                data-test-id={`portfolio-my-assets-token-${etoId}`}
-              >
-                <>
-                  <img src={equityTokenImage} alt="" className={cn("mr-2", styles.token)} />
-                  <span className={styles.tokenName}>
-                    {equityTokenName} ({equityTokenSymbol})
-                  </span>
-                </>
-                <span data-test-id="portfolio-my-assets-token-balance">
-                  <NumberFormat value={tokenData.balance} />
+          .map(({ equityTokenImage, equityTokenName, etoId, tokenData, equityTokenSymbol }) => (
+            <NewTableRow
+              key={etoId}
+              cellLayout={ENewTableCellLayout.MIDDLE}
+              data-test-id={`portfolio-my-assets-token-${etoId}`}
+            >
+              <>
+                <img src={equityTokenImage} alt="" className={cn("mr-2", styles.token)} />
+                <span className={styles.tokenName}>
+                  {equityTokenName} ({equityTokenSymbol})
                 </span>
-                <Money
-                  value={multiplyBigNumbers([tokenData.tokenPrice, tokenData.balance])}
-                  currency={ECurrency.EUR}
-                  currencySymbol={ECurrencySymbol.SYMBOL}
-                />
-                <Money
-                  value={tokenData.tokenPrice}
-                  currency={ECurrency.EUR}
-                  isPrice={true}
-                  currencySymbol={ECurrencySymbol.SYMBOL}
-                />
-                <Button
-                  onClick={() => showDownloadAgreementModal(etoId, isRetailEto)}
-                  layout={EButtonLayout.SECONDARY}
-                  iconPosition="icon-after"
-                  svgIcon={arrowRight}
-                  size={ButtonSize.SMALL}
-                  data-test-id={`modals.portfolio.portfolio-assets.download-agreements-${etoId}`}
-                >
-                  <FormattedMessage id="portfolio.section.my-assets.download-agreements" />
-                </Button>
-              </NewTableRow>
-            );
-          })}
+              </>
+              <span data-test-id="portfolio-my-assets-token-balance">
+                <NumberFormat value={tokenData.balance} />
+              </span>
+              <Money
+                value={multiplyBigNumbers([tokenData.tokenPrice, tokenData.balance])}
+                currency={ECurrency.EUR}
+                currencySymbol={ECurrencySymbol.SYMBOL}
+              />
+              <Money
+                value={tokenData.tokenPrice}
+                currency={ECurrency.EUR}
+                isPrice={true}
+                currencySymbol={ECurrencySymbol.SYMBOL}
+              />
+              <Button
+                onClick={() => showDownloadAgreementModal(etoId, isRetailEto)}
+                layout={EButtonLayout.SECONDARY}
+                iconPosition="icon-after"
+                svgIcon={arrowRight}
+                size={ButtonSize.SMALL}
+                data-test-id={`modals.portfolio.portfolio-assets.download-agreements-${etoId}`}
+              >
+                <FormattedMessage id="portfolio.section.my-assets.download-agreements" />
+              </Button>
+            </NewTableRow>
+          ))}
     </NewTable>
   </Container>
 );

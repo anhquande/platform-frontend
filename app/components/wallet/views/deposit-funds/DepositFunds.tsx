@@ -27,41 +27,39 @@ interface IProps {
 }
 
 export const DepositFunds = injectIntlHelpers<IProps>(
-  ({ children, intl: { formatIntlMessage } }) => {
-    return (
-      <>
-        <Row>
-          <Col>
-            <BreadCrumb
-              path={[formatIntlMessage("dashboard.name"), formatIntlMessage("wallet.name")]}
-              view={formatIntlMessage("wallet.deposit-funds.name")}
-              className="pt-5 pb-5"
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} lg={{ size: 10, offset: 1 }}>
-            <Panel>
-              <div className={styles.panelContent}>
-                <Tabs>
-                  <TabContent
-                    tab={formatIntlMessage("wallet.deposit-funds.menu.eur")}
-                    routerPath={walletRoutes.euroToken}
-                  />
-                  <TabContent
-                    tab={formatIntlMessage("wallet.deposit-funds.menu.eth")}
-                    routerPath={walletRoutes.eth}
-                  />
-                </Tabs>
-                {children}
-                <DoneButton>
-                  <FormattedMessage id="form.button.done" />
-                </DoneButton>
-              </div>
-            </Panel>
-          </Col>
-        </Row>
-      </>
-    );
-  },
+  ({ children, intl: { formatIntlMessage } }) => (
+    <>
+      <Row>
+        <Col>
+          <BreadCrumb
+            path={[formatIntlMessage("dashboard.name"), formatIntlMessage("wallet.name")]}
+            view={formatIntlMessage("wallet.deposit-funds.name")}
+            className="pt-5 pb-5"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} lg={{ size: 10, offset: 1 }}>
+          <Panel>
+            <div className={styles.panelContent}>
+              <Tabs>
+                <TabContent
+                  tab={formatIntlMessage("wallet.deposit-funds.menu.eur")}
+                  routerPath={walletRoutes.euroToken}
+                />
+                <TabContent
+                  tab={formatIntlMessage("wallet.deposit-funds.menu.eth")}
+                  routerPath={walletRoutes.eth}
+                />
+              </Tabs>
+              {children}
+              <DoneButton>
+                <FormattedMessage id="form.button.done" />
+              </DoneButton>
+            </div>
+          </Panel>
+        </Col>
+      </Row>
+    </>
+  ),
 );

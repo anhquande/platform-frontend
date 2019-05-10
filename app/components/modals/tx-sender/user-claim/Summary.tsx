@@ -8,7 +8,7 @@ import {
   IEtoDocument,
   immutableDocumentName,
 } from "../../../../lib/api/eto/EtoFileApi.interfaces";
-import { ImmutableFileId } from "../../../../lib/api/ImmutableStorage.interfaces";
+import { IImmutableFileId } from "../../../../lib/api/ImmutableStorage.interfaces";
 import { actions } from "../../../../modules/actions";
 import { selectIsPendingDownload } from "../../../../modules/immutable-file/selectors";
 import { selectMyInvestorTicketByEtoId } from "../../../../modules/investor-portfolio/selectors";
@@ -36,7 +36,7 @@ interface IStateProps {
 
 interface IDispatchProps {
   onAccept: () => void;
-  downloadDocument: (immutableFileId: ImmutableFileId, fileName: string) => void;
+  downloadDocument: (immutableFileId: IImmutableFileId, fileName: string) => void;
   generateTemplateByEtoId: (immutableFileId: IEtoDocument, etoId: string) => void;
 }
 
@@ -49,21 +49,21 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
   downloadDocument,
   generateTemplateByEtoId,
   isPendingDownload,
-}) => {
-  return (
-    <Container>
-      <Heading className="mb-4" size={EHeadingSize.SMALL} level={4}>
-        <FormattedMessage id="user-claim-flow.summary" />
-      </Heading>
+}) => (
+  <Container>
+    <Heading className="mb-4" size={EHeadingSize.SMALL} level={4}>
+      <FormattedMessage id="user-claim-flow.summary" />
+    </Heading>
 
-      <p className="mb-3">
-        <FormattedMessage id="user-claim-flow.summary.explanation" />
-      </p>
+    <p className="mb-3">
+      <FormattedMessage id="user-claim-flow.summary.explanation" />
+    </p>
 
-      <ClaimTransactionDetails additionalData={additionalData} className="mb-4">
-        {/* Based on https://github.com/Neufund/platform-frontend/issues/2102#issuecomment-453086304 */}
-        {map((document: IEtoDocument) => {
-          return [EEtoDocumentType.SIGNED_INVESTMENT_AND_SHAREHOLDER_AGREEMENT].includes(
+    <ClaimTransactionDetails additionalData={additionalData} className="mb-4">
+      {/* Based on https://github.com/Neufund/platform-frontend/issues/2102#issuecomment-453086304 */}
+      {map(
+        (document: IEtoDocument) =>
+          [EEtoDocumentType.SIGNED_INVESTMENT_AND_SHAREHOLDER_AGREEMENT].includes(
             document.documentType,
           ) ? (
             <InfoRow
@@ -71,7 +71,9 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
               caption={
                 <DocumentTemplateLabel
                   onClick={() => {}}
-                  title={getDocumentTitles(etoData.allowRetailInvestors)[document.documentType]}
+                  title={
+                    getDocumentTitles(etoData.product.offeringDocumentType)[document.documentType]
+                  }
                 />
               }
               value={
@@ -93,10 +95,12 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
                 />
               }
             />
-          ) : null;
-        }, etoData.documents)}
-        {map((template: IEtoDocument) => {
-          return [
+          ) : null,
+        etoData.documents,
+      )}
+      {map(
+        (template: IEtoDocument) =>
+          [
             EEtoDocumentType.COMPANY_TOKEN_HOLDER_AGREEMENT,
             EEtoDocumentType.RESERVATION_AND_ACQUISITION_AGREEMENT,
           ].includes(template.documentType) ? (
@@ -105,7 +109,9 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
               caption={
                 <DocumentTemplateLabel
                   onClick={() => {}}
-                  title={getDocumentTitles(etoData.allowRetailInvestors)[template.documentType]}
+                  title={
+                    getDocumentTitles(etoData.product.offeringDocumentType)[template.documentType]
+                  }
                 />
               }
               value={
@@ -120,14 +126,14 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
                 />
               }
             />
-          ) : null;
-        }, etoData.templates)}
-      </ClaimTransactionDetails>
+          ) : null,
+        etoData.templates,
+      )}
+    </ClaimTransactionDetails>
 
-      <SummaryForm onSubmit={onAccept} />
-    </Container>
-  );
-};
+    <SummaryForm onSubmit={onAccept} />
+  </Container>
+);
 
 export const UserClaimSummary = appConnect<IStateProps, IDispatchProps, {}>({
   stateToProps: state => {
@@ -141,7 +147,7 @@ export const UserClaimSummary = appConnect<IStateProps, IDispatchProps, {}>({
   },
   dispatchToProps: d => ({
     onAccept: () => d(actions.txSender.txSenderAccept()),
-    downloadDocument: (immutableFileId: ImmutableFileId, fileName: string) => {
+    downloadDocument: (immutableFileId: IImmutableFileId, fileName: string) => {
       d(actions.immutableStorage.downloadImmutableFile(immutableFileId, fileName));
     },
     generateTemplateByEtoId: (immutableFileId: IEtoDocument, etoId: string) => {

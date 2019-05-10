@@ -13,16 +13,17 @@ const getValidationMessageByType = (type?: EValidationState) => {
     case EValidationState.NOT_ENOUGH_ETHER_FOR_GAS:
       return <FormattedMessage id="modal.txsender.error-message.not-enough-ether-for-gas" />;
     //Add more validation errors
+
+    default:
+      return undefined;
   }
 };
 
-const ValidationErrorMessage: React.FunctionComponent<IProps> = ({ type }) => {
-  return (
-    <Message
-      data-test-id="modals.shared.validation-message"
-      hint={getValidationMessageByType(type)}
-    />
-  );
-};
+const ValidationErrorMessage: React.FunctionComponent<IProps> = ({ type }) => (
+  <Message
+    data-test-id="modals.shared.validation-message"
+    hint={getValidationMessageByType(type)}
+  />
+);
 
 export { ValidationErrorMessage };

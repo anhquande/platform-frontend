@@ -30,13 +30,11 @@ const Label: React.FunctionComponent<TLabelExternalProps> = ({
   label,
   width,
   textAnchor = "middle",
-}) => {
-  return (
-    <text x={`${width}%`} y={30} textAnchor={textAnchor} className={styles.label}>
-      {label}
-    </text>
-  );
-};
+}) => (
+  <text x={`${width}%`} y={30} textAnchor={textAnchor} className={styles.label}>
+    {label}
+  </text>
+);
 
 const InvestmentProgress: React.FunctionComponent<TProps> = ({ eto }) => {
   const calculatedPercentage = getInvestmentCalculatedPercentage(eto);

@@ -7,8 +7,8 @@ import { compose } from "redux";
 import { IEtoDocument } from "../../../../lib/api/eto/EtoFileApi.interfaces";
 import { actions } from "../../../../modules/actions";
 import {
-  selectEtoId,
   selectInvestmentAgreementLoading,
+  selectIssuerEtoId,
   selectSignedInvestmentAgreementUrl,
   selectUploadedInvestmentAgreement,
 } from "../../../../modules/eto-flow/selectors";
@@ -95,8 +95,8 @@ export const SignInvestmentAgreementLayout: React.FunctionComponent<
   uploadedAgreement,
   signInvestmentAgreement,
   columnSpan,
-}) => {
-  return investmentAgreementNotSigned(signedInvestmentAgreementUrl, uploadedAgreement.ipfsHash) ? (
+}) =>
+  investmentAgreementNotSigned(signedInvestmentAgreementUrl, uploadedAgreement.ipfsHash) ? (
     <WaitingToBeSigned
       etoId={etoId}
       ipfsHash={uploadedAgreement.ipfsHash}
@@ -107,14 +107,13 @@ export const SignInvestmentAgreementLayout: React.FunctionComponent<
   ) : (
     <WaitingForNominee columnSpan={columnSpan} />
   );
-};
 
 export const SignInvestmentAgreement = compose<React.FunctionComponent<IExternalProps>>(
   appConnect<IStateProps | null, IDispatchProps>({
     stateToProps: state => {
       const uploadedAgreement = selectUploadedInvestmentAgreement(state);
 
-      const etoId = selectEtoId(state);
+      const etoId = selectIssuerEtoId(state);
       // there is another widget showing up if there's no agreement uploaded,
       // so uploadedAgreement=== null is not a valid case
       if (etoId && uploadedAgreement) {

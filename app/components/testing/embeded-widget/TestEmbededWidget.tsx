@@ -21,29 +21,26 @@ interface IRouterParams {
   etoId: string;
 }
 
-const TestEmbededWidgetLayout: React.FunctionComponent<IStateProps> = ({ eto, widgetError }) => {
-  return (
-    <>
-      <h3>Eto widget testing page</h3>
-      {eto &&
-        eto.previewCode && (
-          <iframe
-            width="100%"
-            height={215}
-            src={withParams(appRoutes.etoWidgetView, { previewCode: eto.previewCode })}
-          />
-        )}
+const TestEmbededWidgetLayout: React.FunctionComponent<IStateProps> = ({ eto, widgetError }) => (
+  <>
+    <h3>Eto widget testing page</h3>
+    {eto && eto.previewCode && (
+      <iframe
+        width="100%"
+        height={215}
+        src={withParams(appRoutes.etoWidgetView, { previewCode: eto.previewCode })}
+      />
+    )}
 
-      {widgetError && (
-        <iframe
-          width="100%"
-          height={215}
-          src={withParams(appRoutes.etoWidgetView, { previewCode: "error-id" })}
-        />
-      )}
-    </>
-  );
-};
+    {widgetError && (
+      <iframe
+        width="100%"
+        height={215}
+        src={withParams(appRoutes.etoWidgetView, { previewCode: "error-id" })}
+      />
+    )}
+  </>
+);
 
 const TestEmbededWidget = compose<IStateProps, IRouterParams>(
   appConnect<IStateProps, {}, IRouterParams & IRouterParams>({

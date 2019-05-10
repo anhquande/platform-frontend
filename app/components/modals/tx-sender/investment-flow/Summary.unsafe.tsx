@@ -33,43 +33,41 @@ const InvestmentSummaryComponent: React.FunctionComponent<IProps> = ({
   onChange,
   downloadAgreement,
   additionalData,
-}) => {
-  return (
-    <Container className={styles.container}>
-      <Heading size={EHeadingSize.SMALL} level={4} className="mb-4">
-        <FormattedMessage id="investment-flow.investment-summary" />
-      </Heading>
+}) => (
+  <Container className={styles.container}>
+    <Heading size={EHeadingSize.SMALL} level={4} className="mb-4">
+      <FormattedMessage id="investment-flow.investment-summary" />
+    </Heading>
 
-      <InvestmentTransactionDetails additionalData={additionalData} className="mb-4" />
+    <InvestmentTransactionDetails additionalData={additionalData} className="mb-4" />
 
-      <div className="text-center mb-4">
-        <DocumentTemplateButton
-          onClick={() => downloadAgreement(additionalData.eto.etoId)}
-          title={<FormattedMessage id="investment-flow.summary.download-agreement" />}
-        />
-      </div>
+    <div className="text-center mb-4">
+      <DocumentTemplateButton
+        onClick={() => downloadAgreement(additionalData.eto.etoId)}
+        title={<FormattedMessage id="investment-flow.summary.download-agreement" />}
+      />
+    </div>
 
-      <div className="text-center">
-        <Button
-          layout={EButtonLayout.PRIMARY}
-          type="button"
-          onClick={onAccept}
-          data-test-id="invest-modal-summary-confirm-button"
-        >
-          <FormattedMessage id="investment-flow.confirm" />
-        </Button>
-        <Button
-          layout={EButtonLayout.SECONDARY}
-          type="button"
-          onClick={onChange}
-          data-test-id="invest-modal-summary-change-button"
-        >
-          <FormattedMessage id="investment-flow.change" />
-        </Button>
-      </div>
-    </Container>
-  );
-};
+    <div className="text-center">
+      <Button
+        layout={EButtonLayout.PRIMARY}
+        type="button"
+        onClick={onAccept}
+        data-test-id="invest-modal-summary-confirm-button"
+      >
+        <FormattedMessage id="investment-flow.confirm" />
+      </Button>
+      <Button
+        layout={EButtonLayout.SECONDARY}
+        type="button"
+        onClick={onChange}
+        data-test-id="invest-modal-summary-change-button"
+      >
+        <FormattedMessage id="investment-flow.change" />
+      </Button>
+    </div>
+  </Container>
+);
 
 const InvestmentSummary = compose<IProps, {}>(
   setDisplayName("InvestmentSummary"),

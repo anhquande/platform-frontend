@@ -3,7 +3,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { Button } from "../../../../shared/buttons";
-import { ECurrency, ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
+import { ECurrency } from "../../../../shared/formatters/utils";
+import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
 import { Message } from "../Message";
 import { withCanClaimToken } from "./withCanClaimToken";
 

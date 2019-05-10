@@ -122,6 +122,7 @@ type TEtoKeyIndividualsType = YupTS.TypeOf<typeof EtoKeyIndividualsType>;
 export const EtoLegalInformationType = YupTS.object({
   name: YupTS.string(),
   legalForm: YupTS.string(),
+  companyLegalDescription: YupTS.string(),
   street: YupTS.string(),
   country: YupTS.string(),
   vatNumber: YupTS.string().optional(),
@@ -229,16 +230,15 @@ export const getEtoTermsSchema = ({
   YupTS.object({
     currencies: YupTS.array(YupTS.string()),
     prospectusLanguage: YupTS.string(),
-    minTicketEur: YupTS.number().enhance(
-      (v: NumberSchema) =>
-        minTicketSize !== undefined
-          ? v.min(minTicketSize, (
-              <FormattedMessage
-                id="eto.form.section.eto-terms.minimum-ticket-size.error.less-than-accepted"
-                values={{ value: minTicketSize }}
-              />
-            ) as any)
-          : v,
+    minTicketEur: YupTS.number().enhance((v: NumberSchema) =>
+      minTicketSize !== undefined
+        ? v.min(minTicketSize, (
+            <FormattedMessage
+              id="eto.form.section.eto-terms.minimum-ticket-size.error.less-than-accepted"
+              values={{ value: minTicketSize }}
+            />
+          ) as any)
+        : v,
     ),
     maxTicketEur: YupTS.number()
       .optional()
@@ -256,10 +256,7 @@ export const getEtoTermsSchema = ({
         return v;
       }),
     enableTransferOnSuccess: YupTS.boolean(),
-    notUnderCrowdfundingRegulations: YupTS.onlyTrue(
-      <FormattedMessage id="eto.form.section.eto-terms.is-not-crowdfunding.error" />,
-    ),
-    allowRetailInvestors: YupTS.boolean(),
+    tokenTradeableOnSuccess: YupTS.boolean().optional(),
     whitelistDurationDays: YupTS.number().enhance(v => {
       if (minWhitelistDurationDays !== undefined) {
         v = v.min(minWhitelistDurationDays);

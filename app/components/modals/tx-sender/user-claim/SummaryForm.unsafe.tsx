@@ -23,36 +23,34 @@ const SummaryForm: React.FunctionComponent<IExternalProps> = ({ onSubmit }) => (
     initialValues={{ readDocuments: false }}
     onSubmit={onSubmit}
   >
-    {({ isValid }) => {
-      return (
-        <Form>
-          <Container>
-            <Row className="justify-content-center">
-              <Col xs={12} className="mb-3 d-flex justify-content-center">
-                <FormFieldBoolean
-                  label={
-                    <FormattedMessage id="modals.tx-sender.user-claim-summary.download-confirmation" />
-                  }
-                  name="readDocuments"
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col className="text-center">
-                <Button
-                  disabled={!isValid}
-                  className="mt-2"
-                  onClick={onSubmit}
-                  data-test-id="modals.tx-sender.withdraw-flow.summery.withdrawSummery.accept"
-                >
-                  <FormattedMessage id="withdraw-flow.confirm" />
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </Form>
-      );
-    }}
+    {({ isValid }) => (
+      <Form>
+        <Container>
+          <Row className="justify-content-center">
+            <Col xs={12} className="mb-3 d-flex justify-content-center">
+              <FormFieldBoolean
+                label={
+                  <FormattedMessage id="modals.tx-sender.user-claim-summary.download-confirmation" />
+                }
+                name="readDocuments"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col className="text-center">
+              <Button
+                disabled={!isValid}
+                className="mt-2"
+                onClick={onSubmit}
+                data-test-id="modals.tx-sender.withdraw-flow.summery.withdrawSummery.accept"
+              >
+                <FormattedMessage id="withdraw-flow.confirm" />
+              </Button>
+            </Col>
+          </Row>
+        </Container>
+      </Form>
+    )}
   </Formik>
 );
 

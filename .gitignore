@@ -21,3 +21,4 @@ storybook-static
 .vscode
 .idea
 platform-frontend.iml
+.env.cpy

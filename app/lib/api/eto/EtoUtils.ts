@@ -18,23 +18,19 @@ export const getNumberOfTokens = ({
   newSharesToIssue = 1,
   minimumNewSharesToIssue = 0,
   equityTokensPerShare = 1,
-}: TPartialEtoSpecData) => {
-  return {
-    computedMaxNumberOfTokens: newSharesToIssue * equityTokensPerShare,
-    computedMinNumberOfTokens: minimumNewSharesToIssue * equityTokensPerShare,
-  };
-};
+}: TPartialEtoSpecData) => ({
+  computedMaxNumberOfTokens: newSharesToIssue * equityTokensPerShare,
+  computedMinNumberOfTokens: minimumNewSharesToIssue * equityTokensPerShare,
+});
 
 export const getCapPercent = ({
   newSharesToIssue = 1,
   minimumNewSharesToIssue = 0,
   existingCompanyShares = 1,
-}: TPartialEtoSpecData) => {
-  return {
-    computedMaxCapPercent: (newSharesToIssue / existingCompanyShares) * 100,
-    computedMinCapPercent: (minimumNewSharesToIssue / existingCompanyShares) * 100,
-  };
-};
+}: TPartialEtoSpecData) => ({
+  computedMaxCapPercent: (newSharesToIssue / existingCompanyShares) * 100,
+  computedMinCapPercent: (minimumNewSharesToIssue / existingCompanyShares) * 100,
+});
 
 export const getShareAndTokenPrice = ({
   preMoneyValuationEur = 0,
@@ -91,9 +87,8 @@ const getMaxInvestmentAmountWithDiscount = (
   return amount;
 };
 
-export const getInvestmentCalculatedPercentage = (eto: TEtoSpecsData) => {
-  return (eto.newSharesToIssue / eto.minimumNewSharesToIssue) * 100;
-};
+export const getInvestmentCalculatedPercentage = (eto: TEtoSpecsData) =>
+  (eto.newSharesToIssue / eto.minimumNewSharesToIssue) * 100;
 
 export const getCurrentInvestmentProgressPercentage = (eto: TEtoWithCompanyAndContract) => {
   const totalTokensInt = eto.contract!.totalInvestment.totalTokensInt.toNumber();

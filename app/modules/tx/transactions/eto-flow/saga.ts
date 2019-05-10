@@ -1,5 +1,6 @@
 import { put, select } from "redux-saga/effects";
 
+import { ipfsLinkFromHash } from "../../../../components/documents/utils";
 import { TGlobalDependencies } from "../../../../di/setupBindings";
 import { ETOCommitment } from "../../../../lib/contracts/ETOCommitment";
 import { ITxData } from "../../../../lib/web3/types";
@@ -70,7 +71,7 @@ export function* generateSignInvestmentAgreementTx(
 
     const contract: ETOCommitment = yield contractsService.getETOCommitmentContract(etoId);
     const txData: string = yield contract
-      .companySignsInvestmentAgreementTx(`ifps:${agreementHash}`)
+      .companySignsInvestmentAgreementTx(ipfsLinkFromHash(agreementHash))
       .getData();
 
     const txInitialDetails = {
