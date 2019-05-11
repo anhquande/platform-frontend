@@ -60,9 +60,10 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
           roundingMode={selectRoundingMethod(currency)}
         />
       </div>
-      <div className={styles.totalMoney} data-test-id={makeTid(dataTestId, "value")}>
+      <div className={styles.totalMoney}>
         ={" "}
         <Money
+          data-test-id={makeTid(dataTestId, "value")}
           value={value}
           currency={currencyTotal}
           roundingMode={selectRoundingMethod(currency)}

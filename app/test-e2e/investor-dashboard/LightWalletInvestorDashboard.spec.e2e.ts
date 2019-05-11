@@ -1,6 +1,7 @@
 import * as moment from "moment";
 
 import { convertToBigInt } from "../../utils/Number.utils";
+import { INV_ETH_ICBM_NO_KYC } from "../fixtures";
 import { assertMoneyNotEmpty } from "../utils";
 import { goToDashboard, goToDashboardWithRequiredPayoutAmountSet } from "../utils/navigation";
 import { tid } from "../utils/selectors";
@@ -10,6 +11,19 @@ describe("Auto Login", () => {
   it("will auto login", () => {
     createAndLoginNewUser({ type: "investor" }).then(() => {
       goToDashboard();
+    });
+  });
+});
+
+describe("Dashboard Money Components", () => {
+  it("should have the same value of money in my wallet component", () => {
+    createAndLoginNewUser({ type: "investor", seed: INV_ETH_ICBM_NO_KYC }).then(() => {
+      goToDashboard();
+      cy.get(tid("my-wallet-widget-eth-token.value.amount")).then(value => {
+        cy.get(tid("my-wallet-widget-total-euro.amount")).then(value2 => {
+          expect(value.text()).to.equal(value2.text());
+        });
+      });
     });
   });
 });

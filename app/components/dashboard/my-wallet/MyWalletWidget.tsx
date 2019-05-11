@@ -19,7 +19,7 @@ import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { appRoutes } from "../../appRoutes";
 import { ButtonLink, EButtonLayout } from "../../shared/buttons";
-import { ECurrency } from "../../shared/formatters/utils";
+import { ECurrency, ERoundingMode } from "../../shared/formatters/utils";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget";
@@ -63,7 +63,6 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
       isIcbmWalletConnected,
       isLockedWalletConnected,
     } = props.data!;
-
     return (
       <>
         <Row>
@@ -96,8 +95,10 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
               </span>
               <Money
                 value={totalAmount}
+                roundingMode={ERoundingMode.DOWN}
                 currency={ECurrency.EUR}
                 currencySymbol={ECurrencySymbol.NONE}
+                data-test-id="my-wallet-widget-total-euro"
                 className={cn(styles.money, "pl-1 pl-sm-2 m-0")}
               />
               <span className="pl-1">EUR</span>

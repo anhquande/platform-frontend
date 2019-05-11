@@ -3,7 +3,9 @@ import * as cn from "classnames";
 import * as React from "react";
 
 import { MONEY_DECIMALS } from "../../config/constants";
+import { TDataTestId } from "../../types";
 import { formatMoney } from "../../utils/Money.utils";
+import { makeTid } from "../../utils/tidUtils";
 import { selectCurrencyCode } from "./formatters/Money";
 import { ECurrency, EMoneyInputFormat, ERoundingMode } from "./formatters/utils";
 import { NumberFormat } from "./NumberFormat";
@@ -106,7 +108,7 @@ export function getFormattedMoney(
  * @deprecated
  * Use app/components/shared/formatters/MoneyNew
  * */
-const Money: React.FunctionComponent<IProps> = ({
+const Money: React.FunctionComponent<IProps & TDataTestId> = ({
   value,
   format = EMoneyInputFormat.ULPS,
   currency,
@@ -115,6 +117,7 @@ const Money: React.FunctionComponent<IProps> = ({
   currencySymbol = ECurrencySymbol.CODE,
   theme,
   isPrice,
+  "data-test-id": dataTestId,
   roundingMode,
   ...props
 }) => {
@@ -139,7 +142,9 @@ const Money: React.FunctionComponent<IProps> = ({
           {selectCurrencySymbol(currency)}
         </span>
       )}
-      <span className={cn(styles.value)}>{formattedMoney}</span>
+      <span className={cn(styles.value)} data-test-id={makeTid(dataTestId, "amount")}>
+        {formattedMoney}
+      </span>
       {currencySymbol === ECurrencySymbol.CODE && (
         <span className={cn(styles.currency, currencyClassName)}>
           {" "}
