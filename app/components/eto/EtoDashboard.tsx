@@ -165,7 +165,10 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
-            <FormattedHTMLMessage tagName="p" id="shared-component.eto-overview.status-in-review.review-message" />
+            <FormattedHTMLMessage
+              tagName="p"
+              id="shared-component.eto-overview.status-in-review.review-message"
+            />
           </Container>
           <ETOFormsProgressSection />
         </>
