@@ -1,10 +1,14 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { EEtoState } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import {
+  EEtoState,
+  EIsMarketingDataVisibleInPreview,
+} from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { etoFormIsReadonly } from "../../../lib/api/eto/EtoApiUtils";
 import {
   selectIsGeneralEtoLoading,
+  selectIsMarketingDataVisibleInPreview,
   selectIssuerCompany,
   selectIssuerEto,
   selectIssuerEtoState,
@@ -59,6 +63,7 @@ export interface IStateProps {
   etoEquityTokenInfoProgress: number;
   etoVotingRightsProgress: number;
   etoInvestmentTermsProgress: number;
+  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
 export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStateProps> = ({
@@ -75,6 +80,7 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
   etoEquityTokenInfoProgress,
   etoVotingRightsProgress,
   etoInvestmentTermsProgress,
+  isMarketingDataVisibleInPreview,
 }) => {
   const companySections: ReadonlyArray<IEtoSection> = [
     {
@@ -108,15 +114,15 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
       name: <FormattedMessage id="eto.form-progress-widget.company-information.media" />,
       testingId: "eto-progress-widget-media",
     },
-  ];
-
-  const etoSections: ReadonlyArray<IEtoSection> = [
     {
       id: EEtoFormTypes.EtoEquityTokenInfo,
       progress: etoEquityTokenInfoProgress,
       name: <FormattedMessage id="eto.form-progress-widget.eto-settings.equity-token-info" />,
       testingId: "eto-progress-widget-equity-token-info",
     },
+  ];
+
+  const etoSections: ReadonlyArray<IEtoSection> = [
     {
       id: EEtoFormTypes.EtoTerms,
       progress: etoTermsProgress,
@@ -144,16 +150,21 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
     },
   ];
 
-  const groups = [
-    {
-      name: <FormattedMessage id="eto.form-progress-widget.company-information" />,
-      sections: companySections,
-    },
-    {
-      name: <FormattedMessage id="eto.form-progress-widget.eto-settings" />,
-      sections: etoSections,
-    },
-  ];
+  const shouldHideEtoSections =
+    isMarketingDataVisibleInPreview !== EIsMarketingDataVisibleInPreview.VISIBLE &&
+    etoStatus === EEtoState.PREVIEW;
+
+  const companySectionsGroup = {
+    name: <FormattedMessage id="eto.form-progress-widget.company-information" />,
+    sections: companySections,
+  };
+
+  const etoSectionGroup = {
+    name: <FormattedMessage id="eto.form-progress-widget.eto-settings" />,
+    sections: etoSections,
+  };
+
+  const groups = [companySectionsGroup, ...(shouldHideEtoSections ? [] : [etoSectionGroup])];
 
   return (
     <>
@@ -199,5 +210,6 @@ export const ETOFormsProgressSection = appConnect<IStateProps, {}>({
     etoEquityTokenInfoProgress: calculateEtoEquityTokenInfoProgress(selectIssuerEto(state)),
     etoRiskAssessmentProgress: calculateEtoRiskAssessmentProgress(selectIssuerCompany(state)),
     etoInvestmentTermsProgress: calculateInvestmentTermsProgress(selectIssuerEto(state)),
+    isMarketingDataVisibleInPreview: selectIsMarketingDataVisibleInPreview(state),
   }),
 })(ETOFormsProgressSectionComponent);

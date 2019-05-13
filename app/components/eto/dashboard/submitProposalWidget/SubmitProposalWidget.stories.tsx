@@ -3,6 +3,6 @@ import * as React from "react";
 
 import { SubmitProposalWidgetComponent } from "./SubmitProposalWidget";
 
-storiesOf("SubmitProposalWidget", module).add("default", () => (
+storiesOf("PublishETOWidget", module).add("default", () => (
   <SubmitProposalWidgetComponent submitProposal={() => {}} />
 ));

@@ -3,7 +3,10 @@ import { FormattedHTMLMessage } from "react-intl-phraseapp";
 import { lifecycle, withProps } from "recompose";
 import { compose } from "redux";
 
-import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import {
+  EEtoState,
+  EIsMarketingDataVisibleInPreview,
+} from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { ERequestStatus } from "../../lib/api/KycApi.interfaces";
 import { actions } from "../../modules/actions";
@@ -11,6 +14,7 @@ import { selectBackupCodesVerified, selectVerifiedUserEmail } from "../../module
 import {
   selectCanEnableBookBuilding,
   selectCombinedEtoCompanyData,
+  selectIsMarketingDataVisibleInPreview,
   selectIsOfferingDocumentSubmitted,
   selectIssuerEtoOfferingDocumentType,
   selectIssuerEtoPreviewCode,
@@ -34,6 +38,7 @@ import { LoadingIndicator } from "../shared/loading-indicator";
 import { BookBuildingWidget } from "./dashboard/bookBuildingWidget/BookBuildingWidget";
 import { ChooseEtoStartDateWidget } from "./dashboard/chooseEtoStartDateWidget/ChooseEtoStartDateWidget";
 import { ETOFormsProgressSection } from "./dashboard/ETOFormsProgressSection";
+import { PublishETOWidget } from "./dashboard/PublishETOWidget";
 import { UploadInvestmentAgreement } from "./dashboard/signInvestmentAgreementWidget/UploadInvestmentAgreementWidget.unsafe";
 import { SubmitProposalWidget } from "./dashboard/submitProposalWidget/SubmitProposalWidget";
 import { UploadInvestmentMemorandum } from "./dashboard/UploadInvestmentMemorandum";
@@ -57,6 +62,7 @@ interface IStateProps {
   isTermSheetSubmitted?: boolean;
   isOfferingDocumentSubmitted?: boolean;
   offeringDocumentType: EOfferingDocumentType | undefined;
+  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
 interface IComputedProps {
@@ -78,6 +84,7 @@ interface IComponentProps {
   offeringDocumentType: EOfferingDocumentType | undefined;
   isVerificationSectionDone: boolean;
   shouldViewSubmissionSection: boolean;
+  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
 interface IDispatchProps {
@@ -122,6 +129,7 @@ interface IEtoStateRender {
   canEnableBookbuilding: boolean;
   previewCode?: string;
   offeringDocumentType: EOfferingDocumentType | undefined;
+  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
 const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> = ({
@@ -132,6 +140,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
   canEnableBookbuilding,
   previewCode,
   offeringDocumentType,
+  isMarketingDataVisibleInPreview,
 }) => {
   if (!previewCode) {
     return (
@@ -151,12 +160,15 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
     case EEtoState.PREVIEW:
       return (
         <>
-          {shouldViewSubmissionSection && (
-            <SubmitDashBoardSection
-              isTermSheetSubmitted={isTermSheetSubmitted}
-              columnSpan={EColumnSpan.TWO_COL}
-            />
-          )}
+          {shouldViewSubmissionSection &&
+            (isMarketingDataVisibleInPreview === EIsMarketingDataVisibleInPreview.VISIBLE ? (
+              <SubmitDashBoardSection
+                isTermSheetSubmitted={isTermSheetSubmitted}
+                columnSpan={EColumnSpan.TWO_COL}
+              />
+            ) : (
+              <PublishETOWidget isMarketingDataVisibleInPreview={isMarketingDataVisibleInPreview} />
+            ))}
           <EtoProgressDashboardSection />
         </>
       );
@@ -241,6 +253,7 @@ class EtoDashboardComponent extends React.Component<IComponentProps> {
       offeringDocumentType,
       isVerificationSectionDone,
       userHasKycAndEmailVerified,
+      isMarketingDataVisibleInPreview,
     } = this.props;
 
     return (
@@ -270,6 +283,7 @@ class EtoDashboardComponent extends React.Component<IComponentProps> {
             canEnableBookbuilding={canEnableBookbuilding}
             previewCode={previewCode}
             offeringDocumentType={offeringDocumentType}
+            isMarketingDataVisibleInPreview={isMarketingDataVisibleInPreview}
           />
         )}
       </WidgetGridLayout>
@@ -293,6 +307,7 @@ const EtoDashboard = compose<React.FunctionComponent>(
       isOfferingDocumentSubmitted: selectIsOfferingDocumentSubmitted(s),
       etoFormProgress: calculateGeneralEtoData(selectCombinedEtoCompanyData(s)),
       offeringDocumentType: selectIssuerEtoOfferingDocumentType(s),
+      isMarketingDataVisibleInPreview: selectIsMarketingDataVisibleInPreview(s),
     }),
     dispatchToProps: dispatch => ({
       initEtoView: () => {

@@ -1,9 +1,9 @@
-import { assertEtoDashboard, assertEtoDocuments } from "../utils/assertions";
+import { assertEtoDocuments } from "../utils/assertions";
 import { checkForm, fillForm, TFormFixture, uploadDocumentToFieldWithTid } from "../utils/forms";
 import { goToEtoDashboard } from "../utils/navigation";
 import { tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
-import { submitProposal } from "./EtoRegistrationUtils";
+import { fillAndAssert, submitProposal } from "./EtoRegistrationUtils";
 import {
   aboutFormRequired,
   aboutFormSubmit,
@@ -14,12 +14,6 @@ import {
   mediaRequiredForm,
   votingRights,
 } from "./fixtures";
-
-const fillAndAssert = (section: string, sectionForm: TFormFixture) => {
-  cy.get(tid(section, "button")).click();
-  fillForm(sectionForm);
-  assertEtoDashboard();
-};
 
 const openAndCheckValues = (section: string, sectionForm: TFormFixture) => {
   cy.get(tid(section, "button")).click();
