@@ -136,6 +136,7 @@ $_active-color: lighten($_hover-color, 20%);
     @include font-label;
 
     font-weight: normal;
+    text-align: inherit;
     text-transform: inherit;
 
     .content {
