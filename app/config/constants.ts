@@ -53,18 +53,6 @@ export const PlatformTerms = {
  */
 
 export const MIN_COMPANY_SHARES = 100;
-export const WHITELIST_DURATION_DAYS = {
-  min: 1,
-  max: 14,
-};
-export const PUBLIC_DURATION_DAYS = {
-  min: 0,
-  max: 60,
-};
-export const SIGNING_DURATION_DAYS = {
-  min: 14,
-  max: 60,
-};
 export const MIN_SHARE_NOMINAL_VALUE_EUR = 1;
 export const MIN_PRE_MONEY_VALUATION_EUR = 100000;
 export const MIN_EXISTING_COMPANY_SHARES = 1;
@@ -72,6 +60,7 @@ export const MIN_NEW_SHARES_TO_ISSUE = 1;
 export const NEW_SHARES_TO_ISSUE_IN_WHITELIST = 1;
 export const NEW_SHARES_TO_ISSUE_IN_FIXED_SLOTS = 1;
 export const BOOKBUILDING_WATCHER_DELAY = 6000;
+export const COMPANY_TAGS_LIMIT = 6;
 
 /**
  * Constants for react components

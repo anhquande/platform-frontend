@@ -95,7 +95,7 @@ const NoPendingTransaction: React.FunctionComponent = () => (
 );
 
 const PendingTransactionStatus = branch<IExternalProps>(
-  props => !props.pendingTransaction,
+  props => !props.pendingTransaction || !props.pendingTransaction.transactionStatus,
   renderComponent(NoPendingTransaction),
 )(PendingTransactionStatusLayout);
 

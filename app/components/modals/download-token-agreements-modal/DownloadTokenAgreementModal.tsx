@@ -75,7 +75,9 @@ const DownloadTokenAgreementModalComponent: React.FunctionComponent<IComponentPr
                     caption={
                       <DocumentTemplateLabel
                         onClick={() => {}}
-                        title={getDocumentTitles(eto.allowRetailInvestors)[document.documentType]}
+                        title={
+                          getDocumentTitles(eto.product.offeringDocumentType)[document.documentType]
+                        }
                       />
                     }
                     value={
@@ -113,7 +115,9 @@ const DownloadTokenAgreementModalComponent: React.FunctionComponent<IComponentPr
                     caption={
                       <DocumentTemplateLabel
                         onClick={() => {}}
-                        title={getDocumentTitles(eto.allowRetailInvestors)[template.documentType]}
+                        title={
+                          getDocumentTitles(eto.product.offeringDocumentType)[template.documentType]
+                        }
                       />
                     }
                     value={

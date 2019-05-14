@@ -1,11 +1,15 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { setDisplayName, withProps } from "recompose";
+import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
 import { actions } from "../../../../../modules/actions";
 import { selectBookbuildingStats } from "../../../../../modules/bookbuilding-flow/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
+import {
+  EETOStateOnChain,
+  EEtoSubState,
+  TEtoWithCompanyAndContract,
+} from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { onEnterAction } from "../../../../../utils/OnEnterAction";
 import { CounterWidget } from "../CounterWidget";
@@ -15,7 +19,7 @@ import * as styles from "../EtoStatusManager.module.scss";
 
 export interface IExternalProps {
   eto: TEtoWithCompanyAndContract;
-  nextStateStartDate: Date;
+  etoSubState: EEtoSubState | undefined;
 }
 
 interface IStateProps {
@@ -23,20 +27,18 @@ interface IStateProps {
   investorsCount: number;
 }
 
-interface IWithProps {
-  isInvestorsLimitReached: boolean;
-}
-
-type IProps = IWithProps & IExternalProps & IStateProps;
+type IProps = IExternalProps & IStateProps;
 
 const WhitelistLayout: React.FunctionComponent<IProps> = ({
   eto,
   pledgedAmount,
   investorsCount,
-  isInvestorsLimitReached,
-  nextStateStartDate,
+  etoSubState,
 }) => {
-  if (eto.isBookbuilding && !isInvestorsLimitReached) {
+  if (
+    etoSubState !== EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE &&
+    etoSubState !== EEtoSubState.COUNTDOWN_TO_PRESALE
+  ) {
     return (
       <>
         <WhitelistStatus
@@ -50,6 +52,16 @@ const WhitelistLayout: React.FunctionComponent<IProps> = ({
         </p>
       </>
     );
+  }
+
+  const nextState =
+    etoSubState === EEtoSubState.COUNTDOWN_TO_PRESALE
+      ? EETOStateOnChain.Whitelist
+      : EETOStateOnChain.Public;
+  const nextStateStartDate = eto.contract!.startOfStates[nextState];
+
+  if (nextStateStartDate === undefined) {
+    throw new Error("Next state should be defined as this point");
   }
 
   return <CounterWidget endDate={nextStateStartDate} />;
@@ -71,9 +83,6 @@ const Whitelist = compose<React.FunctionComponent<IExternalProps>>(
       dispatch(actions.bookBuilding.loadBookBuildingStats(props.eto.etoId));
     },
   }),
-  withProps<IWithProps, IStateProps & IExternalProps>(({ eto, investorsCount }) => ({
-    isInvestorsLimitReached: investorsCount >= eto.maxPledges,
-  })),
   setDisplayName("Whitelist"),
 )(WhitelistLayout);
 

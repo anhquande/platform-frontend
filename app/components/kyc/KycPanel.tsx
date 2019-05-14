@@ -2,7 +2,7 @@ import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ButtonLink, EButtonLayout } from "../shared/buttons";
+import { ButtonLink, EButtonLayout, EIconPosition } from "../shared/buttons";
 import { Panel } from "../shared/Panel";
 import { IVerificationProgressStep, VerificationStatus } from "../shared/VerificationStatus";
 
@@ -52,7 +52,7 @@ export const KycPanel: React.FunctionComponent<IPropsKycPanel> = ({
         <ButtonLink
           to={backLink}
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-before"
+          iconPosition={EIconPosition.ICON_BEFORE}
           svgIcon={arrowLeft}
         >
           <FormattedMessage id="kyc.panel.go-back" />

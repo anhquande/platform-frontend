@@ -31,6 +31,7 @@ export const aboutForm: TFormFixture = {
 
 // legal info
 export const legalInfoRequiredForm: TFormFixture = {
+  companyLegalDescription: "Sunt elogiumes fallere camerarius, emeritis tabeses.",
   foundingDate: {
     value: "22/02/1999",
     type: "date",

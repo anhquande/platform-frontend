@@ -11,7 +11,7 @@ import {
   IEtoDocument,
   TEtoDocumentTemplates,
 } from "../../lib/api/eto/EtoFileApi.interfaces";
-import { EProductName } from "../../lib/api/eto/EtoProductsApi.interfaces";
+import { EOfferingDocumentType, EProductName } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { ERequestStatus } from "../../lib/api/KycApi.interfaces";
 import { IAppState } from "../../store";
 import { DeepReadonly } from "../../types";
@@ -62,7 +62,7 @@ export const selectMaxPledges = (state: IAppState) => {
   return eto !== undefined ? eto.maxPledges : null;
 };
 
-export const selectEtoId = (state: IAppState): string | undefined => {
+export const selectIssuerEtoId = (state: IAppState): string | undefined => {
   const eto = selectIssuerEto(state);
   if (eto) {
     return eto.etoId;
@@ -90,14 +90,16 @@ export const selectIssuerEtoState = (state: IAppState): EEtoState | undefined =>
   return undefined;
 };
 
-export const selectIssuerEtoIsRetail = (state: IAppState): boolean => {
+export const selectIssuerEtoOfferingDocumentType = (
+  state: IAppState,
+): EOfferingDocumentType | undefined => {
   const eto = selectIssuerEto(state);
 
   if (eto) {
-    return eto.allowRetailInvestors;
+    return eto.product.offeringDocumentType;
   }
 
-  return false;
+  return undefined;
 };
 
 export const selectIssuerCompany = (state: IAppState): TCompanyEtoData | undefined => {
@@ -178,7 +180,7 @@ export const selectInvestmentAgreementLoading = (state: DeepReadonly<IAppState>)
 export const selectSignedInvestmentAgreementUrl = (state: DeepReadonly<IAppState>): string | null =>
   state.etoFlow.signedInvestmentAgreementUrl;
 
-export const selectShouldEtoDataLoad = (state: IAppState) =>
+export const userHasKycAndEmailVerified = (state: IAppState) =>
   selectKycRequestStatus(state) === ERequestStatus.ACCEPTED &&
   selectIsUserEmailVerified(state.auth);
 

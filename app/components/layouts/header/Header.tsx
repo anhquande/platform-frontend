@@ -10,7 +10,7 @@ import { selectIsAuthorized, selectUserType } from "../../../modules/auth/select
 import { selectPlatformPendingTransaction } from "../../../modules/tx/monitor/selectors";
 import { appConnect } from "../../../store";
 import { appRoutes } from "../../appRoutes";
-import { Button, ButtonLink, EButtonLayout } from "../../shared/buttons";
+import { Button, ButtonLink, EButtonLayout, EButtonTheme } from "../../shared/buttons";
 import { loginWalletRoutes, walletRegisterRoutes } from "../../wallet-selector/walletRoutes";
 import { PendingTransactionStatus } from "./PendingTransactionStatus";
 
@@ -45,7 +45,7 @@ export const HeaderComponent: React.FunctionComponent<IStateProps & IDispatchPro
         <Button
           className="ml-2"
           layout={EButtonLayout.SECONDARY}
-          theme="white"
+          theme={EButtonTheme.WHITE}
           onClick={() => props.logout(props.userType)}
           data-test-id="Header-logout"
         >
@@ -57,7 +57,7 @@ export const HeaderComponent: React.FunctionComponent<IStateProps & IDispatchPro
         {props.location && props.location.indexOf("eto") !== -1 ? (
           <>
             <ButtonLink
-              theme="white"
+              theme={EButtonTheme.WHITE}
               innerClassName={cn(styles.registerButton, styles.resizableButton)}
               data-test-id="Header-register-eto"
               isActive={false}
@@ -66,7 +66,7 @@ export const HeaderComponent: React.FunctionComponent<IStateProps & IDispatchPro
               <FormattedMessage id="header.register-button" />
             </ButtonLink>
             <ButtonLink
-              theme="white"
+              theme={EButtonTheme.WHITE}
               innerClassName={styles.resizableButton}
               data-test-id="Header-login-eto"
               isActive={false}
@@ -78,7 +78,7 @@ export const HeaderComponent: React.FunctionComponent<IStateProps & IDispatchPro
         ) : (
           <>
             <ButtonLink
-              theme="white"
+              theme={EButtonTheme.WHITE}
               innerClassName={cn(styles.registerButton, styles.resizableButton)}
               data-test-id="Header-register"
               isActive={false}
@@ -87,7 +87,7 @@ export const HeaderComponent: React.FunctionComponent<IStateProps & IDispatchPro
               <FormattedMessage id="header.register-button" />
             </ButtonLink>
             <ButtonLink
-              theme="white"
+              theme={EButtonTheme.WHITE}
               innerClassName={styles.resizableButton}
               data-test-id="Header-login"
               isActive={false}

@@ -19,7 +19,7 @@ import { appConnect } from "../../../../store";
 import { formatToFixed } from "../../../../utils/Money.utils";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
 import { extractNumber } from "../../../../utils/StringUtils";
-import { Button, ButtonSize, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
+import { Button, ButtonSize, EButtonLayout } from "../../../shared/buttons/Button";
 import { ButtonArrowRight } from "../../../shared/buttons/index";
 import { ECurrency, EMoneyInputFormat, ERoundingMode } from "../../../shared/formatters/utils";
 import { FormLabel } from "../../../shared/forms/fields/FormFieldLabel";

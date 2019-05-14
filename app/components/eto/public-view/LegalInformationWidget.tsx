@@ -9,7 +9,7 @@ import { ECurrency, EMoneyInputFormat } from "../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { NumberFormat } from "../../shared/NumberFormat";
 import { Panel } from "../../shared/Panel";
-import { FUNDING_ROUNDS } from "../registration/pages/LegalInformation";
+import { FUNDING_ROUNDS } from "../constants";
 import { CHART_COLORS } from "../shared/EtoView";
 
 import * as styles from "./LegalInformationWidget.module.scss";
@@ -144,20 +144,22 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
           </div>
         </Col>
 
-        <Col>
-          <ChartDoughnut
-            className="mb-3"
-            data={{
-              datasets: [
-                {
-                  data: shareholdersData.map(d => d && d.shares),
-                  backgroundColor: shareholdersData.map((_, i: number) => CHART_COLORS[i]),
-                },
-              ],
-              labels: shareholdersData.map(d => d && d.fullName),
-            }}
-          />
-        </Col>
+        {companyData.shareholders && companyData.shareholders.length > 0 && (
+          <Col>
+            <ChartDoughnut
+              className="mb-3"
+              data={{
+                datasets: [
+                  {
+                    data: shareholdersData.map(d => d && d.shares),
+                    backgroundColor: shareholdersData.map((_, i: number) => CHART_COLORS[i]),
+                  },
+                ],
+                labels: shareholdersData.map(d => d && d.fullName),
+              }}
+            />
+          </Col>
+        )}
       </Row>
     </Panel>
   );

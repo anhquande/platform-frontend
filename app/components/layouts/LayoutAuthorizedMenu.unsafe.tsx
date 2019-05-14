@@ -10,7 +10,7 @@ import { externalRoutes } from "../../config/externalRoutes";
 import { EUserType } from "../../lib/api/users/interfaces";
 import { actions } from "../../modules/actions";
 import { selectUserType } from "../../modules/auth/selectors";
-import { selectShouldEtoDataLoad } from "../../modules/eto-flow/selectors";
+import { userHasKycAndEmailVerified } from "../../modules/eto-flow/selectors";
 import { selectGenericModalIsOpen } from "../../modules/generic-modal/selectors";
 import { selectIsClaimsVerified } from "../../modules/kyc/selectors";
 import { selectIsActionRequiredSettings } from "../../modules/notifications/selectors";
@@ -269,7 +269,7 @@ const LayoutAuthorizedMenu = compose<IStateProps & IDispatchProps & IWithProps, 
     stateToProps: state => ({
       userType: selectUserType(state),
       actionRequiredSettings: selectIsActionRequiredSettings(state),
-      shouldEtoDataLoad: selectShouldEtoDataLoad(state),
+      shouldEtoDataLoad: userHasKycAndEmailVerified(state),
       isIdentityModalOpened: selectGenericModalIsOpen(state),
       isClaimsVerified: selectIsClaimsVerified(state),
     }),

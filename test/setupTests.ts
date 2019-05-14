@@ -29,3 +29,6 @@ process.on("unhandledRejection", (reason, p) => {
   console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
   process.exit(1);
 });
+
+// TODO: Remove after enzyme adds support for React.Suspense
+process.env.NF_IS_MOCHA = "1";

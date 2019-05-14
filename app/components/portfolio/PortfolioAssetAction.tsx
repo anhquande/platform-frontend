@@ -6,7 +6,7 @@ import { selectEtoWithCompanyAndContractById } from "../../modules/eto/selectors
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../modules/eto/types";
 import { appConnect } from "../../store";
 import { InvestmentProgress } from "../eto/overview/EtoOverviewStatus/InvestmentWidget/InvestmentProgress";
-import { Button, ButtonSize, EButtonLayout } from "../shared/buttons";
+import { Button, ButtonSize, EButtonLayout, EIconPosition } from "../shared/buttons";
 
 import * as arrowRight from "../../assets/img/inline_icons/arrow_right.svg";
 
@@ -33,7 +33,7 @@ const PortfolioAssetActionComponent: React.FunctionComponent<
         <Button
           onClick={() => onClaim(etoId)}
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-after"
+          iconPosition={EIconPosition.ICON_AFTER}
           svgIcon={arrowRight}
           data-test-id={"modals.portfolio.portfolio-asset-action.claim-" + etoId}
           size={ButtonSize.SMALL}
@@ -45,7 +45,7 @@ const PortfolioAssetActionComponent: React.FunctionComponent<
       return (
         <Button
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-after"
+          iconPosition={EIconPosition.ICON_AFTER}
           svgIcon={arrowRight}
           size={ButtonSize.SMALL}
           disabled

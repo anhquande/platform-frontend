@@ -3,10 +3,13 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { IEtoDocument } from "../../../../lib/api/eto/EtoFileApi.interfaces";
+import {
+  EJurisdiction,
+  EOfferingDocumentType,
+} from "../../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions } from "../../../../modules/actions";
 import { appConnect } from "../../../../store";
-import { withParams } from "../../../../utils/withParams";
-import { appRoutes } from "../../../appRoutes";
+import { etoPublicViewLink } from "../../../appRouteUtils";
 import { EtherscanAddressLink } from "../../../shared/links";
 import { ETagSize, Tag } from "../../../shared/Tag.unsafe";
 import { EtoWidgetContext } from "../../EtoWidgetView";
@@ -16,8 +19,9 @@ export interface ITagsWidget {
   prospectusApproved: IEtoDocument;
   smartContractOnChain: boolean;
   etoId: string;
-  allowRetailEto?: boolean;
+  offeringDocumentType: EOfferingDocumentType;
   innerClass?: string;
+  jurisdiction: EJurisdiction;
 }
 
 type TDispatchProps = {
@@ -35,14 +39,16 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
   smartContractOnChain,
   etoId,
   downloadDocument,
-  allowRetailEto,
+  jurisdiction,
+  offeringDocumentType,
   innerClass,
 }) => {
-  const approvedDocumentTitle = allowRetailEto ? (
-    <FormattedMessage id="shared-component.eto-overview.prospectus-approved" />
-  ) : (
-    <FormattedMessage id="shared-component.eto-overview.investment-memorandum" />
-  );
+  const approvedDocumentTitle =
+    offeringDocumentType === EOfferingDocumentType.PROSPECTUS ? (
+      <FormattedMessage id="shared-component.eto-overview.prospectus-approved" />
+    ) : (
+      <FormattedMessage id="shared-component.eto-overview.investment-memorandum" />
+    );
 
   return (
     <EtoWidgetContext.Consumer>
@@ -54,7 +60,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
                 downloadDocument(termSheet);
                 e.stopPropagation();
               }}
-              to={previewCode ? withParams(appRoutes.etoPublicView, { previewCode }) : undefined}
+              to={previewCode ? etoPublicViewLink(previewCode, jurisdiction) : undefined}
               target={previewCode ? "_blank" : undefined}
               size={ETagSize.TINY}
               theme="green"
@@ -78,7 +84,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
                 downloadDocument(prospectusApproved);
                 e.stopPropagation();
               }}
-              to={previewCode ? withParams(appRoutes.etoPublicView, { previewCode }) : undefined}
+              to={previewCode ? etoPublicViewLink(previewCode, jurisdiction) : undefined}
               target={previewCode ? "_blank" : undefined}
               size={ETagSize.TINY}
               theme="green"
@@ -101,7 +107,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
               onClick={e => e.stopPropagation()}
               component={EtherscanAddressLink}
               componentProps={{ address: etoId }}
-              to={previewCode ? withParams(appRoutes.etoPublicView, { previewCode }) : undefined}
+              to={previewCode ? etoPublicViewLink(previewCode, jurisdiction) : undefined}
               target={previewCode ? "_blank" : undefined}
               size={ETagSize.TINY}
               theme="green"

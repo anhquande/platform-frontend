@@ -151,12 +151,14 @@ export const selectNeuRewardUlpsByEtoId = (state: IAppState, etoId: string) => {
 
 export const selectIsWhitelisted = (state: IAppState, etoId: string) => {
   const contrib = selectCalculatedContribution(state, etoId);
+
   return !!contrib && contrib.isWhitelisted;
 };
 
 export const selectIsEligibleToPreEto = (state: IAppState, etoId: string) => {
   const isLockedWalletConnected = selectLockedWalletConnected(state);
   const isWhitelisted = selectIsWhitelisted(state, etoId);
+
   return isLockedWalletConnected || isWhitelisted;
 };
 

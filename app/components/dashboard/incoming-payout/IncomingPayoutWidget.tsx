@@ -14,7 +14,7 @@ import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
 import { isZero } from "../../../utils/Number.utils";
 import { appRoutes } from "../../appRoutes";
-import { ButtonLink, EButtonLayout } from "../../shared/buttons";
+import { ButtonLink, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Counter } from "../../shared/Counter.unsafe";
 import { ECurrency } from "../../shared/formatters/utils";
 import { ECurrencySymbol, ETheme, Money } from "../../shared/Money.unsafe";
@@ -73,7 +73,7 @@ const IncomingPayoutDone: React.FunctionComponent<IIncomingPayoutData> = ({
       data-test-id="incoming-payout-go-to-portfolio"
       to={appRoutes.portfolio}
       layout={EButtonLayout.SECONDARY}
-      iconPosition="icon-after"
+      iconPosition={EIconPosition.ICON_AFTER}
       svgIcon={arrowRight}
     >
       <FormattedMessage id="dashboard.incoming-payout-widget.go-to-portfolio" />

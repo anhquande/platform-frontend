@@ -12,7 +12,6 @@ import { actions } from "../../../../modules/actions";
 import { selectIssuerCompany } from "../../../../modules/eto-flow/selectors";
 import { EEtoFormTypes } from "../../../../modules/eto-flow/types";
 import { appConnect } from "../../../../store";
-import { TTranslatedString } from "../../../../types";
 import { Button, EButtonLayout } from "../../../shared/buttons";
 import {
   ArrayOfKeyValueFields,
@@ -20,7 +19,9 @@ import {
   FormFieldDate,
   FormSelectField,
 } from "../../../shared/forms";
+import { FormTextArea } from "../../../shared/forms/fields/FormTextArea";
 import { FormHighlightGroup } from "../../../shared/forms/FormHighlightGroup";
+import { FUNDING_ROUNDS } from "../../constants";
 import {
   convert,
   convertInArray,
@@ -47,23 +48,6 @@ interface IDispatchProps {
   saveData: (values: TPartialCompanyEtoData) => void;
 }
 
-interface IRounds {
-  [key: string]: TTranslatedString;
-}
-
-export const FUNDING_ROUNDS: IRounds = {
-  NONE_KEY: <FormattedMessage id="form.select.please-select" />,
-  pre_seed: "Pre-Seed",
-  seed: "Seed",
-  a_round: "Series A",
-  b_round: "Series B",
-  c_round: "Series C",
-  d_round: "Series D",
-  e_round: "Series E",
-  pre_ipo: "Pre-IPO",
-  public: "PUBLIC",
-};
-
 const NUMBER_OF_EMPLOYEES = {
   NONE_KEY: <FormattedMessage id="form.select.please-select" />,
   "1-9": "1-9",
@@ -74,7 +58,7 @@ const NUMBER_OF_EMPLOYEES = {
 
 type IProps = IExternalProps & IStateProps & IDispatchProps & FormikProps<TPartialCompanyEtoData>;
 
-//Some fields in LegalInformation are always readonly because this data ist set during KYC process
+// Some fields in LegalInformation are always readonly because data are set during KYC process
 const EtoRegistrationLegalInformationComponent = ({ savingData }: IProps) => (
   <EtoFormBase title="Legal Information" validator={EtoLegalInformationType.toYup()}>
     <Section>
@@ -87,6 +71,10 @@ const EtoRegistrationLegalInformationComponent = ({ savingData }: IProps) => (
         label={<FormattedMessage id="eto.form.legal-information.legal-form" />}
         name="legalForm"
         disabled={true}
+      />
+      <FormTextArea
+        label={<FormattedMessage id="eto.form.legal-information.company-legal-description" />}
+        name="companyLegalDescription"
       />
       <FormField
         label={<FormattedMessage id="eto.form.legal-information.company-state-address" />}

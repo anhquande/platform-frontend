@@ -11,6 +11,8 @@ const MY_PLEDGE_PATH = "/etos/:etoId/pledges/me";
 export class EtoPledgeApiError extends Error {}
 export class EtoPledgeNotFound extends EtoPledgeApiError {}
 
+const myPledgePathLink = (etoId: string) => withParams(MY_PLEDGE_PATH, { etoId });
+
 @injectable()
 export class EtoPledgeApi {
   constructor(
@@ -20,7 +22,7 @@ export class EtoPledgeApi {
   public async getMyPledge(etoId: string): Promise<IHttpResponse<IPledge>> {
     const response = await this.authorizedHttpClient.get<IPledge>({
       baseUrl: BASE_PATH,
-      url: withParams(MY_PLEDGE_PATH, { etoId }),
+      url: myPledgePathLink(etoId),
       allowedStatusCodes: [404],
     });
 
@@ -34,7 +36,7 @@ export class EtoPledgeApi {
   public saveMyPledge(etoId: string, pledge: IPledge): Promise<IHttpResponse<IPledge>> {
     return this.authorizedHttpClient.put<IPledge>({
       baseUrl: BASE_PATH,
-      url: withParams(MY_PLEDGE_PATH, { etoId }),
+      url: myPledgePathLink(etoId),
       body: pledge,
     });
   }
@@ -42,7 +44,7 @@ export class EtoPledgeApi {
   public deleteMyPledge(etoId: string): Promise<IHttpResponse<IPledge>> {
     return this.authorizedHttpClient.delete<IPledge>({
       baseUrl: BASE_PATH,
-      url: withParams(MY_PLEDGE_PATH, { etoId }),
+      url: myPledgePathLink(etoId),
     });
   }
 }

@@ -6,6 +6,7 @@ import { compose } from "recompose";
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IEtoDocument, TEtoDocumentTemplates } from "../../../lib/api/eto/EtoFileApi.interfaces";
 import { ignoredDocuments, ignoredTemplates } from "../../../lib/api/eto/EtoFileUtils";
+import { EOfferingDocumentType } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
@@ -22,7 +23,7 @@ type TExternalProps = {
   companyMarketingLinks: TCompanyEtoData["marketingLinks"];
   etoTemplates: TEtoDocumentTemplates;
   etoDocuments: TEtoDocumentTemplates;
-  isRetailEto: boolean;
+  offeringDocumentType: EOfferingDocumentType;
   columnSpan?: EColumnSpan;
 };
 
@@ -38,10 +39,10 @@ const DocumentsWidgetLayout: React.FunctionComponent<
   etoDocuments,
   etoTemplates,
   className,
-  isRetailEto,
+  offeringDocumentType,
   columnSpan,
 }) => {
-  const documentTitles = getDocumentTitles(isRetailEto);
+  const documentTitles = getDocumentTitles(offeringDocumentType);
   return (
     <Panel className={className} columnSpan={columnSpan}>
       <section className={styles.group}>

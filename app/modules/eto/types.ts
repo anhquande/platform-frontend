@@ -48,3 +48,9 @@ export interface IEtoTokenData {
   companyValuationEurUlps: string;
   tokenPrice: string;
 }
+
+export enum EEtoSubState {
+  COMING_SOON = "coming_soon",
+  COUNTDOWN_TO_PRESALE = "countdown_to_presale",
+  COUNTDOWN_TO_PUBLIC_SALE = "countdown_to_public_sale",
+}

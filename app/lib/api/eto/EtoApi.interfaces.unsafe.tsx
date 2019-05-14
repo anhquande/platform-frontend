@@ -122,6 +122,7 @@ type TEtoKeyIndividualsType = YupTS.TypeOf<typeof EtoKeyIndividualsType>;
 export const EtoLegalInformationType = YupTS.object({
   name: YupTS.string(),
   legalForm: YupTS.string(),
+  companyLegalDescription: YupTS.string(),
   street: YupTS.string(),
   country: YupTS.string(),
   vatNumber: YupTS.string().optional(),
@@ -256,10 +257,6 @@ export const getEtoTermsSchema = ({
       }),
     enableTransferOnSuccess: YupTS.boolean(),
     tokenTradeableOnSuccess: YupTS.boolean().optional(),
-    notUnderCrowdfundingRegulations: YupTS.onlyTrue(
-      <FormattedMessage id="eto.form.section.eto-terms.is-not-crowdfunding.error" />,
-    ),
-    allowRetailInvestors: YupTS.boolean(),
     whitelistDurationDays: YupTS.number().enhance(v => {
       if (minWhitelistDurationDays !== undefined) {
         v = v.min(minWhitelistDurationDays);

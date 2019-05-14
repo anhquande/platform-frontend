@@ -8,7 +8,7 @@ import {
   selectIssuerCompany,
   selectIssuerEto,
   selectIssuerEtoState,
-  selectShouldEtoDataLoad,
+  userHasKycAndEmailVerified,
 } from "../../../modules/eto-flow/selectors";
 import { EEtoFormTypes } from "../../../modules/eto-flow/types";
 import {
@@ -188,7 +188,7 @@ export const ETOFormsProgressSection = appConnect<IStateProps, {}>({
   stateToProps: state => ({
     etoStatus: selectIssuerEtoState(state),
     loadingData: selectIsGeneralEtoLoading(state),
-    shouldEtoDataLoad: selectShouldEtoDataLoad(state),
+    shouldEtoDataLoad: userHasKycAndEmailVerified(state),
     companyInformationProgress: calculateCompanyInformationProgress(selectIssuerCompany(state)),
     etoTermsProgress: calculateEtoTermsProgress(selectIssuerEto(state)),
     etoKeyIndividualsProgress: calculateEtoKeyIndividualsProgress(selectIssuerCompany(state)),

@@ -3,7 +3,6 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
-import { externalRoutes } from "../../config/externalRoutes";
 import { actions } from "../../modules/actions";
 import { selectMyAssetsWithTokenData } from "../../modules/investor-portfolio/selectors";
 import { TETOWithTokenData } from "../../modules/investor-portfolio/types";
@@ -11,10 +10,10 @@ import { selectNeuPriceEur } from "../../modules/shared/tokenPrice/selectors";
 import { selectNeuBalance } from "../../modules/wallet/selectors";
 import { appConnect } from "../../store";
 import { multiplyBigNumbers } from "../../utils/BigNumberUtils";
-import { withParams } from "../../utils/withParams";
+import { commitmentStatusLink } from "../appRouteUtils";
 import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container } from "../layouts/Container";
-import { Button, ButtonLink, ButtonSize, EButtonLayout } from "../shared/buttons";
+import { Button, ButtonLink, ButtonSize, EButtonLayout, EIconPosition } from "../shared/buttons";
 import { ECurrency, EMoneyInputFormat } from "../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
@@ -95,9 +94,9 @@ const PortfolioMyAssetsComponent: React.FunctionComponent<TComponentProps> = ({
             isPrice={true}
           />
           <ButtonLink
-            to={withParams(externalRoutes.commitmentStatus, { walletAddress })}
+            to={commitmentStatusLink(walletAddress)}
             layout={EButtonLayout.SECONDARY}
-            iconPosition="icon-after"
+            iconPosition={EIconPosition.ICON_AFTER}
             svgIcon={arrowRight}
             size={ButtonSize.SMALL}
             data-test-id="portfolio-my-assets-neu-agreements"
@@ -140,7 +139,7 @@ const PortfolioMyAssetsComponent: React.FunctionComponent<TComponentProps> = ({
               <Button
                 onClick={() => showDownloadAgreementModal(etoId, isRetailEto)}
                 layout={EButtonLayout.SECONDARY}
-                iconPosition="icon-after"
+                iconPosition={EIconPosition.ICON_AFTER}
                 svgIcon={arrowRight}
                 size={ButtonSize.SMALL}
                 data-test-id={`modals.portfolio.portfolio-assets.download-agreements-${etoId}`}

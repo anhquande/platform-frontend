@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { TDataTestId, TTranslatedString } from "../../types";
 import { makeTid } from "../../utils/tidUtils";
-import { Button, EButtonLayout } from "./buttons";
+import { Button, EButtonLayout, EButtonTheme, EIconPosition } from "./buttons";
 import { IMoneySuiteWidgetProps, MoneySuiteWidget } from "./MoneySuiteWidget";
 
 import * as arrowRightIcon from "../../assets/img/inline_icons/arrow_right.svg";
@@ -45,8 +45,8 @@ export const AccountBalance: React.FunctionComponent<
             key={i}
             layout={EButtonLayout.SECONDARY}
             innerClassName={styles.button}
-            iconPosition="icon-after"
-            theme="graphite"
+            iconPosition={EIconPosition.ICON_AFTER}
+            theme={EButtonTheme.GRAPHITE}
             svgIcon={arrowRightIcon}
             onClick={onClick}
             data-test-id={dataTestId}

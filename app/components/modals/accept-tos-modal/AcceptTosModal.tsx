@@ -10,8 +10,7 @@ import {
   selectUserType,
 } from "../../../modules/auth/selectors";
 import { appConnect } from "../../../store";
-import { Button, EButtonLayout } from "../../shared/buttons";
-import { ButtonSize } from "../../shared/buttons/Button.unsafe";
+import { Button, ButtonSize, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Message } from "../Message";
 import { Modal } from "../Modal";
 
@@ -63,7 +62,7 @@ export const AcceptTosModalInner: React.ComponentType<IStateProps & IDispatchPro
         layout={EButtonLayout.SECONDARY}
         data-test-id="modals.accept-tos.download-button"
         svgIcon={downloadIcon}
-        iconPosition="icon-after"
+        iconPosition={EIconPosition.ICON_AFTER}
         size={ButtonSize.SMALL}
       >
         <FormattedMessage id="settings.modal.accept-tos.download-button" />

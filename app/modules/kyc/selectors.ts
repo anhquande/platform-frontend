@@ -102,8 +102,9 @@ export const selectClientName = (state: DeepReadonly<IKycState>) =>
 export const selectClientJurisdiction = createSelector(
   selectKyc,
   (state: DeepReadonly<IKycState>) =>
+    // @SEE https://github.com/Neufund/platform-frontend/issues/2789#issuecomment-489081031
     (state.businessData && state.businessData.jurisdiction) ||
-    (state.individualData && state.individualData.nationality),
+    (state.individualData && state.individualData.country),
 );
 
 export const selectClaims = (state: IAppState) => state.kyc.claims;

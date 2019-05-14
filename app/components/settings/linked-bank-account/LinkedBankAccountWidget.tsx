@@ -12,7 +12,7 @@ import { appConnect } from "../../../store";
 import { DeepReadonly } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { EColumnSpan } from "../../layouts/Container";
-import { Button, ButtonSize, EButtonLayout } from "../../shared/buttons";
+import { Button, ButtonSize, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Panel } from "../../shared/Panel";
 import { BankAccount } from "../../wallet/BankAccount";
 
@@ -48,7 +48,7 @@ const LinkAccount: React.FunctionComponent<IComponentProps> = ({
       data-test-id="linked-bank-account-widget.link-account"
       layout={EButtonLayout.SECONDARY}
       size={ButtonSize.SMALL}
-      iconPosition="icon-after"
+      iconPosition={EIconPosition.ICON_AFTER}
       svgIcon={arrowRight}
     >
       <FormattedMessage id="linked-bank-account-widget.verify" />

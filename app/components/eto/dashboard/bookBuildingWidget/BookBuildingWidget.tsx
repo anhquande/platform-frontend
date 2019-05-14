@@ -8,8 +8,8 @@ import { actions } from "../../../../modules/actions";
 import { selectBookbuildingStats } from "../../../../modules/bookbuilding-flow/selectors";
 import {
   selectCanEnableBookBuilding,
-  selectEtoId,
   selectIsBookBuilding,
+  selectIssuerEtoId,
   selectMaxPledges,
 } from "../../../../modules/eto-flow/selectors";
 import { appConnect } from "../../../../store";
@@ -55,7 +55,7 @@ interface IBookBuilding {
 }
 
 interface ILayoutProps {
-  onClick: (etoId: string) => void;
+  onClick: () => void;
   headerText: TTranslatedString;
   text: TTranslatedString;
   buttonText: TTranslatedString;
@@ -204,7 +204,7 @@ export const BookBuildingWidget = compose<React.FunctionComponent<IExternalProps
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IStateProps, IDispatchProps>({
     stateToProps: state => {
-      const etoId = selectEtoId(state);
+      const etoId = selectIssuerEtoId(state);
 
       if (!etoId) {
         throw new Error("Eto id is required for bookbuilding");

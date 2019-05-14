@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { COMPANY_TAGS_LIMIT } from "../../../config/constants";
 import { TTranslatedString } from "../../../types";
 import { Container, EColumnSpan } from "../../layouts/Container";
 import { IResponsiveImage, ResponsiveImage } from "../../shared/ResponsiveImage";
@@ -46,7 +47,7 @@ export const Cover: React.FunctionComponent<IProps> = ({
         </div>
       </div>
       <div className={styles.tags}>
-        {tags.map((tag, index) => (
+        {tags.slice(0, COMPANY_TAGS_LIMIT).map((tag, index) => (
           <Tag text={tag} className="ml-3" layout="bold" theme="dark" key={index} />
         ))}
       </div>

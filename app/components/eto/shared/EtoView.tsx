@@ -3,12 +3,11 @@ import { some } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { externalRoutes } from "../../../config/externalRoutes";
 import { TSocialChannelsType } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { isOnChain } from "../../../modules/eto/utils";
 import { withMetaTags } from "../../../utils/withMetaTags.unsafe";
-import { withParams } from "../../../utils/withParams";
+import { icoMonitorEtoLink } from "../../appRouteUtils";
 import { Container, EColumnSpan, EContainerType } from "../../layouts/Container";
 import { WidgetGridLayout } from "../../layouts/Layout";
 import { PersonProfileModal } from "../../modals/PersonProfileModal";
@@ -132,10 +131,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
               <div className={styles.headerWithButton}>
                 <FormattedMessage id="eto.public-view.eto-timeline" />
                 {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && !isInSetupState && (
-                  <ButtonLink
-                    to={withParams(externalRoutes.icoMonitorEto, { etoId: eto.etoId })}
-                    target="_blank"
-                  >
+                  <ButtonLink to={icoMonitorEtoLink(eto.etoId)} target="_blank">
                     <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
                   </ButtonLink>
                 )}
@@ -485,7 +481,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                 companyMarketingLinks={marketingLinks}
                 etoTemplates={eto.templates}
                 etoDocuments={eto.documents}
-                isRetailEto={eto.allowRetailInvestors}
+                offeringDocumentType={eto.product.offeringDocumentType}
               />
             </Container>
           )}

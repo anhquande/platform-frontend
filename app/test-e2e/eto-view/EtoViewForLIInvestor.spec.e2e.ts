@@ -1,5 +1,5 @@
-import { appRoutes } from "../../components/appRoutes";
-import { withParams } from "../../utils/withParams";
+import { etoPublicViewByIdLink, etoPublicViewByIdLinkLegacy } from "../../components/appRouteUtils";
+import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { SPARE_1 } from "../fixtures";
 import { etoFixtureAddressByName } from "../utils";
 import { assertDashboard } from "../utils/assertions";
@@ -20,8 +20,16 @@ describe("Eto LI Investor View", () => {
     const ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
     it("should allow to visit ", () => {
-      cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
-      assertEtoView("Neufund - Quintessence (QTT)");
+      cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
+      assertEtoView(
+        "ETOInPublicState retail eto li security - Quintessence (QTT)",
+        EJurisdiction.LIECHTENSTEIN,
+      );
+    });
+
+    it("should not allow link with wrong Jurisdiction ", () => {
+      cy.visit(etoPublicViewByIdLink(ETO_ID, EJurisdiction.GERMANY));
+      assertDashboard();
     });
   });
 
@@ -29,7 +37,7 @@ describe("Eto LI Investor View", () => {
     const ETO_ID = etoFixtureAddressByName("ETOInWhitelistState");
 
     it("should not allow to visit", () => {
-      cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
+      cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
 
       assertDashboard();
     });

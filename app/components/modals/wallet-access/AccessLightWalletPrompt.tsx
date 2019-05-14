@@ -46,14 +46,14 @@ const AccessLightWalletForm = (formikBag: FormikProps<IFormValues> & IProps) => 
 );
 
 const EnhancedForm = withFormik<IProps, IFormValues>({
-  handleSubmit: (values, props) => props.props.onAccept(values.password),
+  handleSubmit: (values, { props }) => props.onAccept(values.password),
 })(AccessLightWalletForm);
 
 export const AccessLightWalletPrompt: React.FunctionComponent<IProps> = props =>
   props.isUnlocked ? (
     <div className="mt-3">
       <Button
-        onClick={props.onAccept}
+        onClick={() => props.onAccept()}
         layout={EButtonLayout.SECONDARY}
         data-test-id="access-light-wallet-prompt-accept-button"
       >

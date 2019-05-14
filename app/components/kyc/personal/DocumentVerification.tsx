@@ -5,7 +5,7 @@ import { compose } from "redux";
 import { EKycRequestType } from "../../../lib/api/KycApi.interfaces";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
-import { Button } from "../../shared/buttons";
+import { Button, EIconPosition } from "../../shared/buttons";
 import { KycPanel } from "../KycPanel";
 import { kycRoutes } from "../routes";
 
@@ -65,7 +65,7 @@ export const KycPersonalDocumentVerificationComponent: React.FunctionComponent<
       <Button
         onClick={props.onManualVerification}
         svgIcon={arrowRightIcon}
-        iconPosition="icon-after"
+        iconPosition={EIconPosition.ICON_AFTER}
         data-test-id="kyc-go-to-manual-verification"
       >
         <FormattedMessage id="kyc.personal.instant-id.go-to-manual-verification" />
@@ -79,7 +79,7 @@ export const KycPersonalDocumentVerificationComponent: React.FunctionComponent<
       <Button
         onClick={props.onStartInstantId}
         svgIcon={linkOutIcon}
-        iconPosition="icon-after"
+        iconPosition={EIconPosition.ICON_AFTER}
         data-test-id="kyc-go-to-outsourced-verification"
       >
         <FormattedMessage id="kyc.personal.instant-id.go-to-video-verification" />

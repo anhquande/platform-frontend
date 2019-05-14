@@ -7,6 +7,7 @@ import {
   EEtoDocumentType,
   TEtoDocumentTemplates,
 } from "../../../lib/api/eto/EtoFileApi.interfaces";
+import { EOfferingDocumentType } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { DocumentsWidgetLayout } from "./DocumentsWidget";
 
 const marketingLinks: TCompanyEtoData["marketingLinks"] = [
@@ -86,7 +87,7 @@ storiesOf("Document/DocumentsWidget", module)
       etoDocuments={documents}
       companyMarketingLinks={marketingLinks}
       downloadDocument={action("download document")}
-      isRetailEto={false}
+      offeringDocumentType={EOfferingDocumentType.MEMORANDUM}
     />
   ))
   .add("retail ETO", () => (
@@ -95,6 +96,6 @@ storiesOf("Document/DocumentsWidget", module)
       etoDocuments={documents}
       companyMarketingLinks={marketingLinks}
       downloadDocument={action("download document")}
-      isRetailEto={true}
+      offeringDocumentType={EOfferingDocumentType.PROSPECTUS}
     />
   ));

@@ -3,7 +3,11 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { getCurrentInvestmentProgressPercentage } from "../../../../lib/api/eto/EtoUtils";
-import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
+import {
+  EETOStateOnChain,
+  EEtoSubState,
+  TEtoWithCompanyAndContract,
+} from "../../../../modules/eto/types";
 import { ECurrency } from "../../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { CounterWidget } from "./CounterWidget";
@@ -14,27 +18,22 @@ import * as styles from "./EtoStatusManager.module.scss";
 
 interface IExternalProps {
   eto: TEtoWithCompanyAndContract;
-  isEligibleToPreEto: boolean;
+  etoSubState: EEtoSubState | undefined;
 }
 
-const EtoStatusManager = ({ eto, isEligibleToPreEto }: IExternalProps) => {
+const EtoStatusManager = ({ eto, etoSubState }: IExternalProps) => {
   const timedState = eto.contract!.timedState;
 
   switch (timedState) {
     case EETOStateOnChain.Setup: {
-      const nextState = isEligibleToPreEto ? EETOStateOnChain.Whitelist : EETOStateOnChain.Public;
-      const nextStateStartDate = eto.contract!.startOfStates[nextState];
-
-      if (nextStateStartDate === undefined) {
-        throw new Error("Next state should be defined as this point");
-      }
-
-      return <Whitelist eto={eto} nextStateStartDate={nextStateStartDate} />;
+      return <Whitelist eto={eto} etoSubState={etoSubState} />;
     }
     case EETOStateOnChain.Whitelist: {
       const endDate = eto.contract!.startOfStates[EETOStateOnChain.Public]!;
 
-      if (isEligibleToPreEto) {
+      if (etoSubState === EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE) {
+        return <CounterWidget endDate={endDate} />;
+      } else {
         return (
           <>
             <InvestmentStatus eto={eto} />
@@ -46,8 +45,6 @@ const EtoStatusManager = ({ eto, isEligibleToPreEto }: IExternalProps) => {
             </p>
           </>
         );
-      } else {
-        return <CounterWidget endDate={endDate} />;
       }
     }
 

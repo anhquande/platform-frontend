@@ -7,8 +7,7 @@ import { Link } from "react-router-dom";
 import { EETOStateOnChain } from "../../modules/eto/types";
 import { TETOWithInvestorTicket } from "../../modules/investor-portfolio/types";
 import { getTokenPrice } from "../../modules/investor-portfolio/utils";
-import { withParams } from "../../utils/withParams";
-import { appRoutes } from "../appRoutes";
+import { etoPublicViewLink } from "../appRouteUtils";
 import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { EProjectStatusSize, ETOState } from "../eto/shared/ETOState";
 import { Container } from "../layouts/Container";
@@ -60,6 +59,7 @@ const PortfolioReservedAssets: React.FunctionComponent<IExternalProps> = ({ pend
           investorTicket,
           contract,
           etoId,
+          product,
           previewCode,
         }) => {
           const timedState = contract!.timedState;
@@ -85,7 +85,7 @@ const PortfolioReservedAssets: React.FunctionComponent<IExternalProps> = ({ pend
               </>
 
               <Link
-                to={withParams(appRoutes.etoPublicView, { previewCode })}
+                to={etoPublicViewLink(previewCode, product.jurisdiction)}
                 data-test-id="portfolio-reserved-assets-view-profile"
               >
                 <FormattedMessage id="portfolio.section.reserved-assets.view-profile" />

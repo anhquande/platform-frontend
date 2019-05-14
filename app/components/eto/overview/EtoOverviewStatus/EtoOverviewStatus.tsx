@@ -20,14 +20,13 @@ import { routingActions } from "../../../../modules/routing/actions";
 import { appConnect } from "../../../../store";
 import { CommonHtmlProps } from "../../../../types";
 import { formatFlexiPrecision } from "../../../../utils/Number.utils";
-import { withParams } from "../../../../utils/withParams";
-import { appRoutes } from "../../../appRoutes";
+import { etoPublicViewLink } from "../../../appRouteUtils";
 import { Container, EColumnSpan } from "../../../layouts/Container";
 import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { NumberFormat } from "../../../shared/NumberFormat";
 import { EtoWidgetContext } from "../../EtoWidgetView";
-import { ETOState } from "../../shared/ETOState";
+import { EProjectStatusType, ETOState } from "../../shared/ETOState";
 import { InvestmentAmount } from "../../shared/InvestmentAmount";
 import { CampaigningActivatedWidget } from "./CampaigningWidget";
 import { ClaimWidget, RefundWidget } from "./ClaimRefundWidget";
@@ -64,7 +63,7 @@ const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => 
     <span className={styles.title}>
       <FormattedMessage id="shared-component.eto-overview.status-of-eto" />
     </span>
-    <ETOState previewCode={previewCode} />
+    <ETOState previewCode={previewCode} type={EProjectStatusType.EXTENDED} />
   </div>
 );
 
@@ -224,7 +223,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
               )}
             >
               <Link
-                to={withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode })}
+                to={etoPublicViewLink(eto.previewCode, eto.product.jurisdiction)}
                 target={previewCode ? "_blank" : ""}
                 data-test-id="eto-overview-status-token"
               >
@@ -245,7 +244,8 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
             <div className={styles.tagsWrapper}>
               <TagsWidget
                 etoId={eto.etoId}
-                allowRetailEto={eto.allowRetailInvestors}
+                jurisdiction={eto.product.jurisdiction}
+                offeringDocumentType={eto.product.offeringDocumentType}
                 termSheet={documentsByType[EEtoDocumentType.SIGNED_TERMSHEET]}
                 prospectusApproved={
                   documentsByType[EEtoDocumentType.APPROVED_INVESTOR_OFFERING_DOCUMENT]
@@ -354,7 +354,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
           ) : !publicView ? (
             <Link
               className={styles.moreDetails}
-              to={withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode })}
+              to={etoPublicViewLink(eto.previewCode, eto.product.jurisdiction)}
             >
               <FormattedMessage id="shared-component.eto-overview.more-details" />
             </Link>
@@ -378,11 +378,11 @@ const EtoOverviewStatus = compose<
     }),
     dispatchToProps: (dispatch, { eto }) => ({
       navigateToEto: () =>
-        dispatch(push(withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode }))),
+        dispatch(push(etoPublicViewLink(eto.previewCode, eto.product.jurisdiction))),
       openInNewWindow: () =>
         dispatch(
           routingActions.openInNewWindow(
-            withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode }),
+            etoPublicViewLink(eto.previewCode, eto.product.jurisdiction),
           ),
         ),
     }),
