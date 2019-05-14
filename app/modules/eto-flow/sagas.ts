@@ -39,8 +39,8 @@ export function* loadIssuerEto({
     }
 
     yield put(actions.eto.setEto({ eto, company }));
-
     yield put(actions.etoFlow.setIssuerEtoPreviewCode(eto.previewCode));
+    yield put(actions.eto.loadEtoPreview(eto.previewCode));
   } catch (e) {
     logger.error("Failed to load Issuer ETO", e);
     notificationCenter.error(

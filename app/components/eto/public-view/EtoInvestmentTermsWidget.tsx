@@ -124,7 +124,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
               value={<InvestmentAmount etoData={etoData} />}
               data-test-id="eto-public-view-investment-amount"
             />
-            {etoData.templates.investmentAndShareholderAgreementTemplate && (
+            {etoData.templates && etoData.templates.investmentAndShareholderAgreementTemplate && (
               <DocumentTemplateButton
                 title={<FormattedMessage id="eto.documents.investment-and-shareholder-agreement" />}
                 onClick={() =>
@@ -261,7 +261,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 data-test-id="eto-public-view-public-eto-duration"
               />
             )}
-            {!!etoData.templates.reservationAndAcquisitionAgreement && (
+            {!!etoData.templates && etoData.templates.reservationAndAcquisitionAgreement && (
               <DocumentTemplateButton
                 title={
                   <FormattedMessage id="eto.documents.reservation-and-acquisition-agreement" />
@@ -361,7 +361,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
               data-test-id="eto-public-view-dividend-rights"
             />
 
-            {!!etoData.templates.companyTokenHolderAgreement && (
+            {!!etoData.templates && etoData.templates.companyTokenHolderAgreement && (
               <DocumentTemplateButton
                 title={<FormattedMessage id="eto.documents.tokenholder-agreement" />}
                 onClick={() => downloadDocument(etoData.templates.companyTokenHolderAgreement)}

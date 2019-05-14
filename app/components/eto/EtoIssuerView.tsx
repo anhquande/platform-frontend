@@ -2,6 +2,7 @@ import { branch, compose, renderComponent } from "recompose";
 
 import { actions } from "../../modules/actions";
 import { selectIssuerEtoWithCompanyAndContract } from "../../modules/eto-flow/selectors";
+import { selectEtoWithCompanyAndContract } from "../../modules/eto/selectors";
 import { TEtoWithCompanyAndContract } from "../../modules/eto/types";
 import { appConnect } from "../../store";
 import { onEnterAction } from "../../utils/OnEnterAction";
@@ -14,6 +15,7 @@ import { EtoView } from "./shared/EtoView";
 
 type TProps = {
   eto: TEtoWithCompanyAndContract;
+  etoPreview?: TEtoWithCompanyAndContract;
 };
 
 type TStateProps = Partial<TProps>;
@@ -26,10 +28,15 @@ export const EtoIssuerView = compose<TProps, {}>(
     },
   }),
   appConnect<TStateProps>({
-    stateToProps: state => ({
-      eto: selectIssuerEtoWithCompanyAndContract(state),
-    }),
+    stateToProps: state => {
+      const eto = selectIssuerEtoWithCompanyAndContract(state);
+
+      return {
+        eto,
+        etoPreview: eto && selectEtoWithCompanyAndContract(state, eto.previewCode),
+      };
+    },
   }),
   withContainer(LayoutAuthorized),
-  branch<TStateProps>(props => !props.eto, renderComponent(LoadingIndicator)),
+  branch<TStateProps>(props => !props.eto || !props.etoPreview, renderComponent(LoadingIndicator)),
 )(EtoView);

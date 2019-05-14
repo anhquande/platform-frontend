@@ -41,13 +41,18 @@ export const DEFAULT_CHART_COLOR = "#c4c5c6";
 
 interface IProps {
   eto: TEtoWithCompanyAndContract;
+  etoPreview?: TEtoWithCompanyAndContract;
+}
+
+interface IInternalProps {
+  eto: TEtoWithCompanyAndContract;
 }
 
 // TODO: There are lots of castings right now in this file, cause formerly the types of IProps was "any"
 // The castings should be resolved when the EtoApi.interface.ts reflects the correct data types from swagger!
 
 // TODO: Refactor to smaller components
-const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
+const EtoViewLayout: React.FunctionComponent<IInternalProps> = ({ eto }) => {
   const {
     advisors,
     companyDescription,
@@ -102,7 +107,6 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
       : "";
 
   const isInSetupState = isOnChain(eto) && eto.contract.timedState === EETOStateOnChain.Setup;
-
   return (
     <>
       <PersonProfileModal />
@@ -501,7 +505,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
   );
 };
 
-const EtoView = withMetaTags<IProps>(({ eto }, intl) => {
+const EtoViewInternal = withMetaTags<IInternalProps>(({ eto }, intl) => {
   const requiredDataPresent = eto.company.brandName && eto.equityTokenName && eto.equityTokenSymbol;
 
   return {
@@ -510,5 +514,16 @@ const EtoView = withMetaTags<IProps>(({ eto }, intl) => {
       : intl.formatIntlMessage("menu.eto-page"),
   };
 })(EtoViewLayout);
+
+const EtoView: React.FunctionComponent<IProps> = ({ eto, etoPreview }) => (
+  <Tabs layoutSize="large" layoutOrnament={false} layoutPosition="center">
+    <TabContent tab="In Draft">
+      <EtoViewInternal eto={etoPreview!} />
+    </TabContent>
+    <TabContent tab="Published">
+      <EtoViewInternal eto={eto} />
+    </TabContent>
+  </Tabs>
+);
 
 export { EtoView, EtoViewLayout };
