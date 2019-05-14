@@ -68,7 +68,7 @@ class AppComponent extends React.Component<IStateProps, IState> {
     }
 
     return (
-      <>
+      <React.StrictMode>
         <ScrollToTop>
           <AppRouter />
         </ScrollToTop>
@@ -76,7 +76,7 @@ class AppComponent extends React.Component<IStateProps, IState> {
         <ToastContainer />
         <GenericModal />
         <VideoModal />
-      </>
+      </React.StrictMode>
     );
   }
 }
