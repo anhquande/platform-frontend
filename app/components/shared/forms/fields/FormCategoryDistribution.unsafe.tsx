@@ -22,8 +22,8 @@ interface IProps {
 }
 
 interface IInternalProps {
-  addField: (e: Event) => void;
-  removeField: (e: Event) => void;
+  addField: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  removeField: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isLastElement: boolean;
   keyPlaceholder?: string;
   valuePlaceholder?: string;
@@ -188,7 +188,7 @@ class ArrayOfKeyValueFieldsBase extends React.Component<
                     formFieldKeys={formFieldKeys}
                     prefix={prefix}
                     name={`${name}.${index}`}
-                    removeField={(e: Event) => {
+                    removeField={(e: React.MouseEvent<HTMLButtonElement>) => {
                       e.preventDefault();
                       arrayHelpers.remove(index);
                       this.suggestions.splice(index, 1);

@@ -5,7 +5,7 @@ import { ECountries } from "../../../lib/api/util/countries.enum";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { Message } from "../../modals/Message";
-import { Button, ButtonArrowRight, EButtonLayout } from "../../shared/buttons/Button.unsafe";
+import { Button, ButtonArrowRight, EButtonLayout } from "../../shared/buttons/Button";
 import { VALUES } from "../../shared/forms/fields/FormSelectCountryField.unsafe";
 
 import * as cityIcon from "../../../assets/img/eto/city.png";

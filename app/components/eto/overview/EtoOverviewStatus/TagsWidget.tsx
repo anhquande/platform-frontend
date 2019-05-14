@@ -3,11 +3,13 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { IEtoDocument } from "../../../../lib/api/eto/EtoFileApi.interfaces";
-import { EOfferingDocumentType } from "../../../../lib/api/eto/EtoProductsApi.interfaces";
+import {
+  EJurisdiction,
+  EOfferingDocumentType,
+} from "../../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions } from "../../../../modules/actions";
 import { appConnect } from "../../../../store";
-import { withParams } from "../../../../utils/withParams";
-import { appRoutes } from "../../../appRoutes";
+import { etoPublicViewLink } from "../../../appRouteUtils";
 import { EtherscanAddressLink } from "../../../shared/links";
 import { ETagSize, Tag } from "../../../shared/Tag.unsafe";
 import { EtoWidgetContext } from "../../EtoWidgetView";
@@ -19,6 +21,7 @@ export interface ITagsWidget {
   etoId: string;
   offeringDocumentType: EOfferingDocumentType;
   innerClass?: string;
+  jurisdiction: EJurisdiction;
 }
 
 type TDispatchProps = {
@@ -36,6 +39,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
   smartContractOnChain,
   etoId,
   downloadDocument,
+  jurisdiction,
   offeringDocumentType,
   innerClass,
 }) => {
@@ -56,7 +60,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
                 downloadDocument(termSheet);
                 e.stopPropagation();
               }}
-              to={previewCode ? withParams(appRoutes.etoPublicView, { previewCode }) : undefined}
+              to={previewCode ? etoPublicViewLink(previewCode, jurisdiction) : undefined}
               target={previewCode ? "_blank" : undefined}
               size={ETagSize.TINY}
               theme="green"
@@ -80,7 +84,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
                 downloadDocument(prospectusApproved);
                 e.stopPropagation();
               }}
-              to={previewCode ? withParams(appRoutes.etoPublicView, { previewCode }) : undefined}
+              to={previewCode ? etoPublicViewLink(previewCode, jurisdiction) : undefined}
               target={previewCode ? "_blank" : undefined}
               size={ETagSize.TINY}
               theme="green"
@@ -103,7 +107,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
               onClick={e => e.stopPropagation()}
               component={EtherscanAddressLink}
               componentProps={{ address: etoId }}
-              to={previewCode ? withParams(appRoutes.etoPublicView, { previewCode }) : undefined}
+              to={previewCode ? etoPublicViewLink(previewCode, jurisdiction) : undefined}
               target={previewCode ? "_blank" : undefined}
               size={ETagSize.TINY}
               theme="green"

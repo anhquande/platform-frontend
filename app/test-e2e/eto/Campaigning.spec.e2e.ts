@@ -1,6 +1,5 @@
-import { appRoutes } from "../../components/appRoutes";
+import { etoPublicViewByIdLinkLegacy } from "../../components/appRouteUtils";
 import { formatThousands } from "../../components/shared/formatters/utils";
-import { withParams } from "../../utils/withParams";
 import { ISSUER_SETUP } from "../fixtures";
 import {
   assertRegister,
@@ -19,7 +18,7 @@ describe("Eto campaigning state", () => {
   it("should show Register button when not logged in", () => {
     const ETO_ID = etoFixtureAddressByName("ETONoStartDate");
 
-    cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
+    cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
     cy.get(tid("eto.public-view")).should("exist");
 
     cy.get(tid("logged-out-campaigning-register")).awaitedClick();
@@ -34,7 +33,7 @@ describe("Eto campaigning state", () => {
       type: "issuer",
       kyc: "business",
     }).then(() => {
-      cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
+      cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
       cy.get(tid("eto.public-view")).should("exist");
 
       cy.get(tid("eto-overview-status-founders-quote")).should("exist");
@@ -68,7 +67,7 @@ describe("Eto campaigning state", () => {
           type: "investor",
           kyc: "business",
         }).then(() => {
-          cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
+          cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
 
           cy.get(tid("eto-bookbuilding-remaining-slots"))
             .then($element => Number($element.text()))
@@ -97,7 +96,7 @@ describe("Eto campaigning state", () => {
             type: "investor",
             kyc: "individual",
           }).then(() => {
-            cy.visit(withParams(appRoutes.etoPublicViewById, { etoId: ETO_ID }));
+            cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
 
             fillForm({
               amount: CHANGED_AMOUNT,

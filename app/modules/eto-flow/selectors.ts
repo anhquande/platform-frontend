@@ -180,7 +180,7 @@ export const selectInvestmentAgreementLoading = (state: DeepReadonly<IAppState>)
 export const selectSignedInvestmentAgreementUrl = (state: DeepReadonly<IAppState>): string | null =>
   state.etoFlow.signedInvestmentAgreementUrl;
 
-export const selectShouldEtoDataLoad = (state: IAppState) =>
+export const userHasKycAndEmailVerified = (state: IAppState) =>
   selectKycRequestStatus(state) === ERequestStatus.ACCEPTED &&
   selectIsUserEmailVerified(state.auth);
 

@@ -27,7 +27,7 @@ import {
   selectIssuerEtoOfferingDocumentType,
   selectIssuerEtoState,
   selectIssuerEtoTemplates,
-  selectShouldEtoDataLoad,
+  userHasKycAndEmailVerified,
 } from "../../modules/eto-flow/selectors";
 import { selectEtoOnChainStateById } from "../../modules/eto/selectors";
 import { EETOStateOnChain } from "../../modules/eto/types";
@@ -174,7 +174,7 @@ const Documents = compose<React.FunctionComponent>(
       return {
         etoFilesData,
         isLoading: false,
-        shouldEtoDataLoad: selectShouldEtoDataLoad(state),
+        shouldEtoDataLoad: userHasKycAndEmailVerified(state),
         etoState: selectIssuerEtoState(state)!,
         onChainState: selectEtoOnChainStateById(state, etoId)!,
         etoTemplates: selectIssuerEtoTemplates(state)!,

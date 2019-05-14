@@ -14,6 +14,8 @@ import { EtoPublicView } from "./eto/EtoPublicView";
 import { EtoPublicViewByContractId } from "./eto/EtoPublicViewByContractId";
 import { EtoWidgetView } from "./eto/EtoWidgetView";
 import { EtoRegister } from "./eto/registration/Start";
+import { RedirectEtoById } from "./eto/shared/routing/RedirectToEtoById";
+import { RedirectEtoPublicView } from "./eto/shared/routing/RedirectToEtoLink";
 import { Kyc } from "./kyc/Kyc";
 import { Landing } from "./landing/Landing";
 import { LandingEto } from "./landing/LandingEto";
@@ -38,12 +40,33 @@ export const AppRouter: React.FunctionComponent = () => (
 
     <Route
       path={appRoutes.etoPublicView}
-      render={({ match }) => <EtoPublicView previewCode={match.params.previewCode} />}
+      render={({ match }) => (
+        <EtoPublicView
+          previewCode={match.params.previewCode}
+          jurisdiction={match.params.jurisdiction}
+        />
+      )}
+      exact
+    />
+    {/* Redirect Legacy ETO link to current link */}
+    <Route
+      path={appRoutes.etoPublicViewLegacyRoute}
+      render={({ match }) => <RedirectEtoPublicView previewCode={match.params.previewCode} />}
+      exact
+    />
+    <Route
+      path={appRoutes.etoPublicViewByIdLegacyRoute}
+      render={({ match }) => <RedirectEtoById etoId={match.params.etoId} />}
       exact
     />
     <Route
       path={appRoutes.etoPublicViewById}
-      render={({ match }) => <EtoPublicViewByContractId etoId={match.params.etoId} />}
+      render={({ match }) => (
+        <EtoPublicViewByContractId
+          etoId={match.params.etoId}
+          jurisdiction={match.params.jurisdiction}
+        />
+      )}
       exact
     />
     <Route

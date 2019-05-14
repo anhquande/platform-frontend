@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { CommonHtmlProps, TAcceptedFileType } from "../../types";
 import { dontPropagateEvent } from "../../utils/dontPropagate";
-import { Button, EButtonLayout } from "./buttons";
+import { Button, EButtonLayout, EIconPosition } from "./buttons";
 
 import * as uploadIcon from "../../assets/img/inline_icons/upload.svg";
 import * as styles from "./SingleFileUpload.module.scss";
@@ -80,7 +80,7 @@ export class SingleFileUpload extends React.Component<IProps & CommonHtmlProps> 
               <>
                 <Button
                   layout={EButtonLayout.SECONDARY}
-                  iconPosition="icon-before"
+                  iconPosition={EIconPosition.ICON_BEFORE}
                   svgIcon={uploadIcon}
                 >
                   {label}

@@ -16,7 +16,7 @@ import { EEtoFormTypes } from "../../../../modules/eto-flow/types";
 import { appConnect } from "../../../../store";
 import { TFormikConnect, TTranslatedString } from "../../../../types";
 import { getFieldSchema, isRequired } from "../../../../utils/yupUtils";
-import { Button, ButtonIcon, EButtonLayout } from "../../../shared/buttons";
+import { Button, ButtonIcon, EButtonLayout, EIconPosition } from "../../../shared/buttons";
 import { FormField, FormTextArea } from "../../../shared/forms";
 import { FormSingleFileUpload } from "../../../shared/forms/fields/FormSingleFileUpload.unsafe";
 import { FormHighlightGroup } from "../../../shared/forms/FormHighlightGroup";
@@ -210,7 +210,7 @@ class KeyIndividualsGroupLayout extends React.Component<IKeyIndividualsGroup & T
               })}
               <Button
                 data-test-id={`key-individuals-group-button-${name}`}
-                iconPosition="icon-before"
+                iconPosition={EIconPosition.ICON_BEFORE}
                 layout={EButtonLayout.SECONDARY}
                 svgIcon={plusIcon}
                 onClick={() => arrayHelpers.push(getBlankMember())}

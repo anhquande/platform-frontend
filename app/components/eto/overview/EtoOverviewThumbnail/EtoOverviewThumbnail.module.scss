@@ -1,9 +1,10 @@
 @import "../../../shared/Panel.module";
 
-.panel {
+.button {
   transition: transform .1s ease-in-out;
 
-  &:hover {
+  &:hover,
+  &:focus {
     transform: scale(1.02);
     box-shadow: $shadow-bottom-black-long;
   }

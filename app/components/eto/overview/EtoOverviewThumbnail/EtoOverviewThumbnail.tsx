@@ -8,8 +8,8 @@ import { selectEtoSubState } from "../../../../modules/eto/selectors";
 import { EEtoSubState, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
 import { appConnect } from "../../../../store";
 import { CommonHtmlProps } from "../../../../types";
-import { withParams } from "../../../../utils/withParams";
-import { appRoutes } from "../../../appRoutes";
+import { etoPublicViewLink } from "../../../appRouteUtils";
+import { Button, ButtonWidth, EButtonLayout } from "../../../shared/buttons/Button";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { Panel } from "../../../shared/Panel";
 import { FUNDING_ROUNDS } from "../../constants";
@@ -54,9 +54,13 @@ const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => 
 const EtoOverviewStatusLayout: React.FunctionComponent<
   IExternalProps & CommonHtmlProps & IStateProps & IDispatchProps & IWithProps
 > = ({ eto, etoSubState, navigateToEto }) => (
-  // TODO: Refactor to use ButtonLink
-  <div onClick={navigateToEto}>
-    <Panel data-test-id={`eto-overview-${eto.etoId}`} className={styles.panel}>
+  <Button
+    className={styles.button}
+    layout={EButtonLayout.SIMPLE}
+    width={ButtonWidth.BLOCK}
+    onClick={navigateToEto}
+  >
+    <Panel data-test-id={`eto-overview-${eto.etoId}`}>
       <Cover
         className={styles.cover}
         companyBanner={{
@@ -121,7 +125,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
         )}
       </section>
     </Panel>
-  </div>
+  </Button>
 );
 
 const EtoOverviewThumbnail = compose<
@@ -134,7 +138,7 @@ const EtoOverviewThumbnail = compose<
     }),
     dispatchToProps: (dispatch, { eto }) => ({
       navigateToEto: () =>
-        dispatch(push(withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode }))),
+        dispatch(push(etoPublicViewLink(eto.previewCode, eto.product.jurisdiction))),
     }),
   }),
 )(EtoOverviewStatusLayout);

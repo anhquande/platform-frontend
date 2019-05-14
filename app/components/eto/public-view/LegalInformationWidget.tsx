@@ -144,20 +144,22 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
           </div>
         </Col>
 
-        <Col>
-          <ChartDoughnut
-            className="mb-3"
-            data={{
-              datasets: [
-                {
-                  data: shareholdersData.map(d => d && d.shares),
-                  backgroundColor: shareholdersData.map((_, i: number) => CHART_COLORS[i]),
-                },
-              ],
-              labels: shareholdersData.map(d => d && d.fullName),
-            }}
-          />
-        </Col>
+        {companyData.shareholders && companyData.shareholders.length > 0 && (
+          <Col>
+            <ChartDoughnut
+              className="mb-3"
+              data={{
+                datasets: [
+                  {
+                    data: shareholdersData.map(d => d && d.shares),
+                    backgroundColor: shareholdersData.map((_, i: number) => CHART_COLORS[i]),
+                  },
+                ],
+                labels: shareholdersData.map(d => d && d.fullName),
+              }}
+            />
+          </Col>
+        )}
       </Row>
     </Panel>
   );

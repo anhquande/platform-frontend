@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { CommonHtmlProps, TDataTestId } from "../../../types";
 import { appRoutes } from "../../appRoutes";
-import { ButtonLink } from "../../shared/buttons";
+import { ButtonLink, EButtonTheme } from "../../shared/buttons";
 
 import * as styles from "./JoinCta.module.scss";
 
@@ -77,7 +77,11 @@ export class JoinCta extends React.Component<CommonHtmlProps & TDataTestId, ISta
     return (
       <div id="newsletter">
         <div className={cn(styles.joinCta, className)} style={style}>
-          <ButtonLink theme="brand" to={appRoutes.register} innerClassName={styles.registerNow}>
+          <ButtonLink
+            theme={EButtonTheme.BRAND}
+            to={appRoutes.register}
+            innerClassName={styles.registerNow}
+          >
             Register NOW
           </ButtonLink>
 

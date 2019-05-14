@@ -2,7 +2,10 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { IEtoDocument } from "../../../../lib/api/eto/EtoFileApi.interfaces";
-import { EOfferingDocumentType } from "../../../../lib/api/eto/EtoProductsApi.interfaces";
+import {
+  EJurisdiction,
+  EOfferingDocumentType,
+} from "../../../../lib/api/eto/EtoProductsApi.interfaces";
 import { TagsWidgetLayout } from "./TagsWidget";
 
 const defaultProps = {
@@ -11,6 +14,7 @@ const defaultProps = {
   termSheet: {} as IEtoDocument,
   prospectusApproved: {} as IEtoDocument,
   smartContractOnChain: true,
+  jurisdiction: EJurisdiction.GERMANY,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
 };
 

@@ -44,7 +44,7 @@ import { formatMoney } from "../../../../utils/Money.utils";
 import { appRoutes } from "../../../appRoutes";
 import { InfoAlert } from "../../../shared/Alerts";
 import { Button, EButtonLayout } from "../../../shared/buttons";
-import { ButtonSize, ButtonTextPosition } from "../../../shared/buttons/Button.unsafe";
+import { ButtonSize, ButtonTextPosition } from "../../../shared/buttons/Button";
 import {
   ECurrency,
   ENumberInputFormat,

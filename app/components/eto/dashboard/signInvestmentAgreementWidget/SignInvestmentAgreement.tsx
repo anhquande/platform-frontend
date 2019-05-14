@@ -16,7 +16,7 @@ import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
 import { investmentAgreementNotSigned } from "../../../documents/utils";
 import { EColumnSpan } from "../../../layouts/Container";
-import { ButtonArrowRight } from "../../../shared/buttons/Button.unsafe";
+import { ButtonArrowRight } from "../../../shared/buttons/Button";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { LoadingIndicator } from "../../../shared/loading-indicator/LoadingIndicator";
 import { Panel } from "../../../shared/Panel";

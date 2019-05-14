@@ -8,8 +8,8 @@ import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/s
 import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { selectIsUserVerifiedOnBlockchain } from "../../../../../modules/kyc/selectors";
 import { appConnect } from "../../../../../store";
-import { withParams } from "../../../../../utils/withParams";
 import { appRoutes } from "../../../../appRoutes";
+import { etoPublicViewLink } from "../../../../appRouteUtils";
 import { Button, ButtonLink } from "../../../../shared/buttons";
 import { ECurrency } from "../../../../shared/formatters/utils";
 import { Money } from "../../../../shared/Money.unsafe";
@@ -77,7 +77,7 @@ const InvestmentWidgetLayout: React.FunctionComponent<TInvestWidgetProps> = ({
             <div className={styles.investNowButton}>
               {previewCode ? (
                 <ButtonLink
-                  to={withParams(appRoutes.etoPublicView, { previewCode })}
+                  to={etoPublicViewLink(previewCode, eto.product.jurisdiction)}
                   target="_blank"
                   data-test-id="eto-widget-invest-now-button"
                 >

@@ -18,7 +18,7 @@ import { appConnect } from "../../../store";
 import { IIntlProps, injectIntlHelpers } from "../../../utils/injectIntlHelpers.unsafe";
 import { EColumnSpan } from "../../layouts/Container";
 import { Button, EButtonLayout } from "../../shared/buttons";
-import { ButtonArrowRight } from "../../shared/buttons/Button.unsafe";
+import { ButtonArrowRight } from "../../shared/buttons/Button";
 import { Form, FormField } from "../../shared/forms";
 import { Panel } from "../../shared/Panel";
 
@@ -139,6 +139,7 @@ const NoEmailUser: React.FunctionComponent<INoEMailUser> = ({
       <FormattedMessage id="settings.verify-email-widget.enter-email" />
     </p>
     <SetEmailEnhancedForm
+      data-test-id={true}
       verifiedEmail={verifiedEmail}
       handleSubmit={addNewEmail}
       isLocked={isLocked}

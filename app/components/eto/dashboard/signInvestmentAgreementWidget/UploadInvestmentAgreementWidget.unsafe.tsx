@@ -15,7 +15,7 @@ import { selectEtoOnChainStateById } from "../../../../modules/eto/selectors";
 import { EETOStateOnChain } from "../../../../modules/eto/types";
 import { appConnect } from "../../../../store";
 import { EColumnSpan } from "../../../layouts/Container";
-import { ButtonArrowRight } from "../../../shared/buttons/Button.unsafe";
+import { ButtonArrowRight } from "../../../shared/buttons/Button";
 import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
 import { EHeadingSize, Heading } from "../../../shared/Heading";

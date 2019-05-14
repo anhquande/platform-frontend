@@ -217,10 +217,6 @@ export function* etoDocumentsSagas(): any {
   );
   yield fork(neuTakeEvery, "ETO_DOCUMENTS_GENERATE_TEMPLATE", generateDocumentFromTemplate);
   yield fork(neuTakeEvery, "ETO_DOCUMENTS_LOAD_FILE_DATA_START", loadEtoFileData);
-  yield fork(neuTakeEvery, actions.etoDocuments.etoUploadDocumentStart.getType(), uploadEtoFile);
-  yield fork(
-    neuTakeEvery,
-    actions.etoDocuments.downloadDocumentStart.getType(),
-    downloadDocumentStart,
-  );
+  yield fork(neuTakeEvery, actions.etoDocuments.etoUploadDocumentStart, uploadEtoFile);
+  yield fork(neuTakeEvery, actions.etoDocuments.downloadDocumentStart, downloadDocumentStart);
 }

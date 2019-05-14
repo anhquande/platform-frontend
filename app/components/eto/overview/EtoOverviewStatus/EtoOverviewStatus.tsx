@@ -20,8 +20,7 @@ import { routingActions } from "../../../../modules/routing/actions";
 import { appConnect } from "../../../../store";
 import { CommonHtmlProps } from "../../../../types";
 import { formatFlexiPrecision } from "../../../../utils/Number.utils";
-import { withParams } from "../../../../utils/withParams";
-import { appRoutes } from "../../../appRoutes";
+import { etoPublicViewLink } from "../../../appRouteUtils";
 import { Container, EColumnSpan } from "../../../layouts/Container";
 import { ECurrency, ENumberInputFormat } from "../../../shared/formatters/utils";
 import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
@@ -224,7 +223,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
               )}
             >
               <Link
-                to={withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode })}
+                to={etoPublicViewLink(eto.previewCode, eto.product.jurisdiction)}
                 target={previewCode ? "_blank" : ""}
                 data-test-id="eto-overview-status-token"
               >
@@ -245,6 +244,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
             <div className={styles.tagsWrapper}>
               <TagsWidget
                 etoId={eto.etoId}
+                jurisdiction={eto.product.jurisdiction}
                 offeringDocumentType={eto.product.offeringDocumentType}
                 termSheet={documentsByType[EEtoDocumentType.SIGNED_TERMSHEET]}
                 prospectusApproved={
@@ -354,7 +354,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
           ) : !publicView ? (
             <Link
               className={styles.moreDetails}
-              to={withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode })}
+              to={etoPublicViewLink(eto.previewCode, eto.product.jurisdiction)}
             >
               <FormattedMessage id="shared-component.eto-overview.more-details" />
             </Link>
@@ -378,11 +378,11 @@ const EtoOverviewStatus = compose<
     }),
     dispatchToProps: (dispatch, { eto }) => ({
       navigateToEto: () =>
-        dispatch(push(withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode }))),
+        dispatch(push(etoPublicViewLink(eto.previewCode, eto.product.jurisdiction))),
       openInNewWindow: () =>
         dispatch(
           routingActions.openInNewWindow(
-            withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode }),
+            etoPublicViewLink(eto.previewCode, eto.product.jurisdiction),
           ),
         ),
     }),

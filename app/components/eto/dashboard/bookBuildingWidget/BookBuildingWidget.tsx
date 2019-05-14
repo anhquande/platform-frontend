@@ -55,7 +55,7 @@ interface IBookBuilding {
 }
 
 interface ILayoutProps {
-  onClick: (etoId: string) => void;
+  onClick: () => void;
   headerText: TTranslatedString;
   text: TTranslatedString;
   buttonText: TTranslatedString;

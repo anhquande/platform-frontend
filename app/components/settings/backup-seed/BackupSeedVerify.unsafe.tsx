@@ -7,7 +7,7 @@ import { Col, Row } from "reactstrap";
 
 import { TElementRef } from "../../../types";
 import { englishMnemonics } from "../../../utils/englishMnemonics";
-import { Button, EButtonLayout } from "../../shared/buttons";
+import { Button, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { WarningAlert } from "../../shared/WarningAlert";
 
 import "react-select/dist/react-select.css";
@@ -167,7 +167,7 @@ class BackupSeedVerify extends React.Component<IBackupSeedVerifyProps, IBackupSe
         <div className={cn(styles.row)}>
           <Button
             layout={EButtonLayout.SECONDARY}
-            iconPosition="icon-before"
+            iconPosition={EIconPosition.ICON_BEFORE}
             svgIcon={arrowLeft}
             onClick={this.props.onBack}
           >

@@ -35,10 +35,9 @@ function* addNewEmailEffect(
 
 function* abortEmailUpdateEffect({ notificationCenter, logger }: TGlobalDependencies): any {
   const user = yield select((s: IAppState) => selectUser(s.auth));
-  const salt = yield select(selectLightWalletSalt);
   const email = user.verifiedEmail;
   logger.info("Email change aborted");
-  yield call(updateUser, { ...user, new_email: email, salt: salt });
+  yield call(updateUser, { ...user, new_email: email });
   notificationCenter.info(createMessage(ProfileMessage.PROFILE_ABORT_UPDATE_EMAIL_SUCCESS), {
     "data-test-id": "profile-email-change-aborted",
   });
@@ -168,12 +167,8 @@ export function* abortEmailUpdate({
 }
 
 export function* profileSagas(): any {
-  yield fork(neuTakeEvery, actions.profile.addNewEmail.getType(), addNewEmail);
-  yield fork(neuTakeEvery, actions.profile.resendEmail.getType(), resendEmail);
-  yield fork(
-    neuTakeEvery,
-    actions.profile.loadSeedOrReturnToProfile.getType(),
-    loadSeedOrReturnToSettings,
-  );
-  yield fork(neuTakeEvery, actions.profile.abortEmailUpdate.getType(), abortEmailUpdate);
+  yield fork(neuTakeEvery, actions.profile.addNewEmail, addNewEmail);
+  yield fork(neuTakeEvery, actions.profile.resendEmail, resendEmail);
+  yield fork(neuTakeEvery, actions.profile.loadSeedOrReturnToProfile, loadSeedOrReturnToSettings);
+  yield fork(neuTakeEvery, actions.profile.abortEmailUpdate, abortEmailUpdate);
 }

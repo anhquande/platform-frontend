@@ -42,7 +42,7 @@ export const AccessWalletContainerComponent: React.FunctionComponent<
     {message && <p>{message}</p>}
     {walletType === EWalletType.LIGHT && (
       <div>
-        <img src={lockIcon} className="mt-3 mb-3" />
+        <img src={lockIcon} className="mt-3 mb-3" alt="" />
         <AccessLightWalletPrompt
           onAccept={onAccept}
           isUnlocked={isUnlocked}

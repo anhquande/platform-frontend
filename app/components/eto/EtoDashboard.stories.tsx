@@ -20,6 +20,7 @@ const statePreview = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const statePreviewNoSubmissionSection = {
@@ -33,6 +34,7 @@ const statePreviewNoSubmissionSection = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const statePending = {
@@ -46,6 +48,7 @@ const statePending = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateListed_1 = {
@@ -59,6 +62,7 @@ const stateListed_1 = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateListed_2 = {
@@ -72,6 +76,7 @@ const stateListed_2 = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateListed_3 = {
@@ -85,6 +90,7 @@ const stateListed_3 = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateProspectusApproved_1 = {
@@ -98,6 +104,7 @@ const stateProspectusApproved_1 = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateProspectusApproved_2 = {
@@ -111,6 +118,7 @@ const stateProspectusApproved_2 = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainWhitelist = {
@@ -124,6 +132,7 @@ const stateOnChainWhitelist = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainSigning = {
@@ -137,6 +146,7 @@ const stateOnChainSigning = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainRefund = {
@@ -150,6 +160,7 @@ const stateOnChainRefund = {
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainClaim = {
@@ -163,6 +174,7 @@ const stateOnChainClaim = {
   isVerificationSectionDone: true,
   isLightWallet: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 storiesOf("ETO-Flow/Dashboard/StateView", module)
