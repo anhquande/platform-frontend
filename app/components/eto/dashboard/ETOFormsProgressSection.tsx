@@ -8,7 +8,6 @@ import {
 import { etoFormIsReadonly } from "../../../lib/api/eto/EtoApiUtils";
 import {
   selectIsGeneralEtoLoading,
-  selectIsMarketingDataVisibleInPreview,
   selectIssuerCompany,
   selectIssuerEto,
   selectIssuerEtoState,
@@ -66,7 +65,13 @@ export interface IStateProps {
   isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
-export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStateProps> = ({
+interface IExternalProps {
+  shouldViewEtoSettings?: boolean;
+}
+
+export const ETOFormsProgressSectionComponent: React.FunctionComponent<
+  IStateProps & IExternalProps
+> = ({
   etoStatus,
   loadingData,
   shouldEtoDataLoad,
@@ -80,7 +85,7 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
   etoEquityTokenInfoProgress,
   etoVotingRightsProgress,
   etoInvestmentTermsProgress,
-  isMarketingDataVisibleInPreview,
+  shouldViewEtoSettings,
 }) => {
   const companySections: ReadonlyArray<IEtoSection> = [
     {
@@ -150,10 +155,6 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
     },
   ];
 
-  const shouldHideEtoSections =
-    isMarketingDataVisibleInPreview !== EIsMarketingDataVisibleInPreview.VISIBLE &&
-    etoStatus === EEtoState.PREVIEW;
-
   const companySectionsGroup = {
     name: <FormattedMessage id="eto.form-progress-widget.company-information" />,
     sections: companySections,
@@ -164,7 +165,7 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
     sections: etoSections,
   };
 
-  const groups = [companySectionsGroup, ...(shouldHideEtoSections ? [] : [etoSectionGroup])];
+  const groups = [companySectionsGroup, ...(shouldViewEtoSettings ? [etoSectionGroup] : [])];
 
   return (
     <>
@@ -195,7 +196,7 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
   );
 };
 
-export const ETOFormsProgressSection = appConnect<IStateProps, {}>({
+export const ETOFormsProgressSection = appConnect<IStateProps, {}, IExternalProps>({
   stateToProps: state => ({
     etoStatus: selectIssuerEtoState(state),
     loadingData: selectIsGeneralEtoLoading(state),
@@ -210,6 +211,5 @@ export const ETOFormsProgressSection = appConnect<IStateProps, {}>({
     etoEquityTokenInfoProgress: calculateEtoEquityTokenInfoProgress(selectIssuerEto(state)),
     etoRiskAssessmentProgress: calculateEtoRiskAssessmentProgress(selectIssuerCompany(state)),
     etoInvestmentTermsProgress: calculateInvestmentTermsProgress(selectIssuerEto(state)),
-    isMarketingDataVisibleInPreview: selectIsMarketingDataVisibleInPreview(state),
   }),
 })(ETOFormsProgressSectionComponent);

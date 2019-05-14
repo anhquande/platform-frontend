@@ -21,9 +21,42 @@ describe("Eto Forms", () => {
     createAndLoginNewUser({ type: "issuer", kyc: "business" }).then(() => {
       goToEtoDashboard();
 
+      cy.get(tid("eto-progress-widget-eto-terms")).should("not.exist");
+
+      // Fill marketing data first
+
       fillAndAssertFull("eto-progress-widget-about", aboutForm);
 
       fillAndAssertFull("eto-progress-widget-legal-info", legalInfoForm);
+
+      fillAndAssertFull("eto-progress-widget-equity-token-info", equityTokenInfoForm);
+
+      fillAndAssertFull("eto-progress-widget-product-vision", productVisionForm);
+
+      fillAndAssertFull("eto-progress-widget-media", mediaForm);
+
+      cy.get(tid("eto-progress-widget-key-individuals", "button")).awaitedClick();
+      // first click on all the add buttons to open the fields
+      cy.get(tid("key-individuals-group-button-team")).click();
+      cy.get(tid("key-individuals-group-button-advisors")).awaitedClick();
+      cy.get(tid("key-individuals-group-button-keyAlliances")).awaitedClick();
+      cy.get(tid("key-individuals-group-button-boardMembers")).awaitedClick();
+      cy.get(tid("key-individuals-group-button-notableInvestors")).awaitedClick();
+      cy.get(tid("key-individuals-group-button-keyCustomers")).awaitedClick();
+      cy.get(tid("key-individuals-group-button-partners")).awaitedClick();
+      fillForm(etoKeyIndividualsForm);
+      assertEtoDashboard();
+      cy.get(
+        `${tid("eto-progress-widget-key-individuals")} ${tid("chart-circle.progress")}`,
+      ).should("contain", "100%");
+
+      // hidden for now as requested in #2633
+      // fillAndAssertFull("eto-progress-widget-risk-assessment", riskForm);
+
+      // Now eto settings should be available
+      cy.get(tid("eto-progress-widget-eto-terms")).should("exist");
+
+      // Fill eto settings
 
       fillAndAssertFull("eto-progress-widget-investment-terms", investmentTermsForm);
 
@@ -42,30 +75,6 @@ describe("Eto Forms", () => {
 
         fillForm(etoTermsForm);
       });
-
-      cy.get(tid("eto-progress-widget-key-individuals", "button")).awaitedClick();
-      // first click on all the add buttons to open the fields
-      cy.get(tid("key-individuals-group-button-team")).click();
-      cy.get(tid("key-individuals-group-button-advisors")).awaitedClick();
-      cy.get(tid("key-individuals-group-button-keyAlliances")).awaitedClick();
-      cy.get(tid("key-individuals-group-button-boardMembers")).awaitedClick();
-      cy.get(tid("key-individuals-group-button-notableInvestors")).awaitedClick();
-      cy.get(tid("key-individuals-group-button-keyCustomers")).awaitedClick();
-      cy.get(tid("key-individuals-group-button-partners")).awaitedClick();
-      fillForm(etoKeyIndividualsForm);
-      assertEtoDashboard();
-      cy.get(
-        `${tid("eto-progress-widget-key-individuals")} ${tid("chart-circle.progress")}`,
-      ).should("contain", "100%");
-
-      fillAndAssertFull("eto-progress-widget-product-vision", productVisionForm);
-
-      fillAndAssertFull("eto-progress-widget-media", mediaForm);
-
-      // hidden for now as requested in #2633
-      // fillAndAssertFull("eto-progress-widget-risk-assessment", riskForm);
-
-      fillAndAssertFull("eto-progress-widget-equity-token-info", equityTokenInfoForm);
 
       fillAndAssertFull("eto-progress-widget-voting-right", votingRights);
     });

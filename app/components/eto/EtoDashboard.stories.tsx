@@ -11,7 +11,7 @@ import { EtoDashboardComponent } from "./EtoDashboard";
 
 const statePreview = {
   etoState: EEtoState.PREVIEW,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
@@ -25,7 +25,7 @@ const statePreview = {
 
 const statePreviewNoSubmissionSection = {
   etoState: EEtoState.PREVIEW,
-  shouldViewSubmissionSection: false,
+  shouldViewEtoSettings: false,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
@@ -39,7 +39,7 @@ const statePreviewNoSubmissionSection = {
 
 const statePending = {
   etoState: EEtoState.PENDING,
-  shouldViewSubmissionSection: false,
+  shouldViewEtoSettings: false,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
@@ -53,7 +53,7 @@ const statePending = {
 
 const stateListed_1 = {
   etoState: EEtoState.LISTED,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
@@ -67,7 +67,7 @@ const stateListed_1 = {
 
 const stateListed_2 = {
   etoState: EEtoState.LISTED,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: false,
@@ -81,7 +81,7 @@ const stateListed_2 = {
 
 const stateListed_3 = {
   etoState: EEtoState.LISTED,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: false,
@@ -98,7 +98,7 @@ const stateProspectusApproved_1 = {
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
@@ -112,7 +112,7 @@ const stateProspectusApproved_2 = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
@@ -126,7 +126,7 @@ const stateOnChainWhitelist = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
@@ -140,7 +140,7 @@ const stateOnChainSigning = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
@@ -154,7 +154,7 @@ const stateOnChainRefund = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
@@ -168,7 +168,7 @@ const stateOnChainClaim = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isVerificationSectionDone: true,

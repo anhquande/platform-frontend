@@ -401,3 +401,18 @@ export const GeneralEtoDataType = YupTS.object({
   ...EtoCompanyInformationType.shape,
   ...EtoRiskAssessmentType.shape,
 });
+
+export const EtoMarketingDataType = YupTS.object({
+  ...EtoEquityTokenInfoType.shape,
+  ...EtoMediaType.shape,
+  ...EtoLegalInformationType.shape,
+  ...EtoPitchType.shape,
+  ...EtoCompanyInformationType.shape,
+  ...EtoRiskAssessmentType.shape,
+});
+
+export const EtoSettingDataType = YupTS.object({
+  ...EtoInvestmentTermsType.shape,
+  ...getEtoTermsSchema().shape,
+  ...EtoVotingRightsType.shape,
+});

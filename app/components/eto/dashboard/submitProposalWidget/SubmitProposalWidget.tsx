@@ -46,7 +46,7 @@ export const SubmitProposalWidget = compose<React.FunctionComponent<IExternalPro
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IDispatchProps>({
     dispatchToProps: dispatch => ({
-      publish: () => dispatch(actions.etoFlow.submitDataStart()),
+      submitProposal: () => dispatch(actions.etoFlow.submitDataStart()),
     }),
   }),
 )(SubmitProposalWidgetComponent);

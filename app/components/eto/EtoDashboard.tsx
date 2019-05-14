@@ -22,7 +22,7 @@ import {
   selectIsTermSheetSubmitted,
   userHasKycAndEmailVerified,
 } from "../../modules/eto-flow/selectors";
-import { calculateGeneralEtoData } from "../../modules/eto-flow/utils";
+import { calculateMarketingEtoData, calculateSettingsEtoData } from "../../modules/eto-flow/utils";
 import { selectKycRequestStatus } from "../../modules/kyc/selectors";
 import { selectIsLightWallet } from "../../modules/web3/selectors";
 import { appConnect } from "../../store";
@@ -58,19 +58,24 @@ interface IStateProps {
   etoState?: EEtoState;
   previewCode?: string;
   canEnableBookbuilding: boolean;
-  etoFormProgress?: number;
+  marketingFormsProgress?: number;
+  etoSettingsFormsProgress?: number;
   isTermSheetSubmitted?: boolean;
   isOfferingDocumentSubmitted?: boolean;
   offeringDocumentType: EOfferingDocumentType | undefined;
   isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
-interface IComputedProps {
-  isVerificationSectionDone: boolean;
-  shouldViewSubmissionSection: boolean;
+interface ISubmissionProps {
+  shouldViewEtoSettings?: boolean;
+  shouldViewSubmissionSection?: boolean;
 }
 
-interface IComponentProps {
+interface IComputedProps extends ISubmissionProps {
+  isVerificationSectionDone: boolean;
+}
+
+interface IComponentProps extends ISubmissionProps {
   verifiedEmail?: string;
   isLightWallet: boolean;
   userHasKycAndEmailVerified: boolean;
@@ -83,7 +88,6 @@ interface IComponentProps {
   isOfferingDocumentSubmitted?: boolean;
   offeringDocumentType: EOfferingDocumentType | undefined;
   isVerificationSectionDone: boolean;
-  shouldViewSubmissionSection: boolean;
   isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
@@ -111,13 +115,15 @@ const SubmitDashBoardSection: React.FunctionComponent<{
   </>
 );
 
-const EtoProgressDashboardSection: React.FunctionComponent = () => (
+const EtoProgressDashboardSection: React.FunctionComponent<ISubmissionProps> = ({
+  shouldViewEtoSettings,
+}) => (
   <>
     <Container columnSpan={EColumnSpan.THREE_COL}>
       <DashboardHeading step={2} title="SETUP YOUR ETO" />
       <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
     </Container>
-    <ETOFormsProgressSection />
+    <ETOFormsProgressSection shouldViewEtoSettings={shouldViewEtoSettings} />
   </>
 );
 
@@ -130,6 +136,7 @@ interface IEtoStateRender {
   previewCode?: string;
   offeringDocumentType: EOfferingDocumentType | undefined;
   isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
+  shouldViewEtoSettings?: boolean;
 }
 
 const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> = ({
@@ -141,6 +148,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
   previewCode,
   offeringDocumentType,
   isMarketingDataVisibleInPreview,
+  shouldViewEtoSettings,
 }) => {
   if (!previewCode) {
     return (
@@ -160,16 +168,17 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
     case EEtoState.PREVIEW:
       return (
         <>
-          {shouldViewSubmissionSection &&
-            (isMarketingDataVisibleInPreview === EIsMarketingDataVisibleInPreview.VISIBLE ? (
-              <SubmitDashBoardSection
-                isTermSheetSubmitted={isTermSheetSubmitted}
-                columnSpan={EColumnSpan.TWO_COL}
-              />
-            ) : (
+          {shouldViewEtoSettings &&
+            isMarketingDataVisibleInPreview !== EIsMarketingDataVisibleInPreview.VISIBLE && (
               <PublishETOWidget isMarketingDataVisibleInPreview={isMarketingDataVisibleInPreview} />
-            ))}
-          <EtoProgressDashboardSection />
+            )}
+          {shouldViewSubmissionSection && (
+            <SubmitDashBoardSection
+              isTermSheetSubmitted={isTermSheetSubmitted}
+              columnSpan={EColumnSpan.TWO_COL}
+            />
+          )}
+          <EtoProgressDashboardSection shouldViewEtoSettings={shouldViewEtoSettings} />
         </>
       );
     case EEtoState.PENDING:
@@ -182,7 +191,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
               id="shared-component.eto-overview.status-in-review.review-message"
             />
           </Container>
-          <ETOFormsProgressSection />
+          <ETOFormsProgressSection shouldViewEtoSettings={shouldViewSubmissionSection} />
         </>
       );
     case EEtoState.LISTED:
@@ -201,7 +210,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
           <Container columnSpan={EColumnSpan.THREE_COL}>
             <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
           </Container>
-          <ETOFormsProgressSection />
+          <ETOFormsProgressSection shouldViewEtoSettings={shouldViewSubmissionSection} />
         </>
       );
     case EEtoState.PROSPECTUS_APPROVED:
@@ -214,7 +223,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
           <Container columnSpan={EColumnSpan.THREE_COL}>
             <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
           </Container>
-          <ETOFormsProgressSection />
+          <ETOFormsProgressSection shouldViewEtoSettings={shouldViewSubmissionSection} />
         </>
       );
     case EEtoState.ON_CHAIN:
@@ -229,7 +238,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
           <Container columnSpan={EColumnSpan.THREE_COL}>
             <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
           </Container>
-          <ETOFormsProgressSection />
+          <ETOFormsProgressSection shouldViewEtoSettings={shouldViewSubmissionSection} />
         </>
       );
     default:
@@ -246,7 +255,7 @@ class EtoDashboardComponent extends React.Component<IComponentProps> {
     const {
       etoState,
       canEnableBookbuilding,
-      shouldViewSubmissionSection,
+      shouldViewEtoSettings,
       isTermSheetSubmitted,
       isOfferingDocumentSubmitted,
       previewCode,
@@ -254,6 +263,7 @@ class EtoDashboardComponent extends React.Component<IComponentProps> {
       isVerificationSectionDone,
       userHasKycAndEmailVerified,
       isMarketingDataVisibleInPreview,
+      shouldViewSubmissionSection,
     } = this.props;
 
     return (
@@ -278,6 +288,7 @@ class EtoDashboardComponent extends React.Component<IComponentProps> {
           <EtoDashboardStateViewComponent
             isTermSheetSubmitted={isTermSheetSubmitted}
             isOfferingDocumentSubmitted={isOfferingDocumentSubmitted}
+            shouldViewEtoSettings={shouldViewEtoSettings}
             shouldViewSubmissionSection={shouldViewSubmissionSection}
             etoState={etoState}
             canEnableBookbuilding={canEnableBookbuilding}
@@ -305,7 +316,8 @@ const EtoDashboard = compose<React.FunctionComponent>(
       canEnableBookbuilding: selectCanEnableBookBuilding(s),
       isTermSheetSubmitted: selectIsTermSheetSubmitted(s),
       isOfferingDocumentSubmitted: selectIsOfferingDocumentSubmitted(s),
-      etoFormProgress: calculateGeneralEtoData(selectCombinedEtoCompanyData(s)),
+      marketingFormsProgress: calculateMarketingEtoData(selectCombinedEtoCompanyData(s)),
+      etoSettingsFormsProgress: calculateSettingsEtoData(selectCombinedEtoCompanyData(s)),
       offeringDocumentType: selectIssuerEtoOfferingDocumentType(s),
       isMarketingDataVisibleInPreview: selectIsMarketingDataVisibleInPreview(s),
     }),
@@ -319,8 +331,11 @@ const EtoDashboard = compose<React.FunctionComponent>(
   }),
   withProps<IComputedProps, IStateProps>(props => ({
     isVerificationSectionDone: props.userHasKycAndEmailVerified && props.backupCodesVerified,
+    shouldViewEtoSettings: Boolean(
+      props.marketingFormsProgress && props.marketingFormsProgress >= SUBMIT_PROPOSAL_THRESHOLD,
+    ),
     shouldViewSubmissionSection: Boolean(
-      props.etoFormProgress && props.etoFormProgress >= SUBMIT_PROPOSAL_THRESHOLD,
+      props.etoSettingsFormsProgress && props.etoSettingsFormsProgress >= SUBMIT_PROPOSAL_THRESHOLD,
     ),
   })),
   onEnterAction<IStateProps & IDispatchProps>({
