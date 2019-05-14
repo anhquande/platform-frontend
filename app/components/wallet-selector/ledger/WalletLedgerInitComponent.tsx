@@ -35,7 +35,7 @@ interface IInitStep {
 const InitStep: React.FunctionComponent<IInitStep> = ({ header, img, desc }) => (
   <Col xs="12" md="4" className={cn("mb-4 mb-md-0 px-4", styles.step)}>
     <div className={styles.header}>{header}</div>
-    <img className="my-2 my-md-5" src={img} />
+    <img className="my-2 my-md-5" src={img} alt="" />
     <p>{desc}</p>
   </Col>
 );
@@ -99,12 +99,14 @@ export const WalletLedgerInitComponent: React.FunctionComponent<
     )}
     {/* If there is a need for more visual cases then we will need to implement a full solution */}
     {errorMessage && errorMessage.messageType === LedgerErrorMessage.NOT_SUPPORTED ? (
-      <div className={styles.step}>
-        <FormattedMessage
-          values={{ minimumVersion: minimumLedgerVersion }}
-          id="wallet-selector.ledger.please-upgrade"
-        />
-        <p className="mt-2">
+      <div className={cn(styles.step, "mx-md-5")}>
+        <p>
+          <FormattedMessage
+            values={{ minimumVersion: minimumLedgerVersion }}
+            id="wallet-selector.ledger.please-upgrade"
+          />
+        </p>
+        <p>
           <FormattedMessage
             values={{
               ledgerUpgradeLink: (

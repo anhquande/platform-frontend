@@ -8,13 +8,10 @@ import * as Web3ProviderEngine from "web3-provider-engine";
 import * as RpcSubprovider from "web3-provider-engine/subproviders/rpc";
 
 import { promisify } from "../../../utils/promisify";
-import {
-  LedgerContractsDisabledError,
-  LedgerNotAvailableError,
-  LedgerNotSupportedVersionError,
-} from "./errors";
+import { LedgerContractsDisabledError, LedgerNotAvailableError, LedgerNotSupportedVersionError } from "./errors";
 import { ILedgerConfig, ILedgerOutput, IPromisifiedHookedWalletSubProvider } from "./types";
 
+const ExchangeTimeout = 3000;
 export const minimumLedgerVersion = "1.2.4";
 
 /**
@@ -66,10 +63,13 @@ export const testIfUnlocked = async (getTransport: () => any): Promise<void> => 
 
 const getLedgerConfig = async (getTransport: () => any): Promise<ILedgerConfig> => {
   const Transport = await getTransport();
+
   try {
     const ethInstance = new Eth(Transport);
-    const configration = await ethInstance.getAppConfiguration();
-    return configration;
+
+    const configuration = await ethInstance.getAppConfiguration();
+
+    return configuration;
   } catch (e) {
     throw new LedgerNotAvailableError();
   } finally {
@@ -113,7 +113,14 @@ export const createWeb3WithLedgerProvider = async (
 };
 
 export const connectToLedger = async (): Promise<() => any> => {
-  const getTransport = () => TransportU2F.create();
+  const getTransport = async () => {
+    const transport = await TransportU2F.create();
+
+    transport.setExchangeTimeout(ExchangeTimeout);
+
+    return transport;
+  };
+
   const ledgerConfig = await getLedgerConfig(getTransport);
   if (semver.lt(ledgerConfig.version, minimumLedgerVersion)) {
     // We support versions newer than 1.2.4
@@ -122,6 +129,8 @@ export const connectToLedger = async (): Promise<() => any> => {
   if (ledgerConfig.arbitraryDataEnabled === 0) {
     throw new LedgerContractsDisabledError();
   }
+
   await testIfUnlocked(getTransport);
+
   return getTransport;
 };

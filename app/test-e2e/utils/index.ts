@@ -48,6 +48,7 @@ export const registerWithLightWalletETO = (
   cy.visit("eto/register/light");
 
   typeEmailPassword(email, password);
+
   if (acceptTos) acceptTOS();
 };
 

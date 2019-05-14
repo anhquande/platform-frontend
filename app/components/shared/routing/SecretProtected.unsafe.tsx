@@ -15,7 +15,9 @@ const SecretProtected = (Component: React.FunctionComponent): any =>
       const props = this.props;
       const params = queryString.parse(window.location.search);
 
-      if (!process.env.NF_ISSUERS_SECRET || params.etoSecret === process.env.NF_ISSUERS_SECRET) {
+      const issuerSecret = process.env.NF_ISSUERS_SECRET;
+
+      if (!issuerSecret || params.etoSecret === issuerSecret) {
         return <Component {...props} />;
       }
 
