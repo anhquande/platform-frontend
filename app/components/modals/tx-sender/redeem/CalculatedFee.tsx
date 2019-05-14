@@ -1,7 +1,13 @@
 import * as React from "react";
 
 import { multiplyBigNumbers } from "../../../../utils/BigNumberUtils";
-import { ECurrency, ENumberInputFormat, ERoundingMode } from "../../../shared/formatters/utils";
+import { MoneyNew } from "../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  EMoneyInputFormat,
+  ERoundingMode,
+} from "../../../shared/formatters/utils";
 import { ECurrencySymbol, getFormattedMoney, Money } from "../../../shared/Money.unsafe";
 
 const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }> = ({
@@ -21,7 +27,12 @@ const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }
   const calculatedFee = multiplyBigNumbers([providedAmount, bankFee]);
 
   return (
-    <Money value={calculatedFee} currencySymbol={ECurrencySymbol.CODE} currency={ECurrency.EUR} />
+    <MoneyNew
+      value={calculatedFee}
+      inputFormat={EMoneyInputFormat.ULPS}
+      moneyFormat={ECurrency.EUR}
+      outputFormat={EHumanReadableFormat.FULL}
+    />
   );
 };
 

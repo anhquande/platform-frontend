@@ -16,18 +16,24 @@ import {
 import { selectLiquidEuroTokenBalance } from "../../../../modules/wallet/selectors";
 import { doesUserHaveEnoughNEuro, doesUserWithdrawMinimal } from "../../../../modules/web3/utils";
 import { appConnect } from "../../../../store";
-import { formatToFixed } from "../../../../utils/Money.utils";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
-import { extractNumber } from "../../../../utils/StringUtils";
 import { Button, ButtonSize, EButtonLayout } from "../../../shared/buttons/Button";
 import { ButtonArrowRight } from "../../../shared/buttons/index";
-import { ECurrency, ENumberInputFormat, ERoundingMode } from "../../../shared/formatters/utils";
+import { FormatNumber } from "../../../shared/formatters/FormatNumber";
+import { selectCurrencyCode } from "../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  EMoneyInputFormat,
+  ERoundingMode,
+  formatNumber,
+  selectDecimalPlaces,
+  toFixedPrecision,
+} from "../../../shared/formatters/utils";
 import { FormLabel } from "../../../shared/forms/fields/FormFieldLabel";
-import { FormMaskedInput } from "../../../shared/forms/fields/FormMaskedInput.unsafe";
-import { generateMaskFromCurrency } from "../../../shared/forms/fields/utils.unsafe";
 import { Form } from "../../../shared/forms/Form";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
-import { ECurrencySymbol, getFormattedMoney, Money } from "../../../shared/Money.unsafe";
+import { MaskedMoneyInput } from "../../../shared/MaskedMoneyInput";
 import { MoneySuiteWidget } from "../../../shared/MoneySuiteWidget";
 import { Tooltip } from "../../../shared/tooltips/Tooltip";
 import { VerifiedBankAccount } from "../../../wallet/VerifiedBankAccount";
@@ -59,30 +65,35 @@ const getValidators = (minAmount: string, neuroAmount: string) =>
   YupTS.object({
     amount: YupTS.number().enhance(v =>
       v
+        .typeError(((
+          <FormattedMessage id="investment-flow.validation-error" />
+        ) as unknown) as string)
         .moreThan(0)
         .test(
           "isEnoughNEuro",
-          (
+          ((
             <FormattedMessage id="bank-transfer.redeem.init.errors.value-higher-than-balance" />
-          ) as any,
+          ) as unknown) as string,
           (value: string) => doesUserHaveEnoughNEuro(value, neuroAmount),
         )
         .test(
           "isMinimal",
-          (
+          ((
             <FormattedMessage
               id="bank-transfer.redeem.init.errors.value-lower-than-minimal"
               values={{
-                minAmount: getFormattedMoney(
-                  minAmount,
-                  ECurrency.EUR,
-                  ENumberInputFormat.ULPS,
-                  false,
-                  ERoundingMode.DOWN,
-                ),
+                minAmount: formatNumber({
+                  value: minAmount,
+                  roundingMode: ERoundingMode.DOWN,
+                  inputFormat: EMoneyInputFormat.ULPS,
+                  decimalPlaces: selectDecimalPlaces(
+                    ECurrency.EUR_TOKEN,
+                    EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+                  ),
+                }),
               }}
             />
-          ) as any,
+          ) as unknown) as string,
           (value: string) => doesUserWithdrawMinimal(value, minAmount),
         ),
     ),
@@ -134,13 +145,15 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
               onClick={() => {
                 setFieldValue(
                   "amount",
-                  getFormattedMoney(
-                    neuroAmount,
-                    ECurrency.EUR,
-                    ENumberInputFormat.ULPS,
-                    false,
-                    ERoundingMode.DOWN,
-                  ),
+                  toFixedPrecision({
+                    value: neuroAmount,
+                    roundingMode: ERoundingMode.DOWN,
+                    inputFormat: EMoneyInputFormat.ULPS,
+                    decimalPlaces: selectDecimalPlaces(
+                      ECurrency.EUR_TOKEN,
+                      EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+                    ),
+                  }),
                   true,
                 );
                 setFieldTouched("amount", true, true);
@@ -153,11 +166,17 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
           </section>
 
           <Form>
-            <FormMaskedInput
+            <MaskedMoneyInput
+              inputFormat={EMoneyInputFormat.FLOAT}
               name="amount"
-              suffix="EUR"
-              unmask={extractNumber}
-              mask={generateMaskFromCurrency(ECurrency.EUR)}
+              value={values["amount"]}
+              currency={ECurrency.EUR}
+              onChangeFn={value => {
+                setFieldValue("amount", value);
+                setFieldTouched("amount", true);
+              }}
+              returnInvalidValues={true}
+              suffix={selectCurrencyCode(ECurrency.EUR)}
             />
             <section className={cn(styles.section, "mt-4")}>
               <Tooltip
@@ -169,11 +188,12 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
                       // to get percentage value we have to multiply ba 100
                       // ex value, convertToBigNumber(0.005) * 100 = 0.5%
                       fee: (
-                        <Money
+                        <FormatNumber
                           value={new BigNumber(bankFee).mul(100)}
-                          format={ENumberInputFormat.ULPS}
-                          currency={ECurrency.EUR}
-                          currencySymbol={ECurrencySymbol.NONE}
+                          inputFormat={EMoneyInputFormat.ULPS}
+                          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+                          roundingMode={ERoundingMode.DOWN}
+                          decimalPlaces={1}
                         />
                       ),
                     }}
@@ -238,10 +258,7 @@ const BankTransferRedeemInit = compose<IProps, {}>(
   withFormik<IStateProps & IDispatchProps, IReedemData>({
     validationSchema: (props: IStateProps) => getValidators(props.minAmount, props.neuroAmount),
     handleSubmit: (values, { props }) => {
-      const value = formatToFixed(new BigNumber(values.amount), 2, ERoundingMode.DOWN);
-      props.confirm({
-        value,
-      });
+      props.confirm({ value: values.amount });
     },
   }),
 )(BankTransferRedeemLayout);

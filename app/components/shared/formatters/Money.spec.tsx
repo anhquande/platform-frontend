@@ -32,20 +32,37 @@ describe("MoneyNew", () => {
     expect(component.render().text()).to.be.eq("2 501 234 EUR");
   });
 
-  it("should not add either token symbol or code  if currency symbol is NONE", () => {
-    const component = shallow(
+  it("should return money without zero decimal part when human readable format is set to ONLY_NONZERO_DECIMALS", () => {
+    const component1 = shallow(
       <MoneyNew
-        value={"123456" + "0".repeat(16)}
+        value={"2501234.19"}
         moneyFormat={ECurrency.EUR}
-        inputFormat={ENumberInputFormat.ULPS}
-        outputFormat={ENumberOutputFormat.FULL}
-        currencySymbol={ECurrencySymbol.NONE}
+        inputFormat={EMoneyInputFormat.FLOAT}
+        outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+      />,
+    );
+    const component2 = shallow(
+      <MoneyNew
+        value={"2501234.00000"}
+        moneyFormat={ECurrency.EUR}
+        inputFormat={EMoneyInputFormat.FLOAT}
+        outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
       />,
     );
 
-    expect(component.render().text()).to.be.eq("1 234.56");
+    expect(component1.render().text()).to.be.eq("2 501 234.19 EUR");
+    expect(component2.render().text()).to.be.eq("2 501 234 EUR");
   });
-
+  it("should not add either token symbol or code  ", () => {
+    const component = shallow(
+      <MoneyNew
+        value={"123456" + "0".repeat(16)}
+        inputFormat={EMoneyInputFormat.ULPS}
+        moneyFormat={ECurrency.EUR}
+        outputFormat={EHumanReadableFormat.FULL}
+        currencySymbol={ECurrencySymbol.NONE}
+      />,
+    );
   it("should output '-' when no value is provided", () => {
     const component = shallow(
       <MoneyNew
@@ -84,4 +101,5 @@ describe("MoneyNew", () => {
 
     expect(component.render().text()).to.be.eq("1 234.56 nEUR");
   });
+
 });

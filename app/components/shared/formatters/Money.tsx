@@ -47,6 +47,7 @@ interface IMoneyCommonProps {
   transfer?: EMoneyTransfer;
   theme?: ETheme;
   defaultValue?: string;
+  className?: string;
 }
 
 export const selectCurrencyCode = (moneyFormat: TMoneyFormat): string => {
@@ -71,18 +72,17 @@ export const selectCurrencyCode = (moneyFormat: TMoneyFormat): string => {
 //todo will rename it to Money after the old money is gone
 const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
   value,
-  inputFormat = ENumberInputFormat.ULPS,
-  outputFormat = ENumberOutputFormat.FULL,
+  inputFormat,
+  outputFormat,
   moneyFormat,
   currencySymbol = ECurrencySymbol.CODE,
   defaultValue = "-",
   currencyClassName,
   transfer,
   theme,
-  ...props
+  className,
 }) => {
   let formattedValue = null;
-
   if (value) {
     //todo: this should pass through 0 as well. Use isValidNumber from the #2687 PR when it's merged
     const decimalPlaces = selectDecimalPlaces(moneyFormat, outputFormat);
@@ -93,7 +93,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
         <FormatNumber
           value={value}
           defaultValue={defaultValue}
-          roundingMode={ERoundingMode.UP}
+          roundingMode={ERoundingMode.DOWN}
           decimalPlaces={decimalPlaces}
           inputFormat={inputFormat}
           outputFormat={outputFormat}
@@ -103,7 +103,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
           value={value}
           inputFormat={inputFormat}
           defaultValue={defaultValue}
-          roundingMode={ERoundingMode.UP}
+          roundingMode={ERoundingMode.DOWN}
           decimalPlaces={decimalPlaces}
           outputFormat={outputFormat}
         />
@@ -111,7 +111,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
   }
 
   return (
-    <span {...props} className={cn(styles.money, transfer, props.className, theme)}>
+    <span className={cn(styles.money, transfer, className, theme)}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>
       {currencySymbol === ECurrencySymbol.CODE && formattedValue !== null && (
         <span className={cn(styles.currency, currencyClassName)}>
