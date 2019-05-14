@@ -195,7 +195,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
               <MaskedMoneyInput
                 name={"euroValue"}
                 value={this.props.euroValue}
-                inputFormat={EMoneyInputFormat.ULPS}
+                inputFormat={ENumberInputFormat.ULPS}
                 currency={ECurrency.EUR_TOKEN}
                 onChangeFn={this.props.changeEuroValue}
                 data-test-id="invest-modal-eur-field"
@@ -215,7 +215,7 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
               <MaskedMoneyInput
                 name={"ethValue"}
                 currency={ECurrency.ETH}
-                inputFormat={EMoneyInputFormat.ULPS}
+                inputFormat={ENumberInputFormat.ULPS}
                 value={this.props.ethValue}
                 onChangeFn={this.props.changeEthValue}
                 placeholder={`${intl.formatIntlMessage(

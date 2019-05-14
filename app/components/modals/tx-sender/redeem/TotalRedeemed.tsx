@@ -4,7 +4,8 @@ import { Q18 } from "../../../../config/constants";
 import { multiplyBigNumbers, subtractBigNumbers } from "../../../../utils/BigNumberUtils";
 import { MoneyNew } from "../../../shared/formatters/Money";
 import {
-  ECurrency, ENumberInputFormat,
+  ECurrency,
+  ENumberInputFormat,
   ENumberOutputFormat,
   isEmptyValue,
   isValidNumber,

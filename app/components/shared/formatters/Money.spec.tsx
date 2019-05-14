@@ -37,16 +37,16 @@ describe("MoneyNew", () => {
       <MoneyNew
         value={"2501234.19"}
         moneyFormat={ECurrency.EUR}
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+        inputFormat={ENumberInputFormat.FLOAT}
+        outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
       />,
     );
     const component2 = shallow(
       <MoneyNew
         value={"2501234.00000"}
         moneyFormat={ECurrency.EUR}
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+        inputFormat={ENumberInputFormat.FLOAT}
+        outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
       />,
     );
 
@@ -57,12 +57,14 @@ describe("MoneyNew", () => {
     const component = shallow(
       <MoneyNew
         value={"123456" + "0".repeat(16)}
-        inputFormat={EMoneyInputFormat.ULPS}
+        inputFormat={ENumberInputFormat.ULPS}
         moneyFormat={ECurrency.EUR}
-        outputFormat={EHumanReadableFormat.FULL}
+        outputFormat={ENumberOutputFormat.FULL}
         currencySymbol={ECurrencySymbol.NONE}
       />,
     );
+    expect(component.render().text()).to.be.eq("1 234.56");
+  });
   it("should output '-' when no value is provided", () => {
     const component = shallow(
       <MoneyNew
@@ -101,5 +103,4 @@ describe("MoneyNew", () => {
 
     expect(component.render().text()).to.be.eq("1 234.56 nEUR");
   });
-
 });
