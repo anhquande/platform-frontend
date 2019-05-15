@@ -107,8 +107,8 @@ const SubmitDashBoardSection: React.FunctionComponent<{
 const EtoProgressDashboardSection: React.FunctionComponent = () => (
   <>
     <Container columnSpan={EColumnSpan.THREE_COL}>
-      <DashboardHeading step={2} title="SETUP YOUR ETO" />
       <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+      <DashboardHeading step={2} title="SETUP YOUR ETO" />
     </Container>
     <ETOFormsProgressSection />
   </>
@@ -177,6 +177,9 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
+            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+          </Container>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>
           {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
@@ -186,9 +189,6 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
             ) : (
               <UploadInvestmentMemorandum columnSpan={EColumnSpan.ONE_COL} />
             ))}
-          <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
-          </Container>
           <ETOFormsProgressSection />
         </>
       );
@@ -196,12 +196,12 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
+            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+          </Container>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>
           {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
-          <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
-          </Container>
           <ETOFormsProgressSection />
         </>
       );
@@ -209,14 +209,14 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
+            <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
+          </Container>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>
           <UploadInvestmentAgreement columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
           <BookBuildingWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
           <ChooseEtoStartDateWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
-          <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
-          </Container>
           <ETOFormsProgressSection />
         </>
       );
