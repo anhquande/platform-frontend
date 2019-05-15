@@ -4,7 +4,7 @@ import { Container } from "reactstrap";
 
 import { testCompany, testContract, testEto } from "../../../../test/fixtures";
 import { withStore } from "../../../utils/storeDecorator.unsafe";
-import { EtoView } from "./EtoView";
+import { EtoViewInternal } from "./EtoView";
 
 const testStore = {
   eto: {
@@ -24,6 +24,6 @@ storiesOf("ETO/EtoView", module)
   .addDecorator(withStore(testStore))
   .add("default", () => (
     <Container>
-      <EtoView eto={testEto} />
+      <EtoViewInternal eto={testEto} />
     </Container>
   ));

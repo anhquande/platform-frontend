@@ -526,4 +526,4 @@ const EtoView: React.FunctionComponent<IProps> = ({ eto, etoPreview }) => (
   </Tabs>
 );
 
-export { EtoView, EtoViewLayout };
+export { EtoView, EtoViewLayout, EtoViewInternal };
