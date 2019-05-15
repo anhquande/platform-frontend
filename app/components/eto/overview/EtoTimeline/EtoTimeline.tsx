@@ -2,15 +2,15 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose, pure, withHandlers, withProps } from "recompose";
 
-import { EETOStateOnChain, TEtoStartOfStates } from "../../../../modules/eto/types";
+import { EETOStateOnChain, EEtoSubState, TEtoStartOfStates } from "../../../../modules/eto/types";
 import { Block, EBlockTheme, EndBlock, StartBlock } from "./Block";
 import { DatePoint, Pointer } from "./Point";
 
-interface IProps {
+interface IExternalProps {
   startOfStates: TEtoStartOfStates | undefined;
   currentState: EETOStateOnChain | undefined;
+  subState: EEtoSubState | undefined;
 }
-
 interface IWithProps {
   preEtoStartDate: number;
   publicEtoStartDate: number;
@@ -63,11 +63,22 @@ const getStartOfState = (state: EETOStateOnChain, startOfStates: TEtoStartOfStat
   return startDate ? startDate.getTime() : NaN;
 };
 
-const Setup: React.FunctionComponent<IWithProps> = () => (
+const getSetupTitle = (subState: EEtoSubState | undefined) => {
+  switch (subState) {
+    case EEtoSubState.COMING_SOON:
+      return <FormattedMessage id="eto.status.sub-state.coming-soon" />;
+    case EEtoSubState.WHITELISTING:
+      return <FormattedMessage id="eto.status.sub-state.whitelisting" />;
+    default:
+      return <FormattedMessage id="eto.status.onchain.setup" />;
+  }
+};
+
+const Setup: React.FunctionComponent<IExternalProps> = ({ subState }) => (
   <StartBlock
     start={0}
     end={CAMPAIGNING_BLOCK_WIDTH}
-    title={<FormattedMessage id="eto.status.onchain.setup" />}
+    title={getSetupTitle(subState)}
     theme={EBlockTheme.BLUE}
   />
 );
@@ -162,7 +173,7 @@ const Claim: React.FunctionComponent<IWithProps> = ({
   </Block>
 );
 
-const EtoTimelineLayout: React.FunctionComponent<IWithProps & IWithHandlers> = ({
+const EtoTimelineLayout: React.FunctionComponent<IWithProps & IWithHandlers & IExternalProps> = ({
   calculatePointerPosition,
   ...props
 }) => (
@@ -186,10 +197,10 @@ const EtoTimelineLayout: React.FunctionComponent<IWithProps & IWithHandlers> = (
   </svg>
 );
 
-const EtoTimeline = compose<IWithProps & IWithHandlers, IProps>(
+const EtoTimeline = compose<IWithProps & IWithHandlers & IExternalProps, IExternalProps>(
   // There is a lot of computation under the hood so it's better to use `pure` here
   pure,
-  withProps<IWithProps, IProps>(({ currentState, startOfStates }) => {
+  withProps<IWithProps, IExternalProps>(({ currentState, startOfStates }) => {
     const isInProgressOrSuccessful = currentState !== EETOStateOnChain.Refund;
 
     // start/end dates of phases

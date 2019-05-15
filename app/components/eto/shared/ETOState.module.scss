@@ -23,7 +23,7 @@
     margin-right: px-to-rem(8px);
     border-radius: 50%;
     flex-shrink: 0;
-    background-color: $green-light;
+    background-color: transparent;
   }
 
   &:global(.small) {
@@ -41,8 +41,8 @@
     color: $neu-black;
   }
 
-  @include _set-indicator-color(refund, $neu-bright-orange);
-  @include _set-indicator-color(listed, $blue-light);
-  @include _set-indicator-color(pending, $neu-bright-orange);
-  @include _set-indicator-color(signing, $blue-light);
+  // default states
+  @include _set-indicator-color(green, $green-light);
+  @include _set-indicator-color(blue, $blue-light);
+  @include _set-indicator-color(red, $neu-bright-orange);
 }

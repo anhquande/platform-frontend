@@ -22,7 +22,7 @@ interface IProps {
   inputFormat?: EMoneyInputFormat;
   decimalPlaces?: number;
   divider?: number;
-  defaultValue?: string;
+  defaultValue?: React.ReactChild;
   roundingMode?: ERoundingMode;
   className?: string;
   isPrice?: boolean;
@@ -127,6 +127,7 @@ export const FormatShortNumberRange: React.FunctionComponent<IRangeProps> = ({
   if (valueFrom && valueUpto) {
     return (
       //todo 1.nowrap before ndash 2. let user choose if it's a span or a <> (?)
+      // todo add unlimited
       <span className={className}>
         <FormatShortNumber
           value={valueFrom}

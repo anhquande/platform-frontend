@@ -47,6 +47,7 @@ export const EtoCompanyInformationType = YupTS.object({
   categories: YupTS.array(tagsType).optional(),
   companyLogo: YupTS.string().optional(),
   companyBanner: YupTS.string().optional(),
+  companyPreviewCardBanner: YupTS.string(),
 });
 type TEtoTeamData = YupTS.TypeOf<typeof EtoCompanyInformationType>;
 
@@ -180,6 +181,7 @@ export const EtoMediaType = YupTS.object({
 type TEtoMediaData = YupTS.TypeOf<typeof EtoMediaType>;
 
 type TEtoCompanyBase = {
+  isMarketingDataVisibleInPreview?: EEtoMarketingDataVisibleInPreview;
   companyId: string;
   city: string;
 };
@@ -198,12 +200,24 @@ export type TCompanyEtoData = DeepReadonly<
  *  only deals with "/etos/me"
  */
 
+export enum EEtoMarketingDataVisibleInPreview {
+  NOT_VISIBLE = "not_visible",
+  VISIBLE = "visible",
+  VISIBILITY_PENDING = "visibility_pending",
+}
+
 export enum EEtoState {
   PREVIEW = "preview",
   PENDING = "pending",
   LISTED = "listed",
   PROSPECTUS_APPROVED = "prospectus_approved",
   ON_CHAIN = "on_chain",
+}
+
+export enum EIsMarketingDataVisibleInPreview {
+  VISIBLE = "visible",
+  NOT_VISIBLE = "not_visible",
+  PENDING = "visibility_pending",
 }
 
 export enum EtoStateToCamelcase {
@@ -344,6 +358,7 @@ interface IAdditionalEtoType {
   companyId: string;
   previewCode: string;
   state: EEtoState;
+  isMarketingDataVisibleInPreview: EIsMarketingDataVisibleInPreview;
   isBookbuilding: boolean;
   templates: TEtoDocumentTemplates;
   startDate: string;
@@ -393,4 +408,19 @@ export const GeneralEtoDataType = YupTS.object({
   ...EtoPitchType.shape,
   ...EtoCompanyInformationType.shape,
   ...EtoRiskAssessmentType.shape,
+});
+
+export const EtoMarketingDataType = YupTS.object({
+  ...EtoEquityTokenInfoType.shape,
+  ...EtoMediaType.shape,
+  ...EtoLegalInformationType.shape,
+  ...EtoPitchType.shape,
+  ...EtoCompanyInformationType.shape,
+  ...EtoRiskAssessmentType.shape,
+});
+
+export const EtoSettingDataType = YupTS.object({
+  ...EtoInvestmentTermsType.shape,
+  ...getEtoTermsSchema().shape,
+  ...EtoVotingRightsType.shape,
 });

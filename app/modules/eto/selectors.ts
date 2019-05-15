@@ -7,7 +7,13 @@ import { selectBookbuildingStats } from "../bookbuilding-flow/selectors";
 import { selectIsEligibleToPreEto } from "../investor-portfolio/selectors";
 import { hiddenJurisdictions } from "./constants";
 import { IEtoState } from "./reducer";
-import { EETOStateOnChain, EEtoSubState, IEtoTokenData, TEtoWithCompanyAndContract } from "./types";
+import {
+  EETOStateOnChain,
+  EEtoSubState,
+  IEtoTokenData,
+  TEtoStartOfStates,
+  TEtoWithCompanyAndContract,
+} from "./types";
 import { isOnChain } from "./utils";
 
 const selectEtoState = (state: IAppState) => state.eto;
@@ -84,8 +90,18 @@ export const selectEtoOnChainState = (
   state: IAppState,
   previewCode: string,
 ): EETOStateOnChain | undefined => {
-  const contracts = state.eto.contracts[previewCode];
-  return contracts && contracts.timedState;
+  const contract = state.eto.contracts[previewCode];
+
+  return contract && contract.timedState;
+};
+
+export const selectEtoStartOfStates = (
+  state: IAppState,
+  previewCode: string,
+): TEtoStartOfStates | undefined => {
+  const contract = state.eto.contracts[previewCode];
+
+  return contract && contract.startOfStates;
 };
 
 export const selectEtoOnChainNextStateStartDate = (
@@ -154,9 +170,9 @@ export const selectFilteredEtosByRestrictedJurisdictions = (
     : etos;
 
 /**
- * Returns sub state of eto current `on-chain` state.
- * If not yet on-chain, returns `COMING_SOON` state
- * If no sub state is defined returns `undefined`.
+ * TODO: Add unit tests
+ * @param state
+ * @param previewCode
  */
 export const selectEtoSubState = (
   state: IAppState,
@@ -165,39 +181,66 @@ export const selectEtoSubState = (
   const eto = selectEtoWithCompanyAndContract(state, previewCode);
 
   if (eto !== undefined) {
-    if (!isOnChain(eto)) {
-      return EEtoSubState.COMING_SOON;
-    }
+    switch (eto.state) {
+      case EEtoState.PREVIEW:
+      case EEtoState.PENDING:
+        return EEtoSubState.COMING_SOON;
 
-    const isEligibleToPreEto = selectIsEligibleToPreEto(state, eto.etoId);
-
-    switch (eto.contract.timedState) {
-      case EETOStateOnChain.Setup:
+      case EEtoState.LISTED:
+      case EEtoState.PROSPECTUS_APPROVED:
         const stats = selectBookbuildingStats(state, eto.etoId);
         const investorCount = stats ? stats.investorsCount : 0;
 
         const isInvestorsLimitReached = investorCount >= eto.maxPledges;
 
-        const nextState = isEligibleToPreEto ? EETOStateOnChain.Whitelist : EETOStateOnChain.Public;
-        const nextStateStartDate = eto.contract.startOfStates[nextState];
-
-        if (!nextStateStartDate || nextStateStartDate <= new Date()) {
-          return EEtoSubState.COMING_SOON;
+        if (eto.isBookbuilding) {
+          return EEtoSubState.WHITELISTING;
         }
 
-        if (!eto.isBookbuilding || isInvestorsLimitReached) {
-          return isEligibleToPreEto
-            ? EEtoSubState.COUNTDOWN_TO_PRESALE
-            : EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE;
+        if (isInvestorsLimitReached) {
+          return EEtoSubState.WHITELISTING_LIMIT_REACHED;
         }
 
-        break;
-      case EETOStateOnChain.Whitelist:
-        if (!isEligibleToPreEto) {
-          return EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE;
+        return EEtoSubState.CAMPAIGNING;
+
+      case EEtoState.ON_CHAIN: {
+        if (!isOnChain(eto)) {
+          throw new Error(`Eto ${eto.etoId} is on chain but without contracts deployed`);
         }
 
-        break;
+        const isEligibleToPreEto = selectIsEligibleToPreEto(state, eto.etoId);
+
+        switch (eto.contract.timedState) {
+          case EETOStateOnChain.Setup:
+            const stats = selectBookbuildingStats(state, eto.etoId);
+            const investorCount = stats ? stats.investorsCount : 0;
+
+            const isInvestorsLimitReached = investorCount >= eto.maxPledges;
+
+            if (isInvestorsLimitReached) {
+              return EEtoSubState.WHITELISTING_LIMIT_REACHED;
+            }
+
+            if (eto.isBookbuilding) {
+              return EEtoSubState.WHITELISTING;
+            }
+
+            if (!eto.startDate) {
+              return EEtoSubState.CAMPAIGNING;
+            }
+
+            return isEligibleToPreEto
+              ? EEtoSubState.COUNTDOWN_TO_PRESALE
+              : EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE;
+
+          case EETOStateOnChain.Whitelist:
+            if (!isEligibleToPreEto) {
+              return EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE;
+            }
+
+            return undefined;
+        }
+      }
     }
   }
 

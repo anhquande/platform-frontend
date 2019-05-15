@@ -1,9 +1,9 @@
-import { assertEtoDashboard, assertEtoDocuments } from "../utils/assertions";
+import { assertEtoDocuments } from "../utils/assertions";
 import { checkForm, fillForm, TFormFixture, uploadDocumentToFieldWithTid } from "../utils/forms";
 import { goToEtoDashboard } from "../utils/navigation";
 import { tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
-import { submitProposal } from "./EtoRegistrationUtils";
+import { fillAndAssert, submitProposal } from "./EtoRegistrationUtils";
 import {
   aboutFormRequired,
   aboutFormSubmit,
@@ -14,12 +14,6 @@ import {
   mediaRequiredForm,
   votingRights,
 } from "./fixtures";
-
-const fillAndAssert = (section: string, sectionForm: TFormFixture) => {
-  cy.get(tid(section, "button")).click();
-  fillForm(sectionForm);
-  assertEtoDashboard();
-};
 
 const openAndCheckValues = (section: string, sectionForm: TFormFixture) => {
   cy.get(tid(section, "button")).click();
@@ -32,6 +26,10 @@ describe("Eto Forms", () => {
     createAndLoginNewUser({ type: "issuer", kyc: "business" }).then(() => {
       goToEtoDashboard();
 
+      cy.get(tid("eto-progress-widget-eto-terms")).should("not.exist");
+
+      // Fill marketing data first
+
       fillAndAssert("eto-progress-widget-about", {
         ...aboutFormRequired,
         ...aboutFormSubmit,
@@ -39,13 +37,17 @@ describe("Eto Forms", () => {
 
       fillAndAssert("eto-progress-widget-legal-info", legalInfoRequiredForm);
 
-      fillAndAssert("eto-progress-widget-investment-terms", investmentTermsRequiredForm);
-
-      fillAndAssert("eto-progress-widget-eto-terms", etoTermsRequiredForm);
+      fillAndAssert("eto-progress-widget-equity-token-info", equityTokenInfoForm);
 
       fillAndAssert("eto-progress-widget-media", mediaRequiredForm);
 
-      fillAndAssert("eto-progress-widget-equity-token-info", equityTokenInfoForm);
+      // Now eto settings should be available
+      cy.get(tid("eto-progress-widget-eto-terms")).should("exist");
+
+      // Fill eto settings
+      fillAndAssert("eto-progress-widget-investment-terms", investmentTermsRequiredForm);
+
+      fillAndAssert("eto-progress-widget-eto-terms", etoTermsRequiredForm);
 
       fillAndAssert("eto-progress-widget-voting-right", votingRights);
 

@@ -2,6 +2,7 @@ import BigNumber from "bignumber.js";
 import * as cn from "classnames";
 import * as React from "react";
 
+import { CommonHtmlProps } from "../../../types";
 import { FormatNumber } from "./FormatNumber";
 import { FormatShortNumber } from "./FormatShortNumber";
 import {
@@ -32,20 +33,21 @@ enum ETheme {
   GREEN_BIG = styles.tBigValue,
 }
 
-interface IMoneyProps extends React.HTMLAttributes<HTMLSpanElement> {
+interface IMoneyProps {
   value: string | BigNumber | number | null | undefined;
 }
 
 interface IMoneyCommonProps {
-  inputFormat?: EMoneyInputFormat;
+  inputFormat: EMoneyInputFormat;
   moneyFormat: TMoneyFormat;
   roundingMode?: ERoundingMode;
   currencySymbol?: ECurrencySymbol;
   currencyClassName?: string;
   transfer?: EMoneyTransfer;
   theme?: ETheme;
-  outputFormat?: EHumanReadableFormat;
-  defaultValue?: string;
+  outputFormat: EHumanReadableFormat;
+  defaultValue?: React.ReactChild;
+  className?: string;
 }
 
 export const selectCurrencyCode = (moneyFormat: TMoneyFormat): string => {
@@ -68,48 +70,44 @@ export const selectCurrencyCode = (moneyFormat: TMoneyFormat): string => {
 };
 
 //todo will rename it to Money after the old money is gone
-const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
+const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & CommonHtmlProps> = ({
   value,
-  inputFormat = EMoneyInputFormat.ULPS,
-  outputFormat = EHumanReadableFormat.FULL,
+  inputFormat,
+  outputFormat,
   moneyFormat,
   currencySymbol = ECurrencySymbol.CODE,
   defaultValue = "-",
   currencyClassName,
   transfer,
   theme,
-  ...props
+  className,
 }) => {
   let formattedValue = null;
-
   if (value) {
     //todo: this should pass through 0 as well. Use isValidNumber from the #2687 PR when it's merged
     const decimalPlaces = selectDecimalPlaces(moneyFormat, outputFormat);
-    formattedValue =
-      outputFormat === EHumanReadableFormat.FULL ||
-      outputFormat === EHumanReadableFormat.INTEGER ? (
-        <FormatNumber
-          value={value}
-          defaultValue={defaultValue}
-          roundingMode={ERoundingMode.UP}
-          decimalPlaces={decimalPlaces}
-          inputFormat={inputFormat}
-          outputFormat={outputFormat}
-        />
-      ) : (
-        <FormatShortNumber
-          value={value}
-          inputFormat={inputFormat}
-          defaultValue={defaultValue}
-          roundingMode={ERoundingMode.UP}
-          decimalPlaces={decimalPlaces}
-          outputFormat={outputFormat}
-        />
-      );
+    formattedValue = Object.values(EHumanReadableFormat).includes(outputFormat) ? (
+      <FormatNumber
+        value={value}
+        defaultValue={defaultValue}
+        roundingMode={ERoundingMode.DOWN}
+        decimalPlaces={decimalPlaces}
+        inputFormat={inputFormat}
+        outputFormat={outputFormat}
+      />
+    ) : (
+      <FormatShortNumber
+        value={value}
+        inputFormat={inputFormat}
+        defaultValue={defaultValue}
+        roundingMode={ERoundingMode.DOWN}
+        decimalPlaces={decimalPlaces}
+        outputFormat={outputFormat}
+      />
+    );
   }
-
   return (
-    <span {...props} className={cn(styles.money, transfer, props.className, theme)}>
+    <span className={cn(styles.money, transfer, className, theme)}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>
       {currencySymbol === ECurrencySymbol.CODE && formattedValue !== null && (
         <span className={cn(styles.currency, currencyClassName)}>

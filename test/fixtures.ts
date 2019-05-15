@@ -1,8 +1,11 @@
-import { BigNumber } from "bignumber.js";
 import { createStore, Store } from "redux";
 
 import { IConfig } from "../app/config/getConfig";
-import { EEtoState, TCompanyEtoData } from "../app/lib/api/eto/EtoApi.interfaces.unsafe";
+import {
+  EEtoState,
+  EIsMarketingDataVisibleInPreview,
+  TCompanyEtoData,
+} from "../app/lib/api/eto/EtoApi.interfaces.unsafe";
 import {
   EEtoDocumentLanguage,
   EEtoDocumentType,
@@ -21,6 +24,7 @@ import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../app/modules/eto
 import { EthereumAddress, EthereumAddressWithChecksum, EthereumNetworkId } from "../app/types";
 
 import * as companyBanner from "./assets/company-banner.png";
+import * as companyPreviewCardBanner from "./assets/company-preview-banner.png";
 
 export const dummyConfig: IConfig = {
   ethereumNetwork: {
@@ -45,6 +49,7 @@ export const dummyEthereumAddressWithChecksum = "0xfB6916095ca1df60bB79Ce92cE3Ea
 
 export const testCompany: TCompanyEtoData = {
   companyBanner,
+  companyPreviewCardBanner,
   companyLegalDescription: "Est castus ionicis tormento, cesaris.",
   companyStage: "a_round",
   city: "Berlin",
@@ -723,11 +728,11 @@ export const etoDocuments: TEtoDocumentTemplates = {
 export const testContract = {
   timedState: 3,
   totalInvestment: {
-    totalEquivEurUlps: new BigNumber("3.240447910281246044e+24"),
-    totalTokensInt: new BigNumber("10010705"),
-    totalInvestors: new BigNumber("3"),
-    euroTokenBalance: new BigNumber("3.2374649e+24"),
-    etherTokenBalance: new BigNumber("5432420000000000000"),
+    totalEquivEurUlps: "3.240447910281246044e+24",
+    totalTokensInt: "10010705",
+    totalInvestors: "3",
+    euroTokenBalance: "3.2374649e+24",
+    etherTokenBalance: "5432420000000000000",
   },
   startOfStates: {
     [EETOStateOnChain.Setup]: undefined,
@@ -854,6 +859,7 @@ export const testEto: TEtoWithCompanyAndContract = {
   company: testCompany,
   contract: testContract,
   product: testProduct,
+  isMarketingDataVisibleInPreview: EIsMarketingDataVisibleInPreview.NOT_VISIBLE,
 };
 
 export const etoFilesData: IEtoFiles = {

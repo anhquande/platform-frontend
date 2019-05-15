@@ -18,6 +18,10 @@ import * as logo from "../../../assets/img/logo_yellow.svg";
 import * as logoText from "../../../assets/img/neufund-logo.svg";
 import * as styles from "./Header.module.scss";
 
+interface IExternalProps {
+  hideCtaButtons?: boolean;
+}
+
 interface IStateProps {
   isAuthorized: boolean;
   location?: string;
@@ -30,75 +34,79 @@ interface IDispatchProps {
   monitorPendingTransaction: () => void;
 }
 
-export const HeaderComponent: React.FunctionComponent<IStateProps & IDispatchProps> = props => (
+export const HeaderComponent: React.FunctionComponent<
+  IExternalProps & IStateProps & IDispatchProps
+> = props => (
   <Navbar dark className={cn(styles.bar, "flex-nowrap")}>
     <Link to={appRoutes.root} className={styles.logo}>
       <img src={logo} className={styles.logoImage} alt="" />
       <img src={logoText} alt="NEUFUND" className={styles.logoText} />
     </Link>
-    {props.isAuthorized ? (
-      <section className={cn(styles.right)}>
-        <PendingTransactionStatus
-          monitorPendingTransaction={props.monitorPendingTransaction}
-          pendingTransaction={props.pendingTransaction}
-        />
-        <Button
-          className="ml-2"
-          layout={EButtonLayout.SECONDARY}
-          theme={EButtonTheme.WHITE}
-          onClick={() => props.logout(props.userType)}
-          data-test-id="Header-logout"
-        >
-          <FormattedMessage id="header.logout-button" />
-        </Button>
-      </section>
-    ) : (
-      <div className={styles.buttons}>
-        {props.location && props.location.indexOf("eto") !== -1 ? (
-          <>
-            <ButtonLink
-              theme={EButtonTheme.WHITE}
-              innerClassName={cn(styles.registerButton, styles.resizableButton)}
-              data-test-id="Header-register-eto"
-              isActive={false}
-              to={appRoutes.registerEto}
-            >
-              <FormattedMessage id="header.register-button" />
-            </ButtonLink>
-            <ButtonLink
-              theme={EButtonTheme.WHITE}
-              innerClassName={styles.resizableButton}
-              data-test-id="Header-login-eto"
-              isActive={false}
-              to={appRoutes.loginEto}
-            >
-              <FormattedMessage id="header.login-button" />
-            </ButtonLink>
-          </>
-        ) : (
-          <>
-            <ButtonLink
-              theme={EButtonTheme.WHITE}
-              innerClassName={cn(styles.registerButton, styles.resizableButton)}
-              data-test-id="Header-register"
-              isActive={false}
-              to={walletRegisterRoutes.light}
-            >
-              <FormattedMessage id="header.register-button" />
-            </ButtonLink>
-            <ButtonLink
-              theme={EButtonTheme.WHITE}
-              innerClassName={styles.resizableButton}
-              data-test-id="Header-login"
-              isActive={false}
-              to={loginWalletRoutes.light}
-            >
-              <FormattedMessage id="header.login-button" />
-            </ButtonLink>
-          </>
-        )}
-      </div>
-    )}
+
+    {!props.hideCtaButtons &&
+      (props.isAuthorized ? (
+        <section className={cn(styles.right)}>
+          <PendingTransactionStatus
+            monitorPendingTransaction={props.monitorPendingTransaction}
+            pendingTransaction={props.pendingTransaction}
+          />
+          <Button
+            className="ml-2"
+            layout={EButtonLayout.SECONDARY}
+            theme={EButtonTheme.WHITE}
+            onClick={() => props.logout(props.userType)}
+            data-test-id="Header-logout"
+          >
+            <FormattedMessage id="header.logout-button" />
+          </Button>
+        </section>
+      ) : (
+        <div className={styles.buttons}>
+          {props.location && props.location.indexOf("eto") !== -1 ? (
+            <>
+              <ButtonLink
+                theme={EButtonTheme.WHITE}
+                innerClassName={cn(styles.registerButton, styles.resizableButton)}
+                data-test-id="Header-register-eto"
+                isActive={false}
+                to={appRoutes.registerEto}
+              >
+                <FormattedMessage id="header.register-button" />
+              </ButtonLink>
+              <ButtonLink
+                theme={EButtonTheme.WHITE}
+                innerClassName={styles.resizableButton}
+                data-test-id="Header-login-eto"
+                isActive={false}
+                to={appRoutes.loginEto}
+              >
+                <FormattedMessage id="header.login-button" />
+              </ButtonLink>
+            </>
+          ) : (
+            <>
+              <ButtonLink
+                theme={EButtonTheme.WHITE}
+                innerClassName={cn(styles.registerButton, styles.resizableButton)}
+                data-test-id="Header-register"
+                isActive={false}
+                to={walletRegisterRoutes.light}
+              >
+                <FormattedMessage id="header.register-button" />
+              </ButtonLink>
+              <ButtonLink
+                theme={EButtonTheme.WHITE}
+                innerClassName={styles.resizableButton}
+                data-test-id="Header-login"
+                isActive={false}
+                to={loginWalletRoutes.light}
+              >
+                <FormattedMessage id="header.login-button" />
+              </ButtonLink>
+            </>
+          )}
+        </div>
+      ))}
   </Navbar>
 );
 

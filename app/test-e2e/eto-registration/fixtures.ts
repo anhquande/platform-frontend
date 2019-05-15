@@ -13,6 +13,10 @@ export const aboutFormRequired: TFormFixture = {
   companyWebsite: "https://neufund.org",
   companyOneliner: "Free icecream for all",
   keyQuoteFounder: "Let's make it a great day.",
+  companyPreviewCardBanner: {
+    value: "example.jpg",
+    type: "single-file",
+  },
 };
 
 export const aboutForm: TFormFixture = {

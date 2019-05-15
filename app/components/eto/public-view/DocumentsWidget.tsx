@@ -64,36 +64,38 @@ const DocumentsWidgetLayout: React.FunctionComponent<
             )}
         </Row>
       </section>
-      <section className={styles.group}>
-        <div className={styles.groupName}>
-          <FormattedMessage id="eto.public-view.documents.legal-documents" />
-        </div>
-        <Row>
-          {Object.keys(etoTemplates)
-            .filter(key => !ignoredTemplates.some(template => template === key))
-            .map((key, i) => (
-              <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
-                <DocumentTemplateButton
-                  onClick={() => downloadDocument(etoTemplates[key])}
-                  title={documentTitles[etoTemplates[key].documentType]}
-                />
-              </Col>
-            ))}
-          {Object.keys(etoDocuments)
-            .filter(
-              key =>
-                !ignoredDocuments.some(document => document === etoDocuments[key].documentType),
-            )
-            .map((key, i) => (
-              <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
-                <DocumentTemplateButton
-                  onClick={() => downloadDocument(etoDocuments[key])}
-                  title={documentTitles[etoDocuments[key].documentType]}
-                />
-              </Col>
-            ))}
-        </Row>
-      </section>
+      {(etoTemplates || etoDocuments) && (
+        <section className={styles.group}>
+          <div className={styles.groupName}>
+            <FormattedMessage id="eto.public-view.documents.legal-documents" />
+          </div>
+          <Row>
+            {Object.keys(etoTemplates)
+              .filter(key => !ignoredTemplates.some(template => template === key))
+              .map((key, i) => (
+                <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
+                  <DocumentTemplateButton
+                    onClick={() => downloadDocument(etoTemplates[key])}
+                    title={documentTitles[etoTemplates[key].documentType]}
+                  />
+                </Col>
+              ))}
+            {Object.keys(etoDocuments)
+              .filter(
+                key =>
+                  !ignoredDocuments.some(document => document === etoDocuments[key].documentType),
+              )
+              .map((key, i) => (
+                <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
+                  <DocumentTemplateButton
+                    onClick={() => downloadDocument(etoDocuments[key])}
+                    title={documentTitles[etoDocuments[key].documentType]}
+                  />
+                </Col>
+              ))}
+          </Row>
+        </section>
+      )}
     </Panel>
   );
 };

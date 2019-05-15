@@ -37,6 +37,10 @@ export enum EHumanReadableFormat {
   FULL = "full",
 }
 
+export enum ESpecialNumber {
+  UNLIMITED = "unlimited",
+}
+
 export type TMoneyFormat = ECurrency | EPriceFormat;
 
 interface IToFixedPrecision {
@@ -61,7 +65,10 @@ export const selectDecimalPlaces = (
   moneyFormat: TMoneyFormat,
   outputFormat: EHumanReadableFormat = EHumanReadableFormat.FULL,
 ): number => {
-  if (outputFormat !== EHumanReadableFormat.FULL) {
+  if (
+    outputFormat !== EHumanReadableFormat.FULL &&
+    outputFormat !== EHumanReadableFormat.ONLY_NONZERO_DECIMALS
+  ) {
     return 0;
   }
 
@@ -135,6 +142,14 @@ export const toFixedPrecision = ({
   decimalPlaces = undefined,
   outputFormat = EHumanReadableFormat.FULL,
 }: IToFixedPrecision): string => {
+  invariant(
+    value !== null &&
+      (typeof value === "string" || typeof value === "number" || value instanceof BigNumber) &&
+      !(typeof value === "string" && value.trim() === "") &&
+      !(typeof value === "number" && (Number.isNaN(value) || !Number.isFinite(value))),
+    `cannot format this number: ${value} ${typeof value}`,
+  );
+
   const dp = outputFormat === EHumanReadableFormat.INTEGER ? 0 : decimalPlaces;
   const asBigNumber = value instanceof BigNumber ? value : new BigNumber(value.toString());
 
@@ -145,7 +160,7 @@ export const toFixedPrecision = ({
   return moneyInPrimaryBase.toFixed(dp, getBigNumberRoundingMode(roundingMode, outputFormat));
 };
 
-/* formatNumber only formats numbers (!),
+/* formatNumber only formats numbers for display (!).
  * invalid input (null/undefined etc) should be handled before calling this fn, this one will only throw.
  * we don't check for strings in a wrong format here,
  * since 99% of input vals is from the store so it should be in the right format already,
@@ -154,19 +169,11 @@ export const toFixedPrecision = ({
 /* SHORT and LONG formats are not handled by this fn, it's the job of the FormatShortNumber components */
 export const formatNumber = ({
   value,
-  roundingMode = ERoundingMode.UP,
+  roundingMode = ERoundingMode.DOWN,
   inputFormat = EMoneyInputFormat.ULPS,
   decimalPlaces,
   outputFormat = EHumanReadableFormat.FULL,
 }: IFormatNumber): string => {
-  invariant(
-    value !== null &&
-      (typeof value === "string" || typeof value === "number" || value instanceof BigNumber) &&
-      !(typeof value === "string" && value.trim() === "") &&
-      !(typeof value === "number" && (Number.isNaN(value) || !Number.isFinite(value))),
-    "cannot format this number",
-  );
-
   const asFixedPrecisionNumber = toFixedPrecision({
     value,
     roundingMode,

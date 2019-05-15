@@ -72,6 +72,7 @@ export class FormSingleFileUploadComponent extends React.Component<
         name={name}
         render={({ field }: FieldProps) => (
           <SingleFileUpload
+            name={name}
             data-test-id={this.props["data-test-id"]}
             acceptedFiles={acceptedFiles}
             fileUploading={this.state.isUploading}
@@ -89,7 +90,7 @@ export class FormSingleFileUploadComponent extends React.Component<
     );
   }
 }
-
+//TODO unit test for the field
 export const FormSingleFileUpload = compose<
   IOwnProps & IDispatchProps & CommonHtmlProps & TFormikConnect,
   IOwnProps & CommonHtmlProps

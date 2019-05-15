@@ -58,18 +58,4 @@
     margin-top: auto;
     margin-bottom: auto;
   }
-
-  .status-of-eto-wrapper {
-    @include remove-panel-padding;
-    @include clearfix;
-
-    margin-top: px-to-rem(-14px);
-    margin-bottom: px-to-rem(-14px);
-
-    .status-of-eto {
-      margin: .5em 1em;
-      font-size: 12px;
-      float: right;
-    }
-  }
 }

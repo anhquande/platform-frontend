@@ -43,7 +43,7 @@ const InvestmentWidgetLayout: React.FunctionComponent<TInvestWidgetProps> = ({
   isAllowedToInvest,
   nextStateDate,
 }) => {
-  const totalInvestors = eto.contract!.totalInvestment.totalInvestors.toNumber();
+  const totalInvestors = eto.contract!.totalInvestment.totalInvestors;
 
   return (
     <div className={styles.investmentWidget}>

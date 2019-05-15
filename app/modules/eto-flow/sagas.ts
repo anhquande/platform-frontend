@@ -250,6 +250,38 @@ export function* changeProductType(
   }
 }
 
+export function* publishEtoDataEffect({
+  apiEtoService,
+  notificationCenter,
+}: TGlobalDependencies): Iterator<any> {
+  yield apiEtoService.publishCompanyAndEto();
+
+  notificationCenter.info(createMessage(EtoDocumentsMessage.ETO_SUBMIT_SUCCESS));
+
+  yield put(actions.etoFlow.loadIssuerEto());
+  yield put(actions.routing.goToDashboard());
+}
+
+export function* publishEtoData({
+  notificationCenter,
+  logger,
+}: TGlobalDependencies): Iterator<any> {
+  try {
+    yield neuCall(
+      ensurePermissionsArePresentAndRunEffect,
+      neuCall(publishEtoDataEffect),
+      [EJwtPermissions.SUBMIT_ETO_PERMISSION],
+      createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_SUBMIT_ETO_TITLE),
+      createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_SUBMIT_ETO_DESCRIPTION),
+    );
+  } catch (e) {
+    logger.error("Failed to Submit ETO data", e);
+    notificationCenter.error(
+      createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FAILED_TO_SEND_ETO_DATA),
+    );
+  }
+}
+
 export function* etoFlowSagas(): any {
   yield fork(neuTakeEvery, "ETO_FLOW_LOAD_ISSUER_ETO", loadIssuerEto);
   yield fork(neuTakeEvery, "ETO_FLOW_SAVE_DATA_START", saveEtoData);
@@ -261,4 +293,5 @@ export function* etoFlowSagas(): any {
   yield fork(neuTakeLatest, etoFlowActions.loadSignedInvestmentAgreement, loadInvestmentAgreement);
   yield fork(neuTakeLatest, etoFlowActions.loadProducts, loadProducts);
   yield fork(neuTakeLatest, etoFlowActions.changeProductType, changeProductType);
+  yield fork(neuTakeLatest, etoFlowActions.publishDataStart, publishEtoData);
 }
