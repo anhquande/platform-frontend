@@ -62,7 +62,10 @@ interface IStateProps {
 // The castings should be resolved when the EtoApi.interface.ts reflects the correct data types from swagger!
 
 // TODO: Refactor to smaller components
-const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, etoSubState }) => {
+const EtoViewLayout: React.FunctionComponent<IInternalProps & IStateProps> = ({
+  eto,
+  etoSubState,
+}) => {
   const {
     advisors,
     companyDescription,
@@ -516,13 +519,13 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
   );
 };
 
-const EtoView = compose<IStateProps & IProps, IProps>(
-  appConnect<IStateProps, {}, IProps>({
+const SingleEtoView = compose<IStateProps & IInternalProps, IInternalProps>(
+  appConnect<IStateProps, {}, IInternalProps>({
     stateToProps: (state, props) => ({
       etoSubState: selectEtoSubState(state, props.eto.previewCode),
     }),
   }),
-  withMetaTags<IProps>(({ eto }, intl) => {
+  withMetaTags<IInternalProps>(({ eto }, intl) => {
     const requiredDataPresent =
       eto.company.brandName && eto.equityTokenName && eto.equityTokenSymbol;
 
