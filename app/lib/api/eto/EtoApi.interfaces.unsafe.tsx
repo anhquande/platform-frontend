@@ -47,6 +47,7 @@ export const EtoCompanyInformationType = YupTS.object({
   categories: YupTS.array(tagsType).optional(),
   companyLogo: YupTS.string().optional(),
   companyBanner: YupTS.string().optional(),
+  companyPreviewCardBanner: YupTS.string(),
 });
 type TEtoTeamData = YupTS.TypeOf<typeof EtoCompanyInformationType>;
 

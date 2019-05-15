@@ -2,13 +2,20 @@ import * as React from "react";
 
 import { Footer } from "./Footer";
 import { Header } from "./header/Header";
-import { layoutEnchancer } from "./LayoutEnchancer";
+import { layoutEnhancer } from "./LayoutEnhancer";
 
 import * as styles from "./LayoutShared.module.scss";
 
-export const LayoutUnauthorizedComponent: React.FunctionComponent = ({ children }) => (
+type TExternalProps = {
+  hideHeaderCtaButtons?: boolean;
+};
+
+export const LayoutUnauthorizedComponent: React.FunctionComponent<TExternalProps> = ({
+  children,
+  hideHeaderCtaButtons,
+}) => (
   <>
-    <Header />
+    <Header hideCtaButtons={hideHeaderCtaButtons} />
 
     <div className={`wrapper ${styles.layoutBg}`}>{children}</div>
 
@@ -16,4 +23,4 @@ export const LayoutUnauthorizedComponent: React.FunctionComponent = ({ children 
   </>
 );
 
-export const LayoutUnauthorized = layoutEnchancer(LayoutUnauthorizedComponent);
+export const LayoutUnauthorized = layoutEnhancer(LayoutUnauthorizedComponent);

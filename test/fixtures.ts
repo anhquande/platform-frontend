@@ -20,6 +20,7 @@ import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../app/modules/eto
 import { EthereumAddress, EthereumAddressWithChecksum, EthereumNetworkId } from "../app/types";
 
 import * as companyBanner from "./assets/company-banner.png";
+import * as companyPreviewCardBanner from "./assets/company-preview-banner.png";
 
 export const dummyConfig: IConfig = {
   ethereumNetwork: {
@@ -44,6 +45,7 @@ export const dummyEthereumAddressWithChecksum = "0xfB6916095ca1df60bB79Ce92cE3Ea
 
 export const testCompany: TCompanyEtoData = {
   companyBanner,
+  companyPreviewCardBanner,
   companyLegalDescription: "Est castus ionicis tormento, cesaris.",
   companyStage: "a_round",
   city: "Berlin",

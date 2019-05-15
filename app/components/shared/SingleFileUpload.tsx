@@ -6,11 +6,13 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { CommonHtmlProps, TAcceptedFileType } from "../../types";
 import { dontPropagateEvent } from "../../utils/dontPropagate";
 import { Button, EButtonLayout, EIconPosition } from "./buttons";
+import { FormFieldError } from "./forms/fields/FormFieldError";
 
 import * as uploadIcon from "../../assets/img/inline_icons/upload.svg";
 import * as styles from "./SingleFileUpload.module.scss";
 
 interface IProps {
+  name: string;
   disabled?: boolean;
   acceptedFiles: TAcceptedFileType;
   fileUploading: boolean;
@@ -88,6 +90,7 @@ export class SingleFileUpload extends React.Component<IProps & CommonHtmlProps> 
                 <div className={styles.acceptedFiles}>{fileFormatInformation}</div>
               </>
             ))}
+          <FormFieldError name={this.props.name} />
         </div>
       </Dropzone>
     );

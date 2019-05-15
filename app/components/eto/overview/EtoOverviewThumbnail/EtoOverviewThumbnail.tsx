@@ -23,10 +23,6 @@ interface IExternalProps {
   eto: TEtoWithCompanyAndContract;
 }
 
-interface IStatusOfEto {
-  previewCode: string;
-}
-
 interface IDispatchProps {
   navigateToEto: () => void;
 }
@@ -40,16 +36,6 @@ interface IWithProps {
 }
 
 const defaultEmpty = "-";
-
-const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => (
-  <div className={styles.statusOfEtoWrapper}>
-    <ETOState
-      className={styles.statusOfEto}
-      previewCode={previewCode}
-      type={EProjectStatusType.EXTENDED}
-    />
-  </div>
-);
 
 const EtoOverviewStatusLayout: React.FunctionComponent<
   IExternalProps & CommonHtmlProps & IStateProps & IDispatchProps & IWithProps
@@ -66,14 +52,18 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
         companyBanner={{
           alt: eto.company.brandName,
           srcSet: {
-            "1x": eto.company.companyBanner!,
+            "1x": eto.company.companyPreviewCardBanner,
           },
         }}
         tags={eto.company.categories}
         jurisdiction={eto.product.jurisdiction}
       />
 
-      <StatusOfEto previewCode={eto.previewCode} />
+      <ETOState
+        className={styles.statusOfEto}
+        previewCode={eto.previewCode}
+        type={EProjectStatusType.EXTENDED}
+      />
 
       <section className={styles.content}>
         <Heading
