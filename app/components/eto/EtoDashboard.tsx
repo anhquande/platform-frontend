@@ -120,8 +120,8 @@ const EtoProgressDashboardSection: React.FunctionComponent<ISubmissionProps> = (
 }) => (
   <>
     <Container columnSpan={EColumnSpan.THREE_COL}>
-      <DashboardHeading step={2} title="SETUP YOUR ETO" />
       <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+      <DashboardHeading step={2} title="SETUP YOUR ETO" />
     </Container>
     <ETOFormsProgressSection shouldViewEtoSettings={shouldViewEtoSettings} />
   </>
@@ -198,6 +198,9 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
+            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+          </Container>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>
           {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
@@ -217,12 +220,13 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <DashboardHeading title={dashboardTitle} />
+            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
           </Container>
           {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
+            <DashboardHeading title={dashboardTitle} />
           </Container>
+          {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
           <ETOFormsProgressSection shouldViewEtoSettings={shouldViewSubmissionSection} />
         </>
       );
@@ -230,14 +234,14 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
+            <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
+          </Container>
+          <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>
           <UploadInvestmentAgreement columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
           <BookBuildingWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
           <ChooseEtoStartDateWidget columnSpan={EColumnSpan.ONE_AND_HALF_COL} />
-          <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
-          </Container>
           <ETOFormsProgressSection shouldViewEtoSettings={shouldViewSubmissionSection} />
         </>
       );

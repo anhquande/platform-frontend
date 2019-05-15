@@ -22,9 +22,13 @@ import { Document } from "../../../shared/Document";
 import { DocumentTemplateButton } from "../../../shared/DocumentLink";
 import { createErrorBoundary } from "../../../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryPanel";
-import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
+import { MoneyNew } from "../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  EMoneyInputFormat,
+} from "../../../shared/formatters/utils";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
-import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
 import { Panel } from "../../../shared/Panel";
 
 import * as styles from "../../EtoContentWidget.module.scss";
@@ -72,11 +76,11 @@ const BookBuildingStats = ({ bookBuildingStats, maxPledges, downloadCSV }: IBook
         <FormattedMessage id="shared-component.eto-overview.amount-backed" />
       </span>
       <span className={styles.value}>
-        <Money
+        <MoneyNew
           value={bookBuildingStats.pledgedAmount}
-          currency={ECurrency.EUR}
-          format={EMoneyInputFormat.FLOAT}
-          currencySymbol={ECurrencySymbol.SYMBOL}
+          inputFormat={EMoneyInputFormat.FLOAT}
+          moneyFormat={ECurrency.EUR}
+          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
         />
       </span>
       <span className={styles.label}>
@@ -148,7 +152,7 @@ export const BookBuildingWidgetComponent: React.FunctionComponent<IProps> = ({
   columnSpan,
 }) => {
   if (bookBuildingStats === undefined) {
-    //TODO data loading state
+    //TODO add data loading state
     return <LoadingIndicator className={styles.loading} />;
   } else if (!bookBuildingEnabled && bookBuildingStats.investorsCount === 0) {
     return (

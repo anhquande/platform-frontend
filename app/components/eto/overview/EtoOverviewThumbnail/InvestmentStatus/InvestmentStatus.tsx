@@ -5,8 +5,13 @@ import { compose } from "recompose";
 import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/selectors";
 import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
-import { ECurrency } from "../../../../shared/formatters/utils";
-import { Money } from "../../../../shared/Money.unsafe";
+import { FormatNumber } from "../../../../shared/formatters/FormatNumber";
+import { MoneyNew } from "../../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  EMoneyInputFormat,
+} from "../../../../shared/formatters/utils";
 import { InvestmentProgress } from "./InvestmentProgress";
 
 import * as styles from "./InvestmentStatus.module.scss";
@@ -22,24 +27,38 @@ export interface IInvestmentWidgetStateProps {
 export type TInvestWidgetProps = IInvestmentWidgetProps & IInvestmentWidgetStateProps;
 
 const InvestmentLayout: React.FunctionComponent<TInvestWidgetProps> = ({ eto }) => {
-  const totalInvestors = eto.contract!.totalInvestment.totalInvestors.toNumber();
+  const totalInvestors = eto.contract!.totalInvestment.totalInvestors;
 
   return (
     <div className={styles.investmentWidget}>
       <div className={styles.header}>
         <div>
-          <Money value={eto.contract!.totalInvestment.etherTokenBalance} currency={ECurrency.ETH} />
+          <MoneyNew
+            value={eto.contract!.totalInvestment.etherTokenBalance}
+            inputFormat={EMoneyInputFormat.ULPS}
+            moneyFormat={ECurrency.ETH}
+            outputFormat={EHumanReadableFormat.FULL}
+          />
           <br />
-          <Money
+          <MoneyNew
             value={eto.contract!.totalInvestment.euroTokenBalance}
-            currency={ECurrency.EUR_TOKEN}
+            inputFormat={EMoneyInputFormat.ULPS}
+            moneyFormat={ECurrency.EUR_TOKEN}
+            outputFormat={EHumanReadableFormat.FULL}
           />
         </div>
         {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && (
           <div>
             <FormattedMessage
               id="shared-component.eto-overview.investors"
-              values={{ totalInvestors }}
+              values={{
+                totalInvestors: (
+                  <FormatNumber
+                    value={totalInvestors}
+                    outputFormat={EHumanReadableFormat.INTEGER}
+                  />
+                ),
+              }}
             />
           </div>
         )}

@@ -35,10 +35,9 @@ function* addNewEmailEffect(
 
 function* abortEmailUpdateEffect({ notificationCenter, logger }: TGlobalDependencies): any {
   const user = yield select((s: IAppState) => selectUser(s.auth));
-  const salt = yield select(selectLightWalletSalt);
   const email = user.verifiedEmail;
   logger.info("Email change aborted");
-  yield call(updateUser, { ...user, new_email: email, salt: salt });
+  yield call(updateUser, { ...user, new_email: email });
   notificationCenter.info(createMessage(ProfileMessage.PROFILE_ABORT_UPDATE_EMAIL_SUCCESS), {
     "data-test-id": "profile-email-change-aborted",
   });

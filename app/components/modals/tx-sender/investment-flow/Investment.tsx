@@ -45,6 +45,7 @@ import { appRoutes } from "../../../appRoutes";
 import { InfoAlert } from "../../../shared/Alerts";
 import { Button, EButtonLayout } from "../../../shared/buttons";
 import { ButtonSize, ButtonTextPosition } from "../../../shared/buttons/Button";
+import { selectCurrencyCode } from "../../../shared/formatters/Money";
 import {
   ECurrency,
   EMoneyInputFormat,
@@ -194,13 +195,14 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
               <MaskedMoneyInput
                 name={"euroValue"}
                 value={this.props.euroValue}
+                inputFormat={EMoneyInputFormat.ULPS}
                 currency={ECurrency.EUR_TOKEN}
-                dispatchFn={this.props.changeEuroValue}
+                onChangeFn={this.props.changeEuroValue}
                 data-test-id="invest-modal-eur-field"
                 placeholder={`${intl.formatIntlMessage(
                   "investment-flow.min-ticket-size",
                 )} ${minTicketEur} EUR`}
-                suffix="EUR"
+                suffix={selectCurrencyCode(ECurrency.EUR_TOKEN)}
                 errorMsg={error}
                 invalid={!!error}
                 setError={this.setError}
@@ -213,13 +215,14 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
               <MaskedMoneyInput
                 name={"ethValue"}
                 currency={ECurrency.ETH}
+                inputFormat={EMoneyInputFormat.ULPS}
                 value={this.props.ethValue}
-                dispatchFn={this.props.changeEthValue}
+                onChangeFn={this.props.changeEthValue}
                 placeholder={`${intl.formatIntlMessage(
                   "investment-flow.min-ticket-size",
                 )} ${formatMoney(minTicketEth, 0, 4)} ETH`}
                 data-test-id="invest-modal-eth-field"
-                suffix="ETH"
+                suffix={selectCurrencyCode(ECurrency.ETH)}
                 setError={this.setError}
               />
               <Button

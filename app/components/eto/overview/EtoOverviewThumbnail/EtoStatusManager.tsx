@@ -8,8 +8,12 @@ import {
   EEtoSubState,
   TEtoWithCompanyAndContract,
 } from "../../../../modules/eto/types";
-import { ECurrency } from "../../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
+import { MoneyNew } from "../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  EMoneyInputFormat,
+} from "../../../shared/formatters/utils";
 import { CounterWidget } from "./CounterWidget";
 import { InvestmentStatus } from "./InvestmentStatus/InvestmentStatus";
 import { Whitelist } from "./Whitelist/Whitelist";
@@ -79,10 +83,11 @@ const EtoStatusManager = ({ eto, etoSubState }: IExternalProps) => {
               id="eto-overview-thumbnail.success.raised-amount"
               values={{
                 totalAmount: (
-                  <Money
+                  <MoneyNew
                     value={eto.contract!.totalInvestment.totalEquivEurUlps}
-                    currency={ECurrency.EUR}
-                    currencySymbol={ECurrencySymbol.SYMBOL}
+                    inputFormat={EMoneyInputFormat.ULPS}
+                    moneyFormat={ECurrency.EUR}
+                    outputFormat={EHumanReadableFormat.FULL}
                   />
                 ),
               }}

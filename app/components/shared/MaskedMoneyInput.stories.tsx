@@ -2,13 +2,13 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { ECurrency } from "./formatters/utils";
+import { ECurrency, EMoneyInputFormat } from "./formatters/utils";
 import { MaskedMoneyInput } from "./MaskedMoneyInput";
 
 const defaultProps = {
   name: "ethInput",
   value: "1234567" + "0".repeat(16),
-  dispatchFn: action("setValue"),
+  onChangeFn: action("setValue"),
   placeholder: "money input placeholder",
   "data-test-id": "dataTestID",
   setError: action("error"),
@@ -16,8 +16,16 @@ const defaultProps = {
 
 storiesOf("MaskedMoneyInput", module)
   .add("shows Eth (4 decimal places)", () => (
-    <MaskedMoneyInput {...defaultProps} currency={ECurrency.ETH} />
+    <MaskedMoneyInput
+      {...defaultProps}
+      currency={ECurrency.ETH}
+      inputFormat={EMoneyInputFormat.ULPS}
+    />
   ))
   .add("shows EuroToken (2 decimal places)", () => (
-    <MaskedMoneyInput {...defaultProps} currency={ECurrency.EUR_TOKEN} />
+    <MaskedMoneyInput
+      {...defaultProps}
+      currency={ECurrency.EUR_TOKEN}
+      inputFormat={EMoneyInputFormat.ULPS}
+    />
   ));

@@ -65,7 +65,7 @@ export const notificationsReducer: AppReducer<INotificationsState> = (
   return state;
 };
 
-export const settingsNotification = () => ({
+export const settingsNotificationIssuer = () => ({
   id: Date.now(),
   type: ENotificationType.WARNING,
   text: ENotificationText.COMPLETE_UPDATE_ACCOUNT,

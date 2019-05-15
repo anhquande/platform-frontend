@@ -9,6 +9,7 @@ import {
   EHumanReadableFormat,
   EMoneyInputFormat,
   ERoundingMode,
+  ESpecialNumber,
   selectDecimalPlaces,
 } from "./utils";
 
@@ -16,7 +17,7 @@ import * as styles from "./Money.module.scss";
 
 interface IMoneyRangeProps extends React.HTMLAttributes<HTMLSpanElement> {
   valueFrom: string | BigNumber | number | null | undefined;
-  valueUpto: string | BigNumber | number | null | undefined;
+  valueUpto: string | BigNumber | number | null | undefined | ESpecialNumber;
   separator?: string;
 }
 

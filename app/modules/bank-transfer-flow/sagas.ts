@@ -93,7 +93,7 @@ export function* getRedeemData({ contractsService }: TGlobalDependencies): any {
     minEuroUlps: contractsService.euroTokenController.minWithdrawAmountEurUlps,
   });
 
-  yield put(actions.bankTransferFlow.setRedeemData(bankFeeUlps, minEuroUlps));
+  yield put(actions.bankTransferFlow.setRedeemData(bankFeeUlps, minEuroUlps.toString()));
 }
 
 export function* completeBankTransfer({ apiKycService, logger }: TGlobalDependencies): any {

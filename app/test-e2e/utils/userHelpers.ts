@@ -342,10 +342,13 @@ export interface IHttpPartialResponse<T> {
   body: T;
 }
 
-export const getEto = (etoID: string): Cypress.Chainable<TEtoSpecsData> =>
-  cy
+export const getEto = (etoID: string): Cypress.Chainable<TEtoSpecsData> => {
+  if (!etoID)
+    throw new Error("Cannot fetch undefined value please check if the fixtures are in sync");
+  return cy
     .request({ url: ETOS_PATH, method: "GET" })
     .then(
       (etos: IHttpPartialResponse<TEtoSpecsData>) =>
         etos.body && toCamelCase(etos.body).filter((eto: TEtoSpecsData) => eto.etoId === etoID)[0],
     );
+};

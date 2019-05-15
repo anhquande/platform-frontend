@@ -5,8 +5,8 @@ import { Redirect } from "react-router";
 import { appRoutes } from "../../appRoutes";
 import { WalletSelector } from "../../wallet-selector/WalletSelector";
 
-const SecretProtected = (Component: React.FunctionComponent): any =>
-  class extends React.Component<void> {
+const SecretProtected = <T extends {}>(Component: React.ComponentType<T>): React.ComponentType<T> =>
+  class extends React.Component<T> {
     shouldComponentUpdate(): boolean {
       return false;
     }
@@ -14,14 +14,16 @@ const SecretProtected = (Component: React.FunctionComponent): any =>
     render(): React.ReactNode {
       const props = this.props;
       const params = queryString.parse(window.location.search);
+      const isIssuersSecret = process.env.NF_ISSUERS_SECRET;
 
-      if (!process.env.NF_ISSUERS_SECRET || params.etoSecret === process.env.NF_ISSUERS_SECRET) {
-        return <Component {...props} />;
+      if (!isIssuersSecret || params.etoSecret === isIssuersSecret) {
+        return <Component isSecretProtected={isIssuersSecret} {...props} />;
       }
 
       return <Redirect to={appRoutes.root} />;
     }
   };
+
 const EtoSecretProtectedWalletSelector = SecretProtected(WalletSelector);
 
 export { EtoSecretProtectedWalletSelector };

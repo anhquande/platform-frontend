@@ -1,5 +1,4 @@
 import { storiesOf } from "@storybook/react";
-import BigNumber from "bignumber.js";
 import * as React from "react";
 
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
@@ -22,9 +21,9 @@ const eto = {
   contract: {
     timedState: EETOStateOnChain.Whitelist,
     totalInvestment: {
-      totalInvestors: new BigNumber("123"),
-      totalTokensInt: new BigNumber("34520"),
-      totalEquivEurUlps: new BigNumber(1234),
+      totalInvestors: "123",
+      totalTokensInt: "34520",
+      totalEquivEurUlps: "12345",
     },
   },
 } as TEtoWithCompanyAndContract;

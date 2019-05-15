@@ -18,10 +18,12 @@ import { FormInputRaw } from "./forms/fields/FormInputRaw.unsafe";
 
 interface IProps {
   name: string;
+  inputFormat: EMoneyInputFormat;
   currency: ECurrency;
-  value: string | undefined;
-  dispatchFn: (value: string) => void;
-  setError: (v: boolean) => void;
+  value: string;
+  onChangeFn: (value: string) => void;
+  returnInvalidValues?: boolean;
+  setError?: (v: boolean) => void;
   placeholder?: TTranslatedString;
   "data-test-id"?: string;
   suffix?: string;
@@ -47,10 +49,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
     }
   };
 
-  formatForDisplay = (
-    value: string | undefined,
-    inputFormat: EMoneyInputFormat = EMoneyInputFormat.ULPS,
-  ) =>
+  formatForDisplay = (value: string | undefined, inputFormat: EMoneyInputFormat) =>
     value !== undefined && value !== ""
       ? formatNumber({
           value,
@@ -62,7 +61,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
       : "";
 
   state = {
-    value: this.formatForDisplay(this.props.value),
+    value: this.formatForDisplay(this.props.value, this.props.inputFormat),
   };
 
   formatOnChange = (value: string, stateValue: string | undefined) => {
@@ -83,13 +82,13 @@ export class MaskedMoneyInput extends React.Component<IProps> {
       const newValue = this.formatOnChange(validValue, this.state.value);
       if (newValue !== this.state.value) {
         this.setState({ value: newValue });
-        this.props.dispatchFn(newValue);
-        this.props.setError(false);
+        this.props.onChangeFn(newValue);
+        this.props.setError && this.props.setError(false);
       }
     } else if (value !== this.state.value) {
       this.setState({ value });
-      this.props.dispatchFn("");
-      this.props.setError(true);
+      this.props.onChangeFn(Boolean(this.props.returnInvalidValues) ? value : "");
+      this.props.setError && this.props.setError(true);
     }
   };
 
@@ -100,7 +99,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
 
   onBlur = (value?: string) => {
     if (isEmptyValue(value) || isValidNumber(value)) {
-      this.setState({ value: this.formatForDisplay(value, EMoneyInputFormat.FLOAT) });
+      this.setState({ value: this.formatForDisplay(value, this.props.inputFormat) });
     }
   };
 
@@ -115,10 +114,11 @@ export class MaskedMoneyInput extends React.Component<IProps> {
   hasFocus = (id: string) => !!document.activeElement && document.activeElement.id === id;
 
   componentDidUpdate(): void {
-    const propsValue = this.formatForDisplay(this.props.value);
-
-    if (!this.hasFocus(this.props.name) && propsValue !== this.state.value) {
-      this.setState({ value: propsValue });
+    if (isValidNumber(this.props.value) || isEmptyValue(this.props.value)) {
+      const propsValue = this.formatForDisplay(this.props.value, this.props.inputFormat);
+      if (!this.hasFocus(this.props.name) && propsValue !== this.state.value) {
+        this.setState({ value: propsValue });
+      }
     }
   }
 
