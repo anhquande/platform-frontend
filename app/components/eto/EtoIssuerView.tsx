@@ -11,11 +11,11 @@ import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutAuthorized";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { EtoView } from "./shared/EtoView";
+import { MultiEtoView } from "./shared/EtoView";
 
 type TProps = {
   eto: TEtoWithCompanyAndContract;
-  etoPreview?: TEtoWithCompanyAndContract;
+  etoPreview: TEtoWithCompanyAndContract;
 };
 
 type TStateProps = Partial<TProps>;
@@ -39,4 +39,4 @@ export const EtoIssuerView = compose<TProps, {}>(
   }),
   withContainer(LayoutAuthorized),
   branch<TStateProps>(props => !props.eto || !props.etoPreview, renderComponent(LoadingIndicator)),
-)(EtoView);
+)(MultiEtoView);

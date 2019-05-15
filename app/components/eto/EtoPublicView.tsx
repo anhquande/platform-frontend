@@ -11,7 +11,7 @@ import { withContainer } from "../../utils/withContainer.unsafe";
 import { LayoutAuthorized } from "../layouts/LayoutAuthorized";
 import { LayoutBase } from "../layouts/LayoutBase";
 import { LoadingIndicator } from "../shared/loading-indicator";
-import { EtoView } from "./shared/EtoView";
+import { SingleEtoView } from "./shared/EtoView";
 import { withJurisdictionDisclaimer } from "./shared/routing/withJurisdictionDisclaimer";
 import { withJurisdictionRoute } from "./shared/routing/withJurisdictionRoute";
 
@@ -52,4 +52,4 @@ export const EtoPublicView = compose<TProps, IRouterParams>(
     previewCode: props.eto.previewCode,
     jurisdiction: props.jurisdiction,
   })),
-)(EtoView);
+)(SingleEtoView);

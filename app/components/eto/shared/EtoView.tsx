@@ -41,7 +41,7 @@ export const DEFAULT_CHART_COLOR = "#c4c5c6";
 
 interface IProps {
   eto: TEtoWithCompanyAndContract;
-  etoPreview?: TEtoWithCompanyAndContract;
+  etoPreview: TEtoWithCompanyAndContract;
 }
 
 interface IInternalProps {
@@ -505,7 +505,7 @@ const EtoViewLayout: React.FunctionComponent<IInternalProps> = ({ eto }) => {
   );
 };
 
-const EtoViewInternal = withMetaTags<IInternalProps>(({ eto }, intl) => {
+const SingleEtoView = withMetaTags<IInternalProps>(({ eto }, intl) => {
   const requiredDataPresent = eto.company.brandName && eto.equityTokenName && eto.equityTokenSymbol;
 
   return {
@@ -515,15 +515,15 @@ const EtoViewInternal = withMetaTags<IInternalProps>(({ eto }, intl) => {
   };
 })(EtoViewLayout);
 
-const EtoView: React.FunctionComponent<IProps> = ({ eto, etoPreview }) => (
+export const MultiEtoView: React.FunctionComponent<IProps> = ({ eto, etoPreview }) => (
   <Tabs layoutSize="large" layoutOrnament={false} layoutPosition="center">
     <TabContent tab="In Draft">
-      <EtoViewInternal eto={etoPreview!} />
+      <SingleEtoView eto={etoPreview} />
     </TabContent>
     <TabContent tab="Published">
-      <EtoViewInternal eto={eto} />
+      <SingleEtoView eto={eto} />
     </TabContent>
   </Tabs>
 );
 
-export { EtoView, EtoViewLayout, EtoViewInternal };
+export { EtoViewLayout, SingleEtoView };
