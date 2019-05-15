@@ -8,7 +8,7 @@ import {
   selectIsUserEmailVerified,
 } from "../auth/selectors";
 import { selectKycLoading, selectKycRequestStatus } from "../kyc/selectors";
-import { INotification, settingsNotification, settingsNotificationInvestor } from "./reducer";
+import { INotification, settingsNotificationInvestor, settingsNotificationIssuer } from "./reducer";
 
 export const selectNotifications = (state: IAppState): ReadonlyArray<INotification> =>
   state.notifications.notifications;
@@ -41,7 +41,7 @@ export const selectIsVisibleSecurityNotification = (state: IAppState): boolean =
 };
 
 export const selectSettingsNotificationType = (state: IAppState) =>
-  selectIsInvestor(state) ? settingsNotificationInvestor() : settingsNotification();
+  selectIsInvestor(state) ? settingsNotificationInvestor() : settingsNotificationIssuer();
 
 export const selectSettingsNotification = (state: IAppState) =>
   selectIsVisibleSecurityNotification(state) ? selectSettingsNotificationType(state) : undefined;

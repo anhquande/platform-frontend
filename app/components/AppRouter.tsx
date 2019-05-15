@@ -26,7 +26,7 @@ import { profileRoutes } from "./settings/routes";
 import { Settings } from "./settings/Settings";
 import { OnlyAuthorizedRoute } from "./shared/routing/OnlyAuthorizedRoute.unsafe";
 import { OnlyPublicRoute } from "./shared/routing/OnlyPublicRoute.unsafe";
-import { EtoSecretProtectedWalletSelector } from "./shared/routing/SecretProtected.unsafe";
+import { EtoSecretProtectedWalletSelector } from "./shared/routing/SecretProtected";
 import { TestCriticalError } from "./testing/critical-error/TestCriticalError";
 import { e2eRoutes } from "./testing/e2eRoutes";
 import { TestEmbededWidget } from "./testing/embeded-widget/TestEmbededWidget";
