@@ -124,7 +124,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
               value={<InvestmentAmount etoData={etoData} />}
               data-test-id="eto-public-view-investment-amount"
             />
-            {etoData.templates && etoData.templates.investmentAndShareholderAgreementTemplate && (
+            {!!etoData.templates && etoData.templates.investmentAndShareholderAgreementTemplate && (
               <DocumentTemplateButton
                 title={<FormattedMessage id="eto.documents.investment-and-shareholder-agreement" />}
                 onClick={() =>
