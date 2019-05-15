@@ -32,6 +32,7 @@ import {
 import { EtoWidgetContext } from "../../EtoWidgetView";
 import { EProjectStatusType, ETOState } from "../../shared/ETOState";
 import { InvestmentAmount } from "../../shared/InvestmentAmount";
+import { ToBeAnnounced, ToBeAnnouncedTooltip } from "../../shared/ToBeAnnouncedTooltip";
 import { CampaigningActivatedWidget } from "./CampaigningWidget";
 import { ClaimWidget, RefundWidget } from "./ClaimRefundWidget";
 import { EtoMaxCapExceededWidget } from "./EtoMaxCapExceeded";
@@ -196,13 +197,15 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
 
   let { tokenPrice } = getShareAndTokenPrice(eto);
 
-  const showWhitelistDiscount = Boolean(
-    eto.whitelistDiscountFraction && isEligibleToPreEto && isPreEto,
-  );
+  const showWhitelistDiscount = !!eto.whitelistDiscountFraction && isEligibleToPreEto && isPreEto;
+
   const showPublicDiscount = Boolean(!showWhitelistDiscount && eto.publicDiscountFraction);
+
   if (showWhitelistDiscount) {
     tokenPrice = applyDiscountToPrice(tokenPrice, eto.whitelistDiscountFraction!);
-  } else if (showPublicDiscount) {
+  }
+
+  if (showPublicDiscount) {
     tokenPrice = applyDiscountToPrice(tokenPrice, eto.publicDiscountFraction!);
   }
 
@@ -287,6 +290,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                       inputFormat={ENumberInputFormat.FLOAT}
                       moneyFormat={ECurrency.EUR}
                       outputFormat={ENumberOutputFormat.INTEGER}
+                      defaultValue={<ToBeAnnouncedTooltip />}
                     />
                   </span>
                 </div>
@@ -307,6 +311,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                       value={eto.newSharesToIssue}
                       inputFormat={ENumberInputFormat.FLOAT}
                       outputFormat={ENumberOutputFormat.INTEGER}
+                      defaultValue={<ToBeAnnounced />}
                     />
                   </span>
                 </div>
@@ -320,6 +325,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                       inputFormat={ENumberInputFormat.FLOAT}
                       moneyFormat={EPriceFormat.EQUITY_TOKEN_PRICE_EURO}
                       outputFormat={ENumberOutputFormat.FULL}
+                      defaultValue={<ToBeAnnounced />}
                     />
                     {showWhitelistDiscount && (
                       <>

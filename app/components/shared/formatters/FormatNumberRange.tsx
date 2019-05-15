@@ -19,7 +19,7 @@ import * as styles from "./FormatNumber.module.scss";
 interface INumberRangeProps {
   valueFrom: string | BigNumber | number | undefined | null;
   valueUpto: string | BigNumber | number | undefined | null | ESpecialNumber;
-  defaultValue?: string;
+  defaultValue?: React.ReactChild;
   decimalPlaces?: number;
   inputFormat: ENumberInputFormat;
   outputFormat: THumanReadableFormat;

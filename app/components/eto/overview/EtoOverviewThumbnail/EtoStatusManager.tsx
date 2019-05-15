@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
+import { EEtoState } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { getCurrentInvestmentProgressPercentage } from "../../../../lib/api/eto/EtoUtils";
 import {
   EETOStateOnChain,
@@ -14,7 +15,7 @@ import {
   ENumberInputFormat,
   ENumberOutputFormat,
 } from "../../../shared/formatters/utils";
-import { CounterWidget } from "./CounterWidget";
+import { CounterWidget } from "../EtoOverviewStatus/CounterWidget";
 import { InvestmentStatus } from "./InvestmentStatus/InvestmentStatus";
 import { Whitelist } from "./Whitelist/Whitelist";
 
@@ -26,9 +27,11 @@ interface IExternalProps {
 }
 
 const EtoStatusManager = ({ eto, etoSubState }: IExternalProps) => {
-  const timedState = eto.contract!.timedState;
+  const state = eto.contract ? eto.contract.timedState : eto.state;
 
-  switch (timedState) {
+  switch (state) {
+    case EEtoState.LISTED:
+    case EEtoState.PROSPECTUS_APPROVED:
     case EETOStateOnChain.Setup: {
       return <Whitelist eto={eto} etoSubState={etoSubState} />;
     }
@@ -36,7 +39,7 @@ const EtoStatusManager = ({ eto, etoSubState }: IExternalProps) => {
       const endDate = eto.contract!.startOfStates[EETOStateOnChain.Public]!;
 
       if (etoSubState === EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE) {
-        return <CounterWidget endDate={endDate} />;
+        return <CounterWidget endDate={endDate} state={EETOStateOnChain.Public} />;
       } else {
         return (
           <>
@@ -109,7 +112,7 @@ const EtoStatusManager = ({ eto, etoSubState }: IExternalProps) => {
     }
 
     default:
-      throw new Error(`State (${timedState}) is not known. Please provide implementation.`);
+      throw new Error(`State (${state}) is not known. Please provide implementation.`);
   }
 };
 

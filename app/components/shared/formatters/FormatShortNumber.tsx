@@ -28,7 +28,7 @@ interface IProps {
   inputFormat: ENumberInputFormat;
   decimalPlaces?: number;
   divider?: number;
-  defaultValue?: string;
+  defaultValue?: React.ReactChild;
   roundingMode?: ERoundingMode;
   className?: string;
 }

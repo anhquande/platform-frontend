@@ -2,10 +2,17 @@ import * as cn from "classnames";
 import { some } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
+import { compose } from "recompose";
 
 import { TSocialChannelsType } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/eto/types";
+import { selectEtoSubState } from "../../../modules/eto/selectors";
+import {
+  EETOStateOnChain,
+  EEtoSubState,
+  TEtoWithCompanyAndContract,
+} from "../../../modules/eto/types";
 import { isOnChain } from "../../../modules/eto/utils";
+import { appConnect } from "../../../store";
 import { withMetaTags } from "../../../utils/withMetaTags.unsafe";
 import { icoMonitorEtoLink } from "../../appRouteUtils";
 import { Container, EColumnSpan, EContainerType } from "../../layouts/Container";
@@ -43,11 +50,15 @@ interface IProps {
   eto: TEtoWithCompanyAndContract;
 }
 
+interface IStateProps {
+  etoSubState: EEtoSubState | undefined;
+}
+
 // TODO: There are lots of castings right now in this file, cause formerly the types of IProps was "any"
 // The castings should be resolved when the EtoApi.interface.ts reflects the correct data types from swagger!
 
 // TODO: Refactor to smaller components
-const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
+const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, etoSubState }) => {
   const {
     advisors,
     companyDescription,
@@ -140,6 +151,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
           />
           <Panel>
             <EtoTimeline
+              subState={etoSubState}
               currentState={isOnChain(eto) ? eto.contract.timedState : undefined}
               startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined}
             />
@@ -501,14 +513,22 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
   );
 };
 
-const EtoView = withMetaTags<IProps>(({ eto }, intl) => {
-  const requiredDataPresent = eto.company.brandName && eto.equityTokenName && eto.equityTokenSymbol;
+const EtoView = compose<IStateProps & IProps, IProps>(
+  appConnect<IStateProps, {}, IProps>({
+    stateToProps: (state, props) => ({
+      etoSubState: selectEtoSubState(state, props.eto.previewCode),
+    }),
+  }),
+  withMetaTags<IProps>(({ eto }, intl) => {
+    const requiredDataPresent =
+      eto.company.brandName && eto.equityTokenName && eto.equityTokenSymbol;
 
-  return {
-    title: requiredDataPresent
-      ? `${eto.company.brandName} - ${eto.equityTokenName} (${eto.equityTokenSymbol})`
-      : intl.formatIntlMessage("menu.eto-page"),
-  };
-})(EtoViewLayout);
+    return {
+      title: requiredDataPresent
+        ? `${eto.company.brandName} - ${eto.equityTokenName} (${eto.equityTokenSymbol})`
+        : intl.formatIntlMessage("menu.eto-page"),
+    };
+  }),
+)(EtoViewLayout);
 
 export { EtoView, EtoViewLayout };

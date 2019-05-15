@@ -3,6 +3,7 @@ import * as React from "react";
 import { getInvestmentAmount } from "../../../lib/api/eto/EtoUtils";
 import { TEtoWithCompanyAndContract } from "../../../modules/eto/types";
 import { MoneyRange } from "../../shared/formatters/MoneyRange";
+import { ToBeAnnounced } from "./ToBeAnnouncedTooltip";
 import {
   EAbbreviatedNumberOutputFormat,
   ECurrency,
@@ -23,6 +24,7 @@ const InvestmentAmount: React.FunctionComponent<TExternalProps> = ({ etoData }) 
       inputFormat={ENumberInputFormat.FLOAT}
       moneyFormat={ECurrency.EUR}
       outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
+      defaultValue={<ToBeAnnounced />}
     />
   );
 };
