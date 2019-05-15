@@ -4,8 +4,8 @@ import { lifecycle, withProps } from "recompose";
 import { compose } from "redux";
 
 import {
+  EEtoMarketingDataVisibleInPreview,
   EEtoState,
-  EIsMarketingDataVisibleInPreview,
 } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { ERequestStatus } from "../../lib/api/KycApi.interfaces";
@@ -63,7 +63,7 @@ interface IStateProps {
   isTermSheetSubmitted?: boolean;
   isOfferingDocumentSubmitted?: boolean;
   offeringDocumentType: EOfferingDocumentType | undefined;
-  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
+  isMarketingDataVisibleInPreview?: EEtoMarketingDataVisibleInPreview;
 }
 
 interface ISubmissionProps {
@@ -88,7 +88,7 @@ interface IComponentProps extends ISubmissionProps {
   isOfferingDocumentSubmitted?: boolean;
   offeringDocumentType: EOfferingDocumentType | undefined;
   isVerificationSectionDone: boolean;
-  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
+  isMarketingDataVisibleInPreview?: EEtoMarketingDataVisibleInPreview;
 }
 
 interface IDispatchProps {
@@ -135,7 +135,7 @@ interface IEtoStateRender {
   canEnableBookbuilding: boolean;
   previewCode?: string;
   offeringDocumentType: EOfferingDocumentType | undefined;
-  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
+  isMarketingDataVisibleInPreview?: EEtoMarketingDataVisibleInPreview;
   shouldViewEtoSettings?: boolean;
 }
 
@@ -169,7 +169,7 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           {shouldViewEtoSettings &&
-            isMarketingDataVisibleInPreview !== EIsMarketingDataVisibleInPreview.VISIBLE && (
+            isMarketingDataVisibleInPreview !== EEtoMarketingDataVisibleInPreview.VISIBLE && (
               <PublishETOWidget isMarketingDataVisibleInPreview={isMarketingDataVisibleInPreview} />
             )}
           {shouldViewSubmissionSection && (

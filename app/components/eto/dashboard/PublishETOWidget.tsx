@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Col } from "reactstrap";
 import { compose } from "redux";
 
-import { EIsMarketingDataVisibleInPreview } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EEtoMarketingDataVisibleInPreview } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { EColumnSpan } from "../../layouts/Container";
@@ -21,7 +21,7 @@ interface IDispatchProps {
 
 interface IExternalProps {
   columnSpan?: EColumnSpan;
-  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
+  isMarketingDataVisibleInPreview?: EEtoMarketingDataVisibleInPreview;
 }
 
 export const PublishETOWidgetComponent: React.FunctionComponent<
@@ -36,9 +36,12 @@ export const PublishETOWidgetComponent: React.FunctionComponent<
         <ButtonArrowRight
           data-test-id="eto-dashboard-publish-eto"
           onClick={publish}
-          disabled={isMarketingDataVisibleInPreview === EIsMarketingDataVisibleInPreview.PENDING}
+          disabled={
+            isMarketingDataVisibleInPreview === EEtoMarketingDataVisibleInPreview.VISIBILITY_PENDING
+          }
         >
-          {isMarketingDataVisibleInPreview === EIsMarketingDataVisibleInPreview.PENDING ? (
+          {isMarketingDataVisibleInPreview ===
+          EEtoMarketingDataVisibleInPreview.VISIBILITY_PENDING ? (
             <FormattedMessage id="settings.publish-eto.done" />
           ) : (
             <FormattedMessage id="settings.publish-eto.publish" />

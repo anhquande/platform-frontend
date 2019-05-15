@@ -2,8 +2,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import {
+  EEtoMarketingDataVisibleInPreview,
   EEtoState,
-  EIsMarketingDataVisibleInPreview,
 } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { etoFormIsReadonly } from "../../../lib/api/eto/EtoApiUtils";
 import {
@@ -62,7 +62,7 @@ export interface IStateProps {
   etoEquityTokenInfoProgress: number;
   etoVotingRightsProgress: number;
   etoInvestmentTermsProgress: number;
-  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
+  isMarketingDataVisibleInPreview?: EEtoMarketingDataVisibleInPreview;
 }
 
 interface IExternalProps {

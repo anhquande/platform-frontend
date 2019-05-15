@@ -184,7 +184,7 @@ storiesOf("ETO-Flow/Dashboard/StateView", module)
   .add("State PREVIEW, no submissionSection", () => (
     <EtoDashboardComponent {...statePreviewNoSubmissionSection} />
   ))
-  .add("State PENDING", () => <EtoDashboardComponent {...statePending} />)
+  .add("State VISIBILITY_PENDING", () => <EtoDashboardComponent {...statePending} />)
   .add("State LISTED, retail eto, canEnableBookbuilding, eto submitted ", () => (
     <EtoDashboardComponent {...stateListed_1} />
   ))

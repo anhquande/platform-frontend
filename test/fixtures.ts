@@ -2,8 +2,8 @@ import { createStore, Store } from "redux";
 
 import { IConfig } from "../app/config/getConfig";
 import {
+  EEtoMarketingDataVisibleInPreview,
   EEtoState,
-  EIsMarketingDataVisibleInPreview,
   TCompanyEtoData,
 } from "../app/lib/api/eto/EtoApi.interfaces.unsafe";
 import {
@@ -859,7 +859,7 @@ export const testEto: TEtoWithCompanyAndContract = {
   company: testCompany,
   contract: testContract,
   product: testProduct,
-  isMarketingDataVisibleInPreview: EIsMarketingDataVisibleInPreview.NOT_VISIBLE,
+  isMarketingDataVisibleInPreview: EEtoMarketingDataVisibleInPreview.NOT_VISIBLE,
 };
 
 export const etoFilesData: IEtoFiles = {

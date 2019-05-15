@@ -200,12 +200,6 @@ export type TCompanyEtoData = DeepReadonly<
  *  only deals with "/etos/me"
  */
 
-export enum EEtoMarketingDataVisibleInPreview {
-  NOT_VISIBLE = "not_visible",
-  VISIBLE = "visible",
-  VISIBILITY_PENDING = "visibility_pending",
-}
-
 export enum EEtoState {
   PREVIEW = "preview",
   PENDING = "pending",
@@ -214,10 +208,10 @@ export enum EEtoState {
   ON_CHAIN = "on_chain",
 }
 
-export enum EIsMarketingDataVisibleInPreview {
+export enum EEtoMarketingDataVisibleInPreview {
   VISIBLE = "visible",
   NOT_VISIBLE = "not_visible",
-  PENDING = "visibility_pending",
+  VISIBILITY_PENDING = "visibility_pending",
 }
 
 export enum EtoStateToCamelcase {
@@ -358,7 +352,7 @@ interface IAdditionalEtoType {
   companyId: string;
   previewCode: string;
   state: EEtoState;
-  isMarketingDataVisibleInPreview: EIsMarketingDataVisibleInPreview;
+  isMarketingDataVisibleInPreview: EEtoMarketingDataVisibleInPreview;
   isBookbuilding: boolean;
   templates: TEtoDocumentTemplates;
   startDate: string;

@@ -2,7 +2,7 @@ import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { EIsMarketingDataVisibleInPreview } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EEtoMarketingDataVisibleInPreview } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { PublishETOWidgetComponent } from "./PublishETOWidget";
 
 storiesOf("PublishETOWidget", module)
@@ -10,6 +10,6 @@ storiesOf("PublishETOWidget", module)
   .add("pending", () => (
     <PublishETOWidgetComponent
       publish={() => action("PUBLISH")}
-      isMarketingDataVisibleInPreview={EIsMarketingDataVisibleInPreview.PENDING}
+      isMarketingDataVisibleInPreview={EEtoMarketingDataVisibleInPreview.VISIBILITY_PENDING}
     />
   ));

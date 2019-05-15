@@ -190,7 +190,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                       ? computedNewSharePrice / etoData.equityTokensPerShare
                       : undefined
                   }
-                  iinputFormat={ENumberInputFormat.FLOAT}
+                  inputFormat={ENumberInputFormat.FLOAT}
                   moneyFormat={EPriceFormat.EQUITY_TOKEN_PRICE_EURO}
                   outputFormat={ENumberOutputFormat.FULL}
                   defaultValue={<ToBeAnnounced />}
