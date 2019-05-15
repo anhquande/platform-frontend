@@ -16,6 +16,7 @@ export const etoFlowActions = {
   uploadStartDate: () => createSimpleAction("ETO_FLOW_START_DATE_TX"),
   cleanupStartDate: () => createSimpleAction("ETO_FLOW_CLEANUP_START_DATE_TX"),
   submitDataStart: () => createSimpleAction("ETO_FLOW_SUBMIT_DATA_START"),
+  publishDataStart: createActionFactory("ETO_FLOW_PUBLISH_DATA_START"),
   setIssuerEtoPreviewCode: (etoPreviewCode: string) =>
     createAction("ETO_FLOW_SET_ISSUER_ETO_PREVIEW_CODE", { etoPreviewCode }),
   saveDataStart: (data: Partial<TGeneralEtoData>) =>

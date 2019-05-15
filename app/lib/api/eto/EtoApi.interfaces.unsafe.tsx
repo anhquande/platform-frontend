@@ -207,6 +207,12 @@ export enum EEtoState {
   ON_CHAIN = "on_chain",
 }
 
+export enum EIsMarketingDataVisibleInPreview {
+  VISIBLE = "visible",
+  NOT_VISIBLE = "not_visible",
+  PENDING = "visibility_pending",
+}
+
 export enum EtoStateToCamelcase {
   "preview" = "preview",
   "pending" = "pending",
@@ -345,6 +351,7 @@ interface IAdditionalEtoType {
   companyId: string;
   previewCode: string;
   state: EEtoState;
+  isMarketingDataVisibleInPreview: EIsMarketingDataVisibleInPreview;
   isBookbuilding: boolean;
   templates: TEtoDocumentTemplates;
   startDate: string;
@@ -394,4 +401,19 @@ export const GeneralEtoDataType = YupTS.object({
   ...EtoPitchType.shape,
   ...EtoCompanyInformationType.shape,
   ...EtoRiskAssessmentType.shape,
+});
+
+export const EtoMarketingDataType = YupTS.object({
+  ...EtoEquityTokenInfoType.shape,
+  ...EtoMediaType.shape,
+  ...EtoLegalInformationType.shape,
+  ...EtoPitchType.shape,
+  ...EtoCompanyInformationType.shape,
+  ...EtoRiskAssessmentType.shape,
+});
+
+export const EtoSettingDataType = YupTS.object({
+  ...EtoInvestmentTermsType.shape,
+  ...getEtoTermsSchema().shape,
+  ...EtoVotingRightsType.shape,
 });

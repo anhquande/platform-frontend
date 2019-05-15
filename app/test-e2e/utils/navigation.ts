@@ -35,6 +35,10 @@ export const goToEtoDashboard = () => {
   assertEtoDashboard();
 };
 
+export const goToEtoPreview = () => {
+  cy.visit("/eto/view");
+};
+
 export const goToProfile = () => {
   cy.visit("/profile");
   assertProfile();

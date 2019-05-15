@@ -1,7 +1,10 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { EEtoState } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import {
+  EEtoState,
+  EIsMarketingDataVisibleInPreview,
+} from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { etoFormIsReadonly } from "../../../lib/api/eto/EtoApiUtils";
 import {
   selectIsGeneralEtoLoading,
@@ -59,9 +62,16 @@ export interface IStateProps {
   etoEquityTokenInfoProgress: number;
   etoVotingRightsProgress: number;
   etoInvestmentTermsProgress: number;
+  isMarketingDataVisibleInPreview?: EIsMarketingDataVisibleInPreview;
 }
 
-export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStateProps> = ({
+interface IExternalProps {
+  shouldViewEtoSettings?: boolean;
+}
+
+export const ETOFormsProgressSectionComponent: React.FunctionComponent<
+  IStateProps & IExternalProps
+> = ({
   etoStatus,
   loadingData,
   shouldEtoDataLoad,
@@ -75,6 +85,7 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
   etoEquityTokenInfoProgress,
   etoVotingRightsProgress,
   etoInvestmentTermsProgress,
+  shouldViewEtoSettings,
 }) => {
   const companySections: ReadonlyArray<IEtoSection> = [
     {
@@ -108,15 +119,15 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
       name: <FormattedMessage id="eto.form-progress-widget.company-information.media" />,
       testingId: "eto-progress-widget-media",
     },
-  ];
-
-  const etoSections: ReadonlyArray<IEtoSection> = [
     {
       id: EEtoFormTypes.EtoEquityTokenInfo,
       progress: etoEquityTokenInfoProgress,
       name: <FormattedMessage id="eto.form-progress-widget.eto-settings.equity-token-info" />,
       testingId: "eto-progress-widget-equity-token-info",
     },
+  ];
+
+  const etoSections: ReadonlyArray<IEtoSection> = [
     {
       id: EEtoFormTypes.EtoTerms,
       progress: etoTermsProgress,
@@ -144,16 +155,17 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
     },
   ];
 
-  const groups = [
-    {
-      name: <FormattedMessage id="eto.form-progress-widget.company-information" />,
-      sections: companySections,
-    },
-    {
-      name: <FormattedMessage id="eto.form-progress-widget.eto-settings" />,
-      sections: etoSections,
-    },
-  ];
+  const companySectionsGroup = {
+    name: <FormattedMessage id="eto.form-progress-widget.company-information" />,
+    sections: companySections,
+  };
+
+  const etoSectionGroup = {
+    name: <FormattedMessage id="eto.form-progress-widget.eto-settings" />,
+    sections: etoSections,
+  };
+
+  const groups = [companySectionsGroup, ...(shouldViewEtoSettings ? [etoSectionGroup] : [])];
 
   return (
     <>
@@ -184,7 +196,7 @@ export const ETOFormsProgressSectionComponent: React.FunctionComponent<IStatePro
   );
 };
 
-export const ETOFormsProgressSection = appConnect<IStateProps, {}>({
+export const ETOFormsProgressSection = appConnect<IStateProps, {}, IExternalProps>({
   stateToProps: state => ({
     etoStatus: selectIssuerEtoState(state),
     loadingData: selectIsGeneralEtoLoading(state),

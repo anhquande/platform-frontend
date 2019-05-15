@@ -235,3 +235,8 @@ export const selectIsSaving = createSelector(
   selectIssuerEtoFlow,
   state => state.saving,
 );
+
+export const selectIsMarketingDataVisibleInPreview = createSelector(
+  selectIssuerEto,
+  state => state && state.isMarketingDataVisibleInPreview,
+);
