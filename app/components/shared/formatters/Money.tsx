@@ -86,30 +86,26 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps> = ({
   if (value) {
     //todo: this should pass through 0 as well. Use isValidNumber from the #2687 PR when it's merged
     const decimalPlaces = selectDecimalPlaces(moneyFormat, outputFormat);
-    formattedValue =
-      outputFormat === ENumberOutputFormat.FULL ||
-      outputFormat === ENumberOutputFormat.ONLY_NONZERO_DECIMALS ||
-      outputFormat === ENumberOutputFormat.INTEGER ? (
-        <FormatNumber
-          value={value}
-          defaultValue={defaultValue}
-          roundingMode={ERoundingMode.DOWN}
-          decimalPlaces={decimalPlaces}
-          inputFormat={inputFormat}
-          outputFormat={outputFormat}
-        />
-      ) : (
-        <FormatShortNumber
-          value={value}
-          inputFormat={inputFormat}
-          defaultValue={defaultValue}
-          roundingMode={ERoundingMode.DOWN}
-          decimalPlaces={decimalPlaces}
-          outputFormat={outputFormat}
-        />
-      );
+    formattedValue = Object.values(ENumberOutputFormat).includes(outputFormat) ? (
+      <FormatNumber
+        value={value}
+        defaultValue={defaultValue}
+        roundingMode={ERoundingMode.DOWN}
+        decimalPlaces={decimalPlaces}
+        inputFormat={inputFormat}
+        outputFormat={outputFormat}
+      />
+    ) : (
+      <FormatShortNumber
+        value={value}
+        inputFormat={inputFormat}
+        defaultValue={defaultValue}
+        roundingMode={ERoundingMode.DOWN}
+        decimalPlaces={decimalPlaces}
+        outputFormat={outputFormat}
+      />
+    );
   }
-
   return (
     <span className={cn(styles.money, transfer, className, theme)}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>

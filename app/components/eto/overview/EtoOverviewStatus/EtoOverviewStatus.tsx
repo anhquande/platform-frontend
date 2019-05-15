@@ -19,12 +19,16 @@ import {
 import { routingActions } from "../../../../modules/routing/actions";
 import { appConnect } from "../../../../store";
 import { CommonHtmlProps } from "../../../../types";
-import { formatFlexiPrecision } from "../../../../utils/Number.utils";
 import { etoPublicViewLink } from "../../../appRouteUtils";
 import { Container, EColumnSpan } from "../../../layouts/Container";
-import { ECurrency, ENumberInputFormat } from "../../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
-import { NumberFormat } from "../../../shared/NumberFormat";
+import { FormatNumber } from "../../../shared/formatters/FormatNumber";
+import { MoneyNew } from "../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  ENumberInputFormat,
+  EPriceFormat,
+} from "../../../shared/formatters/utils";
 import { EtoWidgetContext } from "../../EtoWidgetView";
 import { EProjectStatusType, ETOState } from "../../shared/ETOState";
 import { InvestmentAmount } from "../../shared/InvestmentAmount";
@@ -138,7 +142,7 @@ const EtoStatusManager = ({
         <ClaimWidget
           etoId={eto.etoId}
           tokenName={eto.equityTokenName || ""}
-          totalInvestors={eto.contract!.totalInvestment.totalInvestors.toNumber()}
+          totalInvestors={eto.contract!.totalInvestment.totalInvestors}
           totalEquivEurUlps={eto.contract!.totalInvestment.totalEquivEurUlps}
           timedState={timedState}
         />
@@ -278,11 +282,11 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <FormattedMessage id="shared-component.eto-overview-status.pre-money-valuation" />
                   </span>
                   <span className={styles.value}>
-                    <Money
+                    <MoneyNew
                       value={eto.preMoneyValuationEur}
-                      currency={ECurrency.EUR}
-                      format={ENumberInputFormat.FLOAT}
-                      currencySymbol={ECurrencySymbol.SYMBOL}
+                      inputFormat={ENumberInputFormat.FLOAT}
+                      moneyFormat={ECurrency.EUR}
+                      outputFormat={EHumanReadableFormat.INTEGER}
                     />
                   </span>
                 </div>
@@ -299,7 +303,11 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <FormattedMessage id="shared-component.eto-overview-status.new-shares-generated" />
                   </span>
                   <span className={styles.value}>
-                    <NumberFormat value={eto.newSharesToIssue} />
+                    <FormatNumber
+                      value={eto.newSharesToIssue}
+                      inputFormat={EMoneyInputFormat.FLOAT}
+                      outputFormat={EHumanReadableFormat.INTEGER}
+                    />
                   </span>
                 </div>
                 <div className={styles.group}>
@@ -307,11 +315,11 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <FormattedMessage id="shared-component.eto-overview-status.equity-token-price" />
                   </span>
                   <span className={styles.value}>
-                    <Money
-                      value={formatFlexiPrecision(tokenPrice, 8)}
-                      currency={ECurrency.EUR}
-                      format={ENumberInputFormat.FLOAT}
-                      currencySymbol={ECurrencySymbol.SYMBOL}
+                    <MoneyNew
+                      value={tokenPrice}
+                      inputFormat={ENumberInputFormat.FLOAT}
+                      moneyFormat={EPriceFormat.EQUITY_TOKEN_PRICE_EURO}
+                      outputFormat={EHumanReadableFormat.FULL}
                     />
                     {showWhitelistDiscount && (
                       <>

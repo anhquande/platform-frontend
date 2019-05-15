@@ -1,8 +1,12 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
-import { ECurrency, ENumberInputFormat } from "../../../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
+import { MoneyNew } from "../../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  ENumberInputFormat,
+} from "../../../../shared/formatters/utils";
 import { WhitelistProgress } from "./WhitelistProgress";
 
 import * as styles from "./WhitelistStatus.module.scss";
@@ -25,11 +29,11 @@ const WhitelistStatus: React.FunctionComponent<IInvestmentWidgetProps> = ({
           id="eto-overview-thumbnail.whitelist.amount-signed-up"
           values={{
             amount: (
-              <Money
+              <MoneyNew
                 value={pledgedAmount}
-                currency={ECurrency.EUR}
-                format={ENumberInputFormat.FLOAT}
-                currencySymbol={ECurrencySymbol.SYMBOL}
+                inputFormat={ENumberInputFormat.FLOAT}
+                outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+                moneyFormat={ECurrency.EUR}
               />
             ),
           }}

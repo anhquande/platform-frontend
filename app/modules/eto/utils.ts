@@ -16,11 +16,11 @@ export const convertToEtoTotalInvestment = (
   euroTokenBalance: BigNumber,
   etherTokenBalance: BigNumber,
 ): IEtoTotalInvestment => ({
-  totalEquivEurUlps,
-  totalTokensInt,
-  totalInvestors,
-  euroTokenBalance,
-  etherTokenBalance,
+  totalEquivEurUlps: totalEquivEurUlps.toString(),
+  totalTokensInt: totalTokensInt.toString(),
+  totalInvestors: totalInvestors.toString(),
+  euroTokenBalance: euroTokenBalance.toString(),
+  etherTokenBalance: etherTokenBalance.toString(),
 });
 
 const convertToDate = (startOf: BigNumber): Date | undefined => {

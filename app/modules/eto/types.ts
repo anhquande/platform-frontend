@@ -1,14 +1,12 @@
-import BigNumber from "bignumber.js";
-
 import { TCompanyEtoData, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { DeepReadonly } from "../../types";
 
 export interface IEtoTotalInvestment {
-  totalEquivEurUlps: BigNumber;
-  totalTokensInt: BigNumber;
-  totalInvestors: BigNumber;
-  euroTokenBalance: BigNumber;
-  etherTokenBalance: BigNumber;
+  totalEquivEurUlps: string;
+  totalTokensInt: string;
+  totalInvestors: string;
+  euroTokenBalance: string;
+  etherTokenBalance: string;
 }
 
 // Order is important. Next state is calculated by adding 1 to current state.

@@ -5,9 +5,9 @@ import { Col, Row } from "reactstrap";
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EColumnSpan } from "../../layouts/Container";
 import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
-import { ECurrency, ENumberInputFormat } from "../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
-import { NumberFormat } from "../../shared/NumberFormat";
+import { FormatNumber } from "../../shared/formatters/FormatNumber";
+import { MoneyNew } from "../../shared/formatters/Money";
+import { ECurrency, EHumanReadableFormat, ENumberInputFormat } from "../../shared/formatters/utils";
 import { Panel } from "../../shared/Panel";
 import { FUNDING_ROUNDS } from "../constants";
 import { CHART_COLORS } from "../shared/EtoView";
@@ -96,7 +96,10 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <FormattedMessage id="eto.public-view.legal-information.number-of-founders" />
                 </span>
                 <span className={styles.value}>
-                  <NumberFormat value={companyData.numberOfFounders} />
+                  <FormatNumber
+                    value={companyData.numberOfFounders}
+                    outputFormat={EHumanReadableFormat.INTEGER}
+                  />
                 </span>
               </div>
             )}
@@ -122,11 +125,11 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <FormattedMessage id="eto.public-view.legal-information.last-funding-amount" />
                 </span>
                 <span className={styles.value}>
-                  <Money
+                  <MoneyNew
                     value={companyData.lastFundingSizeEur}
-                    currency={ECurrency.EUR}
-                    format={ENumberInputFormat.FLOAT}
-                    currencySymbol={ECurrencySymbol.SYMBOL}
+                    inputFormat={ENumberInputFormat.FLOAT}
+                    moneyFormat={ECurrency.EUR}
+                    outputFormat={EHumanReadableFormat.INTEGER}
                   />
                 </span>
               </div>
@@ -137,7 +140,10 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <FormattedMessage id="eto.public-view.legal-information.existing-shares" />
                 </span>
                 <span className={styles.value}>
-                  <NumberFormat value={companyData.companyShares} />
+                  <FormatNumber
+                    value={companyData.companyShares}
+                    outputFormat={EHumanReadableFormat.INTEGER}
+                  />
                 </span>
               </div>
             )}

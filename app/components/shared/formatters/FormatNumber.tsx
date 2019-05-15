@@ -15,7 +15,7 @@ import * as styles from "./FormatNumber.module.scss";
 interface IComponentProps {
   value: string | BigNumber | number | undefined | null;
   defaultValue?: string;
-  roundingMode: ERoundingMode;
+  roundingMode?: ERoundingMode;
   decimalPlaces?: number;
   inputFormat: ENumberInputFormat;
   outputFormat: THumanReadableFormat;
@@ -25,7 +25,7 @@ interface IComponentProps {
 export const FormatNumber: React.FunctionComponent<IComponentProps> = ({
   value,
   defaultValue = "",
-  roundingMode,
+  roundingMode = ERoundingMode.DOWN,
   decimalPlaces = 4,
   inputFormat,
   outputFormat = ENumberOutputFormat.FULL,

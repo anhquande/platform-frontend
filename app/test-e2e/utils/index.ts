@@ -162,7 +162,11 @@ export const acceptWallet = () => {
 
 export const etoFixtureByName = (name: string) => {
   const etoAddress = Object.keys(ETO_FIXTURES).find(a => ETO_FIXTURES[a].name === name);
-  return etoAddress ? ETO_FIXTURES[etoAddress] : undefined;
+  if (etoAddress) {
+    return ETO_FIXTURES[etoAddress];
+  } else {
+    throw new Error("Cannot fetch undefined value please check if the fixtures are in sync");
+  }
 };
 
 export const etoFixtureAddressByName = (name: string): string => {

@@ -42,6 +42,10 @@ export enum EAbbreviatedNumberOutputFormat {
 
 export type THumanReadableFormat = ENumberOutputFormat | EAbbreviatedNumberOutputFormat;
 
+export enum ESpecialNumber {
+  UNLIMITED = "unlimited",
+}
+
 export type TMoneyFormat = ECurrency | EPriceFormat;
 
 interface IToFixedPrecision {
@@ -170,7 +174,7 @@ export const toFixedPrecision = ({
 /* SHORT and LONG formats are not handled by this fn, it's the job of the FormatShortNumber components */
 export const formatNumber = ({
   value,
-  roundingMode = ERoundingMode.UP,
+  roundingMode = ERoundingMode.DOWN,
   inputFormat = ENumberInputFormat.ULPS,
   decimalPlaces,
   outputFormat = ENumberOutputFormat.FULL,

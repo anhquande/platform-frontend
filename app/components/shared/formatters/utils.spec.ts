@@ -149,7 +149,7 @@ describe("formatNumber", () => {
         decimalPlaces: 2,
         value: "1242035230000000000000",
       }),
-    ).to.eq("1 242.04");
+    ).to.eq("1 242.03");
   });
   it("should format output to given settings", () => {
     expect(
@@ -176,6 +176,20 @@ describe("formatNumber", () => {
         value: "1242000000000000000000",
       }),
     ).to.eq("1 242");
+    expect(
+      formatNumber({
+        outputFormat: EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+        inputFormat: EMoneyInputFormat.FLOAT,
+        value: "1000000.00",
+      }),
+    ).to.eq("1 000 000");
+    expect(
+      formatNumber({
+        outputFormat: EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+        inputFormat: EMoneyInputFormat.FLOAT,
+        value: 1000000,
+      }),
+    ).to.eq("1 000 000");
     expect(
       formatNumber({
         outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,

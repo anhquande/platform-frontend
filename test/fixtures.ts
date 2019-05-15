@@ -1,4 +1,3 @@
-import { BigNumber } from "bignumber.js";
 import { createStore, Store } from "redux";
 
 import { IConfig } from "../app/config/getConfig";
@@ -723,11 +722,11 @@ export const etoDocuments: TEtoDocumentTemplates = {
 export const testContract = {
   timedState: 3,
   totalInvestment: {
-    totalEquivEurUlps: new BigNumber("3.240447910281246044e+24"),
-    totalTokensInt: new BigNumber("10010705"),
-    totalInvestors: new BigNumber("3"),
-    euroTokenBalance: new BigNumber("3.2374649e+24"),
-    etherTokenBalance: new BigNumber("5432420000000000000"),
+    totalEquivEurUlps: "3.240447910281246044e+24",
+    totalTokensInt: "10010705",
+    totalInvestors: "3",
+    euroTokenBalance: "3.2374649e+24",
+    etherTokenBalance: "5432420000000000000",
   },
   startOfStates: {
     [EETOStateOnChain.Setup]: undefined,

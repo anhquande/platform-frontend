@@ -91,7 +91,9 @@ export const getInvestmentCalculatedPercentage = (eto: TEtoSpecsData) =>
   (eto.newSharesToIssue / eto.minimumNewSharesToIssue) * 100;
 
 export const getCurrentInvestmentProgressPercentage = (eto: TEtoWithCompanyAndContract) => {
-  const totalTokensInt = eto.contract!.totalInvestment.totalTokensInt.toNumber();
+  const totalTokensInt = eto.contract!.totalInvestment.totalTokensInt;
 
-  return (totalTokensInt / (eto.minimumNewSharesToIssue * eto.equityTokensPerShare)) * 100;
+  return (
+    (parseInt(totalTokensInt, 10) / (eto.minimumNewSharesToIssue * eto.equityTokensPerShare)) * 100
+  );
 };

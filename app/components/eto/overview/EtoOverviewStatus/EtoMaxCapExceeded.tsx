@@ -60,14 +60,14 @@ const EtoMaxCapExceededComponent: React.FunctionComponent<
         <div>
           <FormattedMessage
             id="shared-component.eto-overview.investors"
-            values={{ totalInvestors: eto.contract!.totalInvestment.totalInvestors.toNumber() }}
+            values={{ totalInvestors: eto.contract!.totalInvestment.totalInvestors }}
           />
         </div>
       </div>
       <div className={styles.header}>
         <div>
           <Money
-            value={eto.contract!.totalInvestment.totalTokensInt.toNumber()}
+            value={eto.contract!.totalInvestment.totalTokensInt}
             currency={ECurrency.EUR_TOKEN}
             format={ENumberInputFormat.FLOAT}
           />
