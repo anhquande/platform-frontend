@@ -181,7 +181,6 @@ export const EtoMediaType = YupTS.object({
 type TEtoMediaData = YupTS.TypeOf<typeof EtoMediaType>;
 
 type TEtoCompanyBase = {
-  isMarketingDataVisibleInPreview?: EEtoMarketingDataVisibleInPreview;
   companyId: string;
   city: string;
 };
@@ -212,12 +211,6 @@ export enum EEtoState {
   LISTED = "listed",
   PROSPECTUS_APPROVED = "prospectus_approved",
   ON_CHAIN = "on_chain",
-}
-
-export enum EIsMarketingDataVisibleInPreview {
-  VISIBLE = "visible",
-  NOT_VISIBLE = "not_visible",
-  PENDING = "visibility_pending",
 }
 
 export enum EtoStateToCamelcase {
@@ -358,7 +351,7 @@ interface IAdditionalEtoType {
   companyId: string;
   previewCode: string;
   state: EEtoState;
-  isMarketingDataVisibleInPreview: EIsMarketingDataVisibleInPreview;
+  isMarketingDataVisibleInPreview: EEtoMarketingDataVisibleInPreview;
   isBookbuilding: boolean;
   templates: TEtoDocumentTemplates;
   startDate: string;

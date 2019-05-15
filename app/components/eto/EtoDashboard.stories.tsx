@@ -21,6 +21,7 @@ const statePreview = {
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
   userHasKycAndEmailVerified: true,
+  shouldViewSubmissionSection: true,
 };
 
 const statePreviewNoSubmissionSection = {
@@ -35,6 +36,11 @@ const statePreviewNoSubmissionSection = {
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
   userHasKycAndEmailVerified: true,
+};
+
+const statePreviewWithPreviewSubmissionWithoutMarketingVisible = {
+  ...statePreviewNoSubmissionSection,
+  shouldViewEtoSettings: true,
 };
 
 const statePending = {
@@ -181,6 +187,9 @@ storiesOf("ETO-Flow/Dashboard/StateView", module)
   .addDecorator(withStore(mockedStore))
 
   .add("State PREVIEW with submissionSection", () => <EtoDashboardComponent {...statePreview} />)
+  .add("State PREVIEW with preview submission without marketing data visible", () => (
+    <EtoDashboardComponent {...statePreviewWithPreviewSubmissionWithoutMarketingVisible} />
+  ))
   .add("State PREVIEW, no submissionSection", () => (
     <EtoDashboardComponent {...statePreviewNoSubmissionSection} />
   ))
