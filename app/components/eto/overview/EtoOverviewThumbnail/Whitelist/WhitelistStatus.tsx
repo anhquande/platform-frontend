@@ -4,8 +4,8 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { MoneyNew } from "../../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
   ENumberInputFormat,
+  ENumberOutputFormat,
 } from "../../../../shared/formatters/utils";
 import { WhitelistProgress } from "./WhitelistProgress";
 
@@ -32,7 +32,7 @@ const WhitelistStatus: React.FunctionComponent<IInvestmentWidgetProps> = ({
               <MoneyNew
                 value={pledgedAmount}
                 inputFormat={ENumberInputFormat.FLOAT}
-                outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+                outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                 moneyFormat={ECurrency.EUR}
               />
             ),

@@ -25,8 +25,8 @@ import { FormatNumber } from "../../../shared/formatters/FormatNumber";
 import { MoneyNew } from "../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
   ENumberInputFormat,
+  ENumberOutputFormat,
   EPriceFormat,
 } from "../../../shared/formatters/utils";
 import { EtoWidgetContext } from "../../EtoWidgetView";
@@ -286,7 +286,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                       value={eto.preMoneyValuationEur}
                       inputFormat={ENumberInputFormat.FLOAT}
                       moneyFormat={ECurrency.EUR}
-                      outputFormat={EHumanReadableFormat.INTEGER}
+                      outputFormat={ENumberOutputFormat.INTEGER}
                     />
                   </span>
                 </div>
@@ -305,8 +305,8 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                   <span className={styles.value}>
                     <FormatNumber
                       value={eto.newSharesToIssue}
-                      inputFormat={EMoneyInputFormat.FLOAT}
-                      outputFormat={EHumanReadableFormat.INTEGER}
+                      inputFormat={ENumberInputFormat.FLOAT}
+                      outputFormat={ENumberOutputFormat.INTEGER}
                     />
                   </span>
                 </div>
@@ -319,7 +319,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                       value={tokenPrice}
                       inputFormat={ENumberInputFormat.FLOAT}
                       moneyFormat={EPriceFormat.EQUITY_TOKEN_PRICE_EURO}
-                      outputFormat={EHumanReadableFormat.FULL}
+                      outputFormat={ENumberOutputFormat.FULL}
                     />
                     {showWhitelistDiscount && (
                       <>

@@ -9,6 +9,7 @@ import {
   ENumberInputFormat,
   ENumberOutputFormat,
   ERoundingMode,
+  ESpecialNumber,
   formatNumber,
   THumanReadableFormat,
 } from "./utils";
@@ -44,7 +45,7 @@ export const FormatNumberRange: React.FunctionComponent<INumberRangeProps> = ({
   defaultValue = "",
   roundingMode = ERoundingMode.UP,
   decimalPlaces = 4,
-  inputFormat = EMoneyInputFormat.FLOAT,
+  inputFormat = ENumberInputFormat.FLOAT,
   outputFormat = ENumberOutputFormat.FULL,
   isPrice = false,
   separator = "–", //todo nowrap before (?)

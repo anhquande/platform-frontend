@@ -15,8 +15,8 @@ import { MoneyNew, selectCurrencyCode } from "../../shared/formatters/Money";
 import { MoneyRange } from "../../shared/formatters/MoneyRange";
 import {
   ECurrency,
-  EHumanReadableFormat,
   ENumberInputFormat,
+  ENumberOutputFormat,
   EPriceFormat,
   ESpecialNumber,
 } from "../../shared/formatters/utils";
@@ -74,7 +74,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                     value={etoData.preMoneyValuationEur}
                     inputFormat={ENumberInputFormat.FLOAT}
                     moneyFormat={ECurrency.EUR}
-                    outputFormat={EHumanReadableFormat.INTEGER}
+                    outputFormat={ENumberOutputFormat.INTEGER}
                   />
                 }
                 data-test-id="eto-public-view-pre-money-valuation"
@@ -86,7 +86,8 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 value={
                   <FormatNumber
                     value={etoData.existingCompanyShares}
-                    outputFormat={EHumanReadableFormat.INTEGER}
+                    outputFormat={ENumberOutputFormat.INTEGER}
+                    inputFormat={ENumberInputFormat.FLOAT}
                   />
                 }
                 data-test-id="eto-public-view-existing-shares"
@@ -98,7 +99,8 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 value={
                   <FormatNumber
                     value={etoData.authorizedCapitalShares}
-                    outputFormat={EHumanReadableFormat.INTEGER}
+                    outputFormat={ENumberOutputFormat.INTEGER}
+                    inputFormat={ENumberInputFormat.FLOAT}
                   />
                 }
                 data-test-id="eto-public-view-authorized-capital"
@@ -110,7 +112,8 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 <FormatNumberRange
                   valueFrom={etoData.minimumNewSharesToIssue}
                   valueUpto={etoData.newSharesToIssue}
-                  outputFormat={EHumanReadableFormat.INTEGER}
+                  outputFormat={ENumberOutputFormat.INTEGER}
+                  inputFormat={ENumberInputFormat.FLOAT}
                 />
               }
               data-test-id="eto-public-view-new-shares-to-issue"
@@ -123,7 +126,8 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 value={
                   <FormatNumber
                     value={etoData.newSharesToIssueInWhitelist}
-                    outputFormat={EHumanReadableFormat.INTEGER}
+                    outputFormat={ENumberOutputFormat.INTEGER}
+                    inputFormat={ENumberInputFormat.FLOAT}
                   />
                 }
                 data-test-id="eto-public-view-new-shares-to-issue-in-whitelist"
@@ -136,7 +140,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                   value={computedNewSharePrice}
                   moneyFormat={EPriceFormat.SHARE_PRICE}
                   inputFormat={ENumberInputFormat.FLOAT}
-                  outputFormat={EHumanReadableFormat.FULL}
+                  outputFormat={ENumberOutputFormat.FULL}
                 />
               }
               data-test-id="eto-public-view-new-share-price"
@@ -170,7 +174,8 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                 value={
                   <FormatNumber
                     value={etoData.equityTokensPerShare}
-                    outputFormat={EHumanReadableFormat.INTEGER}
+                    outputFormat={ENumberOutputFormat.INTEGER}
+                    inputFormat={ENumberInputFormat.FLOAT}
                   />
                 }
                 data-test-id="eto-public-view-tokens-per-share"
@@ -184,7 +189,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                     value={computedNewSharePrice / etoData.equityTokensPerShare}
                     inputFormat={ENumberInputFormat.FLOAT}
                     moneyFormat={EPriceFormat.EQUITY_TOKEN_PRICE_EURO}
-                    outputFormat={EHumanReadableFormat.FULL}
+                    outputFormat={ENumberOutputFormat.FULL}
                   />
                 }
                 data-test-id="eto-public-view-token-price"
@@ -213,9 +218,9 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
                     valueUpto={
                       etoData.maxTicketEur ? etoData.maxTicketEur : ESpecialNumber.UNLIMITED
                     }
-                    inputFormat={EMoneyInputFormat.FLOAT}
+                    inputFormat={ENumberInputFormat.FLOAT}
                     moneyFormat={ECurrency.EUR}
-                    outputFormat={EHumanReadableFormat.INTEGER}
+                    outputFormat={ENumberOutputFormat.INTEGER}
                   />
                 }
                 data-test-id="eto-public-view-ticket-size"

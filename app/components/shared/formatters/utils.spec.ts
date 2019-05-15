@@ -178,15 +178,15 @@ describe("formatNumber", () => {
     ).to.eq("1 242");
     expect(
       formatNumber({
-        outputFormat: EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
-        inputFormat: EMoneyInputFormat.FLOAT,
+        outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
+        inputFormat: ENumberInputFormat.FLOAT,
         value: "1000000.00",
       }),
     ).to.eq("1 000 000");
     expect(
       formatNumber({
-        outputFormat: EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
-        inputFormat: EMoneyInputFormat.FLOAT,
+        outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
+        inputFormat: ENumberInputFormat.FLOAT,
         value: 1000000,
       }),
     ).to.eq("1 000 000");

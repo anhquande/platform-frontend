@@ -5,8 +5,8 @@ import { Button } from "../../../../shared/buttons";
 import { MoneyNew } from "../../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
 } from "../../../../shared/formatters/utils";
 import { Message } from "../Message";
 import { withCanClaimToken } from "./withCanClaimToken";
@@ -39,9 +39,9 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
               totalAmount: (
                 <MoneyNew
                   value={totalEquivEurUlps}
-                  inputFormat={EMoneyInputFormat.ULPS}
+                  inputFormat={ENumberInputFormat.ULPS}
                   moneyFormat={ECurrency.EUR}
-                  outputFormat={EHumanReadableFormat.FULL}
+                  outputFormat={ENumberOutputFormat.FULL}
                 />
               ),
               totalInvestors,
@@ -54,9 +54,9 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
               totalAmount: (
                 <MoneyNew
                   value={totalEquivEurUlps}
-                  inputFormat={EMoneyInputFormat.ULPS}
+                  inputFormat={ENumberInputFormat.ULPS}
                   moneyFormat={ECurrency.EUR}
-                  outputFormat={EHumanReadableFormat.FULL}
+                  outputFormat={ENumberOutputFormat.FULL}
                 />
               ),
             }}
