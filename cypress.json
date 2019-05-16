@@ -3,6 +3,7 @@
   "integrationFolder": "./app/",
   "defaultCommandTimeout": 60000,
   "pageLoadTimeout": 90000,
+  "videoCompression": false,
   "videoUploadOnPasses": false,
   "projectId": "r5nj5t"
 }

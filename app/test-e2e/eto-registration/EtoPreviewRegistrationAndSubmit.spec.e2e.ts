@@ -32,7 +32,7 @@ describe("Eto Forms submit preview", () => {
 
       goToEtoPreview();
 
-      cy.get(tid("eto-state-preview")).contains("Coming soon");
+      cy.get(tid("eto-state-preview")).contains("Preview");
     });
   });
 });
