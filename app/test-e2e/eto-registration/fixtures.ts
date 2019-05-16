@@ -130,7 +130,6 @@ export const etoTermsForm: TFormFixture = {
     value: "15",
     type: "range",
   },
-  additionalTerms: "There must always be sausage in the fridge!",
 };
 
 // key individuals

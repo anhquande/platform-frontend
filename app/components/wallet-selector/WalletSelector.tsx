@@ -45,13 +45,16 @@ interface IDispatchProps {
   openICBMModal: () => void;
 }
 
-export const WalletSelectorLayout: React.FunctionComponent<IStateProps & IDispatchProps> = ({
+export const WalletSelectorLayout: React.FunctionComponent<
+  IStateProps & IDispatchProps & IExternalProps
+> = ({
   isMessageSigning,
   rootPath,
   isLoginRoute,
   oppositeRoute,
   userType,
   openICBMModal,
+  isSecretProtected,
 }) => {
   const isIssuerWithOnlyLedgerAllowed =
     userType === "issuer" && process.env.NF_ISSUERS_CAN_LOGIN_WITH_ANY_WALLET !== "1";
@@ -153,22 +156,24 @@ export const WalletSelectorLayout: React.FunctionComponent<IStateProps & IDispat
                 </>
               )}
             </Col>
-            <Col sm={12} md={6} className="text-center text-md-right mt-3 mt-md-0">
-              {isLoginRoute ? (
-                <FormattedMessage id="wallet-selector.neuwallet.register-link-text" />
-              ) : (
-                <FormattedMessage id="wallet-selector.neuwallet.login-link-text" />
-              )}{" "}
-              <Link to={oppositeRoute} data-test-id="wallet-selector-opposite-route-link">
-                <strong>
-                  {isLoginRoute ? (
-                    <FormattedMessage id="wallet-selector.register" />
-                  ) : (
-                    <FormattedMessage id="wallet-selector.login" />
-                  )}
-                </strong>
-              </Link>
-            </Col>
+            {!isSecretProtected && (
+              <Col sm={12} md={6} className="text-center text-md-right mt-3 mt-md-0">
+                {isLoginRoute ? (
+                  <FormattedMessage id="wallet-selector.neuwallet.register-link-text" />
+                ) : (
+                  <FormattedMessage id="wallet-selector.neuwallet.login-link-text" />
+                )}{" "}
+                <Link to={oppositeRoute} data-test-id="wallet-selector-opposite-route-link">
+                  <strong>
+                    {isLoginRoute ? (
+                      <FormattedMessage id="wallet-selector.register" />
+                    ) : (
+                      <FormattedMessage id="wallet-selector.login" />
+                    )}
+                  </strong>
+                </Link>
+              </Col>
+            )}
           </Row>
         </>
       )}

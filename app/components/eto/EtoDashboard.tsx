@@ -170,12 +170,15 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
         <>
           {shouldViewEtoSettings &&
             isMarketingDataVisibleInPreview !== EEtoMarketingDataVisibleInPreview.VISIBLE && (
-              <PublishETOWidget isMarketingDataVisibleInPreview={isMarketingDataVisibleInPreview} />
+              <PublishETOWidget
+                isMarketingDataVisibleInPreview={isMarketingDataVisibleInPreview}
+                columnSpan={EColumnSpan.ONE_AND_HALF_COL}
+              />
             )}
           {shouldViewSubmissionSection && (
             <SubmitDashBoardSection
               isTermSheetSubmitted={isTermSheetSubmitted}
-              columnSpan={EColumnSpan.TWO_COL}
+              columnSpan={EColumnSpan.ONE_AND_HALF_COL}
             />
           )}
           <EtoProgressDashboardSection shouldViewEtoSettings={shouldViewEtoSettings} />

@@ -775,7 +775,6 @@ export const testProduct = {
 };
 
 export const testEto: TEtoWithCompanyAndContract = {
-  additionalTerms: undefined,
   authorizedCapitalShares: undefined,
   newSharesToIssueInFixedSlots: undefined,
   canEnableBookbuilding: false,

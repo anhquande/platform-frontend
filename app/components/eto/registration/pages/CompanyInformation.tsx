@@ -57,6 +57,7 @@ const EtoRegistrationCompanyInformationComponent = (
       <FormField
         label={<FormattedMessage id="eto.form.company-information.company-tagline" />}
         name="companyOneliner"
+        charactersLimit={50}
       />
 
       <FormTextArea

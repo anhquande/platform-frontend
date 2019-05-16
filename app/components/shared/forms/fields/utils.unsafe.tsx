@@ -54,12 +54,12 @@ export const isNonValid = (
   return !(valid === undefined || valid === true);
 };
 
-export const getComputedValue = (val: InputProps["value"] = "", limit: number | undefined) => {
+export const applyCharactersLimit = (val: InputProps["value"] = "", limit: number | undefined) => {
   if (typeof val === "number" || Array.isArray(val) || !limit) {
     return val;
   }
 
-  return limit && val.length > limit ? val.slice(0, limit - 1) : val;
+  return limit && val.length > limit ? val.slice(0, limit) : val;
 };
 
 export const withCountedCharacters = (val: InputProps["value"] = "", limit: number) => {

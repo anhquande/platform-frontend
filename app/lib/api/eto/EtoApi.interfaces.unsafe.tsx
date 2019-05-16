@@ -297,7 +297,6 @@ export const getEtoTermsSchema = ({
 
       return v;
     }),
-    additionalTerms: YupTS.string().optional(),
   });
 
 export type TEtoTermsType = YupTS.TypeOf<ReturnType<typeof getEtoTermsSchema>>;
