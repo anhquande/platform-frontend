@@ -37,6 +37,7 @@ interface IExternalProps {
   layout?: EProjectStatusLayout;
   type?: EProjectStatusType;
   previewCode: string;
+  viewAsInvestor?: boolean;
 }
 
 interface IStateProps {
@@ -122,15 +123,17 @@ const ETOStateLayout: React.FunctionComponent<IStateProps & IExternalProps & Com
   size = EProjectStatusSize.MEDIUM,
   layout = EProjectStatusLayout.NORMAL,
   isIssuer,
+  viewAsInvestor,
 }) => {
-  const state = getState(eto, subState, isIssuer);
+  const isPerceivedIssuer = viewAsInvestor ? false : isIssuer;
+  const state = getState(eto, subState, isPerceivedIssuer);
 
   return (
     <div
       className={cn(styles.projectStatus, stateToClassName[state], size, layout, className)}
       data-test-id={`eto-state-${state}`}
     >
-      {getStateName(state, isIssuer)}
+      {getStateName(state, isPerceivedIssuer)}
     </div>
   );
 };

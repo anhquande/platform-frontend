@@ -55,6 +55,9 @@ interface IInternalProps {
   eto: TEtoWithCompanyAndContract;
 }
 
+interface IExternalProps {
+  viewAsInvestor?: boolean;
+}
 interface IStateProps {
   etoSubState: EEtoSubState | undefined;
 }
@@ -62,8 +65,9 @@ interface IStateProps {
 // The castings should be resolved when the EtoApi.interface.ts reflects the correct data types from swagger!
 
 // TODO: Refactor to smaller components
-const EtoViewLayout: React.FunctionComponent<IInternalProps & IStateProps> = ({
+const EtoViewLayout: React.FunctionComponent<IInternalProps & IStateProps & IExternalProps> = ({
   eto,
+  viewAsInvestor,
   etoSubState,
 }) => {
   const {
@@ -141,7 +145,7 @@ const EtoViewLayout: React.FunctionComponent<IInternalProps & IStateProps> = ({
           }}
           tags={categories}
         />
-        <EtoOverviewStatus eto={eto} publicView={true} />
+        <EtoOverviewStatus eto={eto} publicView={true} viewAsInvestor={viewAsInvestor} />
         <Container columnSpan={EColumnSpan.THREE_COL}>
           <DashboardHeading
             title={
@@ -519,7 +523,10 @@ const EtoViewLayout: React.FunctionComponent<IInternalProps & IStateProps> = ({
   );
 };
 
-const SingleEtoView = compose<IStateProps & IInternalProps, IInternalProps>(
+const SingleEtoView = compose<
+  IStateProps & IInternalProps & IExternalProps,
+  IInternalProps & IExternalProps
+>(
   appConnect<IStateProps, {}, IInternalProps>({
     stateToProps: (state, props) => ({
       etoSubState: selectEtoSubState(state, props.eto.previewCode),
@@ -540,10 +547,10 @@ const SingleEtoView = compose<IStateProps & IInternalProps, IInternalProps>(
 export const MultiEtoView: React.FunctionComponent<IProps> = ({ eto, etoPreview }) => (
   <Tabs layoutSize="large" layoutOrnament={false} layoutPosition="center">
     <TabContent tab="In Draft">
-      <SingleEtoView eto={etoPreview} />
+      <SingleEtoView eto={etoPreview} viewAsInvestor={false} />
     </TabContent>
     <TabContent tab="Published">
-      <SingleEtoView eto={eto} />
+      <SingleEtoView eto={eto} viewAsInvestor={true} />
     </TabContent>
   </Tabs>
 );

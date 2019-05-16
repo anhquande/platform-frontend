@@ -45,10 +45,12 @@ import * as styles from "./EtoOverviewStatus.module.scss";
 interface IExternalProps {
   eto: TEtoWithCompanyAndContract;
   publicView?: boolean;
+  viewAsInvestor?: boolean;
 }
 
 interface IStatusOfEto {
   previewCode: string;
+  viewAsInvestor?: boolean;
 }
 
 interface IDispatchProps {
@@ -63,12 +65,16 @@ interface IStateProps {
   maxCapExceeded: boolean;
 }
 
-const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => (
+const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode, viewAsInvestor }) => (
   <div className={styles.statusOfEto}>
     <span className={styles.title}>
       <FormattedMessage id="shared-component.eto-overview.status-of-eto" />
     </span>
-    <ETOState previewCode={previewCode} type={EProjectStatusType.EXTENDED} />
+    <ETOState
+      previewCode={previewCode}
+      type={EProjectStatusType.EXTENDED}
+      viewAsInvestor={viewAsInvestor}
+    />
   </div>
 );
 
@@ -188,6 +194,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
   isPreEto,
   maxCapExceeded,
   navigateToEto,
+  viewAsInvestor,
   publicView,
   openInNewWindow,
 }) => {
@@ -217,7 +224,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
           data-test-id={`eto-overview-${eto.etoId}`}
           columnSpan={EColumnSpan.THREE_COL}
         >
-          <StatusOfEto previewCode={eto.previewCode} />
+          <StatusOfEto previewCode={eto.previewCode} viewAsInvestor={viewAsInvestor} />
           <div
             className={styles.overviewWrapper}
             onClick={onEtoNavigationClick(navigateToEto, previewCode ? openInNewWindow : undefined)}
