@@ -4,7 +4,7 @@ import { formField, tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
 
 describe("Eto Terms", () => {
-  it.skip("should show 6 available products", () => {
+  it("should show 6 available products", () => {
     createAndLoginNewUser({ type: "issuer", kyc: "business" });
 
     goToEtoDashboard();
@@ -14,7 +14,7 @@ describe("Eto Terms", () => {
     cy.get(formField("productId")).should("have.length", 6);
   });
 
-  it.skip("should show product details on hover", () => {
+  it("should show product details on hover", () => {
     createAndLoginNewUser({ type: "issuer", kyc: "business" });
 
     goToEtoDashboard();
@@ -30,7 +30,7 @@ describe("Eto Terms", () => {
     ).should("exist");
   });
 
-  it.skip("should hide and show transferable toggle", () => {
+  it("should hide and show transferable toggle", () => {
     createAndLoginNewUser({ type: "issuer", kyc: "business" });
 
     goToEtoDashboard();
