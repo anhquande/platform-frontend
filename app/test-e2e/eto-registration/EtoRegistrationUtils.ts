@@ -32,6 +32,7 @@ export const fillAndAssertFull = (section: string, sideEffect: TFormFixture | ((
   }
 
   assertEtoDashboard();
+
   cy.get(`${tid(section)} ${tid("chart-circle.progress")}`).should("contain", "100%");
 };
 
