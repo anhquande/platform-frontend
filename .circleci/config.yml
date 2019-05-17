@@ -177,7 +177,7 @@ workflows:
       - codechecks:
           requires:
             - install-lint
-      - test-e2e:
+      - test-e2e-chrome:
           requires:
             - build-frontend
       - codechecks-vis-reg:
@@ -198,7 +198,7 @@ workflows:
       - test:
           requires:
             - install-lint
-      - test-e2e:
+      - test-e2e-chrome:
           requires:
             - install-lint
       - codechecks:
