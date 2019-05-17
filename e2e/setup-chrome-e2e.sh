@@ -5,9 +5,6 @@ cd "$(dirname "$0")"
 
 frontend_pid=0
 run_frontend() {
-    echo "Building production build of frontend"
-    yarn build:prod
-
     echo "Starting up local http server"
     ../scripts/prod-like-srv.sh&
     frontend_pid=$!
