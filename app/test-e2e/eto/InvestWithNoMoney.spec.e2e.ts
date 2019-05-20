@@ -1,6 +1,10 @@
 import { ETHEREUM_ZERO_ADDRESS } from "../../config/constants";
 import { goToEtoViewById } from "../eto-view/EtoViewUtils";
-import { INV_EMPTY_HAS_KYC, INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH } from "../fixtures";
+import {
+  INV_EMPTY_HAS_KYC,
+  INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH,
+  INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH_KEY,
+} from "../fixtures";
 import { etoFixtureAddressByName } from "../utils";
 import { withdrawAllEth } from "../utils/ethRpcUtils";
 import { goToDashboard } from "../utils/navigation";
@@ -33,7 +37,7 @@ describe("Try and invest without money", () => {
   });
 
   it("should show error message when there is no enough ether for gas during neur investment", () => {
-    withdrawAllEth(INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH, ETHEREUM_ZERO_ADDRESS);
+    withdrawAllEth(INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH_KEY, ETHEREUM_ZERO_ADDRESS);
 
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
