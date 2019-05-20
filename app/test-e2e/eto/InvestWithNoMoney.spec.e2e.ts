@@ -1,6 +1,8 @@
+import { ETHEREUM_ZERO_ADDRESS } from "../../config/constants";
 import { goToEtoViewById } from "../eto-view/EtoViewUtils";
 import { INV_EMPTY_HAS_KYC, INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH } from "../fixtures";
 import { etoFixtureAddressByName } from "../utils";
+import { withdrawAllEth } from "../utils/ethRpcUtils";
 import { goToDashboard } from "../utils/navigation";
 import { tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
@@ -30,7 +32,9 @@ describe("Try and invest without money", () => {
     });
   });
 
-  it.only("should show error message when there is no enough ether for gas during neur investment", () => {
+  it("should show error message when there is no enough ether for gas during neur investment", () => {
+    withdrawAllEth(INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH, ETHEREUM_ZERO_ADDRESS);
+
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
     createAndLoginNewUser({

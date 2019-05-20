@@ -13,12 +13,16 @@ export const INV_EUR_ICBM_HAS_KYC_KEY =
 export const INV_EUR_ICBM_HAS_KYC_SEED =
   "juice chest position grace weather matter turn delay space abuse winter slice tell flip use between crouch shop open leg elegant bracket lamp day";
 
+export const INV_ETH_EUR_ICBM_HAS_KYC_KEY =
+  "0xfd4f06f51658d687910bb3675b5c093d4f93fff1183110101e0101fa88e08e5a";
 export const INV_ETH_EUR_ICBM_HAS_KYC =
   "then route cage lyrics arrange car pigeon gas rely canoe turn all weapon pepper lemon festival joy option drama forget tortoise useful canvas viable";
 
 export const INV_HAS_EUR_HAS_KYC =
   "orange iron recycle unusual cannon theory myth echo dizzy prefer arrange ugly fatigue sell rain burden meadow tiny tone spy glance agent catalog clock";
 
+export const ISSUER_SETUP_KEY =
+  "0x941a09e617aeb905e13c58d700d48875d5f05eeec1de1981d3227e3bbc72b689";
 export const ISSUER_SETUP =
   "rare work reason ladder hurdle junior moment sad lens panic random photo cave essence simple better merit stage road that humor term assist arrange";
 
@@ -45,6 +49,8 @@ export const INV_ETH_EUR_ICBM_M_HAS_KYC_DUP =
 export const INV_ICBM_ETH_M_HAS_KYC_DUP_2 =
   "long ordinary situate fashion crime razor salon impact science powder aisle extra midnight dream hurt plastic bless soon viable abandon insect fabric hope brown";
 
+export const INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH_KEY =
+  "0x6e6030bc2d1abf8147c6f3617b55c9fdef4814c075f8c4c192695b55cacdbf88";
 export const INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH =
   "kid welcome lion describe repair champion submit sing sugar vault avoid jar adapt little page boost happy sing vivid stone web rescue grape bicycle";
 
