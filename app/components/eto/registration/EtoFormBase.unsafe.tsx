@@ -1,6 +1,6 @@
-import { FormikConsumer } from "formik";
-import { throttle } from "lodash";
+import { connect } from "formik";
 import * as React from "react";
+import { compose } from "recompose";
 import * as Yup from "yup";
 
 import {
@@ -8,6 +8,7 @@ import {
   IProgressOptions,
   ProgressCalculator,
 } from "../../../modules/eto-flow/utils";
+import { TFormikConnect } from "../../../types";
 import { Form } from "../../shared/forms/Form";
 import { PercentageIndicatorBar } from "../../shared/PercentageIndicatorBar";
 import { Section } from "./Shared";
@@ -24,33 +25,33 @@ interface IFormPercentageDoneProps {
   progressOptions?: IProgressOptions;
 }
 
-class PercentageFormDone extends React.Component<IFormPercentageDoneProps> {
-  calculate: ProgressCalculator;
+type TProps = IFormPercentageDoneProps & TFormikConnect;
 
-  constructor(props: IFormPercentageDoneProps) {
-    super(props);
-    this.calculate = throttle(
-      getFormFractionDoneCalculator(props.validator, props.progressOptions),
-      300,
+class PercentageFormDoneLayout extends React.Component<TProps> {
+  calculate: ProgressCalculator = getFormFractionDoneCalculator(
+    this.props.validator,
+    this.props.progressOptions,
+  );
+
+  shouldComponentUpdate(nextProps: Readonly<TProps>): boolean {
+    // Only rerender when errors number differs
+    return (
+      Object.keys(this.props.formik.errors).length !== Object.keys(nextProps.formik.errors).length
     );
   }
 
   render(): React.ReactNode {
+    const calculatedFraction = this.calculate(this.props.formik.values);
+
     return (
-      <FormikConsumer>
-        {({ values }) => {
-          const calculatedFraction = this.calculate(values);
-          return (
-            <PercentageIndicatorBar
-              className={styles.progressBar}
-              percent={calculatedFraction * 100}
-            />
-          );
-        }}
-      </FormikConsumer>
+      <PercentageIndicatorBar className={styles.progressBar} percent={calculatedFraction * 100} />
     );
   }
 }
+
+const PercentageFormDone = compose<TProps, IFormPercentageDoneProps>(connect)(
+  PercentageFormDoneLayout,
+);
 
 export const EtoFormBase: React.FunctionComponent<IProps & IFormPercentageDoneProps> = ({
   children,
