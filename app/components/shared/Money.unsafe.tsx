@@ -5,7 +5,7 @@ import * as React from "react";
 import { MONEY_DECIMALS } from "../../config/constants";
 import { formatMoney } from "../../utils/Money.utils";
 import { selectCurrencyCode } from "./formatters/Money";
-import { ECurrency, EMoneyInputFormat, ERoundingMode } from "./formatters/utils";
+import { ECurrency, ENumberInputFormat, ERoundingMode } from "./formatters/utils";
 import { NumberFormat } from "./NumberFormat";
 
 import * as styles from "./Money.module.scss";
@@ -33,7 +33,7 @@ enum ETheme {
 interface IOwnProps extends React.HTMLAttributes<HTMLSpanElement> {
   currency: ECurrency;
   value?: React.ReactElement<any> | string | BigNumber | number | null;
-  format?: EMoneyInputFormat;
+  format?: ENumberInputFormat;
   currencySymbol?: ECurrencySymbol;
   currencyClassName?: string;
   transfer?: EMoneyTransfer;
@@ -74,11 +74,11 @@ const selectCurrencySymbol = (currency: ECurrency): string => {
 /*
  * @deprecated
  * */
-function getFormatDecimals(format: EMoneyInputFormat): number {
+function getFormatDecimals(format: ENumberInputFormat): number {
   switch (format) {
-    case EMoneyInputFormat.ULPS:
+    case ENumberInputFormat.ULPS:
       return MONEY_DECIMALS;
-    case EMoneyInputFormat.FLOAT:
+    case ENumberInputFormat.FLOAT:
       return 0;
     default:
       throw new Error("Unsupported money format");
@@ -91,7 +91,7 @@ function getFormatDecimals(format: EMoneyInputFormat): number {
 export function getFormattedMoney(
   value: string | number | BigNumber,
   currency: ECurrency,
-  format: EMoneyInputFormat,
+  format: ENumberInputFormat,
   isPrice?: boolean,
   roundingMode?: ERoundingMode,
 ): string {
@@ -108,7 +108,7 @@ export function getFormattedMoney(
  * */
 const Money: React.FunctionComponent<IProps> = ({
   value,
-  format = EMoneyInputFormat.ULPS,
+  format = ENumberInputFormat.ULPS,
   currency,
   currencyClassName,
   transfer,
@@ -123,7 +123,7 @@ const Money: React.FunctionComponent<IProps> = ({
   }
 
   const money =
-    (format === EMoneyInputFormat.ULPS && !React.isValidElement(value)) || isPrice
+    (format === ENumberInputFormat.ULPS && !React.isValidElement(value)) || isPrice
       ? getFormattedMoney(value as BigNumber, currency, format, isPrice, roundingMode)
       : value;
   const formattedMoney = !React.isValidElement(money) ? (

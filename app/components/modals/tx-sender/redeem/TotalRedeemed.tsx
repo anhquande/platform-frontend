@@ -5,8 +5,8 @@ import { multiplyBigNumbers, subtractBigNumbers } from "../../../../utils/BigNum
 import { MoneyNew } from "../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   isEmptyValue,
   isValidNumber,
 } from "../../../shared/formatters/utils";
@@ -22,9 +22,9 @@ const TotalRedeemed: React.FunctionComponent<{ amount: string; bankFee: string }
   return (
     <MoneyNew
       value={totalRedeemed}
-      inputFormat={EMoneyInputFormat.ULPS}
+      inputFormat={ENumberInputFormat.ULPS}
       moneyFormat={ECurrency.EUR}
-      outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
     />
   );
 };

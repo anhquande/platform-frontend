@@ -3,7 +3,12 @@ import * as React from "react";
 
 import { ECurrencySymbol, EMoneyTransfer, ETheme, MoneyNew } from "./Money";
 import { MoneyRange } from "./MoneyRange";
-import { ECurrency, EHumanReadableFormat, EMoneyInputFormat } from "./utils";
+import {
+  EAbbreviatedNumberOutputFormat,
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "./utils";
 
 const value = "1234567" + "0".repeat(18);
 const value1 = "321" + "0".repeat(18);
@@ -12,39 +17,39 @@ storiesOf("MoneyNew", module)
   .add("default (with token code)", () => (
     <>
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         value={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.NEU}
         value={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR_TOKEN}
         value={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.ETH}
         value={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
     </>
   ))
   .add("with FLOAT input", () => (
     <>
       <MoneyNew
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.FULL}
+        outputFormat={ENumberOutputFormat.FULL}
+        inputFormat={ENumberInputFormat.FLOAT}
         moneyFormat={ECurrency.EUR}
         value={"1234567"}
       />
@@ -53,8 +58,8 @@ storiesOf("MoneyNew", module)
   .add("output as Integer", () => (
     <>
       <MoneyNew
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.INTEGER}
+        inputFormat={ENumberInputFormat.FLOAT}
+        outputFormat={ENumberOutputFormat.INTEGER}
         moneyFormat={ECurrency.EUR}
         value={"1234567"}
       />
@@ -63,8 +68,8 @@ storiesOf("MoneyNew", module)
   .add("output as LONG abbrev.", () => (
     <>
       <MoneyNew
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.LONG}
+        inputFormat={ENumberInputFormat.FLOAT}
+        outputFormat={EAbbreviatedNumberOutputFormat.LONG}
         moneyFormat={ECurrency.EUR}
         value={"1234567"}
       />
@@ -73,8 +78,8 @@ storiesOf("MoneyNew", module)
   .add("output as SHORT abbrev.", () => (
     <>
       <MoneyNew
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.SHORT}
+        inputFormat={ENumberInputFormat.FLOAT}
+        outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
         moneyFormat={ECurrency.EUR}
         value={"1234567"}
       />
@@ -83,19 +88,19 @@ storiesOf("MoneyNew", module)
   .add("with default value", () => (
     <>
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         value={undefined}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
     </>
   ))
   .add("with custom default value", () => (
     <>
       <MoneyNew
-        inputFormat={EMoneyInputFormat.ULPS}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
-        outputFormat={EHumanReadableFormat.FULL}
         value={undefined}
         defaultValue={"-- nothing here :) --"}
       />
@@ -104,93 +109,93 @@ storiesOf("MoneyNew", module)
   .add("transfer", () => (
     <>
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         value={value}
         transfer={EMoneyTransfer.INCOME}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         value={value}
         transfer={EMoneyTransfer.OUTCOME}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
     </>
   ))
-  .add("no token symbol", () => (
+  .add("with token code", () => (
     <MoneyNew
+      inputFormat={ENumberInputFormat.ULPS}
+      outputFormat={ENumberOutputFormat.FULL}
       moneyFormat={ECurrency.EUR}
       value={value}
-      currencySymbol={ECurrencySymbol.NONE}
-      inputFormat={EMoneyInputFormat.ULPS}
-      outputFormat={EHumanReadableFormat.FULL}
+      currencySymbol={ECurrencySymbol.CODE}
     />
   ))
   .add("themed", () => (
     <>
       <p>t-green</p>
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         value={value}
         theme={ETheme.GREEN}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <br />
       <p>t-orange</p>
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.ETH}
         value={value}
         theme={ETheme.ORANGE}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <br />
       <p>big-value</p>
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.ETH}
         value={value}
         theme={ETheme.GREEN_BIG}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
     </>
   ))
   .add("price format", () => (
     <>
       <MoneyNew
-        inputFormat={EMoneyInputFormat.ULPS}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
-        outputFormat={EHumanReadableFormat.FULL}
         value={"32376189" + "0".repeat(10)}
         currencySymbol={ECurrencySymbol.CODE}
       />
       <br />
       <MoneyNew
-        inputFormat={EMoneyInputFormat.ULPS}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
-        outputFormat={EHumanReadableFormat.FULL}
         value={"32376189" + "0".repeat(10)}
         currencySymbol={ECurrencySymbol.NONE}
       />
       <br />
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.ETH}
         value={"4212376189" + "0".repeat(10)}
-        outputFormat={EHumanReadableFormat.FULL}
-        inputFormat={EMoneyInputFormat.ULPS}
       />
       <br />
       <MoneyNew
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.NEU}
         value={"353212376189" + "0".repeat(10)}
-        outputFormat={EHumanReadableFormat.FULL}
-        inputFormat={EMoneyInputFormat.ULPS}
       />
     </>
   ));
@@ -199,43 +204,43 @@ storiesOf("MoneyRange", module)
   .add("default (with token code)", () => (
     <>
       <MoneyRange
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         valueFrom={value1}
         valueUpto={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <MoneyRange
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.NEU}
         valueFrom={value1}
         valueUpto={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <MoneyRange
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR_TOKEN}
         valueFrom={value1}
         valueUpto={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
       <br />
       <MoneyRange
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.ETH}
         valueFrom={value1}
         valueUpto={value}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
     </>
   ))
   .add("with custom separator", () => (
     <>
       <MoneyRange
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         valueFrom={value1}
         valueUpto={value}
@@ -246,20 +251,20 @@ storiesOf("MoneyRange", module)
   .add("with default value", () => (
     <>
       <MoneyRange
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
         valueFrom={undefined}
         valueUpto={undefined}
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.FULL}
       />
     </>
   ))
   .add("with custom default value", () => (
     <>
       <MoneyRange
-        inputFormat={EMoneyInputFormat.ULPS}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
         moneyFormat={ECurrency.EUR}
-        outputFormat={EHumanReadableFormat.FULL}
         valueFrom={undefined}
         valueUpto={undefined}
         defaultValue={"***"}
@@ -269,9 +274,9 @@ storiesOf("MoneyRange", module)
   .add("with FLOAT input", () => (
     <>
       <MoneyRange
-        inputFormat={EMoneyInputFormat.FLOAT}
+        outputFormat={ENumberOutputFormat.FULL}
+        inputFormat={ENumberInputFormat.FLOAT}
         moneyFormat={ECurrency.EUR}
-        outputFormat={EHumanReadableFormat.FULL}
         valueFrom={"222"}
         valueUpto={"1236525"}
         separator=" :: "
@@ -281,8 +286,8 @@ storiesOf("MoneyRange", module)
   .add("with SHORT output form", () => (
     <>
       <MoneyRange
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.SHORT}
+        inputFormat={ENumberInputFormat.FLOAT}
+        outputFormat={EAbbreviatedNumberOutputFormat.SHORT}
         moneyFormat={ECurrency.EUR}
         valueFrom={"12365"}
         valueUpto={"10236525"}
@@ -292,8 +297,8 @@ storiesOf("MoneyRange", module)
   .add("with LONG output form", () => (
     <>
       <MoneyRange
-        inputFormat={EMoneyInputFormat.FLOAT}
-        outputFormat={EHumanReadableFormat.LONG}
+        inputFormat={ENumberInputFormat.FLOAT}
+        outputFormat={EAbbreviatedNumberOutputFormat.LONG}
         moneyFormat={ECurrency.EUR}
         valueFrom={"123525"}
         valueUpto={"102365325"}
@@ -303,11 +308,22 @@ storiesOf("MoneyRange", module)
   .add("with INTEGER output form", () => (
     <>
       <MoneyRange
-        inputFormat={EMoneyInputFormat.ULPS}
-        outputFormat={EHumanReadableFormat.INTEGER}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.INTEGER}
         moneyFormat={ECurrency.EUR}
         valueFrom={value1}
         valueUpto={value}
+      />
+    </>
+  ))
+  .add("with ONLY_NONZERO_DECIMALS output form", () => (
+    <>
+      <MoneyRange
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+        moneyFormat={ECurrency.EUR}
+        valueFrom={"123525.000"}
+        valueUpto={"22123525.000"}
       />
     </>
   ));

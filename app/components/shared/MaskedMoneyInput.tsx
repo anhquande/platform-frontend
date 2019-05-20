@@ -3,8 +3,8 @@ import * as React from "react";
 import { TTranslatedString } from "../../types";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   ERoundingMode,
   formatNumber,
   isEmptyValue,
@@ -18,7 +18,7 @@ import { FormInputRaw } from "./forms/fields/FormInputRaw.unsafe";
 
 interface IProps {
   name: string;
-  inputFormat: EMoneyInputFormat;
+  inputFormat: ENumberInputFormat;
   currency: ECurrency;
   value: string;
   onChangeFn: (value: string) => void;
@@ -41,7 +41,7 @@ export class MaskedMoneyInput extends React.Component<IProps> {
       return toFixedPrecision({
         value,
         roundingMode: ERoundingMode.DOWN,
-        inputFormat: EMoneyInputFormat.FLOAT,
+        inputFormat: ENumberInputFormat.FLOAT,
         decimalPlaces: this.decimals,
       });
     } else {
@@ -49,14 +49,14 @@ export class MaskedMoneyInput extends React.Component<IProps> {
     }
   };
 
-  formatForDisplay = (value: string | undefined, inputFormat: EMoneyInputFormat) =>
+  formatForDisplay = (value: string | undefined, inputFormat: ENumberInputFormat) =>
     value !== undefined && value !== ""
       ? formatNumber({
           value,
           inputFormat,
           roundingMode: ERoundingMode.DOWN,
           decimalPlaces: this.decimals,
-          outputFormat: EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+          outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
         })
       : "";
 

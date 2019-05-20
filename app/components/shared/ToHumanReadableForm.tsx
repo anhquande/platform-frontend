@@ -6,14 +6,14 @@ import { FormattedMessage } from "react-intl-phraseapp";
  * @deprecated
  * use app/components/shared/formatters/utils.ts
  * */
-export enum EHumanReadableFormat {
+export enum THumanReadableFormat {
   LONG = "long",
   SHORT = "short",
 }
 
 type TExternalProps = {
   number: number;
-  format?: EHumanReadableFormat;
+  format?: THumanReadableFormat;
   divider?: number;
   children?: (range: number) => React.ReactNode;
 };
@@ -35,18 +35,18 @@ const ranges: TRangeDescriptor[] = [
 
 const translationKeys = {
   [ERangeKey.MILLION]: {
-    [EHumanReadableFormat.LONG]: (
+    [THumanReadableFormat.LONG]: (
       <FormattedMessage id="shared-component.to-human-readable-form.million.long" />
     ),
-    [EHumanReadableFormat.SHORT]: (
+    [THumanReadableFormat.SHORT]: (
       <FormattedMessage id="shared-component.to-human-readable-form.million.short" />
     ),
   },
   [ERangeKey.THOUSAND]: {
-    [EHumanReadableFormat.LONG]: (
+    [THumanReadableFormat.LONG]: (
       <FormattedMessage id="shared-component.to-human-readable-form.thousand.long" />
     ),
-    [EHumanReadableFormat.SHORT]: (
+    [THumanReadableFormat.SHORT]: (
       <FormattedMessage id="shared-component.to-human-readable-form.thousand.short" />
     ),
   },
@@ -62,7 +62,7 @@ function getRange(number: number, divider?: number): TRangeDescriptor | undefine
 
 const ToHumanReadableForm: React.FunctionComponent<TExternalProps> = ({
   number,
-  format = EHumanReadableFormat.LONG,
+  format = THumanReadableFormat.LONG,
   children,
   divider,
 }) => {
@@ -77,7 +77,7 @@ const ToHumanReadableForm: React.FunctionComponent<TExternalProps> = ({
         {value}
         {!children && (
           <>
-            {format === EHumanReadableFormat.LONG && " "}
+            {format === THumanReadableFormat.LONG && " "}
             {translation}
           </>
         )}

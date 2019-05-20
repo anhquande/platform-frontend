@@ -10,7 +10,7 @@ export enum ERoundingMode {
   HALF_DOWN = "half_down",
 }
 
-export enum EMoneyInputFormat {
+export enum ENumberInputFormat {
   ULPS = "ulps",
   FLOAT = "float",
 }
@@ -29,13 +29,18 @@ export enum EPriceFormat {
   SHARE_PRICE = "sharePrice",
 }
 
-export enum EHumanReadableFormat {
-  LONG = "long",
-  SHORT = "short",
+export enum ENumberOutputFormat {
   INTEGER = "integer",
   ONLY_NONZERO_DECIMALS = "onlyNonzeroDecimals", // see removeZeroDecimals unit test
   FULL = "full",
 }
+
+export enum EAbbreviatedNumberOutputFormat {
+  LONG = "long",
+  SHORT = "short",
+}
+
+export type THumanReadableFormat = ENumberOutputFormat | EAbbreviatedNumberOutputFormat;
 
 export enum ESpecialNumber {
   UNLIMITED = "unlimited",
@@ -46,28 +51,28 @@ export type TMoneyFormat = ECurrency | EPriceFormat;
 interface IToFixedPrecision {
   value: string | BigNumber | number;
   roundingMode?: ERoundingMode;
-  inputFormat?: EMoneyInputFormat;
+  inputFormat?: ENumberInputFormat;
   decimalPlaces: number | undefined;
   isPrice?: boolean;
-  outputFormat?: EHumanReadableFormat;
+  outputFormat?: THumanReadableFormat;
 }
 
 interface IFormatNumber {
   value: string | BigNumber | number;
   roundingMode?: ERoundingMode;
-  inputFormat?: EMoneyInputFormat;
+  inputFormat?: ENumberInputFormat;
   decimalPlaces?: number;
   isPrice?: boolean;
-  outputFormat?: EHumanReadableFormat;
+  outputFormat?: THumanReadableFormat;
 }
 
 export const selectDecimalPlaces = (
   moneyFormat: TMoneyFormat,
-  outputFormat: EHumanReadableFormat = EHumanReadableFormat.FULL,
+  outputFormat: THumanReadableFormat = ENumberOutputFormat.FULL,
 ): number => {
   if (
-    outputFormat !== EHumanReadableFormat.FULL &&
-    outputFormat !== EHumanReadableFormat.ONLY_NONZERO_DECIMALS
+    outputFormat !== ENumberOutputFormat.FULL &&
+    outputFormat !== ENumberOutputFormat.ONLY_NONZERO_DECIMALS
   ) {
     return 0;
   }
@@ -118,7 +123,7 @@ export const removeZeroDecimals = (value: string): string => {
 //TODO sorry for any. Bignumber doesn't expose RoundingMode so there's no easy solution for it
 function getBigNumberRoundingMode(
   roundingMode: ERoundingMode,
-  outputFormat: EHumanReadableFormat = EHumanReadableFormat.FULL,
+  outputFormat: THumanReadableFormat = ENumberOutputFormat.FULL,
 ): any {
   switch (roundingMode) {
     case ERoundingMode.DOWN:
@@ -129,7 +134,7 @@ function getBigNumberRoundingMode(
       return BigNumber.ROUND_HALF_UP;
     case ERoundingMode.UP:
     default:
-      return outputFormat === EHumanReadableFormat.INTEGER
+      return outputFormat === ENumberOutputFormat.INTEGER
         ? BigNumber.ROUND_HALF_DOWN
         : BigNumber.ROUND_UP;
   }
@@ -138,9 +143,9 @@ function getBigNumberRoundingMode(
 export const toFixedPrecision = ({
   value,
   roundingMode = ERoundingMode.UP,
-  inputFormat = EMoneyInputFormat.ULPS,
+  inputFormat = ENumberInputFormat.ULPS,
   decimalPlaces = undefined,
-  outputFormat = EHumanReadableFormat.FULL,
+  outputFormat = ENumberOutputFormat.FULL,
 }: IToFixedPrecision): string => {
   invariant(
     value !== null &&
@@ -150,11 +155,11 @@ export const toFixedPrecision = ({
     `cannot format this number: ${value} ${typeof value}`,
   );
 
-  const dp = outputFormat === EHumanReadableFormat.INTEGER ? 0 : decimalPlaces;
+  const dp = outputFormat === ENumberOutputFormat.INTEGER ? 0 : decimalPlaces;
   const asBigNumber = value instanceof BigNumber ? value : new BigNumber(value.toString());
 
   const moneyInPrimaryBase =
-    inputFormat === EMoneyInputFormat.ULPS
+    inputFormat === ENumberInputFormat.ULPS
       ? convertFromUlps(asBigNumber, MONEY_DECIMALS)
       : asBigNumber;
   return moneyInPrimaryBase.toFixed(dp, getBigNumberRoundingMode(roundingMode, outputFormat));
@@ -170,9 +175,9 @@ export const toFixedPrecision = ({
 export const formatNumber = ({
   value,
   roundingMode = ERoundingMode.DOWN,
-  inputFormat = EMoneyInputFormat.ULPS,
+  inputFormat = ENumberInputFormat.ULPS,
   decimalPlaces,
-  outputFormat = EHumanReadableFormat.FULL,
+  outputFormat = ENumberOutputFormat.FULL,
 }: IFormatNumber): string => {
   const asFixedPrecisionNumber = toFixedPrecision({
     value,
@@ -182,7 +187,7 @@ export const formatNumber = ({
     decimalPlaces,
   });
 
-  return outputFormat === EHumanReadableFormat.ONLY_NONZERO_DECIMALS
+  return outputFormat === ENumberOutputFormat.ONLY_NONZERO_DECIMALS
     ? formatThousands(removeZeroDecimals(asFixedPrecisionNumber))
     : formatThousands(asFixedPrecisionNumber);
 };

@@ -2,8 +2,8 @@ import BigNumber from "bignumber.js";
 
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   formatNumber,
   selectDecimalPlaces,
   stripNumberFormatting,
@@ -118,8 +118,8 @@ describe.skip("Redeem NEUR", () => {
 
     const nextExpectedValue = formatNumber({
       value: nextValue,
-      outputFormat: EHumanReadableFormat.FULL,
-      inputFormat: EMoneyInputFormat.FLOAT,
+      outputFormat: ENumberOutputFormat.FULL,
+      inputFormat: ENumberInputFormat.FLOAT,
       decimalPlaces: selectDecimalPlaces(ECurrency.EUR),
     });
 

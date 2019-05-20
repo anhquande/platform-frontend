@@ -6,11 +6,12 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { TTranslatedString } from "../../../types";
 import { assertNever } from "../../../utils/assertNever";
 import {
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   ERoundingMode,
   ESpecialNumber,
   formatNumber,
+  THumanReadableFormat,
 } from "./utils";
 
 import * as styles from "./FormatNumber.module.scss";
@@ -20,8 +21,8 @@ interface INumberRangeProps {
   valueUpto: string | BigNumber | number | undefined | null | ESpecialNumber;
   defaultValue?: React.ReactChild;
   decimalPlaces?: number;
-  inputFormat?: EMoneyInputFormat;
-  outputFormat?: EHumanReadableFormat;
+  inputFormat: ENumberInputFormat;
+  outputFormat: THumanReadableFormat;
   isPrice?: boolean;
   roundingMode?: ERoundingMode;
   separator?: string;
@@ -44,8 +45,8 @@ export const FormatNumberRange: React.FunctionComponent<INumberRangeProps> = ({
   defaultValue = "",
   roundingMode = ERoundingMode.UP,
   decimalPlaces = 4,
-  inputFormat = EMoneyInputFormat.FLOAT,
-  outputFormat = EHumanReadableFormat.FULL,
+  inputFormat = ENumberInputFormat.FLOAT,
+  outputFormat = ENumberOutputFormat.FULL,
   isPrice = false,
   separator = "–", //todo nowrap before (?)
   className,

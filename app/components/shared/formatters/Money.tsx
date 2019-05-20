@@ -7,11 +7,12 @@ import { FormatNumber } from "./FormatNumber";
 import { FormatShortNumber } from "./FormatShortNumber";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   EPriceFormat,
   ERoundingMode,
   selectDecimalPlaces,
+  THumanReadableFormat,
   TMoneyFormat,
 } from "./utils";
 
@@ -38,14 +39,14 @@ interface IMoneyProps {
 }
 
 interface IMoneyCommonProps {
-  inputFormat: EMoneyInputFormat;
+  inputFormat: ENumberInputFormat;
   moneyFormat: TMoneyFormat;
+  outputFormat: THumanReadableFormat;
   roundingMode?: ERoundingMode;
   currencySymbol?: ECurrencySymbol;
   currencyClassName?: string;
   transfer?: EMoneyTransfer;
   theme?: ETheme;
-  outputFormat: EHumanReadableFormat;
   defaultValue?: React.ReactChild;
   className?: string;
 }
@@ -86,7 +87,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
   if (value) {
     //todo: this should pass through 0 as well. Use isValidNumber from the #2687 PR when it's merged
     const decimalPlaces = selectDecimalPlaces(moneyFormat, outputFormat);
-    formattedValue = Object.values(EHumanReadableFormat).includes(outputFormat) ? (
+    formattedValue = Object.values(ENumberOutputFormat).includes(outputFormat) ? (
       <FormatNumber
         value={value}
         defaultValue={defaultValue}

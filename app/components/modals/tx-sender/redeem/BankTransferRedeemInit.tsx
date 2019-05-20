@@ -23,8 +23,8 @@ import { FormatNumber } from "../../../shared/formatters/FormatNumber";
 import { selectCurrencyCode } from "../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   ERoundingMode,
   formatNumber,
   selectDecimalPlaces,
@@ -85,10 +85,10 @@ const getValidators = (minAmount: string, neuroAmount: string) =>
                 minAmount: formatNumber({
                   value: minAmount,
                   roundingMode: ERoundingMode.DOWN,
-                  inputFormat: EMoneyInputFormat.ULPS,
+                  inputFormat: ENumberInputFormat.ULPS,
                   decimalPlaces: selectDecimalPlaces(
                     ECurrency.EUR_TOKEN,
-                    EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+                    ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
                   ),
                 }),
               }}
@@ -148,10 +148,10 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
                   toFixedPrecision({
                     value: neuroAmount,
                     roundingMode: ERoundingMode.DOWN,
-                    inputFormat: EMoneyInputFormat.ULPS,
+                    inputFormat: ENumberInputFormat.ULPS,
                     decimalPlaces: selectDecimalPlaces(
                       ECurrency.EUR_TOKEN,
-                      EHumanReadableFormat.ONLY_NONZERO_DECIMALS,
+                      ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
                     ),
                   }),
                   true,
@@ -167,7 +167,7 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
 
           <Form>
             <MaskedMoneyInput
-              inputFormat={EMoneyInputFormat.FLOAT}
+              inputFormat={ENumberInputFormat.FLOAT}
               name="amount"
               value={values["amount"]}
               currency={ECurrency.EUR}
@@ -190,8 +190,8 @@ const BankTransferRedeemLayout: React.FunctionComponent<IProps> = ({
                       fee: (
                         <FormatNumber
                           value={new BigNumber(bankFee).mul(100)}
-                          inputFormat={EMoneyInputFormat.ULPS}
-                          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+                          inputFormat={ENumberInputFormat.ULPS}
+                          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                           roundingMode={ERoundingMode.DOWN}
                           decimalPlaces={1}
                         />

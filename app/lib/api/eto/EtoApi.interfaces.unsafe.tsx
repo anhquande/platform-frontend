@@ -203,12 +203,6 @@ export type TCompanyEtoData = DeepReadonly<
  *  only deals with "/etos/me"
  */
 
-export enum EEtoMarketingDataVisibleInPreview {
-  NOT_VISIBLE = "not_visible",
-  VISIBLE = "visible",
-  VISIBILITY_PENDING = "visibility_pending",
-}
-
 export enum EEtoState {
   PREVIEW = "preview",
   PENDING = "pending",

@@ -4,7 +4,7 @@ import * as React from "react";
 import { TDataTestId, TTranslatedString } from "../../types";
 import { makeTid } from "../../utils/tidUtils";
 import { MoneyNew } from "./formatters/Money";
-import { ECurrency, EHumanReadableFormat, EMoneyInputFormat } from "./formatters/utils";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "./formatters/utils";
 
 import * as styles from "./MoneySuiteWidget.module.scss";
 
@@ -44,8 +44,8 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
       <div className={styles.money} data-test-id={makeTid(dataTestId, "large-value")}>
         <MoneyNew
           value={largeNumber}
-          inputFormat={EMoneyInputFormat.ULPS}
-          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+          inputFormat={ENumberInputFormat.ULPS}
+          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           moneyFormat={currency}
         />
       </div>
@@ -53,8 +53,8 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
         ={" "}
         <MoneyNew
           value={value}
-          inputFormat={EMoneyInputFormat.ULPS}
-          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+          inputFormat={ENumberInputFormat.ULPS}
+          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           moneyFormat={currencyTotal}
         />
         {percentage && (

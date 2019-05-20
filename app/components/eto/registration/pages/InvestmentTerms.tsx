@@ -24,7 +24,7 @@ import { appConnect } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
 import { formatMoney } from "../../../../utils/Money.utils";
 import { Button, EButtonLayout } from "../../../shared/buttons";
-import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../../shared/formatters/utils";
 import { FormField } from "../../../shared/forms";
 import { FormFieldRaw } from "../../../shared/forms/fields/FormFieldRaw";
 import { NumberTransformingField } from "../../../shared/forms/fields/NumberTransformingField.unsafe";
@@ -103,7 +103,7 @@ const InvestmentCalculator: React.FunctionComponent<ICalculatorProps> = ({
                 value={getFormattedMoney(
                   minInvestmentAmount,
                   ECurrency.EUR,
-                  EMoneyInputFormat.FLOAT,
+                  ENumberInputFormat.FLOAT,
                 )}
                 readOnly={true}
               />
@@ -117,7 +117,7 @@ const InvestmentCalculator: React.FunctionComponent<ICalculatorProps> = ({
                 value={getFormattedMoney(
                   maxInvestmentAmount,
                   ECurrency.EUR,
-                  EMoneyInputFormat.FLOAT,
+                  ENumberInputFormat.FLOAT,
                 )}
                 readOnly={true}
               />
