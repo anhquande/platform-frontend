@@ -21,7 +21,7 @@ const openAndCheckValues = (section: string, sectionForm: TFormFixture) => {
   goToEtoDashboard();
 };
 
-describe("Eto Forms", () => {
+describe.skip("Eto Forms", () => {
   it("should fill required fields and submit eto", () => {
     createAndLoginNewUser({ type: "issuer", kyc: "business" }).then(() => {
       goToEtoDashboard();

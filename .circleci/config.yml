@@ -1,47 +1,66 @@
 version: 2.1
 jobs:
-  install-lint:
+  install-lint-test:
     # install and lint is taken as one job to remove required time for downloading cache
     docker:
-      - image: krzkaczor/neufund-platform-base
+      - image: circleci/node:11.14.0
     working_directory: /home/circleci/app
 
     steps:
       - checkout
 
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
-      - run:
-          mkdir -p /home/circleci/.cache/Cypress && cp -R /home/circleci/.cache/Cypress
-          ~/.cache/Cypress
+      # - restore_cache:
+      # keys:
+      # - v17-deps-{{ checksum "package.json" }}
+      # - v17-deps-
 
       # Installation
       - run: yarn --frozen-lockfile
       # Linting
       - run: yarn lint
-
-      - run: cp -R ~/.cache/Cypress/ /home/circleci/.cache/
+      # Unit Tests
+      - run: yarn test:browser && yarn test:node
 
       - save_cache:
           paths:
             - node_modules
             - /home/circleci/.cache/Cypress
-          key: v14-deps-{{ checksum "package.json" }}
+          key: v17-deps-{{ checksum "package.json" }}
 
-  build-frontend:
+  build-test-e2e-docker:
     docker:
-      - image: krzkaczor/neufund-platform-base
+      - image: circleci/node:11.14.0-browsers
     working_directory: /home/circleci/app
+
+    parallelism: 2
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
+            - v17-deps-{{ checksum "package.json" }}
+            - v17-deps-
+
+      - run: yarn prepare
+      - run:
+          command: yarn build:prod:e2e:io
+          no_output_timeout: 10m
+      - run:
+          command: yarn test:e2e:chrome
+
+  build-frontend:
+    docker:
+      - image: circleci/node:11.14.0-browsers
+    working_directory: /home/circleci/app
+
+    steps:
+      - checkout
+      - run: ls
+      - restore_cache:
+          keys:
+            - v17-deps-{{ checksum "package.json" }}
+            - v17-deps-
 
       - run: yarn prepare
       - run:
@@ -52,28 +71,14 @@ jobs:
           root: /home/circleci/app
           paths:
             - ./
-  test:
-    docker:
-      - image: krzkaczor/neufund-platform-base
-    working_directory: /home/circleci/app
-
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
-      - run: yarn
-
-      - run: yarn test:browser && yarn test:node
 
   test-e2e:
     machine:
       enabled: true
-      image: circleci/classic:edge
+      image: ubuntu-1604:201903-01
       docker_layer_caching: true
 
-    parallelism: 5
+    parallelism: 4
 
     working_directory: /home/circleci/app
 
@@ -84,80 +89,55 @@ jobs:
       - run: ./.circleci/install-yarn.sh
       - restore_cache:
           keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
+            - v17-deps-{{ checksum "package.json" }}
+            - v17-deps-
       - run: source /opt/circleci/.nvm/nvm.sh && yarn prepare
 
       - run:
           command: source /opt/circleci/.nvm/nvm.sh && yarn test:e2e
           no_output_timeout: 30m
 
-  test-e2e-chrome:
-    machine:
-      enabled: true
-      image: circleci/classic:edge
-      docker_layer_caching: true
-
-    parallelism: 1
-
-    working_directory: /home/circleci/app
-
-    steps:
-      - attach_workspace:
-          at: /home/circleci/app
-      - run: ./.circleci/install-yarn.sh
-      - run: ./.circleci/install-chrome.sh
-      - restore_cache:
-          keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
-      - run: source /opt/circleci/.nvm/nvm.sh && yarn prepare
-
-      - run:
-          command: source /opt/circleci/.nvm/nvm.sh && yarn test:e2e:chrome
-          no_output_timeout: 20m
-
   codechecks:
     docker:
-      - image: krzkaczor/neufund-platform-base
+      - image: circleci/node:11.14.0
     working_directory: /home/circleci/app
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
+            - v17-deps-{{ checksum "package.json" }}
+            - v17-deps-
       - run: yarn
       - run: yarn build:commit-deployment
       - run: yarn codechecks
 
   codechecks-vis-reg:
     docker:
-      - image: krzkaczor/neufund-platform-base
+      - image: circleci/node:11.14.0
     working_directory: /home/circleci/app
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
+            - v17-deps-{{ checksum "package.json" }}
+            - v17-deps-
       - run: yarn
       - run: yarn storybook:screenshots
       - run: yarn codechecks ./codechecks-vis-reg.ts
 
   deploy-storybook:
     docker:
-      - image: krzkaczor/neufund-platform-base
+      - image: circleci/node:11.14.0
     working_directory: /home/circleci/app
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v14-deps-{{ checksum "package.json" }}
-            - v14-deps-
+            - v17-deps-{{ checksum "package.json" }}
+            - v17-deps-
       - run: yarn prepare
 
       - run: yarn deploy-storybook --ci --host-token-env-variable=DANGER_GITHUB_API_TOKEN
@@ -167,22 +147,25 @@ workflows:
 
   mainflow:
     jobs:
-      - install-lint
+      - install-lint-test
+      - build-test-e2e-docker:
+          requires:
+            - install-lint-test
       - build-frontend:
           requires:
-            - install-lint
-      - test:
+            - install-lint-test
+      - test-e2e:
           requires:
-            - install-lint
+            - build-frontend
+            - build-test-e2e-docker
       - codechecks:
           requires:
-            - install-lint
-      - test-e2e-chrome:
-          requires:
-            - build-frontend
+             - build-frontend
+             - build-test-e2e-docker
       - codechecks-vis-reg:
           requires:
-            - build-frontend
+             - build-frontend
+             - build-test-e2e-docker
 
   nightly:
     triggers:
@@ -194,16 +177,25 @@ workflows:
                 - master
                 - production
     jobs:
-      - install-lint
-      - test:
+      - install-lint-test
+      - build-test-e2e-docker:
           requires:
-            - install-lint
-      - test-e2e-chrome:
+            - install-lint-test
+      - build-frontend:
           requires:
-            - install-lint
+            - install-lint-test
+      - test-e2e:
+          requires:
+            - build-frontend
+            - build-test-e2e-docker
       - codechecks:
           requires:
-            - install-lint
+             - build-frontend
+             - build-test-e2e-docker
+      - codechecks-vis-reg:
+          requires:
+             - build-frontend
+             - build-test-e2e-docker
 
   deploy-storybook:
     jobs:

@@ -15,6 +15,7 @@ import {
 import { IAppState } from "../../store";
 import { actions, TAction, TActionFromCreator } from "../actions";
 import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
+import { loadIssuerEto } from "../eto-flow/sagas";
 import { selectIssuerEtoId, selectIssuerEtoState } from "../eto-flow/selectors";
 import { downloadLink } from "../immutable-file/utils";
 import { neuCall, neuTakeEvery } from "../sagasUtils";
@@ -132,8 +133,7 @@ export function* loadEtoFileData({
   logger,
 }: TGlobalDependencies): any {
   try {
-    yield put(actions.etoFlow.loadIssuerEto());
-
+    yield neuCall(loadIssuerEto);
     const stateInfo = yield apiEtoFileService.getEtoFileStateInfo();
     const allTemplates = yield apiEtoFileService.getAllEtoTemplates();
 

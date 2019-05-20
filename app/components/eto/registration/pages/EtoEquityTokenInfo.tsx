@@ -64,7 +64,7 @@ const EtoEquityTokenInfoComponent: React.FunctionComponent<IProps> = ({ readonly
         <FormSingleFileUpload
           label={<FormattedMessage id="eto.form.section.equity-token-information.token-symbol" />}
           name="equityTokenImage"
-          acceptedFiles="image/png"
+          acceptedFiles="image/*"
           fileFormatInformation="*200 x 200px png"
           data-test-id="eto-registration-token-logo"
           disabled={readonly}

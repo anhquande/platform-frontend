@@ -6,7 +6,7 @@ describe("date.utils", () => {
   describe("formatDate", () => {
     it("formats dates", () => {
       const date = new Date("12/24/2018");
-      expect(formatDate(date.getTime())).to.equal("2018-12-24");
+      expect(formatDate(date.getTime())).to.equal("12/24/2018");
     });
   });
 

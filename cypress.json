@@ -4,5 +4,6 @@
   "defaultCommandTimeout": 60000,
   "pageLoadTimeout": 90000,
   "videoUploadOnPasses": false,
+  "numTestsKeptInMemory": 1,
   "projectId": "r5nj5t"
 }
