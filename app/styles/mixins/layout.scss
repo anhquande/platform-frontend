@@ -17,6 +17,12 @@
   }
 }
 
+@mixin get-out-of-container-layout-absolute {
+  margin-left: -$authorized-layout-horizontal-padding-sm;
+  margin-right: -$authorized-layout-horizontal-padding-sm;
+  width: calc(100% + 2 * #{$authorized-layout-horizontal-padding-sm});
+}
+
 @mixin get-out-of-container-layout {
   @include media-breakpoint-up(md) {
     margin-left: -$authorized-layout-horizontal-padding-lg;

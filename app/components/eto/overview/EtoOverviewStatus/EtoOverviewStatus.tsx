@@ -19,16 +19,20 @@ import {
 import { routingActions } from "../../../../modules/routing/actions";
 import { appConnect } from "../../../../store";
 import { CommonHtmlProps } from "../../../../types";
-import { formatFlexiPrecision } from "../../../../utils/Number.utils";
-import { withParams } from "../../../../utils/withParams";
-import { appRoutes } from "../../../appRoutes";
+import { etoPublicViewLink } from "../../../appRouteUtils";
 import { Container, EColumnSpan } from "../../../layouts/Container";
-import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../../shared/Money.unsafe";
-import { NumberFormat } from "../../../shared/NumberFormat";
+import { FormatNumber } from "../../../shared/formatters/FormatNumber";
+import { MoneyNew } from "../../../shared/formatters/Money";
+import {
+  ECurrency,
+  EHumanReadableFormat,
+  EMoneyInputFormat,
+  EPriceFormat,
+} from "../../../shared/formatters/utils";
 import { EtoWidgetContext } from "../../EtoWidgetView";
-import { ETOState } from "../../shared/ETOState";
+import { EProjectStatusType, ETOState } from "../../shared/ETOState";
 import { InvestmentAmount } from "../../shared/InvestmentAmount";
+import { ToBeAnnounced, ToBeAnnouncedTooltip } from "../../shared/ToBeAnnouncedTooltip";
 import { CampaigningActivatedWidget } from "./CampaigningWidget";
 import { ClaimWidget, RefundWidget } from "./ClaimRefundWidget";
 import { EtoMaxCapExceededWidget } from "./EtoMaxCapExceeded";
@@ -64,7 +68,7 @@ const StatusOfEto: React.FunctionComponent<IStatusOfEto> = ({ previewCode }) => 
     <span className={styles.title}>
       <FormattedMessage id="shared-component.eto-overview.status-of-eto" />
     </span>
-    <ETOState previewCode={previewCode} />
+    <ETOState previewCode={previewCode} type={EProjectStatusType.EXTENDED} />
   </div>
 );
 
@@ -139,7 +143,7 @@ const EtoStatusManager = ({
         <ClaimWidget
           etoId={eto.etoId}
           tokenName={eto.equityTokenName || ""}
-          totalInvestors={eto.contract!.totalInvestment.totalInvestors.toNumber()}
+          totalInvestors={eto.contract!.totalInvestment.totalInvestors}
           totalEquivEurUlps={eto.contract!.totalInvestment.totalEquivEurUlps}
           timedState={timedState}
         />
@@ -193,13 +197,15 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
 
   let { tokenPrice } = getShareAndTokenPrice(eto);
 
-  const showWhitelistDiscount = Boolean(
-    eto.whitelistDiscountFraction && isEligibleToPreEto && isPreEto,
-  );
+  const showWhitelistDiscount = !!eto.whitelistDiscountFraction && isEligibleToPreEto && isPreEto;
+
   const showPublicDiscount = Boolean(!showWhitelistDiscount && eto.publicDiscountFraction);
+
   if (showWhitelistDiscount) {
     tokenPrice = applyDiscountToPrice(tokenPrice, eto.whitelistDiscountFraction!);
-  } else if (showPublicDiscount) {
+  }
+
+  if (showPublicDiscount) {
     tokenPrice = applyDiscountToPrice(tokenPrice, eto.publicDiscountFraction!);
   }
 
@@ -224,7 +230,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
               )}
             >
               <Link
-                to={withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode })}
+                to={etoPublicViewLink(eto.previewCode, eto.product.jurisdiction)}
                 target={previewCode ? "_blank" : ""}
                 data-test-id="eto-overview-status-token"
               >
@@ -245,7 +251,8 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
             <div className={styles.tagsWrapper}>
               <TagsWidget
                 etoId={eto.etoId}
-                allowRetailEto={eto.allowRetailInvestors}
+                jurisdiction={eto.product.jurisdiction}
+                offeringDocumentType={eto.product.offeringDocumentType}
                 termSheet={documentsByType[EEtoDocumentType.SIGNED_TERMSHEET]}
                 prospectusApproved={
                   documentsByType[EEtoDocumentType.APPROVED_INVESTOR_OFFERING_DOCUMENT]
@@ -278,11 +285,12 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <FormattedMessage id="shared-component.eto-overview-status.pre-money-valuation" />
                   </span>
                   <span className={styles.value}>
-                    <Money
+                    <MoneyNew
                       value={eto.preMoneyValuationEur}
-                      currency={ECurrency.EUR}
-                      format={EMoneyInputFormat.FLOAT}
-                      currencySymbol={ECurrencySymbol.SYMBOL}
+                      inputFormat={EMoneyInputFormat.FLOAT}
+                      moneyFormat={ECurrency.EUR}
+                      outputFormat={EHumanReadableFormat.INTEGER}
+                      defaultValue={<ToBeAnnouncedTooltip />}
                     />
                   </span>
                 </div>
@@ -299,7 +307,12 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <FormattedMessage id="shared-component.eto-overview-status.new-shares-generated" />
                   </span>
                   <span className={styles.value}>
-                    <NumberFormat value={eto.newSharesToIssue} />
+                    <FormatNumber
+                      value={eto.newSharesToIssue}
+                      inputFormat={EMoneyInputFormat.FLOAT}
+                      outputFormat={EHumanReadableFormat.INTEGER}
+                      defaultValue={<ToBeAnnounced />}
+                    />
                   </span>
                 </div>
                 <div className={styles.group}>
@@ -307,11 +320,12 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                     <FormattedMessage id="shared-component.eto-overview-status.equity-token-price" />
                   </span>
                   <span className={styles.value}>
-                    <Money
-                      value={formatFlexiPrecision(tokenPrice, 8)}
-                      currency={ECurrency.EUR}
-                      format={EMoneyInputFormat.FLOAT}
-                      currencySymbol={ECurrencySymbol.SYMBOL}
+                    <MoneyNew
+                      value={tokenPrice}
+                      inputFormat={EMoneyInputFormat.FLOAT}
+                      moneyFormat={EPriceFormat.EQUITY_TOKEN_PRICE_EURO}
+                      outputFormat={EHumanReadableFormat.FULL}
+                      defaultValue={<ToBeAnnounced />}
                     />
                     {showWhitelistDiscount && (
                       <>
@@ -354,7 +368,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
           ) : !publicView ? (
             <Link
               className={styles.moreDetails}
-              to={withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode })}
+              to={etoPublicViewLink(eto.previewCode, eto.product.jurisdiction)}
             >
               <FormattedMessage id="shared-component.eto-overview.more-details" />
             </Link>
@@ -378,11 +392,11 @@ const EtoOverviewStatus = compose<
     }),
     dispatchToProps: (dispatch, { eto }) => ({
       navigateToEto: () =>
-        dispatch(push(withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode }))),
+        dispatch(push(etoPublicViewLink(eto.previewCode, eto.product.jurisdiction))),
       openInNewWindow: () =>
         dispatch(
           routingActions.openInNewWindow(
-            withParams(appRoutes.etoPublicView, { previewCode: eto.previewCode }),
+            etoPublicViewLink(eto.previewCode, eto.product.jurisdiction),
           ),
         ),
     }),

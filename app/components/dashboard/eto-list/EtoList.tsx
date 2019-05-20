@@ -24,7 +24,7 @@ type TListProps = RequiredByKeys<IStateProps, "etos">;
 const EtoListThumbnails: React.FunctionComponent<TListProps> = ({ etos }) => (
   <Row>
     {etos.map(eto => (
-      <Col className="mb-4" xs={12} sm={6} lg={4} key={eto.previewCode}>
+      <Col className="mb-4" xs={12} md={6} lg={4} key={eto.previewCode}>
         <EtoOverviewThumbnail eto={eto} />
       </Col>
     ))}

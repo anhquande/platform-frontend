@@ -1,10 +1,9 @@
 import BigNumber from "bignumber.js";
 
-import { EEtoState, TEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { Overwrite } from "../../types";
 import { isPastInvestment } from "../investor-portfolio/utils";
-import { hiddenJurisdictions } from "./constants";
 import {
   EETOStateOnChain,
   IEtoTotalInvestment,
@@ -17,11 +16,11 @@ export const convertToEtoTotalInvestment = (
   euroTokenBalance: BigNumber,
   etherTokenBalance: BigNumber,
 ): IEtoTotalInvestment => ({
-  totalEquivEurUlps,
-  totalTokensInt,
-  totalInvestors,
-  euroTokenBalance,
-  etherTokenBalance,
+  totalEquivEurUlps: totalEquivEurUlps.toString(),
+  totalTokensInt: totalTokensInt.toString(),
+  totalInvestors: totalInvestors.toString(),
+  euroTokenBalance: euroTokenBalance.toString(),
+  etherTokenBalance: etherTokenBalance.toString(),
 });
 
 const convertToDate = (startOf: BigNumber): Date | undefined => {
@@ -67,16 +66,3 @@ export function isOnChain(
 
 export const isRestrictedEto = (eto: TEtoWithCompanyAndContract): boolean =>
   eto.product.jurisdiction === EJurisdiction.GERMANY && !isPastInvestment(eto.contract!.timedState);
-
-export const filterEtosByRestrictedJurisdictions = (
-  etos: TEtoData[],
-  jurisdiction: string | undefined,
-) =>
-  jurisdiction
-    ? etos.filter(
-        eto =>
-          !hiddenJurisdictions[jurisdiction].some(
-            hiddenJurisdiction => hiddenJurisdiction === eto.product.jurisdiction,
-          ),
-      )
-    : etos;

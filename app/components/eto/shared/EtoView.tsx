@@ -2,13 +2,19 @@ import * as cn from "classnames";
 import { some } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
+import { compose } from "recompose";
 
-import { externalRoutes } from "../../../config/externalRoutes";
 import { TSocialChannelsType } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../modules/eto/types";
+import { selectEtoSubState } from "../../../modules/eto/selectors";
+import {
+  EETOStateOnChain,
+  EEtoSubState,
+  TEtoWithCompanyAndContract,
+} from "../../../modules/eto/types";
 import { isOnChain } from "../../../modules/eto/utils";
+import { appConnect } from "../../../store";
 import { withMetaTags } from "../../../utils/withMetaTags.unsafe";
-import { withParams } from "../../../utils/withParams";
+import { icoMonitorEtoLink } from "../../appRouteUtils";
 import { Container, EColumnSpan, EContainerType } from "../../layouts/Container";
 import { WidgetGridLayout } from "../../layouts/Layout";
 import { PersonProfileModal } from "../../modals/PersonProfileModal";
@@ -25,8 +31,9 @@ import { TabContent, Tabs } from "../../shared/Tabs";
 import { TwitterTimelineEmbed } from "../../shared/TwitterTimeline";
 import { Video } from "../../shared/Video";
 import { EtoOverviewStatus } from "../overview/EtoOverviewStatus";
-import { EtoTimeline } from "../overview/EtoTimeline";
+import { EtoTimeline } from "../overview/EtoTimeline/EtoTimeline";
 import { Cover } from "../public-view/Cover";
+import { CoverBanner } from "../public-view/CoverBanner";
 import { DocumentsWidget } from "../public-view/DocumentsWidget";
 import { EtoInvestmentTermsWidget } from "../public-view/EtoInvestmentTermsWidget";
 import { LegalInformationWidget } from "../public-view/LegalInformationWidget";
@@ -42,13 +49,22 @@ export const DEFAULT_CHART_COLOR = "#c4c5c6";
 
 interface IProps {
   eto: TEtoWithCompanyAndContract;
+  isInvestorView: boolean;
+}
+
+interface IStateProps {
+  etoSubState: EEtoSubState | undefined;
 }
 
 // TODO: There are lots of castings right now in this file, cause formerly the types of IProps was "any"
 // The castings should be resolved when the EtoApi.interface.ts reflects the correct data types from swagger!
 
 // TODO: Refactor to smaller components
-const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
+const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({
+  eto,
+  etoSubState,
+  isInvestorView,
+}) => {
   const {
     advisors,
     companyDescription,
@@ -108,9 +124,11 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
     <>
       <PersonProfileModal />
       <WidgetGridLayout data-test-id="eto.public-view">
+        <CoverBanner eto={eto} isInvestorView={isInvestorView} />
         <Cover
           companyName={brandName}
           companyOneliner={companyOneliner}
+          companyJurisdiction={eto.product.jurisdiction}
           companyLogo={{
             alt: brandName,
             srcSet: {
@@ -132,10 +150,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
               <div className={styles.headerWithButton}>
                 <FormattedMessage id="eto.public-view.eto-timeline" />
                 {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && !isInSetupState && (
-                  <ButtonLink
-                    to={withParams(externalRoutes.icoMonitorEto, { etoId: eto.etoId })}
-                    target="_blank"
-                  >
+                  <ButtonLink to={icoMonitorEtoLink(eto.etoId)} target="_blank">
                     <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
                   </ButtonLink>
                 )}
@@ -144,6 +159,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
           />
           <Panel>
             <EtoTimeline
+              subState={etoSubState}
               currentState={isOnChain(eto) ? eto.contract.timedState : undefined}
               startOfStates={isOnChain(eto) ? eto.contract.startOfStates : undefined}
             />
@@ -485,7 +501,7 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
                 companyMarketingLinks={marketingLinks}
                 etoTemplates={eto.templates}
                 etoDocuments={eto.documents}
-                isRetailEto={eto.allowRetailInvestors}
+                offeringDocumentType={eto.product.offeringDocumentType}
               />
             </Container>
           )}
@@ -505,14 +521,22 @@ const EtoViewLayout: React.FunctionComponent<IProps> = ({ eto }) => {
   );
 };
 
-const EtoView = withMetaTags<IProps>(({ eto }, intl) => {
-  const requiredDataPresent = eto.company.brandName && eto.equityTokenName && eto.equityTokenSymbol;
+const EtoView = compose<IStateProps & IProps, IProps>(
+  appConnect<IStateProps, {}, IProps>({
+    stateToProps: (state, props) => ({
+      etoSubState: selectEtoSubState(state, props.eto.previewCode),
+    }),
+  }),
+  withMetaTags<IProps>(({ eto }, intl) => {
+    const requiredDataPresent =
+      eto.company.brandName && eto.equityTokenName && eto.equityTokenSymbol;
 
-  return {
-    title: requiredDataPresent
-      ? `${eto.company.brandName} - ${eto.equityTokenName} (${eto.equityTokenSymbol})`
-      : intl.formatIntlMessage("menu.eto-page"),
-  };
-})(EtoViewLayout);
+    return {
+      title: requiredDataPresent
+        ? `${eto.company.brandName} - ${eto.equityTokenName} (${eto.equityTokenSymbol})`
+        : intl.formatIntlMessage("menu.eto-page"),
+    };
+  }),
+)(EtoViewLayout);
 
 export { EtoView, EtoViewLayout };

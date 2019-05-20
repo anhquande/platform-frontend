@@ -5,85 +5,98 @@ import * as React from "react";
 import { testEto } from "../../../test/fixtures";
 import { mockedStore } from "../../../test/fixtures/mockedStore";
 import { EEtoState } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { withStore } from "../../utils/storeDecorator.unsafe";
 import { EtoDashboardComponent } from "./EtoDashboard";
 
 const statePreview = {
   etoState: EEtoState.PREVIEW,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
+  shouldViewSubmissionSection: true,
 };
 
 const statePreviewNoSubmissionSection = {
   etoState: EEtoState.PREVIEW,
-  shouldViewSubmissionSection: false,
+  shouldViewEtoSettings: false,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
+};
+
+const statePreviewWithPreviewSubmissionWithoutMarketingVisible = {
+  ...statePreviewNoSubmissionSection,
+  shouldViewEtoSettings: true,
 };
 
 const statePending = {
   etoState: EEtoState.PENDING,
-  shouldViewSubmissionSection: false,
+  shouldViewEtoSettings: false,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateListed_1 = {
   etoState: EEtoState.LISTED,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateListed_2 = {
   etoState: EEtoState.LISTED,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: false,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateListed_3 = {
   etoState: EEtoState.LISTED,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: false,
   previewCode: testEto.previewCode,
-  isRetailEto: false,
+  offeringDocumentType: EOfferingDocumentType.MEMORANDUM,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateProspectusApproved_1 = {
@@ -91,12 +104,13 @@ const stateProspectusApproved_1 = {
   canEnableBookbuilding: false,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateProspectusApproved_2 = {
@@ -104,12 +118,13 @@ const stateProspectusApproved_2 = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainWhitelist = {
@@ -117,12 +132,13 @@ const stateOnChainWhitelist = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainSigning = {
@@ -130,12 +146,13 @@ const stateOnChainSigning = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainRefund = {
@@ -143,12 +160,13 @@ const stateOnChainRefund = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isLightWallet: true,
   isVerificationSectionDone: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 const stateOnChainClaim = {
@@ -156,18 +174,22 @@ const stateOnChainClaim = {
   canEnableBookbuilding: true,
   isTermSheetSubmitted: true,
   isOfferingDocumentSubmitted: true,
-  shouldViewSubmissionSection: true,
+  shouldViewEtoSettings: true,
   previewCode: testEto.previewCode,
-  isRetailEto: true,
+  offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
   isVerificationSectionDone: true,
   isLightWallet: true,
   loadFileDataStart: action("loadFileDataStart"),
+  userHasKycAndEmailVerified: true,
 };
 
 storiesOf("ETO-Flow/Dashboard/StateView", module)
   .addDecorator(withStore(mockedStore))
 
   .add("State PREVIEW with submissionSection", () => <EtoDashboardComponent {...statePreview} />)
+  .add("State PREVIEW with preview submission without marketing data visible", () => (
+    <EtoDashboardComponent {...statePreviewWithPreviewSubmissionWithoutMarketingVisible} />
+  ))
   .add("State PREVIEW, no submissionSection", () => (
     <EtoDashboardComponent {...statePreviewNoSubmissionSection} />
   ))

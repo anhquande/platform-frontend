@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { COMPANY_TAGS_LIMIT } from "../../../config/constants";
+import { EJurisdiction } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { TTranslatedString } from "../../../types";
 import { Container, EColumnSpan } from "../../layouts/Container";
 import { IResponsiveImage, ResponsiveImage } from "../../shared/ResponsiveImage";
@@ -13,6 +14,7 @@ interface IProps {
   companyName: TTranslatedString;
   companyOneliner: TTranslatedString;
   companyLogo: IResponsiveImage;
+  companyJurisdiction: EJurisdiction;
   tags: ReadonlyArray<TTranslatedString> | undefined;
 }
 

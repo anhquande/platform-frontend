@@ -14,8 +14,13 @@ import { EtoView } from "./shared/EtoView";
 
 type TProps = {
   eto: TEtoWithCompanyAndContract;
+  isInvestorView: boolean;
 };
 
+interface IRouterParams {
+  previewCode: string;
+  jurisdiction: string;
+}
 type TStateProps = Partial<TProps>;
 
 export const EtoIssuerView = compose<TProps, {}>(
@@ -25,9 +30,10 @@ export const EtoIssuerView = compose<TProps, {}>(
       dispatch(actions.etoFlow.loadIssuerEto());
     },
   }),
-  appConnect<TStateProps>({
+  appConnect<TStateProps, {}, IRouterParams>({
     stateToProps: state => ({
       eto: selectIssuerEtoWithCompanyAndContract(state),
+      isInvestorView: false,
     }),
   }),
   withContainer(LayoutAuthorized),

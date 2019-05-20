@@ -79,7 +79,7 @@ describe("Pending Transactions During TX flow", () => {
 
       goToWallet();
 
-      cy.get(tid("wallet.icbm-euro.upgrade-button")).click();
+      cy.get(tid("wallet.eth.withdraw.button")).click();
 
       assertPendingWithdrawModal("0x16cd5aC5A1b77FB72032E3A09E91A98bB21D8988", "1");
 

@@ -6,7 +6,7 @@ import * as Web3Utils from "web3-utils";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { EColumnSpan } from "../../layouts/Container";
-import { Button, EButtonLayout } from "../../shared/buttons";
+import { Button, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Form, FormFieldColorful } from "../../shared/forms";
 import { Panel } from "../../shared/Panel";
 import { ECustomTooltipTextPosition, Tooltip } from "../../shared/tooltips";
@@ -36,7 +36,7 @@ class FormContent extends React.Component {
             <Button
               innerClassName={styles.button}
               layout={EButtonLayout.SECONDARY}
-              iconPosition="icon-after"
+              iconPosition={EIconPosition.ICON_AFTER}
               svgIcon={arrowRight}
               type="submit"
               disabled={!Web3Utils.isAddress(values.address.toUpperCase())}

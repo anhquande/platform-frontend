@@ -68,8 +68,10 @@ const getLedgerConfig = async (getTransport: () => any): Promise<ILedgerConfig> 
   const Transport = await getTransport();
   try {
     const ethInstance = new Eth(Transport);
-    const configration = await ethInstance.getAppConfiguration();
-    return configration;
+
+    const configuration = await ethInstance.getAppConfiguration();
+
+    return configuration;
   } catch (e) {
     throw new LedgerNotAvailableError();
   } finally {

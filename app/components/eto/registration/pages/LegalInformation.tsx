@@ -19,6 +19,7 @@ import {
   FormFieldDate,
   FormSelectField,
 } from "../../../shared/forms";
+import { FormTextArea } from "../../../shared/forms/fields/FormTextArea";
 import { FormHighlightGroup } from "../../../shared/forms/FormHighlightGroup";
 import { FUNDING_ROUNDS } from "../../constants";
 import {
@@ -57,7 +58,7 @@ const NUMBER_OF_EMPLOYEES = {
 
 type IProps = IExternalProps & IStateProps & IDispatchProps & FormikProps<TPartialCompanyEtoData>;
 
-//Some fields in LegalInformation are always readonly because this data ist set during KYC process
+// Some fields in LegalInformation are always readonly because data are set during KYC process
 const EtoRegistrationLegalInformationComponent = ({ savingData }: IProps) => (
   <EtoFormBase title="Legal Information" validator={EtoLegalInformationType.toYup()}>
     <Section>
@@ -70,6 +71,10 @@ const EtoRegistrationLegalInformationComponent = ({ savingData }: IProps) => (
         label={<FormattedMessage id="eto.form.legal-information.legal-form" />}
         name="legalForm"
         disabled={true}
+      />
+      <FormTextArea
+        label={<FormattedMessage id="eto.form.legal-information.company-legal-description" />}
+        name="companyLegalDescription"
       />
       <FormField
         label={<FormattedMessage id="eto.form.legal-information.company-state-address" />}

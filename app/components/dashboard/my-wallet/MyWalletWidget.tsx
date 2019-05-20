@@ -18,7 +18,7 @@ import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { appRoutes } from "../../appRoutes";
-import { ButtonLink, EButtonLayout } from "../../shared/buttons";
+import { ButtonLink, EButtonLayout, EButtonTheme, EIconPosition } from "../../shared/buttons";
 import { ECurrency } from "../../shared/formatters/utils";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
@@ -140,8 +140,8 @@ export const MyWalletWidgetComponent: React.FunctionComponent<CommonHtmlProps & 
       <ButtonLink
         to={appRoutes.wallet}
         layout={EButtonLayout.SECONDARY}
-        iconPosition="icon-after"
-        theme="dark"
+        iconPosition={EIconPosition.ICON_AFTER}
+        theme={EButtonTheme.DARK}
         svgIcon={arrowRight}
         innerClassName={cn(styles.link, "pr-0")}
       >

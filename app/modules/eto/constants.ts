@@ -7,6 +7,5 @@ export const etoNormalPoolingDelay = minutesToMs(10);
 
 // {USER_JURISDICTION: [Array of jurisdictions that should be hidden]}
 export const hiddenJurisdictions: { [key: string]: EJurisdiction[] } = {
-  [ECountries.GERMANY]: [],
   [ECountries.LIECHTENSTEIN]: [EJurisdiction.GERMANY],
 };

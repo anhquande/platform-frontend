@@ -53,6 +53,9 @@ export const selectIsUserFullyVerified = (state: IAppState): boolean =>
 export const selectIsInvestor = (state: IAppState): boolean =>
   selectUserType(state) === EUserType.INVESTOR;
 
+export const selectIsIssuer = (state: IAppState): boolean =>
+  selectUserType(state) === EUserType.ISSUER;
+
 export const selectIsVerifiedInvestor = createSelector(
   selectIsInvestor,
   selectIsUserVerified,

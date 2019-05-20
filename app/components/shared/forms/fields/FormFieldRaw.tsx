@@ -6,7 +6,7 @@ import { TTranslatedString } from "../../../../types";
 import { FormError } from "./FormFieldError";
 import { FormLabel } from "./FormFieldLabel";
 import { IFormInputRawExternalProps } from "./FormInputRaw.unsafe";
-import { getComputedValue, withCountedCharacters } from "./utils.unsafe";
+import { applyCharactersLimit, withCountedCharacters } from "./utils.unsafe";
 
 import * as styles from "./FormStyles.module.scss";
 
@@ -34,7 +34,7 @@ const FormFieldRaw: React.FunctionComponent<FieldGroupRawProps> = ({
   invalid,
   ...props
 }) => {
-  const computedValue = getComputedValue(value, charactersLimit);
+  const computedValue = applyCharactersLimit(value, charactersLimit);
   const isInvalid = invalid || !!errorMsg;
 
   const inputProps = {

@@ -39,7 +39,6 @@ import {
   FormHighlightGroup,
   FormLabel,
   FormRange,
-  FormTextArea,
   FormToggle,
   RadioButtonLayout,
 } from "../../../shared/forms";
@@ -166,12 +165,6 @@ const EtoRegistrationTermsAllowedChanges: React.FunctionComponent<IProps> = ({
         unit={<FormattedMessage id="eto.form.section.eto-terms.signing-duration.unit" />}
       />
     </div>
-
-    <FormTextArea
-      disabled={readonly}
-      label={<FormattedMessage id="eto.form.additional-terms" />}
-      name="additionalTerms"
-    />
   </>
 );
 

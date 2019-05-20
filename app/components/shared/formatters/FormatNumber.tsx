@@ -8,20 +8,20 @@ import * as styles from "./FormatNumber.module.scss";
 
 interface IComponentProps {
   value: string | BigNumber | number | undefined | null;
-  defaultValue?: string;
-  roundingMode: ERoundingMode;
+  defaultValue?: React.ReactChild;
+  roundingMode?: ERoundingMode;
   decimalPlaces?: number;
-  inputFormat: EMoneyInputFormat;
-  outputFormat: EHumanReadableFormat;
+  inputFormat?: EMoneyInputFormat;
+  outputFormat?: EHumanReadableFormat;
   className?: string;
 }
 
 export const FormatNumber: React.FunctionComponent<IComponentProps> = ({
   value,
   defaultValue = "",
-  roundingMode,
+  roundingMode = ERoundingMode.DOWN,
   decimalPlaces = 4,
-  inputFormat,
+  inputFormat = EMoneyInputFormat.FLOAT,
   outputFormat = EHumanReadableFormat.FULL,
   className,
 }) => {
@@ -32,6 +32,6 @@ export const FormatNumber: React.FunctionComponent<IComponentProps> = ({
       </span>
     );
   } else {
-    return <span>{defaultValue}</span>;
+    return <>{defaultValue}</>;
   }
 };

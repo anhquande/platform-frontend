@@ -54,4 +54,6 @@ export const routingActions = {
   goToPortfolio: () => push(appRoutes.portfolio),
 
   // other...
+  // TODO: Replace with a dedicated 404 page
+  goTo404: () => push(appRoutes.root),
 };

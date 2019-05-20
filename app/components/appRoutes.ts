@@ -12,8 +12,19 @@ export const appRoutes = {
   restore: "/restore",
   restoreEto: "/eto/restore",
   etoIssuerView: "/eto/view",
-  etoPublicView: "/eto/view/:previewCode",
-  etoPublicViewById: "/eto/view/by-id/:etoId",
+
+  etoPublicView: "/eto/view/:jurisdiction/:previewCode",
+  etoPublicViewById: "/eto/by-id/:jurisdiction/:etoId",
+
+  /*
+   * @deprecated Route with eto jurisdiction should be used instead. This is only for backward compatibility.
+   */
+  etoPublicViewByIdLegacyRoute: "/eto/by-id/:etoId",
+  /*
+   * @deprecated Route with eto jurisdiction should be used instead. This is only for backward compatibility.
+   */
+  etoPublicViewLegacyRoute: "/eto/view/:previewCode",
+
   etoWidgetView: "/embed/eto/widget/:previewCode",
 
   kyc: "/kyc",

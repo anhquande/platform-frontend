@@ -15,21 +15,6 @@ export interface IPlatformTermsConstants {
   PLATFORM_FEE_FRACTION: BigNumber;
   DATE_TO_WHITELIST_MIN_DURATION: BigNumber;
   TOKEN_RATE_EXPIRES_AFTER: BigNumber;
-
-  MIN_WHITELIST_DURATION: BigNumber;
-  MAX_WHITELIST_DURATION: BigNumber;
-
-  MIN_OFFER_DURATION: BigNumber;
-  MAX_OFFER_DURATION: BigNumber;
-
-  MIN_PUBLIC_DURATION: BigNumber;
-  MAX_PUBLIC_DURATION: BigNumber;
-
-  MIN_SIGNING_DURATION: BigNumber;
-  MAX_SIGNING_DURATION: BigNumber;
-
-  MIN_CLAIM_DURATION: BigNumber;
-  MAX_CLAIM_DURATION: BigNumber;
 }
 
 interface IContractState {

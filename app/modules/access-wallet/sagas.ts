@@ -136,7 +136,7 @@ export function* connectWalletAndRunEffect(effect: Effect | Iterator<Effect>): a
 
       if (walletType === EWalletType.LIGHT) {
         const { payload }: TActionFromCreator<typeof actions.accessWallet.accept> = yield take(
-          actions.accessWallet.accept.getType(),
+          actions.accessWallet.accept,
         );
         yield neuCall(ensureWalletConnection, payload.password);
       } else {

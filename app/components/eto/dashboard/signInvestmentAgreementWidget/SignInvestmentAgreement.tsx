@@ -7,8 +7,8 @@ import { compose } from "redux";
 import { IEtoDocument } from "../../../../lib/api/eto/EtoFileApi.interfaces";
 import { actions } from "../../../../modules/actions";
 import {
-  selectEtoId,
   selectInvestmentAgreementLoading,
+  selectIssuerEtoId,
   selectSignedInvestmentAgreementUrl,
   selectUploadedInvestmentAgreement,
 } from "../../../../modules/eto-flow/selectors";
@@ -16,7 +16,7 @@ import { appConnect } from "../../../../store";
 import { onEnterAction } from "../../../../utils/OnEnterAction";
 import { investmentAgreementNotSigned } from "../../../documents/utils";
 import { EColumnSpan } from "../../../layouts/Container";
-import { ButtonArrowRight } from "../../../shared/buttons/Button.unsafe";
+import { ButtonArrowRight } from "../../../shared/buttons/Button";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { LoadingIndicator } from "../../../shared/loading-indicator/LoadingIndicator";
 import { Panel } from "../../../shared/Panel";
@@ -113,7 +113,7 @@ export const SignInvestmentAgreement = compose<React.FunctionComponent<IExternal
     stateToProps: state => {
       const uploadedAgreement = selectUploadedInvestmentAgreement(state);
 
-      const etoId = selectEtoId(state);
+      const etoId = selectIssuerEtoId(state);
       // there is another widget showing up if there's no agreement uploaded,
       // so uploadedAgreement=== null is not a valid case
       if (etoId && uploadedAgreement) {

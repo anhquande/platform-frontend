@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { EKycRequestType, ERequestStatus } from "../../lib/api/KycApi.interfaces";
 import { EUserType } from "../../lib/api/users/interfaces";
-import { Button, EButtonLayout } from "../shared/buttons";
+import { Button, EButtonLayout, EIconPosition } from "../shared/buttons";
 import { KycPanel } from "./KycPanel";
 import { KycRouter } from "./Router";
 import { KYCAddDocuments } from "./shared/AddDocuments";
@@ -77,7 +77,7 @@ class RequestStateInfo extends React.Component<IProps, IState> {
       <div className="p-4 text-center">
         <Button
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-before"
+          iconPosition={EIconPosition.ICON_BEFORE}
           svgIcon={arrowLeft}
           onClick={this.props.goToProfile}
         >
@@ -106,7 +106,7 @@ class RequestStateInfo extends React.Component<IProps, IState> {
           {!this.state.showAdditionalFileUpload && (
             <Button
               layout={EButtonLayout.SECONDARY}
-              iconPosition="icon-before"
+              iconPosition={EIconPosition.ICON_BEFORE}
               svgIcon={addFile}
               onClick={() => this.setState({ showAdditionalFileUpload: true })}
             >

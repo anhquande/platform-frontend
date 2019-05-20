@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 
 import { externalRoutes } from "../../../config/externalRoutes";
-import { ButtonLink, EButtonLayout } from "../../shared/buttons";
+import { ButtonLink, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { ECurrency } from "../../shared/formatters/utils";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget";
 
@@ -41,7 +41,7 @@ export const MyNeuWidget: React.FunctionComponent<IProps> = props => (
           to={`${externalRoutes.neufundSupport}/solutions/articles/36000060355-what-is-neumark-`}
           target="_blank"
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-after"
+          iconPosition={EIconPosition.ICON_AFTER}
           svgIcon={arrowRight}
         >
           <FormattedMessage id="dashboard.my-neu-widget.about" />

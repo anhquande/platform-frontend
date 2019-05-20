@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 
 import { copyToClipboard } from "../../../utils/copyToClipboard";
-import { Button, ButtonGroup, EButtonLayout } from "../../shared/buttons";
+import { Button, ButtonGroup, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Heading } from "../../shared/Heading";
 import { showInfoToast } from "../../shared/Toast";
 
@@ -62,7 +62,7 @@ class PrivateKeyDisplay extends React.Component<TProps, TState> {
             onClick={this.copyPrivateKeyToClipboard}
             type="button"
             svgIcon={clipboardIcon}
-            iconPosition="icon-after"
+            iconPosition={EIconPosition.ICON_AFTER}
           >
             <FormattedMessage id="components.settings.private-key-display.copy-private-key" />
           </Button>
@@ -74,7 +74,7 @@ class PrivateKeyDisplay extends React.Component<TProps, TState> {
             layout={EButtonLayout.SIMPLE}
             onClick={this.togglePrivateKeyVisibility}
             svgIcon={showPrivateKey ? blindIcon : eyeIcon}
-            iconPosition="icon-after"
+            iconPosition={EIconPosition.ICON_AFTER}
           >
             {showPrivateKey ? (
               privateKey

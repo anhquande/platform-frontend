@@ -57,6 +57,7 @@ const EtoRegistrationCompanyInformationComponent = (
       <FormField
         label={<FormattedMessage id="eto.form.company-information.company-tagline" />}
         name="companyOneliner"
+        charactersLimit={50}
       />
 
       <FormTextArea
@@ -104,6 +105,16 @@ const EtoRegistrationCompanyInformationComponent = (
             fileFormatInformation="*1250 x 400 png"
             className="mb-3"
             data-test-id="eto-registration-company-banner"
+          />
+        </Col>
+        <Col>
+          <FormSingleFileUpload
+            name="companyPreviewCardBanner"
+            label={<FormattedMessage id="eto.form.company-information.preview-image" />}
+            acceptedFiles="image/*"
+            fileFormatInformation="*768 x 400 png"
+            className="mb-3"
+            data-test-id="companyPreviewCardBanner"
           />
         </Col>
       </Row>

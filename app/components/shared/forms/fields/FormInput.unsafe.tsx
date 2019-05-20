@@ -3,18 +3,17 @@ import * as React from "react";
 
 import { CommonHtmlProps } from "../../../../types";
 import { FormInputRaw, IFormInputRawExternalProps } from "./FormInputRaw.unsafe";
-import { getComputedValue, isNonValid } from "./utils.unsafe";
+import { applyCharactersLimit, isNonValid } from "./utils.unsafe";
 
 export type FormInputProps = IFormInputRawExternalProps & FieldAttributes<any> & CommonHtmlProps;
 
-const transform = (value: string, charactersLimit?: number) =>
-  value !== undefined ? getComputedValue(value, charactersLimit) : "";
+const transform = (value: string) => (value !== undefined ? value : "");
 
-const transformBack = (value: number | string) => {
+const transformBack = (value: number | string, charactersLimit?: number) => {
   if (typeof value === "number") {
     return value;
   } else if (typeof value === "string") {
-    return value.trim().length > 0 ? value : undefined;
+    return value.trim().length > 0 ? applyCharactersLimit(value, charactersLimit) : undefined;
   } else {
     return undefined;
   }
@@ -50,7 +49,7 @@ export const FormInput: React.FunctionComponent<FormInputProps> = ({
           name={name}
           validate={customValidation}
           render={({ field }: FieldProps) => {
-            const val = transform(field.value, charactersLimit);
+            const val = transform(field.value);
 
             return (
               <FormInputRaw
@@ -66,6 +65,7 @@ export const FormInput: React.FunctionComponent<FormInputProps> = ({
                 value={val}
                 disabled={disabled}
                 maxLength={maxLength}
+                charactersLimit={charactersLimit}
                 customValidation={customValidation}
                 customOnBlur={customOnBlur}
                 ignoreTouched={ignoreTouched}
@@ -77,6 +77,7 @@ export const FormInput: React.FunctionComponent<FormInputProps> = ({
                       type === "number" && e.target.value !== ""
                         ? e.target.valueAsNumber
                         : e.target.value,
+                      charactersLimit,
                     ),
                   );
                 }}

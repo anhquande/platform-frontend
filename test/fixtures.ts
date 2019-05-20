@@ -1,8 +1,12 @@
-import { BigNumber } from "bignumber.js";
 import { createStore, Store } from "redux";
 
+import { ECurrency } from "../app/components/shared/formatters/utils";
 import { IConfig } from "../app/config/getConfig";
-import { EEtoState, TCompanyEtoData } from "../app/lib/api/eto/EtoApi.interfaces.unsafe";
+import {
+  EEtoMarketingDataVisibleInPreview,
+  EEtoState,
+  TCompanyEtoData,
+} from "../app/lib/api/eto/EtoApi.interfaces.unsafe";
 import {
   EEtoDocumentLanguage,
   EEtoDocumentType,
@@ -21,6 +25,7 @@ import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../app/modules/eto
 import { EthereumAddress, EthereumAddressWithChecksum, EthereumNetworkId } from "../app/types";
 
 import * as companyBanner from "./assets/company-banner.png";
+import * as companyPreviewCardBanner from "./assets/company-preview-banner.png";
 
 export const dummyConfig: IConfig = {
   ethereumNetwork: {
@@ -45,6 +50,8 @@ export const dummyEthereumAddressWithChecksum = "0xfB6916095ca1df60bB79Ce92cE3Ea
 
 export const testCompany: TCompanyEtoData = {
   companyBanner,
+  companyPreviewCardBanner,
+  companyLegalDescription: "Est castus ionicis tormento, cesaris.",
   companyStage: "a_round",
   city: "Berlin",
   businessModel: undefined,
@@ -722,11 +729,11 @@ export const etoDocuments: TEtoDocumentTemplates = {
 export const testContract = {
   timedState: 3,
   totalInvestment: {
-    totalEquivEurUlps: new BigNumber("3.240447910281246044e+24"),
-    totalTokensInt: new BigNumber("10010705"),
-    totalInvestors: new BigNumber("3"),
-    euroTokenBalance: new BigNumber("3.2374649e+24"),
-    etherTokenBalance: new BigNumber("5432420000000000000"),
+    totalEquivEurUlps: "3.240447910281246044e+24",
+    totalTokensInt: "10010705",
+    totalInvestors: "3",
+    euroTokenBalance: "3.2374649e+24",
+    etherTokenBalance: "5432420000000000000",
   },
   startOfStates: {
     [EETOStateOnChain.Setup]: undefined,
@@ -769,13 +776,11 @@ export const testProduct = {
 };
 
 export const testEto: TEtoWithCompanyAndContract = {
-  additionalTerms: undefined,
   authorizedCapitalShares: undefined,
   newSharesToIssueInFixedSlots: undefined,
-  allowRetailInvestors: true,
   canEnableBookbuilding: false,
   companyId: "0xC8f867Cf4Ed30b4fF0Aa4c4c8c6b684397B219B0",
-  currencies: ["eth", "eur_t"],
+  currencies: [ECurrency.ETH, ECurrency.EUR_TOKEN],
   discountScheme: "40%",
   documents: etoDocuments,
   enableTransferOnSuccess: true,
@@ -798,7 +803,6 @@ export const testEto: TEtoWithCompanyAndContract = {
   newSharesToIssue: 3452,
   newSharesToIssueInWhitelist: 1534,
   nominee: "0xCB6470fa4b5D56C8f494e7c1CE56B28c548931a6",
-  notUnderCrowdfundingRegulations: true,
   preMoneyValuationEur: 132664672.0464,
   previewCode: "deabb8a4-d081-4d15-87a7-737a09e6a87c",
   prospectusLanguage: "de",
@@ -855,6 +859,7 @@ export const testEto: TEtoWithCompanyAndContract = {
   company: testCompany,
   contract: testContract,
   product: testProduct,
+  isMarketingDataVisibleInPreview: EEtoMarketingDataVisibleInPreview.NOT_VISIBLE,
 };
 
 export const etoFilesData: IEtoFiles = {

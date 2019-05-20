@@ -2,7 +2,7 @@ import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
-import { branch, compose, renderComponent } from "recompose";
+import { compose } from "recompose";
 
 import { externalRoutes } from "../../../config/externalRoutes";
 import { minimumLedgerVersion } from "../../../lib/web3/ledger-wallet/ledgerUtils";
@@ -10,7 +10,7 @@ import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { withActionWatcher } from "../../../utils/withActionWatcher.unsafe";
 import { ExternalLink } from "../../shared/links";
-import { LoadingIndicator } from "../../shared/loading-indicator";
+import { LoadingIndicator } from "../../shared/loading-indicator/LoadingIndicator";
 import { WarningAlert } from "../../shared/WarningAlert";
 import { getMessageTranslation, LedgerErrorMessage } from "../../translatedMessages/messages";
 import { TMessage } from "../../translatedMessages/utils";
@@ -35,7 +35,7 @@ interface IInitStep {
 const InitStep: React.FunctionComponent<IInitStep> = ({ header, img, desc }) => (
   <Col xs="12" md="4" className={cn("mb-4 mb-md-0 px-4", styles.step)}>
     <div className={styles.header}>{header}</div>
-    <img className="my-2 my-md-5" src={img} />
+    <img className="my-2 my-md-5" src={img} alt="" />
     <p>{desc}</p>
   </Col>
 );
@@ -86,25 +86,29 @@ interface IWalletLedgerInitComponentProps {
 
 export const WalletLedgerInitComponent: React.FunctionComponent<
   IWalletLedgerInitComponentProps
-> = ({ errorMessage }) => (
+> = ({ errorMessage, isInitialConnectionInProgress }) => (
   <>
     <LedgerHeader />
+
+    {isInitialConnectionInProgress && <LoadingIndicator />}
+
     {errorMessage && (
-      <Row className="justify-content-center">
-        <WarningAlert className="my-4">
-          <FormattedMessage id="wallet-selector.ledger.start.connection-status" />{" "}
-          <span data-test-id="ledger-wallet-error-msg">{getMessageTranslation(errorMessage)}</span>
-        </WarningAlert>
-      </Row>
+      <WarningAlert className="my-4">
+        <FormattedMessage id="wallet-selector.ledger.start.connection-status" />{" "}
+        <span data-test-id="ledger-wallet-error-msg">{getMessageTranslation(errorMessage)}</span>
+      </WarningAlert>
     )}
+
     {/* If there is a need for more visual cases then we will need to implement a full solution */}
     {errorMessage && errorMessage.messageType === LedgerErrorMessage.NOT_SUPPORTED ? (
-      <div className={styles.step}>
-        <FormattedMessage
-          values={{ minimumVersion: minimumLedgerVersion }}
-          id="wallet-selector.ledger.please-upgrade"
-        />
-        <p className="mt-2">
+      <div className={cn(styles.step, "mx-md-5")}>
+        <p>
+          <FormattedMessage
+            values={{ minimumVersion: minimumLedgerVersion }}
+            id="wallet-selector.ledger.please-upgrade"
+          />
+        </p>
+        <p>
           <FormattedMessage
             values={{
               ledgerUpgradeLink: (
@@ -135,8 +139,4 @@ export const WalletLedgerInit = compose<IWalletLedgerInitComponentProps, {}>(
       errorMessage: state.ledgerWizardState.errorMsg,
     }),
   }),
-  branch<IWalletLedgerInitComponentProps>(
-    props => props.isInitialConnectionInProgress,
-    renderComponent(LoadingIndicator),
-  ),
 )(WalletLedgerInitComponent);

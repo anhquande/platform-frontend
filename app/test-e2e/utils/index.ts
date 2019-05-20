@@ -2,6 +2,7 @@ import BigNumber from "bignumber.js";
 import { get } from "lodash";
 
 import { appRoutes } from "../../components/appRoutes";
+import { stripNumberFormatting } from "../../components/shared/formatters/utils";
 import { makeEthereumAddressChecksummed } from "../../modules/web3/utils";
 import { EthereumAddress } from "../../types";
 import { mockApiUrl } from "../config";
@@ -161,7 +162,11 @@ export const acceptWallet = () => {
 
 export const etoFixtureByName = (name: string) => {
   const etoAddress = Object.keys(ETO_FIXTURES).find(a => ETO_FIXTURES[a].name === name);
-  return etoAddress ? ETO_FIXTURES[etoAddress] : undefined;
+  if (etoAddress) {
+    return ETO_FIXTURES[etoAddress];
+  } else {
+    throw new Error("Cannot fetch undefined value please check if the fixtures are in sync");
+  }
 };
 
 export const etoFixtureAddressByName = (name: string): string => {
@@ -202,7 +207,7 @@ export const getWalletNEurAmount = (navigate: boolean = true) => {
 
   return cy
     .get(tid("wallet-balance.neur.balance-values.large-value"))
-    .then($element => parseAmount($element.text()));
+    .then($element => parseAmount(stripNumberFormatting($element.text())));
 };
 
 export const addPendingExternalTransaction = (address: string) => {

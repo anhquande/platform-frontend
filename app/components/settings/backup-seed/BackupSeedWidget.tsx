@@ -6,7 +6,7 @@ import { compose } from "redux";
 import { selectBackupCodesVerified } from "../../../modules/auth/selectors";
 import { appConnect } from "../../../store";
 import { EColumnSpan } from "../../layouts/Container";
-import { ButtonLink, EButtonLayout } from "../../shared/buttons";
+import { ButtonLink, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Panel } from "../../shared/Panel";
 import { profileRoutes } from "../routes";
 
@@ -51,7 +51,7 @@ const BackupSeedWidgetComponent: React.FunctionComponent<IStateProps & IOwnProps
         <ButtonLink
           to={profileRoutes.seedBackup}
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-after"
+          iconPosition={EIconPosition.ICON_AFTER}
           svgIcon={arrowRight}
           data-test-id="backup-seed-verified-section.view-again"
         >
@@ -70,7 +70,7 @@ const BackupSeedWidgetComponent: React.FunctionComponent<IStateProps & IOwnProps
           to={profileRoutes.seedBackup}
           data-test-id="backup-seed-widget-link-button"
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-after"
+          iconPosition={EIconPosition.ICON_AFTER}
           svgIcon={arrowRight}
         >
           <FormattedMessage id="settings.backup-seed-widget.backup-phrase" />

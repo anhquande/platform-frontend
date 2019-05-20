@@ -90,7 +90,7 @@ jobs:
 
       - run:
           command: source /opt/circleci/.nvm/nvm.sh && yarn test:e2e
-          no_output_timeout: 20m
+          no_output_timeout: 30m
 
   test-e2e-chrome:
     machine:

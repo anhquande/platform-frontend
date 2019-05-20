@@ -1,14 +1,17 @@
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
+import BigNumber from "bignumber.js";
 import * as React from "react";
 
 import { testEto } from "../../../../../test/fixtures";
+import { Q18 } from "../../../../config/constants";
 import { EEtoState } from "../../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IBookBuildingStats } from "../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../modules/eto/types";
+import { ICalculatedContribution } from "../../../../modules/investor-portfolio/types";
 import { withStore } from "../../../../utils/storeDecorator.unsafe";
 import { withMockedDate } from "../../../../utils/storybookHelpers.unsafe";
-import { EtoOverviewStatusLayout } from "./EtoOverviewThumbnail";
+import { EtoOverviewThumbnail } from "./EtoOverviewThumbnail";
 
 const rootEto: TEtoWithCompanyAndContract = {
   ...testEto,
@@ -40,11 +43,11 @@ const dummyNow = new Date("2018-10-16T05:03:56+00:00");
 const withEto = ({
   eto,
   bookbuildingStats,
-  props,
+  calculatedContributions,
 }: {
   eto: TEtoWithCompanyAndContract;
   bookbuildingStats?: IBookBuildingStats;
-  props?: Partial<React.ComponentProps<typeof EtoOverviewStatusLayout>>;
+  calculatedContributions?: ICalculatedContribution;
 }) =>
   withStore({
     eto: {
@@ -52,12 +55,17 @@ const withEto = ({
       companies: { [eto.companyId]: eto.company },
       contracts: { [eto.previewCode]: eto.contract },
     },
-    bookBuildingFlow: {
+    bookBuildingFlow: bookbuildingStats && {
       bookbuildingStats: {
         [eto.etoId]: bookbuildingStats,
       },
     },
-  })(() => <EtoOverviewStatusLayout {...commonProps} {...props || {}} eto={eto} />);
+    investorTickets: calculatedContributions && {
+      calculatedContributions: {
+        [eto.etoId]: calculatedContributions,
+      },
+    },
+  })(() => <EtoOverviewThumbnail {...commonProps} eto={eto} />);
 
 storiesOf("ETO/EtoOverviewThumbnail", module)
   .addDecorator(withMockedDate(dummyNow))
@@ -96,7 +104,16 @@ storiesOf("ETO/EtoOverviewThumbnail", module)
       },
     };
 
-    return withEto({ eto });
+    const calculatedContributions = {
+      isEligible: true,
+      minTicketEurUlps: Q18.mul("10"),
+      maxTicketEurUlps: Q18.mul("10000"),
+      neuRewardUlps: Q18.mul("1000"),
+      equityTokenInt: new BigNumber(1000),
+      maxCapExceeded: false,
+      isWhitelisted: true,
+    };
+    return withEto({ eto, calculatedContributions });
   })
   .add("presale", () => {
     const eto = {
@@ -107,7 +124,19 @@ storiesOf("ETO/EtoOverviewThumbnail", module)
       },
     };
 
-    return withEto({ eto, props: { isEligibleToPreEto: true } });
+    const calculatedContributions = {
+      isEligible: true,
+      minTicketEurUlps: Q18.mul("10"),
+      maxTicketEurUlps: Q18.mul("10000"),
+      neuRewardUlps: Q18.mul("1000"),
+      equityTokenInt: new BigNumber(1000),
+      maxCapExceeded: false,
+      isWhitelisted: true,
+    };
+    return withEto({
+      eto,
+      calculatedContributions,
+    });
   })
   .add("countdown to public sale", () => {
     const eto = {
@@ -118,7 +147,9 @@ storiesOf("ETO/EtoOverviewThumbnail", module)
       },
     };
 
-    return withEto({ eto, props: { isEligibleToPreEto: false } });
+    return withEto({
+      eto,
+    });
   })
   .add("public sale", () => {
     const eto = {

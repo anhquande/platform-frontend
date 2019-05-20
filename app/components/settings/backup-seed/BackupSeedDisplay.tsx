@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 
 import { IWalletPrivateData } from "../../../modules/web3/reducer";
-import { Button, EButtonLayout } from "../../shared/buttons";
+import { Button, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Heading } from "../../shared/Heading";
 import { PrivateKeyDisplay } from "./PrivateKeyDisplay";
 
@@ -58,7 +58,7 @@ const BackupSeedDisplay: React.FunctionComponent<IBackupSeedDisplayProps> = ({
         <Col className="mt-2" xs="auto">
           <Button
             layout={EButtonLayout.SECONDARY}
-            iconPosition="icon-before"
+            iconPosition={EIconPosition.ICON_BEFORE}
             svgIcon={arrowLeft}
             onClick={onBack}
           >
@@ -68,7 +68,7 @@ const BackupSeedDisplay: React.FunctionComponent<IBackupSeedDisplayProps> = ({
         <Col className="mt-2" xs="auto">
           <Button
             layout={EButtonLayout.SECONDARY}
-            iconPosition="icon-before"
+            iconPosition={EIconPosition.ICON_BEFORE}
             onClick={onNext}
             data-test-id="seed-display-next-link"
           >

@@ -3,8 +3,8 @@ import * as React from "react";
 
 import { TDataTestId, TTranslatedString } from "../../types";
 import { makeTid } from "../../utils/tidUtils";
-import { ECurrency, ERoundingMode } from "./formatters/utils";
-import { Money } from "./Money.unsafe";
+import { MoneyNew } from "./formatters/Money";
+import { ECurrency, EHumanReadableFormat, EMoneyInputFormat } from "./formatters/utils";
 
 import * as styles from "./MoneySuiteWidget.module.scss";
 
@@ -22,18 +22,6 @@ export interface IMoneySuiteWidgetProps {
   size?: TSize;
   walletName?: TTranslatedString;
 }
-
-// For now round down only nEUR
-const selectRoundingMethod = (currency: ECurrency): ERoundingMode | undefined => {
-  switch (currency) {
-    case ECurrency.EUR_TOKEN:
-    case ECurrency.ETH:
-      return ERoundingMode.DOWN;
-
-    default:
-      return undefined;
-  }
-};
 
 export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & TDataTestId> = ({
   icon,
@@ -54,18 +42,20 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
     </div>
     <div>
       <div className={styles.money} data-test-id={makeTid(dataTestId, "large-value")}>
-        <Money
+        <MoneyNew
           value={largeNumber}
-          currency={currency}
-          roundingMode={selectRoundingMethod(currency)}
+          inputFormat={EMoneyInputFormat.ULPS}
+          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+          moneyFormat={currency}
         />
       </div>
       <div className={styles.totalMoney} data-test-id={makeTid(dataTestId, "value")}>
         ={" "}
-        <Money
+        <MoneyNew
           value={value}
-          currency={currencyTotal}
-          roundingMode={selectRoundingMethod(currency)}
+          inputFormat={EMoneyInputFormat.ULPS}
+          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+          moneyFormat={currencyTotal}
         />
         {percentage && (
           <span className={`${parseInt(percentage, 10) > 0 ? styles.green : styles.red}`}>

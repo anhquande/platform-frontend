@@ -71,7 +71,7 @@ interface IDateChooserOpenProps {
   newDateIsValid: (date: moment.Moment | null) => boolean;
   onTestInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   minOffsetPeriodInMinutes: number;
-  uploadDate: (time: moment.Moment) => void;
+  uploadDate: () => void;
   closeDatePicker: () => void;
 }
 

@@ -17,6 +17,7 @@ const ETO_DATA_PATH = "/etos/me";
 const ETO_SUBMISSION_PATH = "/etos/me/submission";
 const ETO_BOOK_BUILDING_PATH = "/etos/me/bookbuilding";
 const ETO_PREVIEW_PATH = "/eto/view/:previewCode";
+const ETO_PREVIEW_SUBMISSION_PATH = "/etos/me/preview-submission";
 
 @injectable()
 export class EtoApi {
@@ -89,6 +90,13 @@ export class EtoApi {
     return await this.authorizedHttpClient.post<TGeneralEtoData>({
       baseUrl: BASE_PATH,
       url: ETO_SUBMISSION_PATH,
+    });
+  }
+
+  public async publishCompanyAndEto(): Promise<IHttpResponse<TGeneralEtoData>> {
+    return await this.authorizedHttpClient.post<TGeneralEtoData>({
+      baseUrl: BASE_PATH,
+      url: ETO_PREVIEW_SUBMISSION_PATH,
     });
   }
 

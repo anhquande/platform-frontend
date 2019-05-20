@@ -2,6 +2,7 @@ import BigNumber from "bignumber.js";
 import * as cn from "classnames";
 import * as React from "react";
 
+import { CommonHtmlProps } from "../../../types";
 import { FormatNumberRange } from "./FormatNumberRange";
 import { FormatShortNumberRange } from "./FormatShortNumber";
 import { ECurrencySymbol, IMoneyCommonProps, selectCurrencyCode } from "./Money";
@@ -9,18 +10,21 @@ import {
   EHumanReadableFormat,
   EMoneyInputFormat,
   ERoundingMode,
+  ESpecialNumber,
   selectDecimalPlaces,
 } from "./utils";
 
 import * as styles from "./Money.module.scss";
 
-interface IMoneyRangeProps extends React.HTMLAttributes<HTMLSpanElement> {
+interface IMoneyRangeProps {
   valueFrom: string | BigNumber | number | null | undefined;
-  valueUpto: string | BigNumber | number | null | undefined;
+  valueUpto: string | BigNumber | number | null | undefined | ESpecialNumber;
   separator?: string;
 }
 
-export const MoneyRange: React.FunctionComponent<IMoneyRangeProps & IMoneyCommonProps> = ({
+export const MoneyRange: React.FunctionComponent<
+  IMoneyRangeProps & IMoneyCommonProps & CommonHtmlProps
+> = ({
   valueFrom,
   valueUpto,
   inputFormat = EMoneyInputFormat.ULPS,
@@ -32,6 +36,7 @@ export const MoneyRange: React.FunctionComponent<IMoneyRangeProps & IMoneyCommon
   currencyClassName,
   transfer,
   theme,
+  className,
   ...props
 }) => {
   let formattedValue = null;
@@ -64,9 +69,9 @@ export const MoneyRange: React.FunctionComponent<IMoneyRangeProps & IMoneyCommon
   }
 
   return (
-    <span {...props} className={cn(styles.money, transfer, props.className, theme)}>
+    <span {...props} className={cn(styles.money, transfer, className, theme)}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>
-      {currencySymbol === ECurrencySymbol.CODE && (
+      {formattedValue && currencySymbol === ECurrencySymbol.CODE && (
         <span className={cn(styles.currency, currencyClassName)}>
           {" "}
           {selectCurrencyCode(moneyFormat)}

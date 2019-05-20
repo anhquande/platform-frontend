@@ -5,7 +5,7 @@ import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
 import { externalRoutes } from "../../../config/externalRoutes";
 import { appRoutes } from "../../appRoutes";
 import { EtoWidgetView } from "../../eto/EtoWidgetView";
-import { ButtonLink, ButtonSize, EButtonLayout } from "../../shared/buttons";
+import { ButtonLink, ButtonSize, EButtonLayout, EButtonTheme } from "../../shared/buttons";
 import { ENeonHeaderSize, NeonHeader } from "../shared/NeonHeader";
 
 import * as styles from "./LandingFeatured.module.scss";
@@ -45,7 +45,7 @@ const LandingFeatured: React.FunctionComponent = () => (
       </ul>
       <div className="mt-5">
         <ButtonLink
-          theme="neon"
+          theme={EButtonTheme.NEON}
           className="mr-5 mb-5"
           layout={EButtonLayout.SECONDARY}
           size={ButtonSize.HUGE}
@@ -55,7 +55,7 @@ const LandingFeatured: React.FunctionComponent = () => (
         </ButtonLink>
         <ButtonLink
           size={ButtonSize.HUGE}
-          theme="graphite"
+          theme={EButtonTheme.GRAPHITE}
           className="mb-5"
           layout={EButtonLayout.PRIMARY}
           to={appRoutes.login}

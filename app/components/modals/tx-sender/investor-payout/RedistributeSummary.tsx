@@ -2,7 +2,6 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Container } from "reactstrap";
 
-import { externalRoutes } from "../../../../config/externalRoutes";
 import { actions } from "../../../../modules/actions";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TRedistributePayoutAdditionalData } from "../../../../modules/tx/transactions/payout/redistribute/types";
@@ -10,7 +9,7 @@ import { ETxSenderType } from "../../../../modules/tx/types";
 import { selectEthereumAddressWithChecksum } from "../../../../modules/web3/selectors";
 import { appConnect } from "../../../../store";
 import { EthereumAddressWithChecksum } from "../../../../types";
-import { withParams } from "../../../../utils/withParams";
+import { commitmentStatusLink } from "../../../appRouteUtils";
 import { Button } from "../../../shared/buttons";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { ExternalLink } from "../../../shared/links";
@@ -44,10 +43,7 @@ const InvestorRedistributePayoutSummaryLayout: React.FunctionComponent<TComponen
     <RedistributeTransactionDetails additionalData={additionalData} className="mb-4" />
 
     <section className="text-center">
-      <ExternalLink
-        className="d-inline-block mb-3"
-        href={withParams(externalRoutes.commitmentStatus, { walletAddress })}
-      >
+      <ExternalLink className="d-inline-block mb-3" href={commitmentStatusLink(walletAddress)}>
         <FormattedMessage id="investor-payout.summary.neu-tokenholder-agreement" />
       </ExternalLink>
       <small className="d-inline-block mb-3 mx-4">
