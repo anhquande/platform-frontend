@@ -31,3 +31,8 @@ export const goToEtoViewById = (etoId: string, title?: string) => {
 
   assertEtoView(title);
 };
+
+export const assertIssuerEtoView = () => {
+  cy.url().should("contain", "/eto/view");
+  cy.get(tid("eto.public-view")).should("exist");
+};

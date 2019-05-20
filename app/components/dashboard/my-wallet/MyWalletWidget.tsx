@@ -105,6 +105,7 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
           </Col>
         </Row>
         {process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED === "1" &&
+          process.env.NF_CHECK_LOCKED_WALLET_WIDGET_IN_DASHBOARD === "1" &&
           (!(isIcbmWalletConnected || isLockedWalletConnected) && (
             <Row data-test-id="my-wallet-widget-icbm-help-text">
               <Col>

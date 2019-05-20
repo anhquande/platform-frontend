@@ -16,6 +16,7 @@ const defaultProps = {
   smartContractOnChain: true,
   jurisdiction: EJurisdiction.GERMANY,
   offeringDocumentType: EOfferingDocumentType.PROSPECTUS,
+  companyPitchdeckUrl: { title: "", url: "http://neufund.org" },
 };
 
 storiesOf("ETO/TagsWidget", module)

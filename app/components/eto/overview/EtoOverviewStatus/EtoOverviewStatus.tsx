@@ -250,6 +250,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
 
             <div className={styles.tagsWrapper}>
               <TagsWidget
+                companyPitchdeckUrl={eto.company.companyPitchdeckUrl}
                 etoId={eto.etoId}
                 jurisdiction={eto.product.jurisdiction}
                 offeringDocumentType={eto.product.offeringDocumentType}

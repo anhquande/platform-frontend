@@ -52,6 +52,7 @@ export const testCompany: TCompanyEtoData = {
   companyBanner,
   companyPreviewCardBanner,
   companyLegalDescription: "Est castus ionicis tormento, cesaris.",
+  companyPitchdeckUrl: { title: "", url: "http://neufund.org" },
   companyStage: "a_round",
   city: "Berlin",
   businessModel: undefined,

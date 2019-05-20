@@ -15,6 +15,16 @@ interface IAccordionElementState {
   isOpened: boolean;
 }
 
+type IAccordionChildren =
+  | React.ReactElement<IAccordionElementProps | null>
+  | React.ReactElement<IAccordionElementProps | null>[]
+  | null;
+
+interface IAccordionProps {
+  openFirst?: boolean;
+  children?: IAccordionChildren | IAccordionChildren[];
+}
+
 export class AccordionElement extends React.Component<
   IAccordionElementProps,
   IAccordionElementState
@@ -43,6 +53,20 @@ export class AccordionElement extends React.Component<
   }
 }
 
-export const Accordion: React.FunctionComponent = ({ children }) => (
-  <div className={styles.accordion}>{children}</div>
+export const Accordion: React.FunctionComponent<IAccordionProps> = ({ children, openFirst }) => (
+  <div className={styles.accordion}>
+    {React.Children.toArray(children)
+      // filter all empty children
+      .filter((child: React.ReactChild) => child)
+      .map((child: React.ReactChild, index: number) =>
+        openFirst && index === 0
+          ? // clone element and add isOpened to it if it's first one
+            React.cloneElement<IAccordionElementProps>(
+              // type cast is required due of toArray that changes elements to ReactChild
+              child as React.ReactElement<IAccordionElementProps>,
+              { isOpened: true },
+            )
+          : child,
+      )}
+  </div>
 );
