@@ -10,28 +10,34 @@ import * as styles from "./FormFieldLabel.module.scss";
 
 export type FormLabelExternalProps = {
   for: string;
+  inheritFont?: boolean;
 };
 
 export type FormFieldLabelExternalProps = {
   name: string;
+  inheritFont?: boolean;
 };
 
 const FormLabel: React.FunctionComponent<FormLabelExternalProps & CommonHtmlProps> = ({
   for: htmlFor,
   children,
   className,
+  inheritFont,
 }) => (
-  <label htmlFor={htmlFor} className={cn(styles.formLabel, className)}>
+  <label
+    htmlFor={htmlFor}
+    className={cn(styles.formLabel, className, { [styles.inheritFont]: inheritFont })}
+  >
     {children}
   </label>
 );
 
 const FormFieldLabelLayout: React.FunctionComponent<
   CommonHtmlProps & FormFieldLabelExternalProps & TFormikConnect
-> = ({ children, name, formik, ...rawProps }) => {
+> = ({ children, name, formik, inheritFont, ...rawProps }) => {
   if (formik.validationSchema) {
     return (
-      <FormLabel for={name} {...rawProps}>
+      <FormLabel for={name} inheritFont={inheritFont} {...rawProps}>
         {children}
         {isFieldRequired(formik.validationSchema, name) && <span aria-hidden="true"> *</span>}
       </FormLabel>
@@ -46,8 +52,8 @@ const FormFieldLabelLayout: React.FunctionComponent<
 };
 
 const FormFieldLabel = compose<
-  FormFieldLabelExternalProps & TFormikConnect,
-  FormFieldLabelExternalProps
+  CommonHtmlProps & FormFieldLabelExternalProps & TFormikConnect,
+  FormFieldLabelExternalProps & CommonHtmlProps
 >(
   connect,
   // Do not rerender until either name or schema changes

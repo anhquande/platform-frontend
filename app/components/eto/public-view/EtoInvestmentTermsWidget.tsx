@@ -63,7 +63,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
 
   return (
     <Panel className={styles.tokenTerms}>
-      <div className={styles.content}>
+      <div className={styles.content} data-test-id="eto-public-view-token-terms">
         <div className={styles.group}>
           <div className={styles.groupTitle}>
             <FormattedMessage id="eto.public-view.token-terms.group-title.equity" />

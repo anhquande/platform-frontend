@@ -81,6 +81,9 @@ export const etoMediaProgressOptions: IProgressOptions = {
   ignore: {
     companyVideo: true,
     companySlideshare: true,
+    companyPitchdeckUrl: {
+      title: true,
+    },
   },
 };
 

@@ -172,7 +172,10 @@ export const EtoMediaType = YupTS.object({
     title: YupTS.string().optional(), // optional in contrast to swagger, because filled in programmatically.
     url: YupTS.url().optional(),
   }).optional(),
-
+  companyPitchdeckUrl: YupTS.object({
+    title: YupTS.string().optional(), // optional in contrast to swagger, because filled in programmatically.
+    url: YupTS.url(),
+  }).optional(),
   socialChannels: socialChannelsType.optional(),
   companyNews: companyNewsType.optional(),
   marketingLinks: marketingLinksType.optional(),
