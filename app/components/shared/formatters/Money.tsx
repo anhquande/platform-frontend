@@ -28,7 +28,7 @@ enum EMoneyTransfer {
   OUTCOME = styles.outcome,
 }
 
-enum ETheme {
+enum EThemeNew {
   GREEN = styles.tGreen,
   ORANGE = styles.tOrange,
   GREEN_BIG = styles.tBigValue,
@@ -46,7 +46,7 @@ interface IMoneyCommonProps {
   currencySymbol?: ECurrencySymbol;
   currencyClassName?: string;
   transfer?: EMoneyTransfer;
-  theme?: ETheme;
+  theme?: EThemeNew;
   defaultValue?: React.ReactChild;
   className?: string;
 }
@@ -120,7 +120,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
   );
 };
 
-export { MoneyNew, IMoneyCommonProps, EMoneyTransfer, ECurrencySymbol, ETheme };
+export { MoneyNew, IMoneyCommonProps, EMoneyTransfer, ECurrencySymbol, EThemeNew };
 
 /*
 MONEY
