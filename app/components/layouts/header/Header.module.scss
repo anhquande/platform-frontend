@@ -27,6 +27,7 @@
 }
 
 .bar {
+  grid-area: header;
   height: px-to-rem(60px);
   background-color: $neu-charcoal-grey;
   z-index: $z-index-over-content;

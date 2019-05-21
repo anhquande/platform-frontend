@@ -1,0 +1,6 @@
+.content {
+  @include make-col-ready;
+  grid-area: content;
+  padding: 0 px-to-rem(30px);
+  background-color: $neu-pale-blue;
+}

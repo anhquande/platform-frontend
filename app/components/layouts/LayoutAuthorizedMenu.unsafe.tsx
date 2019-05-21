@@ -156,7 +156,7 @@ const InvestorMenu: React.FunctionComponent<IStateProps & IDispatchProps & IWith
   isClaimsVerified,
 }) => (
   <div className={styles.menu}>
-    <div className={styles.menuItems}>
+    {/*<div className={styles.menuItems}>*/}
       <MenuEntryLink
         svgString={iconDashboard}
         to={appRoutes.dashboard}
@@ -202,7 +202,7 @@ const InvestorMenu: React.FunctionComponent<IStateProps & IDispatchProps & IWith
           isActive={isIdentityModalOpened}
         />
       )}
-    </div>
+    {/*</div>*/}
   </div>
 );
 

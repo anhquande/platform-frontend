@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Col, Row } from "reactstrap";
 
 import { AcceptTosModal } from "../modals/accept-tos-modal/AcceptTosModal";
 import { BankTransferFlowModal } from "../modals/bank-transfer-flow/BankTransferFlow";
@@ -7,34 +6,23 @@ import { DepositEthModal } from "../modals/DepositEthModal";
 import { DownloadTokenAgreementModal } from "../modals/download-token-agreements-modal/DownloadTokenAgreementModal";
 import { IcbmWalletBalanceModal } from "../modals/icbm-wallet-balance-modal/IcbmWalletBalanceModal.unsafe";
 import { TxSenderModal } from "../modals/tx-sender/TxSender";
-import { LoadingIndicator } from "../shared/loading-indicator/LoadingIndicator";
-import { NotificationWidget } from "../shared/notification-widget/NotificationWidget";
 import { Footer } from "./Footer";
 import { Header } from "./header/Header";
 import { LayoutAuthorizedMenu } from "./LayoutAuthorizedMenu.unsafe";
 import { layoutEnhancer } from "./LayoutEnhancer";
+import { Content } from "./Content";
+import { NotificationWidget } from "../shared/notification-widget/NotificationWidget";
 
 import * as styles from "./LayoutAuthorized.module.scss";
-import * as sharedStyles from "./LayoutShared.module.scss";
 
 export const LayoutAuthorizedComponent: React.FunctionComponent = ({ children }) => (
-  <>
+  <div className={styles.layout}>
     <Header />
-
-    <div className={`wrapper ${sharedStyles.layoutBg}`}>
-      <div>
-        <LayoutAuthorizedMenu />
-      </div>
-      <div className="layout-container">
-        <NotificationWidget />
-        <Row>
-          <Col className={styles.content}>
-            <React.Suspense fallback={<LoadingIndicator />}>{children}</React.Suspense>
-          </Col>
-        </Row>
-      </div>
-    </div>
-
+    <LayoutAuthorizedMenu />
+    <Content >
+      <NotificationWidget />
+      {children}
+    </Content>
     <Footer />
     <AcceptTosModal />
     <DepositEthModal />
@@ -42,7 +30,7 @@ export const LayoutAuthorizedComponent: React.FunctionComponent = ({ children })
     <IcbmWalletBalanceModal />
     <BankTransferFlowModal />
     <DownloadTokenAgreementModal />
-  </>
+  </div>
 );
 
 export const LayoutAuthorized = layoutEnhancer(LayoutAuthorizedComponent);
