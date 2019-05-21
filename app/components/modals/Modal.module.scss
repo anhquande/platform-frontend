@@ -4,10 +4,13 @@
   overflow: auto;
 
   .header {
+    @include media-breakpoint-up (sm) {
+      margin-bottom: $spacing-vertical-sm-1;
+    }
+
     align-items: center;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: $spacing-vertical-sm-1;
     width: 100%;
   }
 
