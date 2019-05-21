@@ -27,11 +27,17 @@
 }
 
 .bar {
+  @include media-breakpoint-up (sm) {
+    position: relative;
+  }
+
   grid-area: header;
   height: px-to-rem(60px);
   background-color: $neu-charcoal-grey;
   z-index: $z-index-over-content;
   padding-left: .75rem;
+  position: sticky;
+  top: 0;
 }
 
 .buttons {

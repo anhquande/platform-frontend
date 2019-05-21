@@ -9,6 +9,9 @@ $lg-width: px-to-rem(140px);
   @include media-breakpoint-up(sm) {
     @include rect($sm-width, 100%);
 
+    grid-area: menu;
+    position: relative;
+
     display: block;
     padding-top: map-get($spacers, 3);
     justify-content: flex-start;
@@ -19,14 +22,14 @@ $lg-width: px-to-rem(140px);
     width: $lg-width;
   }
 
-  grid-area: menu;
+  position: sticky;
+  bottom: 0;
   background-color: $neu-charcoal-grey;
   border-top: 2px solid $neu-charcoal-grey;
   display: flex;
   justify-content: space-evenly;
   flex-shrink: 1;
-  position: relative;
-
+  z-index: 2;
   color: $neu-white-two;
 
   .menu-item {
@@ -75,62 +78,6 @@ $lg-width: px-to-rem(140px);
     }
   }
 }
-
-//.menu-items {
-//  @include media-breakpoint-up(sm) {
-//    flex-direction: column;
-//  }
-//
-//  color: $neu-white-two;
-//  display: flex;
-//  width: 100%;
-//
-//  .menu-item {
-//    @include media-breakpoint-up(sm) {
-//      padding-right: px-to-rem(5px);
-//      height: px-to-rem(65px);
-//      border-left: 6px solid transparent;
-//    }
-//
-//    @include media-breakpoint-down(xs) {
-//      width: px-to-rem(60px);
-//      border-bottom: 3px solid transparent;
-//    }
-//
-//    @include media-breakpoint-up(lg) {
-//      display: flex;
-//      height: px-to-rem(40px);
-//      background-position: map-get($spacers, 3) center;
-//    }
-//
-//    flex-shrink: 0;
-//    user-select: none;
-//    position: relative;
-//    height: px-to-rem(60px);
-//    display: flex;
-//    align-items: center;
-//    text-decoration: none;
-//
-//    .icon {
-//      color: $neu-piss-yellow;
-//    }
-//
-//    .disabled-item {
-//      color: $neu-white-two;
-//    }
-//
-//    &:hover,
-//    &:focus,
-//    &--active {
-//      border-color: $neu-piss-yellow;
-//    }
-//
-//    &--active {
-//      background-color: lighten($neu-charcoal-grey, 8%);
-//
-//    }
-//  }
-//}
 
 .icon {
   @include media-breakpoint-up(sm) {

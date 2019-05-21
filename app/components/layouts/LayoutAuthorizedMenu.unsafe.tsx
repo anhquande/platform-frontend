@@ -156,53 +156,51 @@ const InvestorMenu: React.FunctionComponent<IStateProps & IDispatchProps & IWith
   isClaimsVerified,
 }) => (
   <div className={styles.menu}>
-    {/*<div className={styles.menuItems}>*/}
+    <MenuEntryLink
+      svgString={iconDashboard}
+      to={appRoutes.dashboard}
+      menuName={<FormattedMessage id="menu.dashboard" />}
+      isActive={isLinkActive}
+    />
+    {process.env.NF_PORTFOLIO_PAGE_VISIBLE === "1" && (
       <MenuEntryLink
-        svgString={iconDashboard}
-        to={appRoutes.dashboard}
-        menuName={<FormattedMessage id="menu.dashboard" />}
+        svgString={iconPortfolio}
+        to={appRoutes.portfolio}
+        menuName={<FormattedMessage id="menu.portfolio" />}
         isActive={isLinkActive}
       />
-      {process.env.NF_PORTFOLIO_PAGE_VISIBLE === "1" && (
-        <MenuEntryLink
-          svgString={iconPortfolio}
-          to={appRoutes.portfolio}
-          menuName={<FormattedMessage id="menu.portfolio" />}
-          isActive={isLinkActive}
-        />
-      )}
-      <MenuEntryLink
-        svgString={iconWallet}
-        to={appRoutes.wallet}
-        menuName={<FormattedMessage id="menu.wallet" />}
-        data-test-id="authorized-layout-wallet-button"
-        isActive={isLinkActive}
-      />
-      <MenuEntryLink
+    )}
+    <MenuEntryLink
+      svgString={iconWallet}
+      to={appRoutes.wallet}
+      menuName={<FormattedMessage id="menu.wallet" />}
+      data-test-id="authorized-layout-wallet-button"
+      isActive={isLinkActive}
+    />
+    <MenuEntryLink
+      svgString={iconFingerprint}
+      to={appRoutes.profile}
+      menuName={<FormattedMessage id="menu.settings" />}
+      actionRequired={actionRequiredSettings}
+      data-test-id="authorized-layout-profile-button"
+      isActive={isLinkActive}
+    />
+    <MenuEntryLink
+      svgString={iconHelp}
+      to={externalRoutes.neufundSupportHome}
+      menuName={<FormattedMessage id="menu.help" />}
+      isActive={isLinkActive}
+    />
+    {process.env.NF_SHOW_INVESTOR_IDENTITY && (
+      <MenuEntryButton
+        disabled={!isClaimsVerified}
         svgString={iconFingerprint}
-        to={appRoutes.profile}
-        menuName={<FormattedMessage id="menu.settings" />}
-        actionRequired={actionRequiredSettings}
-        data-test-id="authorized-layout-profile-button"
-        isActive={isLinkActive}
+        onClick={openIdentityModal}
+        menuName={<FormattedMessage id="menu.identity" />}
+        data-test-id="authorized-layout-identity-button"
+        isActive={isIdentityModalOpened}
       />
-      <MenuEntryLink
-        svgString={iconHelp}
-        to={externalRoutes.neufundSupportHome}
-        menuName={<FormattedMessage id="menu.help" />}
-        isActive={isLinkActive}
-      />
-      {process.env.NF_SHOW_INVESTOR_IDENTITY && (
-        <MenuEntryButton
-          disabled={!isClaimsVerified}
-          svgString={iconFingerprint}
-          onClick={openIdentityModal}
-          menuName={<FormattedMessage id="menu.identity" />}
-          data-test-id="authorized-layout-identity-button"
-          isActive={isIdentityModalOpened}
-        />
-      )}
-    {/*</div>*/}
+    )}
   </div>
 );
 

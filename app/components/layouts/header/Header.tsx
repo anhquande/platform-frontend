@@ -37,7 +37,7 @@ interface IDispatchProps {
 export const HeaderComponent: React.FunctionComponent<
   IExternalProps & IStateProps & IDispatchProps
 > = props => (
-  <Navbar dark className={cn(styles.bar, "flex-nowrap")}>
+  <Navbar dark className={cn(styles.bar)}>
     <Link to={appRoutes.root} className={styles.logo}>
       <img src={logo} className={styles.logoImage} alt="" />
       <img src={logoText} alt="NEUFUND" className={styles.logoText} />
