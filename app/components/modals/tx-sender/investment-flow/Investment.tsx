@@ -45,16 +45,15 @@ import { appRoutes } from "../../../appRoutes";
 import { InfoAlert } from "../../../shared/Alerts";
 import { Button, EButtonLayout } from "../../../shared/buttons";
 import { ButtonSize, ButtonTextPosition } from "../../../shared/buttons/Button";
-import { selectCurrencyCode } from "../../../shared/formatters/Money";
+import { MoneyNew, selectCurrencyCode } from "../../../shared/formatters/Money";
 import {
   ECurrency,
   ENumberInputFormat,
-  ERoundingMode,
+  ENumberOutputFormat,
   formatThousands,
 } from "../../../shared/formatters/utils";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { MaskedMoneyInput } from "../../../shared/MaskedMoneyInput";
-import { Money } from "../../../shared/Money.unsafe";
 import { InvestmentTypeSelector, WalletSelectionData } from "./InvestmentTypeSelector";
 import { createWallets, formatEur, getInputErrorMessage } from "./utils";
 
@@ -270,7 +269,12 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                   </Label>
                   <InfoAlert data-test-id="invest-modal.est-neu-tokens">
                     {(showTokens && !error && neuReward && (
-                      <Money value={neuReward} currency={ECurrency.NEU} />
+                      <MoneyNew
+                        value={neuReward}
+                        inputFormat={ENumberInputFormat.ULPS}
+                        moneyFormat={ECurrency.NEU}
+                        outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+                      />
                     )) ||
                       "\xA0"}
                   </InfoAlert>
@@ -299,18 +303,18 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
                 <div>
                   + <FormattedMessage id="investment-flow.estimated-gas-cost" />:{" "}
                   <span className="text-warning" data-test-id="invest-modal-gas-cost">
-                    <Money
+                    <MoneyNew
                       value={gasCostEuro}
-                      format={ENumberInputFormat.ULPS}
-                      currency={ECurrency.EUR}
-                      roundingMode={ERoundingMode.UP}
+                      inputFormat={ENumberInputFormat.ULPS}
+                      moneyFormat={ECurrency.EUR}
+                      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                     />
                     {" ≈ "}
-                    <Money
+                    <MoneyNew
                       value={gasCostEth}
-                      format={ENumberInputFormat.ULPS}
-                      currency={ECurrency.ETH}
-                      roundingMode={ERoundingMode.UP}
+                      inputFormat={ENumberInputFormat.ULPS}
+                      moneyFormat={ECurrency.ETH}
+                      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                     />
                   </span>
                 </div>
@@ -318,18 +322,18 @@ export class InvestmentSelectionComponent extends React.Component<IProps, IState
               <div>
                 <FormattedMessage id="investment-flow.total" />:{" "}
                 <span className="text-warning" data-test-id="invest-modal-total-cost">
-                  <Money
+                  <MoneyNew
                     value={this.calculateTotalCostIfValid(gasCostEuro, euroValue)}
-                    format={ENumberInputFormat.ULPS}
-                    currency={ECurrency.EUR}
-                    roundingMode={ERoundingMode.DOWN}
+                    inputFormat={ENumberInputFormat.ULPS}
+                    moneyFormat={ECurrency.EUR}
+                    outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                   />
                   {" ≈ "}
-                  <Money
+                  <MoneyNew
                     value={this.calculateTotalCostIfValid(gasCostEth, ethValue)}
-                    format={ENumberInputFormat.ULPS}
-                    currency={ECurrency.ETH}
-                    roundingMode={ERoundingMode.DOWN}
+                    inputFormat={ENumberInputFormat.ULPS}
+                    moneyFormat={ECurrency.ETH}
+                    outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                   />
                 </span>
               </div>
