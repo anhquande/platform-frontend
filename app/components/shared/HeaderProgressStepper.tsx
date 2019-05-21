@@ -1,6 +1,5 @@
 import * as cn from "classnames";
 import * as React from "react";
-import { Col, Row } from "reactstrap";
 
 import { TTranslatedString } from "../../types";
 import { ProgressStepper } from "./ProgressStepper";
@@ -18,18 +17,10 @@ interface IProps {
 
 export const HeaderProgressStepper: React.FunctionComponent<IProps> = props => (
   <>
-    <Row className="mb-2">
-      <Col>
-        <ProgressStepper steps={props.steps} currentStep={props.currentStep} />
-      </Col>
-    </Row>
-    <Row className="mt-4 mb-4 text-center">
-      <Col>
-        <h2 className={cn(styles.bold, { "text-warning": props.warning }, props.headerClassName)}>
-          {props.headerText}
-        </h2>
-        {props.descText && <p className="pt-3">{props.descText}</p>}
-      </Col>
-    </Row>
+    <ProgressStepper steps={props.steps} currentStep={props.currentStep} />
+    <h2 className={cn(styles.title, { "text-warning": props.warning }, props.headerClassName)}>
+      {props.headerText}
+    </h2>
+    {props.descText && <p className={styles.description}>{props.descText}</p>}
   </>
 );

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Row } from "reactstrap";
 
 import { Button, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { StepCard } from "../../shared/StepCard";
@@ -21,7 +20,7 @@ export const BackupSeedIntro: React.FunctionComponent<IBackupSeedIntroProps> = (
   onNext,
 }) => (
   <>
-    <Row className={styles.stepCardWrapper}>
+    <div className={styles.stepCardWrapper}>
       <StepCard
         img={write}
         text={<FormattedMessage id="settings.backup-seed-intro.write-all-words" />}
@@ -34,25 +33,21 @@ export const BackupSeedIntro: React.FunctionComponent<IBackupSeedIntroProps> = (
         img={safe}
         text={<FormattedMessage id="settings.backup-seed-intro.store-safely" />}
       />
-    </Row>
-    <Row className="my-5">
-      <Col className="text-center">
-        <Button onClick={onNext} data-test-id="backup-seed-intro-button">
-          <FormattedMessage id="settings.backup-seed-intro.read-instructions" />
-        </Button>
-      </Col>
-    </Row>
-    <Row>
-      <Col className="col-auto">
-        <Button
-          layout={EButtonLayout.SECONDARY}
-          iconPosition={EIconPosition.ICON_BEFORE}
-          svgIcon={arrowLeft}
-          onClick={onBack}
-        >
-          <FormattedMessage id="form.button.back" />
-        </Button>
-      </Col>
-    </Row>
+    </div>
+    <Button
+      onClick={onNext}
+      data-test-id="backup-seed-intro-button"
+      className={styles.proceedButton}
+    >
+      <FormattedMessage id="settings.backup-seed-intro.read-instructions" />
+    </Button>
+    <Button
+      layout={EButtonLayout.SECONDARY}
+      iconPosition={EIconPosition.ICON_BEFORE}
+      svgIcon={arrowLeft}
+      onClick={onBack}
+    >
+      <FormattedMessage id="form.button.back" />
+    </Button>
   </>
 );

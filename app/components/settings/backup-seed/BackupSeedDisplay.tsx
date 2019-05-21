@@ -24,34 +24,30 @@ const BackupSeedDisplay: React.FunctionComponent<IBackupSeedDisplayProps> = ({
   onBack,
 }) => (
   <>
-    <Row>
-      <Col xs={{ size: 10, offset: 1 }}>
-        <section className="mb-4">
-          <Heading level={3} className="mb-3">
-            <FormattedMessage id="components.settings.backup-seed-display.backup-seed" />
-          </Heading>
-          <Row className="justify-content-around no-gutters">
-            {walletPrivateData.seed.map((word, index) => (
-              <Col
-                className={cn(styles.word, "mt-1 p-2 text-center")}
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                xl={2}
-                key={index}
-                data-test-id="seed-display-word"
-              >
-                {`${index + 1}.`}
-                {isModal ? <div>{word}</div> : word}
-              </Col>
-            ))}
-          </Row>
-        </section>
+    <section className="mb-4">
+      <Heading level={3} className="mb-3">
+        <FormattedMessage id="components.settings.backup-seed-display.backup-seed" />
+      </Heading>
+      <Row className="justify-content-around no-gutters">
+        {walletPrivateData.seed.map((word, index) => (
+          <Col
+            className={cn(styles.word, "mt-1 p-2 text-center")}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            key={index}
+            data-test-id="seed-display-word"
+          >
+            {`${index + 1}.`}
+            {isModal ? <div>{word}</div> : word}
+          </Col>
+        ))}
+      </Row>
+    </section>
 
-        <PrivateKeyDisplay privateKey={walletPrivateData.privateKey} />
-      </Col>
-    </Row>
+    <PrivateKeyDisplay privateKey={walletPrivateData.privateKey} />
 
     {!isModal && (
       <Row className="justify-content-around">

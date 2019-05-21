@@ -8,7 +8,7 @@ interface IStepCardProps {
 }
 export const StepCard: React.FunctionComponent<IStepCardProps> = ({ img, text }) => (
   <div className={styles.stepCard}>
-    <img src={img} className="mb-3" />
-    <span>{text}</span>
+    <img src={img} className={styles.stepCardImage} />
+    <span className={styles.stepCardText}>{text}</span>
   </div>
 );
