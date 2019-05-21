@@ -18,6 +18,8 @@ interface IProps {
   description?: TTranslatedString;
   decorator?: boolean | string;
   size?: EHeadingSize;
+  disableTransform?: boolean;
+  inheritFont?: boolean;
 }
 
 export const Heading: React.FunctionComponent<IProps & TDataTestId & CommonHtmlProps> = ({
@@ -29,6 +31,8 @@ export const Heading: React.FunctionComponent<IProps & TDataTestId & CommonHtmlP
   description,
   size,
   "data-test-id": dataTestId,
+  disableTransform,
+  inheritFont,
 }) => {
   invariant(
     !isString(decorator) || !description,
@@ -45,7 +49,11 @@ export const Heading: React.FunctionComponent<IProps & TDataTestId & CommonHtmlP
       {React.createElement(
         `h${level}`,
         {
-          className: cn(styles.heading, titleClassName, { [styles.hasIcon]: isString(decorator) }),
+          className: cn(styles.heading, titleClassName, {
+            [styles.hasIcon]: isString(decorator),
+            [styles.disableTransform]: disableTransform,
+            [styles.inheritFont]: inheritFont,
+          }),
         },
         isString(decorator) &&
           React.createElement("img", {

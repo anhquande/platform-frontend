@@ -37,8 +37,18 @@
     font-size: 16px;
   }
 
+  &:global(.huge) {
+    font-size: 20px;
+  }
+
   &:global(.black) {
     color: $neu-black;
+  }
+
+  &:global(.inherit) {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
   }
 
   // default states

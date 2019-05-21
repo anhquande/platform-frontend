@@ -60,6 +60,16 @@
 
   }
 
+  .disable-transform {
+    text-transform: inherit;
+  }
+
+  .inherit-font {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
   .description {
     @include font-button-default;
     margin-bottom: 0;

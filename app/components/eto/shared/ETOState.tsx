@@ -23,11 +23,13 @@ export enum EProjectStatusSize {
   MEDIUM = "medium",
   LARGE = "large",
   SMALL = "small",
+  HUGE = "huge",
 }
 
 export enum EProjectStatusLayout {
   NORMAL = "normal",
   BLACK = "black",
+  INHERIT = "inherit",
 }
 
 export enum EProjectStatusType {
@@ -87,7 +89,7 @@ export const getStateName: (
 };
 
 const stateToClassName: Partial<Record<EEtoState | EETOStateOnChain | EEtoSubState, string>> = {
-  [EEtoState.PREVIEW]: styles.black,
+  [EEtoState.PREVIEW]: styles.blue,
   [EEtoState.PENDING]: styles.black,
   // eto on chain states
   [EETOStateOnChain.Whitelist]: styles.green,
@@ -98,7 +100,7 @@ const stateToClassName: Partial<Record<EEtoState | EETOStateOnChain | EEtoSubSta
   [EETOStateOnChain.Signing]: styles.blue,
 
   // eto sub states
-  [EEtoSubState.COMING_SOON]: styles.blue,
+  [EEtoSubState.COMING_SOON]: styles.green,
   [EEtoSubState.CAMPAIGNING]: styles.blue,
   [EEtoSubState.WHITELISTING_LIMIT_REACHED]: styles.blue,
   [EEtoSubState.WHITELISTING]: styles.green,
