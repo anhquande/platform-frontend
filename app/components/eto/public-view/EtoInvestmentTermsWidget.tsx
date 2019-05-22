@@ -121,7 +121,7 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
               }
               data-test-id="eto-public-view-new-shares-to-issue"
             />
-            {etoData.newSharesToIssueInWhitelist && (
+            {!!etoData.newSharesToIssueInWhitelist && (
               <Entry
                 label={
                   <FormattedMessage id="eto.public-view.token-terms.new-shares-to-issue-in-whitelist" />
@@ -202,14 +202,14 @@ const EtoInvestmentTermsWidgetLayout: React.FunctionComponent<TExternalProps & T
               }
               data-test-id="eto-public-view-token-price"
             />
-            {etoData.whitelistDiscountFraction && (
+            {!!etoData.whitelistDiscountFraction && (
               <Entry
                 label={<FormattedMessage id="eto.public-view.token-terms.whitelist-discount" />}
                 value={<Percentage>{etoData.whitelistDiscountFraction}</Percentage>}
                 data-test-id="eto-public-view-whitelist-discount"
               />
             )}
-            {etoData.publicDiscountFraction && (
+            {!!etoData.publicDiscountFraction && (
               <Entry
                 label={<FormattedMessage id="eto.public-view.token-terms.public-discount" />}
                 value={<Percentage>{etoData.publicDiscountFraction}</Percentage>}
