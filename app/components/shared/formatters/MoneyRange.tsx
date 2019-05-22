@@ -14,7 +14,7 @@ import {
   selectDecimalPlaces,
 } from "./utils";
 
-import * as styles from "./Money.module.scss";
+import * as styles from "./MoneyNew.module.scss";
 
 interface IMoneyRangeProps {
   valueFrom: string | BigNumber | number | null | undefined;

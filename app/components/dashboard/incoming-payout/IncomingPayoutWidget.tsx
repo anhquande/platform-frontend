@@ -16,8 +16,8 @@ import { isZero } from "../../../utils/Number.utils";
 import { appRoutes } from "../../appRoutes";
 import { ButtonLink, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { Counter } from "../../shared/Counter.unsafe";
-import { ECurrency } from "../../shared/formatters/utils";
-import { ECurrencySymbol, ETheme, Money } from "../../shared/Money.unsafe";
+import { EThemeNew, MoneyNew } from "../../shared/formatters/Money";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 
 import * as arrowRight from "../../../assets/img/inline_icons/arrow_right.svg";
 import * as styles from "./IncomingPayoutWidget.module.scss";
@@ -53,20 +53,22 @@ const IncomingPayoutDone: React.FunctionComponent<IIncomingPayoutData> = ({
       <FormattedMessage id="dashboard.incoming-payout-widget.incoming-payout-done" />
     </h3>
     <div>
-      <Money
-        className={styles.incomingValue}
-        theme={ETheme.GREEN}
+      <MoneyNew
         value={euroTokenIncomingPayout}
-        currencySymbol={ECurrencySymbol.CODE}
-        currency={ECurrency.EUR_TOKEN}
+        moneyFormat={ECurrency.EUR_TOKEN}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
+        className={styles.incomingValue}
+        theme={EThemeNew.GREEN}
       />
       <span className={styles.incomingValue}> & </span>
-      <Money
-        className={styles.incomingValue}
-        theme={ETheme.GREEN}
+      <MoneyNew
         value={etherTokenIncomingPayout}
-        currencySymbol={ECurrencySymbol.CODE}
-        currency={ECurrency.ETH}
+        moneyFormat={ECurrency.ETH}
+        inputFormat={ENumberInputFormat.ULPS}
+        outputFormat={ENumberOutputFormat.FULL}
+        className={styles.incomingValue}
+        theme={EThemeNew.GREEN}
       />
     </div>
     <ButtonLink
@@ -98,26 +100,28 @@ const IncomingPayoutCounter: React.FunctionComponent<IIncomingPayoutData & IDisp
     />
     <div>
       {!isZero(euroTokenIncomingPayout) && (
-        <Money
+        <MoneyNew
+          value={euroTokenIncomingPayout}
+          inputFormat={ENumberInputFormat.ULPS}
+          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+          moneyFormat={ECurrency.EUR_TOKEN}
           data-test-id="incoming-payout-euro-token"
           className={styles.incomingValue}
-          theme={ETheme.GREEN}
-          value={euroTokenIncomingPayout}
-          currencySymbol={ECurrencySymbol.CODE}
-          currency={ECurrency.EUR_TOKEN}
+          theme={EThemeNew.GREEN}
         />
       )}
       {!isZero(euroTokenIncomingPayout) && !isZero(etherTokenIncomingPayout) && (
         <span className={styles.incomingValue}> & </span>
       )}
       {!isZero(etherTokenIncomingPayout) && (
-        <Money
+        <MoneyNew
+          value={etherTokenIncomingPayout}
+          inputFormat={ENumberInputFormat.ULPS}
+          moneyFormat={ECurrency.ETH}
+          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           data-test-id="incoming-payout-ether-token"
           className={styles.incomingValue}
-          theme={ETheme.GREEN}
-          value={etherTokenIncomingPayout}
-          currencySymbol={ECurrencySymbol.CODE}
-          currency={ECurrency.ETH}
+          theme={EThemeNew.GREEN}
         />
       )}
     </div>
