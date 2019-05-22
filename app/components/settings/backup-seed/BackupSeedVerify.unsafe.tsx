@@ -3,7 +3,6 @@ import { range } from "lodash";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import Select from "react-virtualized-select";
-import { Col, Row } from "reactstrap";
 
 import { TElementRef } from "../../../types";
 import { englishMnemonics } from "../../../utils/englishMnemonics";
@@ -129,26 +128,17 @@ class BackupSeedVerify extends React.Component<IBackupSeedVerifyProps, IBackupSe
   render(): React.ReactNode {
     return (
       <>
-        <Row>
-          <Col xs={{ size: 10, offset: 1 }}>
-            <Row>
-              {range(0, WORDS_TO_VERIFY).map((num, wordPageNumber) => {
-                const wordNumber = this.state.verificationWords[wordPageNumber].number;
-                return (
-                  <Col
-                    xs={{ size: 6, offset: 3 }}
-                    sm={{ size: 3, offset: 0 }}
-                    key={num}
-                    className="my-4"
-                  >
-                    <div data-test-id="seed-verify-label">{`word ${wordNumber + 1}`}</div>
-                    {this.generateSelect(num)}
-                  </Col>
-                );
-              })}
-            </Row>
-          </Col>
-        </Row>
+        <div className={styles.verificationBlock}>
+          {range(0, WORDS_TO_VERIFY).map((num, wordPageNumber) => {
+            const wordNumber = this.state.verificationWords[wordPageNumber].number;
+            return (
+              <div key={num} className={styles.word}>
+                <div data-test-id="seed-verify-label">{`word ${wordNumber + 1}`}</div>
+                {this.generateSelect(num)}
+              </div>
+            );
+          })}
+        </div>
         {this.isValid() && (
           <div className={cn(styles.placeholderHeight, styles.row, styles.center)}>
             <Button data-test-id="seed-verify-button-next" onClick={this.props.onNext}>

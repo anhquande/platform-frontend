@@ -24,7 +24,7 @@ const BackupSeedDisplay: React.FunctionComponent<IBackupSeedDisplayProps> = ({
   onBack,
 }) => (
   <>
-    <section className="mb-4">
+    <section className={styles.words}>
       <Heading level={3} className="mb-3">
         <FormattedMessage id="components.settings.backup-seed-display.backup-seed" />
       </Heading>
