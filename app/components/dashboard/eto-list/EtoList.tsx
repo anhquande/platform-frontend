@@ -13,6 +13,7 @@ import { EtoOverviewStatus } from "../../eto/overview/EtoOverviewStatus";
 import { EtosComingSoon } from "../../eto/overview/EtoOverviewStatus/EtosComingSoon";
 import { EtoOverviewThumbnail } from "../../eto/overview/EtoOverviewThumbnail";
 import { DashboardHeading } from "../../eto/shared/DashboardHeading";
+import { Container, EColumnSpan } from "../../layouts/Container";
 import { ELoadingIndicator, LoadingIndicator } from "../../shared/loading-indicator";
 
 interface IStateProps {
@@ -44,13 +45,13 @@ const EtoListDefault: React.FunctionComponent<TListProps> = ({ etos }) => (
 
 const EtoListComponent: React.FunctionComponent<IStateProps> = ({ etos }) => (
   <>
-    <Col xs={12}>
+    <Container columnSpan={EColumnSpan.THREE_COL}>
       <DashboardHeading title={<FormattedMessage id="dashboard.eto-opportunities" />} />
       <p>
         <FormattedMessage id="dashboard.eto-opportunities.description" />
       </p>
-    </Col>
-    <Col xs={12}>
+    </Container>
+    <Container columnSpan={EColumnSpan.THREE_COL}>
       {etos ? (
         process.env.NF_ETO_LIST_GRID === "1" ? (
           <EtoListThumbnails etos={etos} />
@@ -60,7 +61,7 @@ const EtoListComponent: React.FunctionComponent<IStateProps> = ({ etos }) => (
       ) : (
         <LoadingIndicator type={ELoadingIndicator.HEXAGON} />
       )}
-    </Col>
+    </Container>
   </>
 );
 

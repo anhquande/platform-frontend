@@ -18,6 +18,7 @@ import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { appRoutes } from "../../appRoutes";
+import { EColumnSpan } from "../../layouts/Container";
 import { ButtonLink, EButtonLayout, EButtonTheme, EIconPosition } from "../../shared/buttons";
 import { MoneyNew } from "../../shared/formatters/Money";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
@@ -44,6 +45,10 @@ type StateProps = {
     isLockedWalletConnected: boolean;
   };
 };
+
+interface IWidgetProps {
+  columnSpan?: EColumnSpan;
+}
 
 export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = props => {
   if (props.isLoading) {
@@ -128,12 +133,11 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
   }
 };
 
-export const MyWalletWidgetComponent: React.FunctionComponent<CommonHtmlProps & StateProps> = ({
-  className,
-  style,
-  ...props
-}) => (
+export const MyWalletWidgetComponent: React.FunctionComponent<
+  CommonHtmlProps & StateProps & IWidgetProps
+> = ({ className, style, columnSpan, ...props }) => (
   <Panel
+    columnSpan={columnSpan}
     headerText={
       <FormattedMessage id="components.dashboard.my-wallet.my-wallet-widget.header-text" />
     }
@@ -156,7 +160,7 @@ export const MyWalletWidgetComponent: React.FunctionComponent<CommonHtmlProps & 
   </Panel>
 );
 
-export const MyWalletWidget = compose<React.FunctionComponent<CommonHtmlProps>>(
+export const MyWalletWidget = compose<React.FunctionComponent<CommonHtmlProps & IWidgetProps>>(
   onEnterAction({ actionCreator: d => d(actions.wallet.loadWalletData()) }),
   appConnect<StateProps>({
     stateToProps: s => {

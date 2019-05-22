@@ -3,12 +3,11 @@
 }
 
 .logo-image {
-  @include media-breakpoint-up (lg) {
-    margin-left: px-to-rem(32px);
+  @include media-breakpoint-up (sm) {
+    margin-left: px-to-rem(6px);
   }
 
-  height: px-to-rem(43px);
-  width: px-to-rem(36px);
+  height: px-to-rem(32px);
 }
 
 .logo-text {

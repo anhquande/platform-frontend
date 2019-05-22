@@ -14,8 +14,7 @@ import { Button, ButtonLink, EButtonLayout, EButtonTheme } from "../../shared/bu
 import { loginWalletRoutes, walletRegisterRoutes } from "../../wallet-selector/walletRoutes";
 import { PendingTransactionStatus } from "./PendingTransactionStatus";
 
-import * as logo from "../../../assets/img/logo_yellow.svg";
-import * as logoText from "../../../assets/img/neufund-logo.svg";
+import * as logoNew from "../../../assets/img/logo_neufund_on_dark.svg"; // todo remove this, it's only used in tests now
 import * as styles from "./Header.module.scss";
 
 interface IExternalProps {
@@ -39,8 +38,7 @@ export const HeaderComponent: React.FunctionComponent<
 > = props => (
   <Navbar dark className={cn(styles.bar)}>
     <Link to={appRoutes.root} className={styles.logo}>
-      <img src={logo} className={styles.logoImage} alt="" />
-      <img src={logoText} alt="NEUFUND" className={styles.logoText} />
+      <img src={logoNew} alt="NEUFUND" className={styles.logoImage} />
     </Link>
 
     {!props.hideCtaButtons &&

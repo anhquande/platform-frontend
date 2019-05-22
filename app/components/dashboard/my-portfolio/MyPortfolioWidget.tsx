@@ -12,6 +12,7 @@ import { selectNeuBalance, selectNeuBalanceEuroAmount } from "../../../modules/w
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
+import { EColumnSpan } from "../../layouts/Container";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { Panel } from "../../shared/Panel";
 import { WarningAlert } from "../../shared/WarningAlert";
@@ -38,7 +39,11 @@ interface IStateProps {
   isIncomingPayoutAvailable: boolean;
 }
 
-type IProps = TOwnProps & IStateProps;
+interface IWidgetProps {
+  columnSpan?: EColumnSpan;
+}
+
+type IProps = TOwnProps & IStateProps & IWidgetProps;
 
 const Welcome: React.FunctionComponent<{}> = () => (
   <div className={styles.main}>
@@ -69,15 +74,16 @@ export const MyPortfolioWidgetComponentBody: React.FunctionComponent<IBodyProps>
   );
 };
 
-export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
+export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps & IWidgetProps> = ({
   className,
   style,
   error,
   balanceEur,
   balanceNeu,
   isIncomingPayoutAvailable,
+  columnSpan,
 }) => (
-  <Panel className={cn(className, styles.panelFix)} style={style}>
+  <Panel className={cn(className, styles.panelFix)} style={style} columnSpan={columnSpan}>
     <MyPortfolioWidgetComponentBody
       {...{
         balanceEur: balanceEur!,
@@ -96,7 +102,7 @@ export const LoadingComponent: React.FunctionComponent<IProps> = ({ className, s
   </Panel>
 );
 
-export const MyPortfolioWidget = compose<IStateProps, TOwnProps>(
+export const MyPortfolioWidget = compose<IStateProps, TOwnProps & IWidgetProps>(
   onEnterAction({
     actionCreator: d => {
       d(actions.investorEtoTicket.getIncomingPayouts());
