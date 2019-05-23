@@ -39,7 +39,7 @@ const Jurisdiction: React.FunctionComponent<{ jurisdiction: EJurisdiction }> = (
         />
       );
     default:
-      return assertNever(jurisdiction, "Not a valid jurisdiction");
+      return assertNever(jurisdiction, `${jurisdiction} is not a valid jurisdiction`);
   }
 };
 
