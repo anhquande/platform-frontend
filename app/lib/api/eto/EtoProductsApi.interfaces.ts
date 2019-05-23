@@ -16,8 +16,8 @@ export enum EOfferingDocumentType {
 }
 
 export enum EJurisdiction {
-  GERMANY = "de",
-  LIECHTENSTEIN = "li",
+  GERMANY = "DE",
+  LIECHTENSTEIN = "LI",
 }
 
 export enum EProductName {
