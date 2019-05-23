@@ -21,11 +21,11 @@ export enum EJurisdiction {
 }
 
 export enum EProductName {
-  HNWI_ETO_DE = "hnwi eto de",
-  HNWI_ETO_LI = "hnwi eto li",
+  HNWI_ETO_DE = "hnwi eto de security",
+  HNWI_ETO_LI = "hnwi eto li security",
   PRIVATE_ETO_LI = "private eto li",
   MINI_ETO_LI = "mini eto li",
-  RETAIL_ETO_DE = "retail eto de",
+  RETAIL_ETO_DE = "hnwi eto de vma",
   RETAIL_ETO_LI_SECURITY = "retail eto li security",
   RETAIL_ETO_LI_VMA = "retail eto li vma",
   FIFTH_FORCE_ETO = "ff eto",

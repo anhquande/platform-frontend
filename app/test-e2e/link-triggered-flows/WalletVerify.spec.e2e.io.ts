@@ -43,8 +43,6 @@ describe("Verify Wallet", () => {
     const email = generateRandomEmailAddress();
     const password = "strongpassword";
 
-    clearEmailServer();
-
     registerWithLightWallet(email, password);
     assertDashboard();
 

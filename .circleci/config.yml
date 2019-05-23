@@ -32,13 +32,14 @@ jobs:
     docker:
       - image: circleci/node:11.14.0-browsers
     working_directory: /home/circleci/app
+    parallelism: 2
 
     steps:
       - checkout
       # - restore_cache:
-          # keys:
-            # - v18-deps-{{ checksum "package.json" }}
-            # - v18-deps-
+      # keys:
+      # - v18-deps-{{ checksum "package.json" }}
+      # - v18-deps-
 
       - run: yarn --frozen-lockfile
       - run:

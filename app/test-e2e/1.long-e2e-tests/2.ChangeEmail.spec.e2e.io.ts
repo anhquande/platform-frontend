@@ -5,37 +5,37 @@ import {
   assertEmailChangeAbort,
   assertEmailChangeFlow,
   assertEmailPendingChange,
-  clearEmailServer,
   goToProfile,
   logoutViaTopRightButton,
   registerWithLightWallet,
   verifyLatestUserEmail,
+  goToDashboard,
 } from "../utils/index";
 import { tid } from "../utils/selectors";
-import { DEFAULT_PASSWORD, generateRandomEmailAddress } from "../utils/userHelpers";
+import {
+  DEFAULT_PASSWORD,
+  generateRandomEmailAddress,
+  createAndLoginNewUser,
+} from "../utils/userHelpers";
 
 describe("Change Email", () => {
-  let email: string;
-
   describe("Has verified email", () => {
+    let email;
     beforeEach(() => {
-      email = generateRandomEmailAddress();
-      clearEmailServer();
-
-      registerWithLightWallet(email, DEFAULT_PASSWORD);
-      assertDashboard();
-      verifyLatestUserEmail();
-
-      goToProfile();
-
-      assertEmailChangeFlow();
+      createAndLoginNewUser({ type: "investor", kyc: "individual" }).then(() => {
+        cy.window().then(async window => {
+          // TODO: move into a seperate util method
+          const metaData = JSON.parse(await window.localStorage.getItem("NF_WALLET_METADATA"));
+          email = metaData.email;
+        });
+      });
     });
 
     it("should allow to change email", () => {
+      goToProfile();
+      assertEmailChangeFlow();
+
       const newEmail = generateRandomEmailAddress();
-
-      clearEmailServer();
-
       fillForm({
         email: newEmail,
         "verify-email-widget-form-submit": { type: "submit" },
@@ -44,16 +44,13 @@ describe("Change Email", () => {
       acceptWallet();
 
       // assert if new email is pending for verification
+
       assertEmailPendingChange(email, newEmail);
     });
 
     it("should not allow to change email if it's already used by different account", () => {
       const newEmail = generateRandomEmailAddress();
-
-      logoutViaTopRightButton();
-
-      // register another account
-      clearEmailServer();
+      cy.clearLocalStorage();
 
       registerWithLightWallet(newEmail, DEFAULT_PASSWORD);
       assertDashboard();
@@ -73,6 +70,9 @@ describe("Change Email", () => {
     });
 
     it("should not allow to change email to the same as verified", () => {
+      goToProfile();
+      assertEmailChangeFlow();
+
       fillForm({
         email: email,
         "verify-email-widget-form-submit": { type: "submit" },
@@ -85,6 +85,9 @@ describe("Change Email", () => {
 
     it("should allow to abort email change flow", () => {
       const newEmail = generateRandomEmailAddress();
+
+      goToProfile();
+      assertEmailChangeFlow();
 
       fillForm({
         email: newEmail,
@@ -106,26 +109,18 @@ describe("Change Email", () => {
     let email: string;
 
     beforeEach(() => {
-      email = generateRandomEmailAddress();
-
-      clearEmailServer();
-      registerWithLightWallet(email, DEFAULT_PASSWORD);
-      assertDashboard();
-
-      goToProfile();
-
-      assertEmailChangeFlow();
+      createAndLoginNewUser({ type: "investor", kyc: "individual" }).then(() => {
+        cy.window().then(async window => {
+          // TODO: move into a seperate util method
+          const metaData = JSON.parse(await window.localStorage.getItem("NF_WALLET_METADATA"));
+          email = metaData.email;
+        });
+      });
     });
 
     it("should not allow to change email if it's already used by different account", () => {
       const newEmail = generateRandomEmailAddress();
-
-      // verify this user
-      verifyLatestUserEmail();
-      logoutViaTopRightButton();
-
-      // register another account
-      clearEmailServer();
+      cy.clearLocalStorage();
 
       registerWithLightWallet(newEmail, DEFAULT_PASSWORD);
       assertDashboard();
@@ -144,7 +139,6 @@ describe("Change Email", () => {
       // assert if error message has popped in
       cy.get(tid("profile-email-exists")).should("exist");
     });
-
     it("should not allow to change email to the same as pending unverified", () => {
       fillForm({
         email,
