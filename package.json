@@ -45,7 +45,7 @@
     "test:e2e:cypress:chrome": "CYPRESS_RETRIES=2 cypress run --config testFiles=\"**/*.spec.e2e.chrome.ts\" --browser chrome",
     "test:e2e:cypress:record": "CYPRESS_RETRIES=2 cypress run --config testFiles=\"**/*.spec.e2e.ts\" --record --parallel",
     "test:e2e:cypress:record:chrome": "CYPRESS_RETRIES=2 cypress run --config testFiles=\"**/*.spec.e2e.ts\" --record --parallel --browser chrome",
-    "test:e2e:cypress:io": "CYPRESS_RETRIES=2 cypress run --config testFiles=\"**/*.spec.e2e.io.ts\" --record --parallel",
+    "test:e2e:cypress:io": "CYPRESS_RETRIES=2 cypress run --config testFiles=\"**/*.spec.e2e.io.ts\" --browser chrome",
     "test:e2e:dev": "cypress open --config testFiles=\"**/*.spec.e2e.io.ts\"",
     "test:node": "TS_NODE_PROJECT=tsconfig.spec.json mocha --require ts-node/register --require ./test/setupTests.ts './app/**/*.spec.node.ts?(x)'",
     "tsc": "concurrently -p \"[{name}]\" -n \"TSC:APP,TSC:E2E\" -c \"bgYellow.bold,bgMagenta.bold\" \"yarn tsc:app\" \"yarn tsc:e2e\"",

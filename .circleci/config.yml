@@ -12,35 +12,34 @@ jobs:
       # Download and cache dependencies
       # - restore_cache:
       # keys:
-      # - v17-deps-{{ checksum "package.json" }}
-      # - v17-deps-
+      # - v18-deps-{{ checksum "package.json" }}
+      # - v18-deps-
 
       # Installation
       - run: yarn --frozen-lockfile
       # Linting
-      - run: yarn lint
+      # - run: yarn lint
       # Unit Tests
-      - run: yarn test:browser && yarn test:node
+      # - run: yarn test:browser && yarn test:node
 
       - save_cache:
           paths:
             - node_modules
             - /home/circleci/.cache/Cypress
-          key: v17-deps-{{ checksum "package.json" }}
+          key: v18-deps-{{ checksum "package.json" }}
 
-  build-test-e2e-docker:
+  build-docker-test-e2e:
     docker:
       - image: circleci/node:11.14.0-browsers
     working_directory: /home/circleci/app
-
-    parallelism: 2
+    parallelism: 1
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v17-deps-{{ checksum "package.json" }}
-            - v17-deps-
+            - v18-deps-{{ checksum "package.json" }}
+            - v18-deps-
 
       - run: yarn prepare
       - run:
@@ -59,8 +58,8 @@ jobs:
       - run: ls
       - restore_cache:
           keys:
-            - v17-deps-{{ checksum "package.json" }}
-            - v17-deps-
+            - v18-deps-{{ checksum "package.json" }}
+            - v18-deps-
 
       - run: yarn prepare
       - run:
@@ -89,8 +88,8 @@ jobs:
       - run: ./.circleci/install-yarn.sh
       - restore_cache:
           keys:
-            - v17-deps-{{ checksum "package.json" }}
-            - v17-deps-
+            - v18-deps-{{ checksum "package.json" }}
+            - v18-deps-
       - run: source /opt/circleci/.nvm/nvm.sh && yarn prepare
 
       - run:
@@ -106,8 +105,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v17-deps-{{ checksum "package.json" }}
-            - v17-deps-
+            - v18-deps-{{ checksum "package.json" }}
+            - v18-deps-
       - run: yarn
       - run: yarn build:commit-deployment
       - run: yarn codechecks
@@ -121,8 +120,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v17-deps-{{ checksum "package.json" }}
-            - v17-deps-
+            - v18-deps-{{ checksum "package.json" }}
+            - v18-deps-
       - run: yarn
       - run: yarn storybook:screenshots
       - run: yarn codechecks ./codechecks-vis-reg.ts
@@ -136,8 +135,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v17-deps-{{ checksum "package.json" }}
-            - v17-deps-
+            - v18-deps-{{ checksum "package.json" }}
+            - v18-deps-
       - run: yarn prepare
 
       - run: yarn deploy-storybook --ci --host-token-env-variable=DANGER_GITHUB_API_TOKEN
@@ -148,7 +147,7 @@ workflows:
   mainflow:
     jobs:
       - install-lint-test
-      - build-test-e2e-docker:
+      - build-docker-test-e2e:
           requires:
             - install-lint-test
       - build-frontend:
@@ -157,15 +156,15 @@ workflows:
       - test-e2e:
           requires:
             - build-frontend
-            - build-test-e2e-docker
+            - build-docker-test-e2e
       - codechecks:
           requires:
-             - build-frontend
-             - build-test-e2e-docker
+            - build-frontend
+            - build-docker-test-e2e
       - codechecks-vis-reg:
           requires:
-             - build-frontend
-             - build-test-e2e-docker
+            - build-frontend
+            - build-docker-test-e2e
 
   nightly:
     triggers:
@@ -178,7 +177,7 @@ workflows:
                 - production
     jobs:
       - install-lint-test
-      - build-test-e2e-docker:
+      - build-docker-test-e2e:
           requires:
             - install-lint-test
       - build-frontend:
@@ -187,15 +186,15 @@ workflows:
       - test-e2e:
           requires:
             - build-frontend
-            - build-test-e2e-docker
+            - build-docker-test-e2e
       - codechecks:
           requires:
-             - build-frontend
-             - build-test-e2e-docker
+            - build-frontend
+            - build-docker-test-e2e
       - codechecks-vis-reg:
           requires:
-             - build-frontend
-             - build-test-e2e-docker
+            - build-frontend
+            - build-docker-test-e2e
 
   deploy-storybook:
     jobs:
