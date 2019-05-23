@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { FormatNumber } from "../../../../shared/formatters/FormatNumber";
 import { MoneyNew } from "../../../../shared/formatters/Money";
@@ -32,21 +32,23 @@ const InvestmentLayout: React.FunctionComponent<TInvestWidgetProps> = ({ eto }) 
   return (
     <div className={styles.investmentWidget}>
       <div className={styles.header}>
-        <div>
-          <MoneyNew
-            value={eto.contract!.totalInvestment.etherTokenBalance}
-            inputFormat={ENumberInputFormat.ULPS}
-            moneyFormat={ECurrency.ETH}
-            outputFormat={ENumberOutputFormat.FULL}
-          />
-          <br />
-          <MoneyNew
-            value={eto.contract!.totalInvestment.euroTokenBalance}
-            inputFormat={ENumberInputFormat.ULPS}
-            moneyFormat={ECurrency.EUR_TOKEN}
-            outputFormat={ENumberOutputFormat.FULL}
-          />
-        </div>
+        {eto.contract!.timedState !== EETOStateOnChain.Payout && (
+          <div>
+            <MoneyNew
+              value={eto.contract!.totalInvestment.etherTokenBalance}
+              inputFormat={ENumberInputFormat.ULPS}
+              moneyFormat={ECurrency.ETH}
+              outputFormat={ENumberOutputFormat.FULL}
+            />
+            <br />
+            <MoneyNew
+              value={eto.contract!.totalInvestment.euroTokenBalance}
+              inputFormat={ENumberInputFormat.ULPS}
+              moneyFormat={ECurrency.EUR_TOKEN}
+              outputFormat={ENumberOutputFormat.FULL}
+            />
+          </div>
+        )}
         {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && (
           <div>
             <FormattedMessage

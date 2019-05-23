@@ -22,7 +22,7 @@ describe("Eto LI Investor View", () => {
     it("should allow to visit ", () => {
       cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
       assertEtoView(
-        "ETOInPublicState retail eto li security - Quintessence (QTT)",
+        "ETOInPublicState mini eto li - Quintessence (QTT)",
         EJurisdiction.LIECHTENSTEIN,
       );
     });

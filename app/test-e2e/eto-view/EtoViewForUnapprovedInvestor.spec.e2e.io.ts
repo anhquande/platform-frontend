@@ -11,10 +11,7 @@ describe("Eto Unapproved Investor View", () => {
     const ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
     cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
-    assertEtoView(
-      "ETOInPublicState retail eto li security - Quintessence (QTT)",
-      EJurisdiction.LIECHTENSTEIN,
-    );
+    assertEtoView("ETOInPublicState mini eto li - Quintessence (QTT)", EJurisdiction.LIECHTENSTEIN);
 
     cy.get(tid("eto-overview-settings-update-required-to-invest")).should("exist");
   });
@@ -29,7 +26,7 @@ describe("Eto Unapproved Investor View", () => {
 
       cy.get(tid("jurisdiction-disclaimer-modal.confirm")).click();
 
-      assertEtoView("ETOInWhitelistState ff eto - Rich (RCH)", EJurisdiction.GERMANY);
+      assertEtoView("ETOInWhitelistState hnwi eto de security - Rich (RCH)", EJurisdiction.GERMANY);
     });
 
     it("should show jurisdiction disclaimer modal and navigate to dashboard on deny", () => {
