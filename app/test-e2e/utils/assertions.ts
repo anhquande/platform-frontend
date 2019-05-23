@@ -116,6 +116,9 @@ export const assertLockedAccessModal = () => {
 
 export const assertUserInLanding = () => {
   cy.url().should("contain", appRoutes.root);
+
+  cy.title().should("eq", "Neufund Platform");
+
   cy.get(tid("landing-page")).should("exist");
 };
 
