@@ -4,13 +4,13 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { EProductName } from "../../../../lib/api/eto/EtoProductsApi.interfaces";
 import { assertNever } from "../../../../utils/assertNever";
 import { invariant } from "../../../../utils/invariant";
-import { EHumanReadableFormat, ToHumanReadableForm } from "../../../shared/ToHumanReadableForm";
+import { THumanReadableFormat, ToHumanReadableForm } from "../../../shared/ToHumanReadableForm";
 
 export const convertAmountToText = (amount: number) =>
   amount === 0 ? (
     <FormattedMessage id="common.number-quantity.unlimited" />
   ) : (
-    <ToHumanReadableForm number={amount} format={EHumanReadableFormat.SHORT} />
+    <ToHumanReadableForm number={amount} format={THumanReadableFormat.SHORT} />
   );
 
 export const getProductMeaningfulName = (productName: EProductName) => {

@@ -25,8 +25,8 @@ import { ErrorBoundaryPanel } from "../../../shared/errorBoundary/ErrorBoundaryP
 import { MoneyNew } from "../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
 } from "../../../shared/formatters/utils";
 import { LoadingIndicator } from "../../../shared/loading-indicator";
 import { Panel } from "../../../shared/Panel";
@@ -78,9 +78,9 @@ const BookBuildingStats = ({ bookBuildingStats, maxPledges, downloadCSV }: IBook
       <span className={styles.value}>
         <MoneyNew
           value={bookBuildingStats.pledgedAmount}
-          inputFormat={EMoneyInputFormat.FLOAT}
+          inputFormat={ENumberInputFormat.FLOAT}
           moneyFormat={ECurrency.EUR}
-          outputFormat={EHumanReadableFormat.ONLY_NONZERO_DECIMALS}
+          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
         />
       </span>
       <span className={styles.label}>

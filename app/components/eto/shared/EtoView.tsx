@@ -4,6 +4,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
+import { ETHEREUM_ZERO_ADDRESS } from "../../../config/constants";
 import { TSocialChannelsType } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { selectEtoSubState } from "../../../modules/eto/selectors";
 import {
@@ -31,8 +32,9 @@ import { TabContent, Tabs } from "../../shared/Tabs";
 import { TwitterTimelineEmbed } from "../../shared/TwitterTimeline";
 import { Video } from "../../shared/Video";
 import { EtoOverviewStatus } from "../overview/EtoOverviewStatus";
-import { EtoTimeline } from "../overview/EtoTimeline";
+import { EtoTimeline } from "../overview/EtoTimeline/EtoTimeline";
 import { Cover } from "../public-view/Cover";
+import { CoverBanner } from "../public-view/CoverBanner";
 import { DocumentsWidget } from "../public-view/DocumentsWidget";
 import { EtoInvestmentTermsWidget } from "../public-view/EtoInvestmentTermsWidget";
 import { LegalInformationWidget } from "../public-view/LegalInformationWidget";
@@ -48,6 +50,7 @@ export const DEFAULT_CHART_COLOR = "#c4c5c6";
 
 interface IProps {
   eto: TEtoWithCompanyAndContract;
+  isInvestorView: boolean;
 }
 
 interface IStateProps {
@@ -58,7 +61,11 @@ interface IStateProps {
 // The castings should be resolved when the EtoApi.interface.ts reflects the correct data types from swagger!
 
 // TODO: Refactor to smaller components
-const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, etoSubState }) => {
+const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({
+  eto,
+  etoSubState,
+  isInvestorView,
+}) => {
   const {
     advisors,
     companyDescription,
@@ -114,13 +121,17 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
 
   const isInSetupState = isOnChain(eto) && eto.contract.timedState === EETOStateOnChain.Setup;
 
+  const isProductSet = eto.product.id !== ETHEREUM_ZERO_ADDRESS;
+
   return (
     <>
       <PersonProfileModal />
       <WidgetGridLayout data-test-id="eto.public-view">
+        <CoverBanner eto={eto} isInvestorView={isInvestorView} />
         <Cover
           companyName={brandName}
           companyOneliner={companyOneliner}
+          companyJurisdiction={eto.product.jurisdiction}
           companyLogo={{
             alt: brandName,
             srcSet: {
@@ -233,10 +244,12 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
             )}
           </Container>
         )}
-        <Container columnSpan={EColumnSpan.THREE_COL}>
-          <DashboardHeading title={<FormattedMessage id="eto.public-view.token-terms.title" />} />
-          <EtoInvestmentTermsWidget etoData={eto} />
-        </Container>
+        {isProductSet && (
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <DashboardHeading title={<FormattedMessage id="eto.public-view.token-terms.title" />} />
+            <EtoInvestmentTermsWidget etoData={eto} />
+          </Container>
+        )}
         {areThereIndividuals(team) && (
           <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={<FormattedMessage id="eto.public-view.carousel.team" />} />
@@ -248,6 +261,18 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
             </Panel>
           </Container>
         )}
+
+        {areThereIndividuals(partners) && (
+          <Container columnSpan={EColumnSpan.THREE_COL}>
+            <DashboardHeading
+              title={<FormattedMessage id="eto.public-view.carousel.tab.partners" />}
+            />
+            <Panel>
+              <PeopleSwiperWidget people={partners.members as IPerson[]} key="partners" />
+            </Panel>
+          </Container>
+        )}
+
         {(areThereIndividuals(advisors) ||
           areThereIndividuals(notableInvestors) ||
           areThereIndividuals(partners) ||
@@ -260,21 +285,13 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
               layoutSize="large"
               layoutOrnament={false}
               selectedIndex={selectActiveCarouselTab([
-                advisors,
                 notableInvestors,
-                partners,
+                advisors,
                 keyCustomers,
                 boardMembers,
                 keyAlliances,
               ])}
             >
-              {areThereIndividuals(advisors) && (
-                <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.advisors" />}>
-                  <Panel>
-                    <PeopleSwiperWidget people={advisors.members as IPerson[]} key={"team"} />
-                  </Panel>
-                </TabContent>
-              )}
               {areThereIndividuals(notableInvestors) && (
                 <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.investors" />}>
                   <Panel>
@@ -285,10 +302,10 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
                   </Panel>
                 </TabContent>
               )}
-              {areThereIndividuals(partners) && (
-                <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.partners" />}>
+              {areThereIndividuals(advisors) && (
+                <TabContent tab={<FormattedMessage id="eto.public-view.carousel.tab.advisors" />}>
                   <Panel>
-                    <PeopleSwiperWidget people={partners.members as IPerson[]} key="partners" />
+                    <PeopleSwiperWidget people={advisors.members as IPerson[]} key={"team"} />
                   </Panel>
                 </TabContent>
               )}
@@ -351,57 +368,57 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
                   title={<FormattedMessage id="eto.public-view.product-vision.title" />}
                 />
                 <Panel>
-                  <Accordion>
-                    {inspiration && (
+                  <Accordion openFirst={true}>
+                    {inspiration ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.inspiration" />}
                       >
                         <p>{inspiration}</p>
                       </AccordionElement>
-                    )}
-                    {companyMission && (
+                    ) : null}
+                    {companyMission ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.company-mission" />}
                       >
                         <p>{companyMission}</p>
                       </AccordionElement>
-                    )}
-                    {productVision && (
+                    ) : null}
+                    {productVision ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.product-vision" />}
                       >
                         <p>{productVision}</p>
                       </AccordionElement>
-                    )}
-                    {problemSolved && (
+                    ) : null}
+                    {problemSolved ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.problem-solved" />}
                       >
                         <p>{problemSolved}</p>
                       </AccordionElement>
-                    )}
-                    {customerGroup && (
+                    ) : null}
+                    {customerGroup ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.customer-group" />}
                       >
                         <p>{customerGroup}</p>
                       </AccordionElement>
-                    )}
-                    {targetMarketAndIndustry && (
+                    ) : null}
+                    {targetMarketAndIndustry ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.target-segment" />}
                       >
                         <p>{targetMarketAndIndustry}</p>
                       </AccordionElement>
-                    )}
-                    {keyCompetitors && (
+                    ) : null}
+                    {keyCompetitors ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.key-competitors" />}
                       >
                         <p>{keyCompetitors}</p>
                       </AccordionElement>
-                    )}
-                    {sellingProposition && (
+                    ) : null}
+                    {sellingProposition ? (
                       <AccordionElement
                         title={
                           <FormattedMessage id="eto.form.product-vision.selling-proposition" />
@@ -409,8 +426,8 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
                       >
                         <p>{sellingProposition}</p>
                       </AccordionElement>
-                    )}
-                    {keyBenefitsForInvestors && (
+                    ) : null}
+                    {keyBenefitsForInvestors ? (
                       <AccordionElement
                         title={
                           <FormattedMessage id="eto.form.product-vision.key-benefits-for-investors" />
@@ -418,11 +435,11 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
                       >
                         <p>{keyBenefitsForInvestors}</p>
                       </AccordionElement>
-                    )}
+                    ) : null}
 
-                    {((useOfCapitalList &&
+                    {(useOfCapitalList &&
                       useOfCapitalList.some(e => e && e.percent && e.percent > 0)) ||
-                      useOfCapital) && (
+                    useOfCapital ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.use-of-capital" />}
                       >
@@ -448,35 +465,35 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({ eto, eto
                           />
                         )}
                       </AccordionElement>
-                    )}
-                    {marketTraction && (
+                    ) : null}
+                    {marketTraction ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.market-traction" />}
                       >
                         <p>{marketTraction}</p>
                       </AccordionElement>
-                    )}
-                    {roadmap && (
+                    ) : null}
+                    {roadmap ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.roadmap" />}
                       >
                         <p>{roadmap}</p>
                       </AccordionElement>
-                    )}
-                    {businessModel && (
+                    ) : null}
+                    {businessModel ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.business-model" />}
                       >
                         <p>{businessModel}</p>
                       </AccordionElement>
-                    )}
-                    {marketingApproach && (
+                    ) : null}
+                    {marketingApproach ? (
                       <AccordionElement
                         title={<FormattedMessage id="eto.form.product-vision.marketing-approach" />}
                       >
                         <p>{marketingApproach}</p>
                       </AccordionElement>
-                    )}
+                    ) : null}
                   </Accordion>
                 </Panel>
               </>

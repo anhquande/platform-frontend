@@ -12,8 +12,8 @@ import {
 import { MoneyNew } from "../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
 } from "../../../shared/formatters/utils";
 import { CounterWidget } from "../EtoOverviewStatus/CounterWidget";
 import { InvestmentStatus } from "./InvestmentStatus/InvestmentStatus";
@@ -88,9 +88,9 @@ const EtoStatusManager = ({ eto, etoSubState }: IExternalProps) => {
                 totalAmount: (
                   <MoneyNew
                     value={eto.contract!.totalInvestment.totalEquivEurUlps}
-                    inputFormat={EMoneyInputFormat.ULPS}
+                    inputFormat={ENumberInputFormat.ULPS}
                     moneyFormat={ECurrency.EUR}
-                    outputFormat={EHumanReadableFormat.FULL}
+                    outputFormat={ENumberOutputFormat.FULL}
                   />
                 ),
               }}

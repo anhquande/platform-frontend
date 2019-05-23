@@ -28,6 +28,9 @@ export const ISSUER_PREVIEW =
 export const ISSUER_SETUP_NO_ST =
   "denial drive symbol magic staff tool across vivid lift crime switch silly loan same company robot aim pluck stereo section team one wheat desert";
 
+export const ISSUER_LISTED =
+  "credit short venture what speak castle embark nurse juice wild holiday pulp mixed gas jelly bachelor soft novel game matrix faculty vote argue black";
+
 export const INV_ICBM_ETH_M_HAS_KYC =
   "mimic lumber mother guide coil theory elite fly tiny wink seed issue cupboard limb luggage reflect ladder menu menu still deny basket spring evil";
 

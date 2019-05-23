@@ -25,8 +25,8 @@ import { FormatNumber } from "../../../shared/formatters/FormatNumber";
 import { MoneyNew } from "../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   EPriceFormat,
 } from "../../../shared/formatters/utils";
 import { EtoWidgetContext } from "../../EtoWidgetView";
@@ -250,6 +250,7 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
 
             <div className={styles.tagsWrapper}>
               <TagsWidget
+                companyPitchdeckUrl={eto.company.companyPitchdeckUrl}
                 etoId={eto.etoId}
                 jurisdiction={eto.product.jurisdiction}
                 offeringDocumentType={eto.product.offeringDocumentType}
@@ -287,9 +288,9 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                   <span className={styles.value}>
                     <MoneyNew
                       value={eto.preMoneyValuationEur}
-                      inputFormat={EMoneyInputFormat.FLOAT}
+                      inputFormat={ENumberInputFormat.FLOAT}
                       moneyFormat={ECurrency.EUR}
-                      outputFormat={EHumanReadableFormat.INTEGER}
+                      outputFormat={ENumberOutputFormat.INTEGER}
                       defaultValue={<ToBeAnnouncedTooltip />}
                     />
                   </span>
@@ -309,8 +310,8 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                   <span className={styles.value}>
                     <FormatNumber
                       value={eto.newSharesToIssue}
-                      inputFormat={EMoneyInputFormat.FLOAT}
-                      outputFormat={EHumanReadableFormat.INTEGER}
+                      inputFormat={ENumberInputFormat.FLOAT}
+                      outputFormat={ENumberOutputFormat.INTEGER}
                       defaultValue={<ToBeAnnounced />}
                     />
                   </span>
@@ -322,9 +323,9 @@ const EtoOverviewStatusLayout: React.FunctionComponent<
                   <span className={styles.value}>
                     <MoneyNew
                       value={tokenPrice}
-                      inputFormat={EMoneyInputFormat.FLOAT}
+                      inputFormat={ENumberInputFormat.FLOAT}
                       moneyFormat={EPriceFormat.EQUITY_TOKEN_PRICE_EURO}
-                      outputFormat={EHumanReadableFormat.FULL}
+                      outputFormat={ENumberOutputFormat.FULL}
                       defaultValue={<ToBeAnnounced />}
                     />
                     {showWhitelistDiscount && (

@@ -39,7 +39,7 @@ export const getShareAndTokenPrice = ({
 }: TPartialEtoSpecData) => {
   let sharePrice = 0;
   let tokenPrice = 0;
-  if (existingCompanyShares !== 0 && preMoneyValuationEur !== 0) {
+  if (existingCompanyShares !== 0 && equityTokensPerShare !== 0 && preMoneyValuationEur !== 0) {
     sharePrice = preMoneyValuationEur / existingCompanyShares;
     tokenPrice = sharePrice / equityTokensPerShare;
   }

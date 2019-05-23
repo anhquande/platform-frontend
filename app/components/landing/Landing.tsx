@@ -1,66 +1,81 @@
 import * as cn from "classnames";
 import * as React from "react";
-import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Container, Row } from "reactstrap";
-import { compose } from "redux";
+import { FormattedHTMLMessage, FormattedMessage } from "react-intl-phraseapp";
+import { compose } from "recompose";
 
-import { etoCompaniesCards } from "../../data/etoCompanies";
+import { externalRoutes } from "../../config/externalRoutes";
 import { withContainer } from "../../utils/withContainer.unsafe";
+import { appRoutes } from "../appRoutes";
 import { LayoutUnauthorized } from "../layouts/LayoutUnauthorized";
+import { ButtonLink, ButtonSize, EButtonLayout, EButtonTheme } from "../shared/buttons";
 import { createErrorBoundary } from "../shared/errorBoundary/ErrorBoundary.unsafe";
 import { ErrorBoundaryLayoutUnauthorized } from "../shared/errorBoundary/ErrorBoundaryLayoutUnauthorized";
-import { EtoOfferingCard } from "./EtoOfferingCard";
-import { Features } from "./parts/Features";
-import { LandingFeatured } from "./parts/LandingFeatured";
-import { LandingHeader } from "./parts/LandingHeader";
-import { Testimonials } from "./parts/Testimonials";
+import { ENeonHeaderSize, NeonHeader } from "./shared/NeonHeader";
 
 import * as styles from "./Landing.module.scss";
 
-export const LandingComponent: React.FunctionComponent = () => (
-  <div className={cn(styles.landingWrapper)} data-test-id="landing-page">
-    {process.env.NF_FEATURED_ETO_PREVIEW_CODE ? (
-      <LandingFeatured />
-    ) : (
-      <>
-        <LandingHeader />
-        <Features />
-      </>
-    )}
-
-    <section className={styles.equityTokenOfferings}>
-      <Container>
-        <Row>
-          <Col>
-            <h2 className={styles.etoCardsHeader}>
-              <FormattedMessage id="platform.landing.meet-tokenizing-companies" />
-            </h2>
-          </Col>
-        </Row>
-
-        <Row>
-          {etoCompaniesCards
-            .filter(e => !e.hidden)
-            .map((e, index) => (
-              <Col
-                xs={12}
-                lg={6}
-                className={styles.equityTokenCol}
-                id={`eto-card-${index}`}
-                key={index}
-              >
-                <EtoOfferingCard {...e} />
-              </Col>
-            ))}
-        </Row>
-      </Container>
+const LandingLayout: React.FunctionComponent = () => (
+  <div className={styles.landingWrapper} data-test-id="landing-page">
+    <section className={styles.landing}>
+      <NeonHeader size={ENeonHeaderSize.BIG}>
+        <FormattedHTMLMessage id="platform.landing.featured.header" tagName="span" />
+      </NeonHeader>
+      <p className={styles.landingDescription}>
+        <FormattedHTMLMessage
+          values={{ href: externalRoutes.issueEto }}
+          id="platform.landing.featured.description"
+          tagName="span"
+        />
+      </p>
+      <section className={styles.landingFeaturesContainer}>
+        <h3 className={cn(styles.landingFeaturesHeader)}>
+          <FormattedMessage id="platform.landing.list.header" />
+        </h3>
+        <ul className={cn(styles.landingFeatures, "pure")}>
+          <li>
+            <FormattedMessage id="platform.landing.list.first" />
+          </li>
+          <li>
+            <FormattedMessage id="platform.landing.list.second" />
+          </li>
+          <li>
+            <FormattedMessage id="platform.landing.list.third" />
+          </li>
+          <li>
+            <FormattedMessage id="platform.landing.list.fourth" />
+          </li>
+          <li>
+            <FormattedMessage id="platform.landing.list.fifth" />
+          </li>
+        </ul>
+        <div className="mt-5">
+          <ButtonLink
+            theme={EButtonTheme.NEON}
+            className="mr-5 mb-5"
+            layout={EButtonLayout.SECONDARY}
+            size={ButtonSize.HUGE}
+            to={appRoutes.register}
+          >
+            <FormattedMessage id="wallet-selector.register" />
+          </ButtonLink>
+          <ButtonLink
+            size={ButtonSize.HUGE}
+            theme={EButtonTheme.GRAPHITE}
+            className="mb-5"
+            layout={EButtonLayout.PRIMARY}
+            to={appRoutes.login}
+          >
+            <FormattedMessage id="wallet-selector.login" />
+          </ButtonLink>
+        </div>
+      </section>
     </section>
-
-    <Testimonials />
   </div>
 );
 
-export const Landing: React.FunctionComponent = compose<React.FunctionComponent>(
+const Landing = compose(
   createErrorBoundary(ErrorBoundaryLayoutUnauthorized),
   withContainer(LayoutUnauthorized),
-)(LandingComponent);
+)(LandingLayout);
+
+export { Landing };

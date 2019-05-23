@@ -22,8 +22,13 @@ const testStore = {
 
 storiesOf("ETO/EtoView", module)
   .addDecorator(withStore(testStore))
-  .add("default", () => (
+  .add("investor view", () => (
     <Container>
-      <EtoView eto={testEto} />
+      <EtoView eto={testEto} isInvestorView={true} />
+    </Container>
+  ))
+  .add("issuer view", () => (
+    <Container>
+      <EtoView eto={testEto} isInvestorView={false} />
     </Container>
   ));

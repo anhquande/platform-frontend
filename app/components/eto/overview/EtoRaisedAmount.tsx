@@ -3,9 +3,9 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 
 import { ChartBars, IChartBarsData } from "../../shared/charts/ChartBars";
-import { ECurrency } from "../../shared/formatters/utils";
+import { EThemeNew, MoneyNew } from "../../shared/formatters/Money";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { HorizontalLine } from "../../shared/HorizontalLine";
-import { ETheme, Money } from "../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget";
 import { Panel } from "../../shared/Panel";
 import { PercentageIndicatorBar } from "../../shared/PercentageIndicatorBar";
@@ -51,10 +51,12 @@ export const EtoRaisedAmount: React.FunctionComponent<IProps> = ({
             <div className={styles.overviewMoney}>
               <div className={stylesCommon.header}>
                 <FormattedMessage id="eto.overview.raised-amount.total" />{" "}
-                <Money
-                  theme={ETheme.GREEN}
+                <MoneyNew
                   value={"1234567" + "0".repeat(16)}
-                  currency={ECurrency.EUR}
+                  moneyFormat={ECurrency.EUR}
+                  inputFormat={ENumberInputFormat.ULPS}
+                  outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+                  theme={EThemeNew.GREEN}
                 />
               </div>
               <MoneySuiteWidget
@@ -75,10 +77,12 @@ export const EtoRaisedAmount: React.FunctionComponent<IProps> = ({
 
             <div className={styles.overviewProgress}>
               <PercentageIndicatorBar percent={76} />
-              <Money
-                className={styles.total}
+              <MoneyNew
                 value={"1234567" + "0".repeat(14)}
-                currency={ECurrency.EUR}
+                inputFormat={ENumberInputFormat.ULPS}
+                outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+                moneyFormat={ECurrency.EUR}
+                className={styles.total}
               />
             </div>
           </div>

@@ -6,7 +6,8 @@ import { tid } from "../../../../test/testUtils";
 import { MyWalletWidgetComponentBody } from "./MyWalletWidget";
 
 describe("<MyWalletWidget />", () => {
-  let initialEnvVar: any;
+  let initialWalletWidgetEnabledState: any;
+  let initialWalletWidgetInDashboardState: any;
 
   it("should render all default components when icbm and locket wallets are connected", () => {
     process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED = "1";
@@ -35,6 +36,7 @@ describe("<MyWalletWidget />", () => {
 
   it("should render icbm help text when icbm and locked wallets are disconnected connected", () => {
     process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED = "1";
+    process.env.NF_CHECK_LOCKED_WALLET_WIDGET_IN_DASHBOARD = "1";
 
     const props = {
       isLoading: false,
@@ -56,10 +58,12 @@ describe("<MyWalletWidget />", () => {
   });
 
   beforeEach(() => {
-    initialEnvVar = process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED;
+    initialWalletWidgetEnabledState = process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED;
+    initialWalletWidgetInDashboardState = process.env.NF_CHECK_LOCKED_WALLET_WIDGET_IN_DASHBOARD;
   });
 
   afterEach(() => {
-    process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED = initialEnvVar;
+    process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED = initialWalletWidgetEnabledState;
+    process.env.NF_CHECK_LOCKED_WALLET_WIDGET_IN_DASHBOARD = initialWalletWidgetInDashboardState;
   });
 });

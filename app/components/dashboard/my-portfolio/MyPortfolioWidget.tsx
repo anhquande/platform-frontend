@@ -1,3 +1,4 @@
+import * as cn from "classnames";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { branch, compose, renderComponent } from "recompose";
@@ -76,7 +77,7 @@ export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
   balanceNeu,
   isIncomingPayoutAvailable,
 }) => (
-  <Panel className={className} style={style}>
+  <Panel className={cn(className, styles.panelFix)} style={style}>
     <MyPortfolioWidgetComponentBody
       {...{
         balanceEur: balanceEur!,

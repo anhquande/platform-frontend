@@ -4,8 +4,8 @@ import { multiplyBigNumbers } from "../../../../utils/BigNumberUtils";
 import { MoneyNew } from "../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   ERoundingMode,
 } from "../../../shared/formatters/utils";
 import { getFormattedMoney } from "../../../shared/Money.unsafe";
@@ -19,7 +19,7 @@ const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }
       ? getFormattedMoney(
           amount,
           ECurrency.EUR,
-          EMoneyInputFormat.FLOAT,
+          ENumberInputFormat.FLOAT,
           false,
           ERoundingMode.HALF_UP,
         )
@@ -29,9 +29,9 @@ const CalculatedFee: React.FunctionComponent<{ amount: string; bankFee: string }
   return (
     <MoneyNew
       value={calculatedFee}
-      inputFormat={EMoneyInputFormat.ULPS}
+      inputFormat={ENumberInputFormat.ULPS}
       moneyFormat={ECurrency.EUR}
-      outputFormat={EHumanReadableFormat.FULL}
+      outputFormat={ENumberOutputFormat.FULL}
     />
   );
 };

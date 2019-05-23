@@ -22,6 +22,7 @@ export interface ITagsWidget {
   offeringDocumentType: EOfferingDocumentType;
   innerClass?: string;
   jurisdiction: EJurisdiction;
+  companyPitchdeckUrl?: { title?: string; url?: string };
 }
 
 type TDispatchProps = {
@@ -42,6 +43,7 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
   jurisdiction,
   offeringDocumentType,
   innerClass,
+  companyPitchdeckUrl,
 }) => {
   const approvedDocumentTitle =
     offeringDocumentType === EOfferingDocumentType.PROSPECTUS ? (
@@ -54,6 +56,26 @@ const TagsWidgetLayout: React.FunctionComponent<TLayoutProps> = ({
     <EtoWidgetContext.Consumer>
       {previewCode => (
         <>
+          {companyPitchdeckUrl ? (
+            <Tag
+              to={companyPitchdeckUrl.url}
+              target="_blank"
+              size={ETagSize.TINY}
+              theme="green"
+              layout="ghost"
+              text={<FormattedMessage id="shared-component.eto-overview.pitch-deck" />}
+              dataTestId="eto-overview-pitch-deck-button"
+              className={innerClass}
+            />
+          ) : (
+            <Tag
+              size={ETagSize.TINY}
+              theme="silver"
+              layout="ghost"
+              text={<FormattedMessage id="shared-component.eto-overview.pitch-deck" />}
+              className={innerClass}
+            />
+          )}
           {hasDocument(termSheet) ? (
             <Tag
               onClick={e => {

@@ -34,6 +34,7 @@ interface IDispatchProps {
 
 type TProps = {
   eto: TEtoWithCompanyAndContract;
+  isInvestorView: boolean;
 };
 
 export const EtoPublicViewByContractId = compose<TProps, IRouterParams>(
@@ -41,6 +42,7 @@ export const EtoPublicViewByContractId = compose<TProps, IRouterParams>(
     stateToProps: (state, props) => ({
       userType: selectUserType(state),
       eto: selectEtoWithCompanyAndContractById(state, props.etoId),
+      isInvestorView: true,
     }),
   }),
   onEnterAction<IRouterParams>({

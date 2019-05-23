@@ -172,7 +172,10 @@ export const EtoMediaType = YupTS.object({
     title: YupTS.string().optional(), // optional in contrast to swagger, because filled in programmatically.
     url: YupTS.url().optional(),
   }).optional(),
-
+  companyPitchdeckUrl: YupTS.object({
+    title: YupTS.string().optional(), // optional in contrast to swagger, because filled in programmatically.
+    url: YupTS.url(),
+  }).optional(),
   socialChannels: socialChannelsType.optional(),
   companyNews: companyNewsType.optional(),
   marketingLinks: marketingLinksType.optional(),
@@ -200,18 +203,18 @@ export type TCompanyEtoData = DeepReadonly<
  *  only deals with "/etos/me"
  */
 
-export enum EEtoMarketingDataVisibleInPreview {
-  NOT_VISIBLE = "not_visible",
-  VISIBLE = "visible",
-  VISIBILITY_PENDING = "visibility_pending",
-}
-
 export enum EEtoState {
   PREVIEW = "preview",
   PENDING = "pending",
   LISTED = "listed",
   PROSPECTUS_APPROVED = "prospectus_approved",
   ON_CHAIN = "on_chain",
+}
+
+export enum EEtoMarketingDataVisibleInPreview {
+  VISIBLE = "visible",
+  NOT_VISIBLE = "not_visible",
+  VISIBILITY_PENDING = "visibility_pending",
 }
 
 export enum EtoStateToCamelcase {

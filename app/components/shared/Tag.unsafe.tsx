@@ -3,7 +3,9 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 
 import { TTranslatedString } from "../../types";
+import { isExternalUrl } from "../../utils/StringUtils";
 import { InlineIcon } from "./icons";
+import { ExternalLink } from "./links/ExternalLink";
 
 import * as styles from "./Tag.module.scss";
 
@@ -57,7 +59,11 @@ export const Tag: React.FunctionComponent<ITag> = ({
   );
 
   if (to) {
-    return (
+    return isExternalUrl(to) ? (
+      <ExternalLink className={classes} href={to} data-test-id={dataTestId}>
+        {tagContent}
+      </ExternalLink>
+    ) : (
       <Link to={to} className={classes} target={target} data-test-id={dataTestId}>
         {tagContent}
       </Link>

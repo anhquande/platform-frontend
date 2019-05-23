@@ -201,9 +201,6 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
       return (
         <>
           <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
-          </Container>
-          <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>
           {canEnableBookbuilding && <BookBuildingWidget columnSpan={EColumnSpan.TWO_COL} />}
@@ -213,18 +210,13 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
             ) : (
               <UploadInvestmentMemorandum columnSpan={EColumnSpan.ONE_COL} />
             ))}
-          <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
-          </Container>
+
           <ETOFormsProgressSection shouldViewEtoSettings={shouldViewSubmissionSection} />
         </>
       );
     case EEtoState.PROSPECTUS_APPROVED:
       return (
         <>
-          <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="p" id="eto-dashboard-application-description" />
-          </Container>
           <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>
@@ -235,9 +227,6 @@ const EtoDashboardStateViewComponent: React.FunctionComponent<IEtoStateRender> =
     case EEtoState.ON_CHAIN:
       return (
         <>
-          <Container columnSpan={EColumnSpan.THREE_COL}>
-            <FormattedHTMLMessage tagName="span" id="eto-dashboard-application-description" />
-          </Container>
           <Container columnSpan={EColumnSpan.THREE_COL}>
             <DashboardHeading title={dashboardTitle} />
           </Container>

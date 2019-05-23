@@ -1,196 +1,49 @@
 .landing-wrapper {
-  background: $neu-white-two url("../../assets/img/footer-dots.png") repeat-x bottom;
-  width: 100%;
-  min-height: 100%;
+  background: $neu-white-two;
   flex-grow: 1;
-  padding-bottom: $footer-dots-height;
-
-  h2 {
-    text-transform: uppercase;
-    font-size: 24px;
-  }
 }
 
 .landing {
-  @include media-breakpoint-down(lg) {
-    background-position: px-to-rem(-255px) 30%;
-  }
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $blue-green;
-  background-size: px-to-rem(500px);
-  padding: px-to-rem(46px) 0;
+  padding-top: px-to-rem(60px);
+  max-width: 1334px;
+  margin: auto;
 }
 
-.landing-container {
-  padding-bottom: px-to-rem(88px);
+.landing-description,
+.landing-features-container {
+  padding-left: px-to-rem(32px);
+  padding-right: px-to-rem(32px);
 }
 
-.welcome-header {
-  font-weight: $font-weight-bold;
-  color: $neu-pale-blue;
+.landing-features-header {
+  @include headline-bigger;
+
   text-transform: uppercase;
-  font-size: px-to-rem(16px);
-  text-align: center;
-  margin-bottom: px-to-rem(30px);
+  margin-top: px-to-rem(45px);
+  margin-bottom: px-to-rem(45px);
 }
 
-.welcome-box {
-  $bg-color: rgba($gray6, .2);
-
-  @include make-col-ready;
-
-  max-width: px-to-rem(983px);
-  background-color: $bg-color;
-  color: $neu-white-two;
-  margin: 0 auto;
-  padding: px-to-rem(40px);
-
-  :global(.button) {
-    display: block;
-    margin: 0 auto;
-  }
+.landing-description,
+.landing-features {
+  @include headline-bigger;
 }
 
-.logo-mobile {
-  width: px-to-rem(126px);
-}
+.landing-features {
+  list-style: none;
+  padding-left: 0;
 
-.learn-more {
-  display: inline-block;
-  margin: 0 auto;
-  color: $neu-white-two;
-  text-decoration: underline;
-  text-align: center;
-  margin-top: px-to-rem(20px);
-}
-
-.image {
-  display: block;
-  margin-bottom: px-to-rem(24px);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.cta {
-  @include media-breakpoint-down(lg) {
-    margin-bottom: px-to-rem(20px);
-  }
-
-  color: $neu-white-two;
-  font-size: px-to-rem(30px);
-  margin-bottom: px-to-rem(56px);
-  text-align: center;
-}
-
-.bullets {
-  margin-bottom: px-to-rem(58px);
-}
-
-.button-wrapper {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-
-.equity-token-header {
-  @include font-headline-medium;
-
-  margin-bottom: $spacing-vertical-lg-4;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: $font-weight-bold;
-}
-
-.equity-token-col {
-  @include media-breakpoint-up (lg) {
-    margin-bottom: $spacing-vertical-lg-4;
-
-    &:nth-of-type(odd) {
-      padding-right: 30px;
-    }
-
-    &:nth-of-type(even) {
-      padding-left: 30px;
+  & > li {
+    &::before {
+      content: "";
+      display: inline-block;
+      height: .8em;
+      width: .8em;
+      background-image: url("../../assets/img/tick.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      padding-left: 2em;
+      position: relative;
+      top: 5px;
     }
   }
-
-  margin-bottom: $spacing-vertical-sm-4;
-}
-
-.benefits {
-  @include media-breakpoint-down (md) {
-    margin-top: $spacing-vertical-lg-3;
-  }
-
-  margin-top: px-to-rem(100px);
-  text-align: center;
-}
-
-.benefits-header {
-  font-size: px-to-rem(30);
-  font-weight: 400;
-  letter-spacing: -.03125rem;
-
-  margin: $spacing-vertical-lg-1 0;
-  color: $neu-greyish-brown;
-  text-transform: uppercase;
-}
-
-.benefit {
-  @include media-breakpoint-down (md) {
-    @include font-headline-medium;
-
-    text-align: left;
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: px-to-rem(6px);
-  }
-
-  font-size: px-to-rem(28);
-  color: $neu-greyish-brown;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  &::before,
-  + br,
-  &:last-of-type::after { //sass-lint:disable-line force-pseudo-nesting
-    @include rect(4px, 30px);
-
-    content: "";
-    display: inline-block;
-    background-color: $neu-piss-yellow;
-    margin: 0 px-to-rem(16px);
-  }
-
-  &:last-of-type::after, //sass-lint:disable-line force-pseudo-nesting
-  + br {
-    @include media-breakpoint-down (md) {
-      display: none;
-    }
-  }
-
-  @include media-breakpoint-down (md) {
-    @include font-headline-medium;
-  }
-}
-
-.rainbowsheep {
-  @include rect(20px);
-
-  position: absolute;
-  top: 5vh;
-  right: 5vw;
-}
-
-.eto-cards-header {
-  @include media-breakpoint-up(md) {
-    max-width: 76%;
-  }
-
-  text-align: center;
-  margin: px-to-rem(48px) auto;
 }

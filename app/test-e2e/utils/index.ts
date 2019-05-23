@@ -9,6 +9,7 @@ import { mockApiUrl } from "../config";
 import {
   assertDashboard,
   assertEtoDashboard,
+  assertUserInLanding,
   assertWaitForExternalPendingTransactionCount,
 } from "./assertions";
 import { goToWallet } from "./navigation";
@@ -140,7 +141,8 @@ export const acceptTOS = () => {
 
 export const logoutViaTopRightButton = () => {
   cy.get(tid("Header-logout")).awaitedClick();
-  cy.get(tid("landing-page")); // wait for landing page to show
+
+  assertUserInLanding();
 };
 
 export const loginWithLightWallet = (email: string, password: string) => {

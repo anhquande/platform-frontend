@@ -288,6 +288,7 @@ export const productVisionForm: TFormFixture = {
 export const mediaRequiredForm: TFormFixture = {
   "companyVideo.url": "https://www.youtube.com/watch?v=oHg5SJYRHA0",
   "companySlideshare.url": "https://neufund.org/",
+  "companyPitchdeckUrl.url": "https://neufund.org/cms_resources/whitepaper.pdf",
 
   "eto-registration-media-submit": {
     type: "submit",

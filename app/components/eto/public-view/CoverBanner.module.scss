@@ -1,0 +1,25 @@
+.jurisdiction-banner {
+  @include get-out-of-container-layout-absolute;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: auto;
+  z-index: 2;
+
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: left;
+  align-items: center;
+  padding: 1rem;
+  background-color: $neu-white-two;
+
+  text-transform: uppercase;
+
+  .icon {
+    height: px-to-rem(16px);
+    width: px-to-rem(16px);
+    margin-right: px-to-rem(10px);
+  }
+}
