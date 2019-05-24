@@ -11,6 +11,13 @@ run_frontend() {
     echo "Frontend running"
 }
 
+if lsof -Pi :9090 -sTCP:LISTEN -t > /dev/null ; then
+    echo "Detected already started frontend..."
+else
+    echo "Starting up frontend..."
+    run_frontend
+fi
+
 if lsof -Pi :5001 -sTCP:LISTEN -t > /dev/null ; then
     echo "Detected already started backend..."
 else
@@ -32,13 +39,6 @@ fi
 
 echo "sleeping for 120 seconds to allow for ETOs to settle"
 sleep 120
-
-if lsof -Pi :9090 -sTCP:LISTEN -t > /dev/null ; then
-    echo "Detected already started frontend..."
-else
-    echo "Starting up frontend..."
-    run_frontend
-fi
 
 yarn test:e2e:cypress:record
 
