@@ -17,7 +17,6 @@ export const mockedStore: DeepPartial<IAppState> = {
       PLATFORM_NEUMARK_SHARE: new BigNumber("2"),
       TOKEN_PARTICIPATION_FEE_FRACTION: new BigNumber("20000000000000000"),
       PLATFORM_FEE_FRACTION: new BigNumber("30000000000000000"),
-      DATE_TO_WHITELIST_MIN_DURATION: new BigNumber("604800"),
       TOKEN_RATE_EXPIRES_AFTER: new BigNumber("14400"),
     },
   },

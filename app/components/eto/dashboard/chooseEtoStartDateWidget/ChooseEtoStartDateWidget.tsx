@@ -7,8 +7,10 @@ import { FormGroup } from "reactstrap";
 import { compose } from "recompose";
 
 import { actions } from "../../../../modules/actions";
-import { selectPlatformTermsConstants } from "../../../../modules/contracts/selectors";
-import { selectPreEtoStartDateFromContract } from "../../../../modules/eto-flow/selectors";
+import {
+  selectIssuerEtoDateToWhitelistMinDuration,
+  selectPreEtoStartDateFromContract,
+} from "../../../../modules/eto-flow/selectors";
 import { isValidEtoStartDate } from "../../../../modules/eto-flow/utils";
 import { appConnect } from "../../../../store";
 import { EColumnSpan } from "../../../layouts/Container";
@@ -344,13 +346,10 @@ const ChooseEtoStartDateWidget = compose<
 >(
   createErrorBoundary(ErrorBoundaryPanel),
   appConnect<IStateProps, IDispatchProps>({
-    stateToProps: state => {
-      const constants = selectPlatformTermsConstants(state);
-      return {
-        etoDate: selectPreEtoStartDateFromContract(state),
-        minOffsetPeriod: constants.DATE_TO_WHITELIST_MIN_DURATION,
-      };
-    },
+    stateToProps: state => ({
+      etoDate: selectPreEtoStartDateFromContract(state),
+      minOffsetPeriod: selectIssuerEtoDateToWhitelistMinDuration(state),
+    }),
     dispatchToProps: dispatch => ({
       uploadDate: (etoStartDate: moment.Moment) => {
         dispatch(actions.etoFlow.setNewStartDate(moment.utc(etoStartDate).toDate()));

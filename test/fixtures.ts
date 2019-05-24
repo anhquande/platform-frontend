@@ -774,6 +774,7 @@ export const testProduct = {
   name: EProductName.HNWI_ETO_DE,
   offeringDocumentType: EOfferingDocumentType.MEMORANDUM,
   offeringDocumentSubtype: EOfferingDocumentSubtype.LEAN,
+  dateToWhitelistMinDuration: 7 * 24 * 60 * 60,
 };
 
 export const testEto: TEtoWithCompanyAndContract = {

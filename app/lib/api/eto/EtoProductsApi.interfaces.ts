@@ -55,6 +55,7 @@ export const EtoProductSchema = YupTS.object({
   name: YupTS.string<EProductName>(),
   offeringDocumentSubtype: YupTS.string<EOfferingDocumentSubtype>().optional(),
   offeringDocumentType: YupTS.string<EOfferingDocumentType>(),
+  dateToWhitelistMinDuration: YupTS.number(),
 });
 
 export const EtoProductsSchema = YupTS.array(EtoProductSchema);

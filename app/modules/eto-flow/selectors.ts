@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { createSelector } from "reselect";
 
 import {
@@ -16,7 +17,6 @@ import { ERequestStatus } from "../../lib/api/KycApi.interfaces";
 import { IAppState } from "../../store";
 import { DeepReadonly } from "../../types";
 import { selectIsUserEmailVerified } from "../auth/selectors";
-import { selectPlatformTermsConstants } from "../contracts/selectors";
 import { selectEtoDocumentsLoading } from "../eto-documents/selectors";
 import { selectEto, selectEtoWithCompanyAndContract } from "../eto/selectors";
 import { EETOStateOnChain } from "../eto/types";
@@ -100,6 +100,12 @@ export const selectIssuerEtoOfferingDocumentType = (
   }
 
   return undefined;
+};
+
+export const selectIssuerEtoDateToWhitelistMinDuration = (state: IAppState): BigNumber => {
+  const eto = selectIssuerEto(state);
+  // in case of undefined return platform default (7 days)
+  return new BigNumber(eto ? eto.product.dateToWhitelistMinDuration : 7 * 24 * 60 * 60);
 };
 
 export const selectIssuerCompany = (state: IAppState): TCompanyEtoData | undefined => {
@@ -204,15 +210,15 @@ export const selectPreEtoStartDate = (state: IAppState) =>
   selectNewPreEtoStartDate(state) || selectPreEtoStartDateFromContract(state);
 
 export const selectCanChangePreEtoStartDate = (state: IAppState) => {
-  const constants = selectPlatformTermsConstants(state);
+  const minDuration = selectIssuerEtoDateToWhitelistMinDuration(state);
   const date = selectPreEtoStartDateFromContract(state);
-  return !date || isValidEtoStartDate(date, constants.DATE_TO_WHITELIST_MIN_DURATION);
+  return !date || isValidEtoStartDate(date, minDuration);
 };
 
 export const selectIsNewPreEtoStartDateValid = (state: IAppState) => {
-  const constants = selectPlatformTermsConstants(state);
+  const minDuration = selectIssuerEtoDateToWhitelistMinDuration(state);
   const date = selectNewPreEtoStartDate(state);
-  return date && isValidEtoStartDate(date, constants.DATE_TO_WHITELIST_MIN_DURATION);
+  return date && isValidEtoStartDate(date, minDuration);
 };
 
 export const selectAvailableProducts = createSelector(
