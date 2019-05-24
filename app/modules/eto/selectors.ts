@@ -1,6 +1,7 @@
 import { find } from "lodash/fp";
 
 import { EEtoState, TEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
+import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { IAppState } from "../../store";
 import { DeepReadonly } from "../../types";
 import { selectBookbuildingStats } from "../bookbuilding-flow/selectors";
@@ -51,8 +52,16 @@ export const selectEtoWithCompanyAndContract = (
   const eto = etoState.etos[previewCode];
 
   if (eto) {
-    return {
+    const amendedEto = {
       ...eto,
+      product: {
+        ...eto.product,
+        jurisdiction: eto.product.jurisdiction.toUpperCase() as EJurisdiction,
+      },
+    };
+    // Forces jurisdiction to be upper case
+    return {
+      ...amendedEto,
       company: etoState.companies[eto.companyId]!,
       contract: etoState.contracts[previewCode],
     };
