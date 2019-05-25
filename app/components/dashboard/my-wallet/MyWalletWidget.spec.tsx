@@ -1,7 +1,8 @@
 import { expect } from "chai";
-import { shallow } from "enzyme";
+import { render, shallow } from "enzyme";
 import * as React from "react";
 
+import { wrapWithIntl } from "../../../../test/integrationTestUtils.unsafe";
 import { tid } from "../../../../test/testUtils";
 import { MyWalletWidgetComponentBody } from "./MyWalletWidget";
 
@@ -55,6 +56,63 @@ describe("<MyWalletWidget />", () => {
     const component = shallow(<MyWalletWidgetComponentBody {...props} />);
 
     expect(component.find(tid("my-wallet-widget-icbm-help-text"))).to.have.length(1);
+  });
+  it("should render numbers in correct format", () => {
+    process.env.NF_CHECK_LOCKED_WALLET_WIDGET_ENABLED = "1";
+    const props = {
+      isLoading: false,
+      data: {
+        euroTokenEuroAmount: "66482" + "0".repeat(14),
+        euroTokenAmount: "36490" + "0".repeat(18),
+        ethAmount: "16482" + "0".repeat(14),
+        ethEuroAmount: "6004904646" + "0".repeat(16),
+        percentage: "-3.67",
+        totalAmount: "637238" + "0".repeat(18),
+        isIcbmWalletConnected: false,
+        isLockedWalletConnected: false,
+      },
+    };
+
+    const component = render(wrapWithIntl(<MyWalletWidgetComponentBody {...props} />));
+
+    expect(
+      component
+        .find(tid("my-wallet-widget-eur-token.large-value"))
+        .find(tid("value"))
+        .text(),
+    ).to.eq("36 490");
+    expect(
+      component
+        .find(tid("my-wallet-widget-eur-token.value"))
+        .find(tid("value"))
+        .text(),
+    ).to.eq("36 490");
+
+    expect(
+      component
+        .find(tid("my-wallet-widget-eth-token.large-value"))
+        .find(tid("value"))
+        .text(),
+    ).to.eq("1.6482");
+    expect(
+      component
+        .find(tid("my-wallet-widget-eth-token.value"))
+        .find(tid("value"))
+        .text(),
+    ).to.eq("60 049 046.46");
+
+    expect(
+      component
+        .find(tid("my-wallet-widget-total"))
+        .find(tid("value"))
+        .text(),
+    ).to.eq("637 238");
+    expect(
+      component
+        .find(tid("my-wallet-widget-total"))
+        .find(tid("units"))
+        .text(),
+    ).to.eq(" EUR");
   });
 
   beforeEach(() => {

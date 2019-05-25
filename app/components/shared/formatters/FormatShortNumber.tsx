@@ -90,7 +90,11 @@ const FormatShortNumber: React.FunctionComponent<IProps> = ({
   divider,
 }) => {
   if (!value) {
-    return <span className={className}>{defaultValue}</span>;
+    return (
+      <span className={className} data-test-id="value">
+        {defaultValue}
+      </span>
+    );
   }
 
   const number = parseFloat(
@@ -105,14 +109,18 @@ const FormatShortNumber: React.FunctionComponent<IProps> = ({
     })[outputFormat];
 
     return (
-      <span className={className}>
+      <span className={className} data-test-id="value">
         {shortValue}
         {outputFormat === EAbbreviatedNumberOutputFormat.LONG && " "}
         {translation}
       </span>
     );
   } else {
-    return <span className={className}>{number.toString()}</span>;
+    return (
+      <span className={className} data-test-id="value">
+        {number.toString()}
+      </span>
+    );
   }
 };
 

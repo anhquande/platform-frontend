@@ -63,7 +63,7 @@ export const FormatNumberRange: React.FunctionComponent<INumberRangeProps> = ({
 
     if (Object.values(ESpecialNumber).includes(valueUpto)) {
       return (
-        <span className={cn(styles.noBreak, className)}>
+        <span className={cn(styles.noBreak, className)} data-test-id="value">
           {renderValueFrom}
           {separator}
           {getSpecialNumberTranslation(valueUpto as ESpecialNumber)}
@@ -71,7 +71,7 @@ export const FormatNumberRange: React.FunctionComponent<INumberRangeProps> = ({
       );
     } else {
       return (
-        <span className={cn(styles.noBreak, className)}>
+        <span className={cn(styles.noBreak, className)} data-test-id="value">
           {renderValueFrom}
           {separator}
           {formatNumber({
@@ -86,6 +86,6 @@ export const FormatNumberRange: React.FunctionComponent<INumberRangeProps> = ({
       );
     }
   } else {
-    return <>{defaultValue}</>;
+    return <span data-test-id="value">{defaultValue}</span>;
   }
 };
