@@ -10,7 +10,9 @@ const ETO_ID = etoFixtureAddressByName("ETONoStartDate");
 
 describe("Eto Investor View", () => {
   describe("Default account tests", () => {
-    beforeEach(() => createAndLoginNewUser({ type: "investor", kyc: "business" }));
+    beforeEach(() =>
+      createAndLoginNewUser({ type: "investor", kyc: "business", signTosAgreement: true }),
+    );
 
     it("should load empty Eto", () => {
       cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));

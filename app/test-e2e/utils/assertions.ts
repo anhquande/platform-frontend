@@ -41,6 +41,12 @@ export const assertProfile = () => {
   cy.get(tid("eto-profile")).should("exist");
 };
 
+const getLatestEmailByUser = (r: any, userEmail: string) =>
+  r.body.find(
+    (body: { personalizations: { to: { email: string }[] }[] }) =>
+      body.personalizations[0].to[0].email.toLowerCase() === userEmail.toLowerCase(),
+  );
+
 export const assertWaitForLatestEmailSentWithSalt = (
   userEmail: string,
   timeout: number = 20000,
@@ -48,14 +54,14 @@ export const assertWaitForLatestEmailSentWithSalt = (
   expect(timeout, `Email not received in ${timeout} ms`).to.be.gt(0);
   cy.wait(1000);
   cy.request({ url: mockApiUrl + "sendgrid/session/mails", method: "GET" }).then(r => {
-    if (r.status === 200) {
-      const response = get(r, "body[0].personalizations[0].to[0]");
-      if (response) {
-        const loginLink = get(r, "body[0].personalizations[0].substitutions.-loginLink-");
-        expect(response.email).to.be.eq(userEmail);
-        expect(loginLink).to.contain("salt");
-        return;
-      }
+    if (r.status === 200 && getLatestEmailByUser(r, userEmail)) {
+      const loginLink = get(
+        getLatestEmailByUser(r, userEmail),
+        "personalizations[0].substitutions.-loginLink-",
+      );
+
+      expect(loginLink).to.contain("salt");
+      return;
     }
     assertWaitForLatestEmailSentWithSalt(userEmail, timeout - 1000);
   });

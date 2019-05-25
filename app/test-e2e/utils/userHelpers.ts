@@ -50,7 +50,7 @@ export const createAndLoginNewUser = (params: {
       params.type === "investor" ? INVESTOR_WALLET_KEY : ISSUER_WALLET_KEY,
       JSON.stringify({
         address,
-        email: `${address.slice(0, 7)}@neufund.org`,
+        email: `${address.slice(0, 7).toLowerCase()}@neufund.org`,
         salt: salt,
         walletType: "LIGHT",
       }),

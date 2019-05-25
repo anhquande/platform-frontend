@@ -82,16 +82,32 @@ export const closeModal = () => {
   cy.get(tid("modal-close-button")).click();
 };
 
-export const getLatestVerifyUserEmailLink = () =>
+export const getLatestVerifyUserEmailLink = (email: string) =>
   cy.request({ url: mockApiUrl + "sendgrid/session/mails", method: "GET" }).then(r => {
-    const activationLink = get(r, "body[0].personalizations[0].substitutions.-activationLink-");
+    const latestEmailByUser = r.body.find(
+      (body: { personalizations: { to: { email: string }[] }[] }) =>
+        body.personalizations[0].to[0].email.toLowerCase() === email.toLowerCase(),
+    );
+    const activationLink = get(
+      latestEmailByUser,
+      "personalizations[0].substitutions.-activationLink-",
+    );
+
     // we need to replace the loginlink pointing to a remote destination with one pointing to our local instance
     return activationLink.replace("https://platform.neufund.io", "");
   });
 
-export const verifyLatestUserEmail = () => {
+export const verifyLatestUserEmail = (email: string) => {
   cy.request({ url: mockApiUrl + "sendgrid/session/mails", method: "GET" }).then(r => {
-    const activationLink = get(r, "body[0].personalizations[0].substitutions.-activationLink-");
+    const latestEmailByUser = r.body.find(
+      (body: { personalizations: { to: { email: string }[] }[] }) =>
+        body.personalizations[0].to[0].email.toLowerCase() === email.toLowerCase(),
+    );
+    const activationLink = get(
+      latestEmailByUser,
+      "personalizations[0].substitutions.-activationLink-",
+    );
+
     // we need to replace the loginlink pointing to a remote destination with one pointing to our local instance
     const cleanedActivationLink = activationLink.replace("platform.neufund.io", "localhost:9090");
     cy.visit(cleanedActivationLink);
@@ -159,7 +175,7 @@ export const loginWithLightWallet = (email: string, password: string) => {
 
 export const acceptWallet = () => {
   cy.get(tid("access-light-wallet-password-input")).type(DEFAULT_PASSWORD);
-  cy.get(tid("access-light-wallet-confirm")).awaitedClick(1500);
+  cy.get(tid("access-light-wallet-confirm")).awaitedClick();
 };
 
 export const etoFixtureByName = (name: string) => {

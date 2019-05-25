@@ -4,11 +4,9 @@ import {
   assertDashboard,
   assertErrorModal,
   assertWaitForLatestEmailSentWithSalt,
-  clearEmailServer,
   typeEmailPassword,
   typeLightwalletRecoveryPhrase,
   verifyLatestUserEmail,
-  logoutViaTopRightButton,
 } from "../utils";
 import { cyPromise } from "../utils/cyPromise";
 import { generateRandomSeedAndAddress } from "../utils/generateRandomSeedAndAddress";
@@ -49,7 +47,7 @@ describe("Wallet recover", () => {
     );
   });
 
-  it.only("should return an error when recovering seed and using an already verified email", () => {
+  it("should return an error when recovering seed and using an already verified email", () => {
     createAndLoginNewUser({
       type: "investor",
       kyc: "individual",
@@ -69,41 +67,54 @@ describe("Wallet recover", () => {
   });
 
   it("should recover user with same email if its the same user", () => {
-    const email = "0xE6Ad2@neufund.org";
-    const password = "strongpassword";
-    clearEmailServer();
+    cyPromise(() => generateRandomSeedAndAddress("m/44'/60'/0'")).then(({ seed }) => {
+      createAndLoginNewUser({
+        type: "investor",
+        kyc: "individual",
+        seed: seed.join(" "),
+      }).then(() => {
+        const email = generateRandomEmailAddress();
+        const password = "strongpassword";
+        cy.clearLocalStorage();
+        cy.visit(`${recoverRoutes.seed}`);
 
-    cy.visit(`${recoverRoutes.seed}`);
-    typeLightwalletRecoveryPhrase(INV_EUR_ICBM_HAS_KYC_SEED.split(" "));
-    typeEmailPassword(email, password);
+        typeLightwalletRecoveryPhrase(seed);
+        typeEmailPassword(email, password);
 
-    assertWaitForLatestEmailSentWithSalt(email.toLowerCase());
+        cy.get(tid("recovery-success-btn-go-dashboard")).awaitedClick();
 
-    cy.get(tid("recovery-success-btn-go-dashboard")).awaitedClick();
-
-    assertDashboard();
+        assertDashboard();
+      });
+    });
   });
 
   it("should recover existing user with verified email from saved phrases and change email", () => {
-    //@see https://github.com/Neufund/platform-backend/tree/master/deploy#dev-fixtures
+    cyPromise(() => generateRandomSeedAndAddress("m/44'/60'/0'")).then(({ seed }) => {
+      createAndLoginNewUser({
+        type: "investor",
+        kyc: "individual",
+        seed: seed.join(" "),
+      }).then(() => {
+        {
+          const email = generateRandomEmailAddress();
+          cy.clearLocalStorage().then(() => {
+            cy.visit(recoverRoutes.seed);
 
-    const email = generateRandomEmailAddress();
-    cy.visit(recoverRoutes.seed);
+            typeLightwalletRecoveryPhrase(seed);
+            const password = "strongpassword";
 
-    typeLightwalletRecoveryPhrase(INV_EUR_ICBM_HAS_KYC_SEED.split(" "));
-    const password = "strongpassword";
+            cy.get(tid("wallet-selector-register-email")).type(email);
+            cy.get(tid("wallet-selector-register-password")).type(password);
+            cy.get(tid("wallet-selector-register-confirm-password")).type(`${password}{enter}`);
+            assertWaitForLatestEmailSentWithSalt(email);
 
-    clearEmailServer();
+            cy.get(tid("recovery-success-btn-go-dashboard")).awaitedClick();
 
-    cy.get(tid("wallet-selector-register-email")).type(email);
-    cy.get(tid("wallet-selector-register-password")).type(password);
-    cy.get(tid("wallet-selector-register-confirm-password")).type(`${password}{enter}`);
-
-    cy.get(tid("recovery-success-btn-go-dashboard")).awaitedClick();
-
-    assertWaitForLatestEmailSentWithSalt(email);
-
-    assertDashboard();
-    verifyLatestUserEmail();
+            assertDashboard();
+            verifyLatestUserEmail(email);
+          });
+        }
+      });
+    });
   });
 });

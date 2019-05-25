@@ -18,9 +18,9 @@ jobs:
       # Installation
       - run: yarn --frozen-lockfile
       # Linting
-      # - run: yarn lint
+      - run: yarn lint
       # Unit Tests
-      # - run: yarn test:browser && yarn test:node
+      - run: yarn test:browser && yarn test:node
 
       - save_cache:
           paths:
@@ -113,7 +113,7 @@ jobs:
 
   codechecks-vis-reg:
     docker:
-      - image: circleci/node:11.14.0
+      - image: circleci/node:11.14.0-browsers
     working_directory: /home/circleci/app
 
     steps:

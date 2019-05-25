@@ -4,7 +4,6 @@ import {
   assertVerifyEmailWidgetIsInUnverifiedEmailState,
   assertVerifyEmailWidgetIsInVerfiedEmailState,
   assertWaitForLatestEmailSentWithSalt,
-  clearEmailServer,
   closeModal,
   confirmAccessModal,
   convertToUniqueEmail,
@@ -12,18 +11,18 @@ import {
   verifyLatestUserEmail,
 } from "../utils";
 import { tid } from "../utils/selectors";
+import { generateRandomEmailAddress } from "../utils/userHelpers";
 
 describe("Verify Email Widget", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
   });
   it("should change user email after register", () => {
-    const firstEmail = "moe-wallet-backup-e2e@test.com";
-    const secondEmail = convertToUniqueEmail(firstEmail);
+    const firstEmail = generateRandomEmailAddress();
+    const secondEmail = generateRandomEmailAddress();
     const password = "strongpassword";
 
     registerWithLightWallet(firstEmail, password);
-    clearEmailServer();
     assertDashboard();
 
     cy.get(tid("authorized-layout-profile-button")).awaitedClick();
@@ -37,8 +36,8 @@ describe("Verify Email Widget", () => {
     confirmAccessModal();
 
     // Email server takes time before getting the request
-    assertWaitForLatestEmailSentWithSalt(secondEmail);
-    verifyLatestUserEmail();
+    cy.wait(3000);
+    verifyLatestUserEmail(secondEmail);
 
     assertVerifyEmailWidgetIsInVerfiedEmailState();
     assertVerifyEmailWidgetIsInUnverifiedEmailState(true);
@@ -62,6 +61,5 @@ describe("Verify Email Widget", () => {
     cy.get(tid("verify-email-widget-form-submit")).awaitedClick();
 
     closeModal();
-    assertWaitForLatestEmailSentWithSalt(firstEmail);
   });
 });

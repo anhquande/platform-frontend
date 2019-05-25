@@ -12,7 +12,8 @@ import { DEFAULT_PASSWORD, generateRandomEmailAddress } from "../utils/userHelpe
 describe.skip("Light Wallet ETO Dashboard", () => {
   // We don't need this test
   it("should register verify an email and assert that the dashboard is changing", () => {
-    registerWithLightWalletETO(generateRandomEmailAddress(), DEFAULT_PASSWORD, true);
+    const email = generateRandomEmailAddress();
+    registerWithLightWalletETO(email, DEFAULT_PASSWORD, true);
 
     assertEtoDashboard();
     assertBackupSeedWidgetVisible();
@@ -24,7 +25,7 @@ describe.skip("Light Wallet ETO Dashboard", () => {
     assertBackupSeedWidgetVisible(true);
     assertEmailActivationWidgetVisible();
 
-    verifyLatestUserEmail();
+    verifyLatestUserEmail(email);
     goToEtoDashboard();
 
     assertEmailActivationWidgetVisible(true);

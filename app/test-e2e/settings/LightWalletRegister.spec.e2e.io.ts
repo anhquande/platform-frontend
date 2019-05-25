@@ -4,7 +4,6 @@ import {
   assertDashboard,
   assertErrorModal,
   assertWaitForLatestEmailSentWithSalt,
-  clearEmailServer,
   convertToUniqueEmail,
   loginWithLightWallet,
   logoutViaTopRightButton,
@@ -13,6 +12,7 @@ import {
   verifyLatestUserEmail,
 } from "../utils";
 import { tid } from "../utils/selectors";
+import { generateRandomEmailAddress } from "../utils/userHelpers";
 
 describe("Light wallet login / register", () => {
   beforeEach(() => {
@@ -20,10 +20,8 @@ describe("Light wallet login / register", () => {
   });
 
   it("should register user with light-wallet and send email", () => {
-    const email = "moe@test.com";
+    const email = generateRandomEmailAddress();
     const password = "strongpassword";
-
-    clearEmailServer();
 
     registerWithLightWallet(email, password);
 
@@ -31,7 +29,7 @@ describe("Light wallet login / register", () => {
   });
 
   it("should remember light wallet details after logout", () => {
-    const email = "moe2@test.com";
+    const email = generateRandomEmailAddress();
     const password = "strongpassword";
 
     registerWithLightWallet(email, password);
@@ -44,7 +42,7 @@ describe("Light wallet login / register", () => {
   });
 
   it("should recognize correctly ETO user and save metadata correctly", () => {
-    const email = "moe3@test.com";
+    const email = generateRandomEmailAddress();
     const password = "strongpassword";
 
     registerWithLightWallet(email, password);
@@ -79,8 +77,7 @@ describe("Light wallet login / register", () => {
     typeEmailPassword(email, password);
     assertDashboard();
     acceptTOS();
-    cy.wait(5000); // wait for the tos to settle
-    verifyLatestUserEmail();
+    verifyLatestUserEmail(email);
     logoutViaTopRightButton();
     cy.clearLocalStorage();
 
