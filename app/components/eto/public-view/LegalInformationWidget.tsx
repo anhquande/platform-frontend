@@ -2,9 +2,13 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 
-import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
+import {
+  TCompanyEtoData,
+  TEtoLegalShareholderType,
+} from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EColumnSpan } from "../../layouts/Container";
 import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
+import { generateColor } from "../../shared/charts/utils";
 import { FormatNumber } from "../../shared/formatters/FormatNumber";
 import { MoneyNew } from "../../shared/formatters/Money";
 import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
@@ -22,7 +26,7 @@ interface IProps {
 const generateShareholders = (
   shareholders: TCompanyEtoData["shareholders"],
   companyShares: number,
-) => {
+): TCompanyEtoData["shareholders"] => {
   if (shareholders === undefined) {
     return [];
   } else {
@@ -159,11 +163,15 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
               data={{
                 datasets: [
                   {
-                    data: shareholdersData.map(d => d && d.shares),
-                    backgroundColor: shareholdersData.map((_, i: number) => CHART_COLORS[i]),
+                    data: shareholdersData!.map(d => d && d.shares),
+                    backgroundColor: shareholdersData!.map(
+                      (shareholder: TEtoLegalShareholderType, i: number) =>
+                        // Use predefined colors first, then use generated colors
+                        CHART_COLORS[i] || generateColor(`${i}${shareholder!.fullName}`),
+                    ),
                   },
                 ],
-                labels: shareholdersData.map(d => d && d.fullName),
+                labels: shareholdersData!.map(d => d && d.fullName),
               }}
             />
           </Col>

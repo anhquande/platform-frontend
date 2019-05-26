@@ -121,6 +121,15 @@ export const EtoKeyIndividualsType = YupTS.object({
 
 type TEtoKeyIndividualsType = YupTS.TypeOf<typeof EtoKeyIndividualsType>;
 
+const EtoLegalShareholderType = YupTS.object({
+  fullName: YupTS.string().optional(),
+  shares: YupTS.number()
+    .optional()
+    .enhance(v => v.moreThan(0)),
+}).optional();
+
+export type TEtoLegalShareholderType = YupTS.TypeOf<typeof EtoLegalShareholderType>;
+
 export const EtoLegalInformationType = YupTS.object({
   name: YupTS.string(),
   legalForm: YupTS.string(),
@@ -136,14 +145,7 @@ export const EtoLegalInformationType = YupTS.object({
   numberOfFounders: YupTS.number().optional(),
   lastFundingSizeEur: YupTS.number().optional(),
   companyShares: YupTS.number().enhance(v => v.min(MIN_COMPANY_SHARES)),
-  shareholders: YupTS.array(
-    YupTS.object({
-      fullName: YupTS.string().optional(),
-      shares: YupTS.number()
-        .optional()
-        .enhance(v => v.moreThan(0)),
-    }).optional(),
-  ).optional(),
+  shareholders: YupTS.array(EtoLegalShareholderType).optional(),
 });
 
 type TEtoLegalData = YupTS.TypeOf<typeof EtoLegalInformationType>;
