@@ -1,16 +1,13 @@
 import { extractNumber } from "../../utils/StringUtils";
-import { INV_ETH_ICBM_NO_KYC, INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
 import { closeModal, confirmAccessModal } from "../utils";
 import { goToWallet } from "../utils/navigation";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Upgrade icbm wallet", () => {
   it("do euro upgrade", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -39,11 +36,9 @@ describe("Upgrade icbm wallet", () => {
     });
   });
 
-  it.skip("do eth upgrade", () => {
-    createAndLoginNewUser({
-      type: "investor",
+  it("do eth upgrade", () => {
+    loginFixtureAccount("INV_ETH_ICBM_NO_KYC_2", {
       kyc: "business",
-      seed: INV_ETH_ICBM_NO_KYC,
       clearPendingTransactions: true,
     }).then(() => {
       let icbmBalance: number;

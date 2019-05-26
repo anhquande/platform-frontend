@@ -1,11 +1,10 @@
 import BigNumber from "bignumber.js";
 import Web3Accounts from "web3-eth-accounts";
 
-import { INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
 import { confirmAccessModal, goToDashboard, parseAmount } from "../utils";
 import { getBalanceRpc, getTransactionByHashRpc } from "../utils/ethRpcUtils";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser, DEFAULT_PASSWORD } from "../utils/userHelpers";
+import { DEFAULT_PASSWORD, loginFixtureAccount } from "../utils/userHelpers";
 
 const Q18 = new BigNumber(10).pow(18);
 const NODE_ADDRESS = process.env.NF_RPC_PROVIDER!;
@@ -71,9 +70,7 @@ export const checkTransactionWithRPCNode = (
 
 describe("Wallet Withdraw", () => {
   it("should recover existing user with verified email from saved phrases and change email", () => {
-    createAndLoginNewUser({
-      type: "investor",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC", {
       signTosAgreement: true,
       onlyLogin: true,
     }).then(() => {

@@ -1,20 +1,18 @@
-import { INV_EUR_ICBM_HAS_KYC_ADDRESS, INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
 import {
+  accountFixtureAddress,
   addPendingExternalTransaction,
   closeModal,
   goToDashboard,
   removePendingExternalTransaction,
   tid,
 } from "../utils";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 import { assertPendingWithdrawModal, assertSuccessWithdrawModal, doWithdraw } from "./utils";
 
 describe("Pending Transactions In Header", () => {
   it("should show no pending transaction icon", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -25,10 +23,8 @@ describe("Pending Transactions In Header", () => {
   });
 
   it("should open pending transaction monitor when there is a pending transaction", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -37,6 +33,8 @@ describe("Pending Transactions In Header", () => {
 
       doWithdraw(address, amount, { closeWhen: "pending" });
 
+      // TODO: this test will be super flaky - with 500 ms block time it will be mined faster
+      // than you can close the dialog. you could just mock mining by POSTing transaction to user_api
       // assert correct behavior of transaction monitor
       cy.get(tid("pending-transactions-status.mining")).click();
 
@@ -51,10 +49,8 @@ describe("Pending Transactions In Header", () => {
   });
 
   it("should not remove transaction that's still pending from the list", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -74,10 +70,8 @@ describe("Pending Transactions In Header", () => {
   });
 
   it("should not remove transaction from pending list after reload when success modal is opened", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -95,10 +89,8 @@ describe("Pending Transactions In Header", () => {
   });
 
   it("should open pending transaction monitor when there is a success transaction", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -121,10 +113,8 @@ describe("Pending Transactions In Header", () => {
   });
 
   it("should remove transaction from pending list after success", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -138,14 +128,12 @@ describe("Pending Transactions In Header", () => {
   });
 
   it("external pending transaction should not affect header icon", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
-      addPendingExternalTransaction(INV_EUR_ICBM_HAS_KYC_ADDRESS);
+      addPendingExternalTransaction(accountFixtureAddress("INV_EUR_ICBM_HAS_KYC_SEED"));
 
       goToDashboard();
 

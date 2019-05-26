@@ -1,16 +1,13 @@
-import { INV_ETH_EUR_ICBM_HAS_KYC } from "../fixtures";
 import { confirmAccessModal, etoFixtureAddressByName, LONG_WAIT_TIME } from "../utils";
 import { goToDashboard } from "../utils/navigation";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Invest with euro token", () => {
   const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
   it("do", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_ETH_EUR_ICBM_HAS_KYC", {
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_HAS_KYC,
       clearPendingTransactions: true,
     }).then(() => {
       goToDashboard();
