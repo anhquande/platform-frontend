@@ -1,16 +1,13 @@
-import { INV_EUR_ICBM_HAS_KYC_SEED, INV_ICBM_ETH_M_HAS_KYC_DUP } from "../fixtures";
 import { etoFixtureAddressByName, goToDashboard } from "../utils/index";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Start upgrade flow from investment", () => {
-  it("do", () => {
+  it.skip("do", () => {
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
-
-    createAndLoginNewUser({
-      type: "investor",
+    // TODO: you need another fixture that has ICBM wallet but is not upgraded in any other test
+    loginFixtureAccount("", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -33,11 +30,8 @@ describe("Start upgrade flow from investment", () => {
     const WHITELIST_ETO_ID = etoFixtureAddressByName("ETOInWhitelistState");
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_ICBM_ETH_M_HAS_KYC_DUP", {
       kyc: "business",
-      seed: INV_ICBM_ETH_M_HAS_KYC_DUP,
-      hdPath: "m/44'/60'/0'/0",
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {

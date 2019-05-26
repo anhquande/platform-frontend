@@ -1,8 +1,7 @@
-import { INV_ETH_EUR_ICBM_M_HAS_KYC_DUP, INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
 import { assertWallet, clearEmailServer, goToProfile, goToWallet } from "../utils";
 import { fillForm } from "../utils/forms";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { createAndLoginNewUser, loginFixtureAccount } from "../utils/userHelpers";
 import { assertWaitForBankTransferSummary } from "./assertions";
 
 function assertBankTransferFlow({
@@ -51,10 +50,8 @@ function assertBankTransferFlow({
 
 describe("Bank Verification", () => {
   it("should start verification process from wallet", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
     }).then(() => {
       goToWallet();
@@ -70,10 +67,8 @@ describe("Bank Verification", () => {
   });
 
   it("should start verification process from profile", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
     }).then(() => {
       goToProfile();
@@ -87,11 +82,8 @@ describe("Bank Verification", () => {
   });
 
   it("should start new verification process from wallet", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_ETH_EUR_ICBM_M_HAS_KYC_DUP", {
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP,
-      hdPath: "m/44'/60'/0'/0",
       clearPendingTransactions: true,
     }).then(() => {
       goToWallet();
@@ -105,11 +97,8 @@ describe("Bank Verification", () => {
   });
 
   it("should start new verification process from profile", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_ETH_EUR_ICBM_M_HAS_KYC_DUP", {
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP,
-      hdPath: "m/44'/60'/0'/0",
       clearPendingTransactions: true,
     }).then(() => {
       goToProfile();

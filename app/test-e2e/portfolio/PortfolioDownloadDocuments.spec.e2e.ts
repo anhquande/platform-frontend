@@ -1,17 +1,13 @@
-import { INV_ICBM_ETH_M_HAS_KYC_DUP } from "../fixtures";
 import { etoFixtureAddressByName } from "../utils";
 import { goToPortfolio } from "../utils/navigation";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Download documents from portfolio", () => {
   it("do", () => {
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPayoutState");
-    createAndLoginNewUser({
-      type: "investor",
-      kyc: "individual",
-      seed: INV_ICBM_ETH_M_HAS_KYC_DUP,
-      hdPath: "m/44'/60'/0'/0",
+    loginFixtureAccount("INV_ICBM_ETH_M_HAS_KYC_DUP", {
+      kyc: "business",
       clearPendingTransactions: true,
     }).then(() => {
       goToPortfolio();
