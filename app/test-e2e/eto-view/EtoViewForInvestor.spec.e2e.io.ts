@@ -50,6 +50,14 @@ describe("Eto Investor View", () => {
       cy.get(tid("eto-public-view-dividend-rights")).should("contain", "Yes");
     });
 
+    it("should display link to fundraising stats", () => {
+      cy.visit(etoPublicViewByIdLinkLegacy(etoFixtureAddressByName("ETOInPayoutState")));
+      cy.get(tid("fundraising-statistics-button")).should("exist");
+
+      cy.visit(etoPublicViewByIdLinkLegacy(etoFixtureAddressByName("ETOInSetupState")));
+      cy.get(tid("fundraising-statistics-button")).should("not.exist");
+    });
+
     it("should should tradability when transferability is set to true", () => {
       const ETO_ID_WITH_TRANSFERABILITY_ALLOWED = etoFixtureAddressByName("ETOInWhitelistState");
 
