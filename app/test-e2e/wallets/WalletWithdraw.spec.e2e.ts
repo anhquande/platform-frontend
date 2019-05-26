@@ -103,12 +103,14 @@ describe("Wallet WithdrawUnsafe", () => {
         cy.get(
           tid("modals.tx-sender.withdraw-flow.withdraw-component.send-transaction-button"),
         ).should("be.enabled");
-        cy.get(tid("modals.tx-sender.withdraw-flow.withdraw-component.value")).type("{enter}");
+        cy.get(
+          tid("modals.tx-sender.withdraw-flow.withdraw-component.send-transaction-button"),
+        ).click();
 
         /*Test flow*/
 
         cy.get(tid("modals.tx-sender.withdraw-flow.summary.to")).should("contain", testAddress);
-        cy.get(tid("modals.tx-sender.withdraw-flow.summary.value"))
+        cy.get(tid("modals.tx-sender.withdraw-flow.summary.value.large-value"))
           .then(e => parseAmount(e.text()).toNumber())
           .should("eq", testValue);
 
@@ -117,7 +119,7 @@ describe("Wallet WithdrawUnsafe", () => {
         // cy.get(tid("modals.tx-sender.withdraw-flow.summary.cost"))
         // .then(e => parseAmount(e.text()).toNumber())
         // .should("be.closeTo", 0.0002, 0.0001);
-        cy.get(tid("modals.tx-sender.withdraw-flow.summary.cost")).contains(/0\.\d{4}/);
+        cy.get(tid("modals.tx-sender.withdraw-flow.summary.cost.large-value")).contains(/0\.\d{4}/);
 
         cy.get(tid("modals.tx-sender.withdraw-flow.summary.accept")).awaitedClick();
 
@@ -137,7 +139,7 @@ describe("Wallet WithdrawUnsafe", () => {
             expect(input).to.equal(expectedInput);
             // do not check expected gas limit - any change in the solidity implementation will make test fail
             // expect(gas).to.equal(expectedGasLimit);
-            expect(ethValue).to.equal(Q18.mul(0).toString());
+            expect(ethValue).to.equal(Q18.mul(testValue).toString());
 
             // TODO: Connect artifacts with tests to get deterministic addresses
             // expect(etherTokenAddress).to.equal(to);

@@ -84,6 +84,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
   theme,
   className,
   "data-test-id": dataTestId,
+  roundingMode,
 }) => {
   let formattedValue = null;
   if (value) {
@@ -93,7 +94,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
       <FormatNumber
         value={value}
         defaultValue={defaultValue}
-        roundingMode={ERoundingMode.DOWN}
+        roundingMode={roundingMode || ERoundingMode.DOWN}
         decimalPlaces={decimalPlaces}
         inputFormat={inputFormat}
         outputFormat={outputFormat}
@@ -103,7 +104,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
         value={value}
         inputFormat={inputFormat}
         defaultValue={defaultValue}
-        roundingMode={ERoundingMode.DOWN}
+        roundingMode={roundingMode || ERoundingMode.DOWN}
         decimalPlaces={decimalPlaces}
         outputFormat={outputFormat}
       />

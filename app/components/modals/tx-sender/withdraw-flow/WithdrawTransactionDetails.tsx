@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { ETxSenderType } from "../../../../modules/tx/types";
-import { ECurrency, ERoundingMode } from "../../../shared/formatters/utils";
+import { ECurrency, ENumberOutputFormat, ERoundingMode } from "../../../shared/formatters/utils";
 import { EtherscanAddressLink } from "../../../shared/links/EtherscanLink";
 import { MoneySuiteWidget } from "../../../shared/MoneySuiteWidget";
 import { TransactionDetailsComponent } from "../types";
@@ -37,6 +37,7 @@ const WithdrawTransactionDetails: TransactionDetailsComponent<ETxSenderType.WITH
             "w-75",
             "align-self-end",
           )}
+          data-test-id="modals.tx-sender.withdraw-flow.summary.to"
         >
           {additionalData.to}
         </span>
@@ -51,12 +52,12 @@ const WithdrawTransactionDetails: TransactionDetailsComponent<ETxSenderType.WITH
     <section className={styles.section}>
       <FormattedMessage id="modal.sent-eth.amount" />
       <MoneySuiteWidget
+        data-test-id="modals.tx-sender.withdraw-flow.summary.value"
         currency={ECurrency.ETH}
         currencyTotal={ECurrency.EUR}
         largeNumber={additionalData.amount}
         value={additionalData.amountEur}
         theme={"green"}
-        roundingMode={ERoundingMode.DOWN}
       />
     </section>
 
@@ -68,11 +69,13 @@ const WithdrawTransactionDetails: TransactionDetailsComponent<ETxSenderType.WITH
         </small>
       </div>
       <MoneySuiteWidget
+        data-test-id="modals.tx-sender.withdraw-flow.summary.cost"
         currency={ECurrency.ETH}
         currencyTotal={ECurrency.EUR}
         largeNumber={additionalData.cost}
         value={additionalData.costEur}
         theme={"green"}
+        outputFormat={ENumberOutputFormat.FULL}
         roundingMode={ERoundingMode.UP}
       />
     </section>
@@ -87,7 +90,6 @@ const WithdrawTransactionDetails: TransactionDetailsComponent<ETxSenderType.WITH
         largeNumber={additionalData.total}
         value={additionalData.totalEur}
         theme={"green"}
-        roundingMode={ERoundingMode.UP}
       />
     </section>
   </>

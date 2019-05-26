@@ -47,13 +47,11 @@ export function* generateEthWithdrawTransaction(
     // transaction can be fully covered by etherTokens
     const txInput = contractsService.etherToken.withdrawAndSendTx(to || "0x0", weiValue).getData();
 
-    const difference = weiValue.sub(etherTokenBalance);
-
     const txDetails: Partial<ITxData> = {
       to: contractsService.etherToken.address,
       from,
       data: txInput,
-      value: difference.comparedTo(0) > 0 ? difference.toString() : "0",
+      value: weiValue.toString(),
       gasPrice: gasPriceWithOverhead,
     };
     const estimatedGasWithOverhead = yield web3Manager.estimateGasWithOverhead(txDetails);

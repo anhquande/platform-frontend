@@ -7,7 +7,7 @@ import { TWithdrawAdditionalData } from "../../../../modules/tx/transactions/wit
 import { ETxSenderType } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
 import { Button } from "../../../shared/buttons";
-import { ButtonArrowRight } from "../../../shared/buttons/Button.unsafe";
+import { ButtonArrowRight } from "../../../shared/buttons/Button";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { WithdrawTransactionDetails } from "./WithdrawTransactionDetails";
 

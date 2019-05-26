@@ -29,8 +29,13 @@ import { appConnect } from "../../../../store";
 import { OmitKeys } from "../../../../types";
 import { extractNumber } from "../../../../utils/StringUtils";
 import { Button } from "../../../shared/buttons";
-import { ButtonArrowRight, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
-import { ECurrency, EMoneyInputFormat, ERoundingMode } from "../../../shared/formatters/utils";
+import { ButtonArrowRight, EButtonLayout } from "../../../shared/buttons/Button";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+} from "../../../shared/formatters/utils";
 import { Form } from "../../../shared/forms";
 import { FormLabel } from "../../../shared/forms/fields/FormFieldLabel";
 import { FormInput } from "../../../shared/forms/fields/FormInput.unsafe";
@@ -134,7 +139,7 @@ const WithdrawLayout: React.FunctionComponent<TProps> = ({
             ? getFormattedMoney(
                 additionalData.amount,
                 ECurrency.ETH,
-                EMoneyInputFormat.ULPS,
+                ENumberInputFormat.ULPS,
                 false,
                 ERoundingMode.DOWN,
               )
@@ -196,7 +201,7 @@ const WithdrawLayout: React.FunctionComponent<TProps> = ({
               <FormattedMessage id="modal.sent-eth.amount" />
             </FormLabel>
             <FormMaskedInput
-              data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.amount"
+              data-test-id="modals.tx-sender.withdraw-flow.withdraw-component.value"
               name="value"
               suffix="ETH"
               unmask={extractNumber}
@@ -213,7 +218,7 @@ const WithdrawLayout: React.FunctionComponent<TProps> = ({
                   getFormattedMoney(
                     maxEther,
                     ECurrency.ETH,
-                    EMoneyInputFormat.ULPS,
+                    ENumberInputFormat.ULPS,
                     false,
                     ERoundingMode.DOWN,
                   ),
@@ -240,6 +245,7 @@ const WithdrawLayout: React.FunctionComponent<TProps> = ({
               largeNumber={gasPrice}
               value={gasPriceEur}
               theme={errors.value ? "orange" : "green"}
+              outputFormat={ENumberOutputFormat.FULL}
               roundingMode={ERoundingMode.UP}
             />
           </section>
@@ -252,7 +258,6 @@ const WithdrawLayout: React.FunctionComponent<TProps> = ({
               largeNumber={total}
               value={totalEur}
               theme={errors.value ? "orange" : "green"}
-              roundingMode={ERoundingMode.UP}
             />
           </section>
 

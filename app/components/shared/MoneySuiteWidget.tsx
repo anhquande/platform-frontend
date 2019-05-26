@@ -4,7 +4,13 @@ import * as React from "react";
 import { TDataTestId, TTranslatedString } from "../../types";
 import { makeTid } from "../../utils/tidUtils";
 import { MoneyNew } from "./formatters/Money";
-import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "./formatters/utils";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+  THumanReadableFormat,
+} from "./formatters/utils";
 
 import * as styles from "./MoneySuiteWidget.module.scss";
 
@@ -21,6 +27,8 @@ export interface IMoneySuiteWidgetProps {
   theme?: TTheme;
   size?: TSize;
   walletName?: TTranslatedString;
+  outputFormat?: THumanReadableFormat;
+  roundingMode?: ERoundingMode;
 }
 
 export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & TDataTestId> = ({
@@ -34,6 +42,8 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
   theme,
   size,
   walletName,
+  outputFormat,
+  roundingMode,
 }) => (
   <div className={cn(styles.moneySuiteWidget, theme, size)}>
     {icon && (
@@ -43,12 +53,16 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
       </div>
     )}
     <div>
-      <div className={styles.money} data-test-id={makeTid(dataTestId, "large-value")}>
+      <div
+        className={cn(styles.money, "text-right")}
+        data-test-id={makeTid(dataTestId, "large-value")}
+      >
         <MoneyNew
           value={largeNumber}
           inputFormat={ENumberInputFormat.ULPS}
-          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+          outputFormat={outputFormat!}
           moneyFormat={currency}
+          roundingMode={roundingMode}
         />
       </div>
       <div
@@ -59,8 +73,9 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
         <MoneyNew
           value={value}
           inputFormat={ENumberInputFormat.ULPS}
-          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+          outputFormat={outputFormat!}
           moneyFormat={currencyTotal}
+          roundingMode={roundingMode}
         />
         {percentage && (
           <span className={`${parseInt(percentage, 10) > 0 ? styles.green : styles.red}`}>
@@ -73,3 +88,7 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
     </div>
   </div>
 );
+
+MoneySuiteWidget.defaultProps = {
+  outputFormat: ENumberOutputFormat.ONLY_NONZERO_DECIMALS,
+};

@@ -55,6 +55,14 @@ const TxPendingSimpleLayout: React.FunctionComponent<TTxPendingLayoutProps> = pr
       <Button onClick={props.goToWallet}>
         <FormattedMessage id="modal.sent-eth.return-to-wallet" />
       </Button>
+
+      {/* This feature is only for testing purpose should not be enabled on production environment. */}
+      {/* Because of it there is no need to include button string in translations */}
+      {process.env.NF_ENABLE_TRANSACTION_RESET === "1" && (
+        <Button className="mt-4 mx-auto d-block" onClick={() => props.deletePendingTransaction()}>
+          Delete transaction
+        </Button>
+      )}
     </Message>
   </>
 );
