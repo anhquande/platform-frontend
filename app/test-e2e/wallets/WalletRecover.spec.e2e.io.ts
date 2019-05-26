@@ -80,7 +80,7 @@ describe("Wallet recover", () => {
 
         typeLightwalletRecoveryPhrase(seed);
         typeEmailPassword(email, password);
-
+        cy.wait(1000);
         cy.get(tid("recovery-success-btn-go-dashboard")).awaitedClick();
 
         assertDashboard();
@@ -97,21 +97,20 @@ describe("Wallet recover", () => {
       }).then(() => {
         {
           const email = generateRandomEmailAddress();
+          const password = "strongpassword";
+
           cy.clearLocalStorage().then(() => {
             cy.visit(recoverRoutes.seed);
 
             typeLightwalletRecoveryPhrase(seed);
-            const password = "strongpassword";
 
-            cy.get(tid("wallet-selector-register-email")).type(email);
-            cy.get(tid("wallet-selector-register-password")).type(password);
-            cy.get(tid("wallet-selector-register-confirm-password")).type(`${password}{enter}`);
+            typeEmailPassword(email, password);
+            cy.wait(1000);
             assertWaitForLatestEmailSentWithSalt(email);
 
             cy.get(tid("recovery-success-btn-go-dashboard")).awaitedClick();
 
             assertDashboard();
-            verifyLatestUserEmail(email);
           });
         }
       });

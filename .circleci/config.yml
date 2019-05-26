@@ -36,10 +36,10 @@ jobs:
 
     steps:
       - checkout
-      # - restore_cache:
-      # keys:
-      # - v18-deps-{{ checksum "package.json" }}
-      # - v18-deps-
+      - restore_cache:
+          keys:
+            - v18-deps-{{ checksum "package.json" }}
+            - v18-deps-
 
       - run: yarn --frozen-lockfile
       - run:
@@ -55,13 +55,12 @@ jobs:
 
     steps:
       - checkout
-      - run: ls
       - restore_cache:
           keys:
             - v18-deps-{{ checksum "package.json" }}
             - v18-deps-
 
-      - run: yarn prepare
+      - run: yarn --frozen-lockfile
       - run:
           command: yarn build:prod:e2e
           no_output_timeout: 10m
@@ -90,6 +89,7 @@ jobs:
           keys:
             - v18-deps-{{ checksum "package.json" }}
             - v18-deps-
+
       - run: source /opt/circleci/.nvm/nvm.sh && yarn prepare
 
       - run:
@@ -107,7 +107,8 @@ jobs:
           keys:
             - v18-deps-{{ checksum "package.json" }}
             - v18-deps-
-      - run: yarn
+
+      - run: yarn --frozen-lockfile
       - run: yarn build:commit-deployment
       - run: yarn codechecks
 
@@ -122,7 +123,8 @@ jobs:
           keys:
             - v18-deps-{{ checksum "package.json" }}
             - v18-deps-
-      - run: yarn
+            
+      - run: yarn --frozen-lockfile
       - run: yarn storybook:screenshots
       - run: yarn codechecks ./codechecks-vis-reg.ts
 
@@ -137,8 +139,8 @@ jobs:
           keys:
             - v18-deps-{{ checksum "package.json" }}
             - v18-deps-
-      - run: yarn prepare
 
+      - run: yarn --frozen-lockfile
       - run: yarn deploy-storybook --ci --host-token-env-variable=DANGER_GITHUB_API_TOKEN
 
 workflows:
