@@ -1,14 +1,12 @@
-import BigNumber from "bignumber.js";
-
 import { TCompanyEtoData, TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { DeepReadonly } from "../../types";
 
 export interface IEtoTotalInvestment {
-  totalEquivEurUlps: BigNumber;
-  totalTokensInt: BigNumber;
-  totalInvestors: BigNumber;
-  euroTokenBalance: BigNumber;
-  etherTokenBalance: BigNumber;
+  totalEquivEurUlps: string;
+  totalTokensInt: string;
+  totalInvestors: string;
+  euroTokenBalance: string;
+  etherTokenBalance: string;
 }
 
 // Order is important. Next state is calculated by adding 1 to current state.
@@ -47,4 +45,13 @@ export interface IEtoTokenData {
   totalCompanyShares: string;
   companyValuationEurUlps: string;
   tokenPrice: string;
+}
+
+export enum EEtoSubState {
+  COMING_SOON = "coming_soon",
+  WHITELISTING = "whitelisting",
+  WHITELISTING_LIMIT_REACHED = "whitelisting_limit_reached",
+  CAMPAIGNING = "campaigning",
+  COUNTDOWN_TO_PRESALE = "countdown_to_presale",
+  COUNTDOWN_TO_PUBLIC_SALE = "countdown_to_public_sale",
 }

@@ -3,6 +3,7 @@ import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
 import { IEtoDocument, immutableDocumentName } from "../../lib/api/eto/EtoFileApi.interfaces";
+import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { IImmutableFileId } from "../../lib/api/ImmutableStorage.interfaces";
 import { actions } from "../../modules/actions";
 import { appConnect } from "../../store";
@@ -15,7 +16,7 @@ import * as link from "../../assets/img/inline_icons/social_link.svg";
 import * as styles from "./SingleColDocumentWidget.module.scss";
 
 interface IOwnProps {
-  isRetailEto: boolean;
+  offeringDocumentType: EOfferingDocumentType;
   documents: IEtoDocument[];
   title: TTranslatedString;
   className?: string;
@@ -31,9 +32,9 @@ const SingleColDocumentsLayout: React.FunctionComponent<IProps> = ({
   className,
   title,
   downloadImmutableFile,
-  isRetailEto,
+  offeringDocumentType,
 }) => {
-  const documentTemplateTitles = getDocumentTemplateTitles(isRetailEto);
+  const documentTemplateTitles = getDocumentTemplateTitles(offeringDocumentType);
   return (
     <div className={className}>
       <h3 className={styles.groupName}>{title}</h3>

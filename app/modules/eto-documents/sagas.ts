@@ -15,7 +15,7 @@ import {
 import { IAppState } from "../../store";
 import { actions, TAction, TActionFromCreator } from "../actions";
 import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
-import { selectEtoId, selectIssuerEtoState } from "../eto-flow/selectors";
+import { selectIssuerEtoId, selectIssuerEtoState } from "../eto-flow/selectors";
 import { downloadLink } from "../immutable-file/utils";
 import { neuCall, neuTakeEvery } from "../sagasUtils";
 import { selectEthereumAddressWithChecksum } from "../web3/selectors";
@@ -133,8 +133,10 @@ export function* loadEtoFileData({
 }: TGlobalDependencies): any {
   try {
     yield put(actions.etoFlow.loadIssuerEto());
+
     const stateInfo = yield apiEtoFileService.getEtoFileStateInfo();
     const allTemplates = yield apiEtoFileService.getAllEtoTemplates();
+
     yield put(
       actions.etoDocuments.loadEtoFileData({
         allTemplates,
@@ -173,7 +175,7 @@ function* uploadEtoFileEffect(
   const uploadResult: IEtoDocument = yield apiEtoFileService.uploadEtoDocument(file, documentType);
   notificationCenter.info(createMessage(EtoDocumentsMessage.ETO_DOCUMENTS_FILE_UPLOADED));
   if (documentType === EEtoDocumentType.INVESTMENT_AND_SHAREHOLDER_AGREEMENT) {
-    const etoId = yield select(selectEtoId);
+    const etoId = yield select(selectIssuerEtoId);
     yield put(actions.etoDocuments.loadFileDataStart());
     yield put(actions.etoFlow.signInvestmentAgreement(etoId, uploadResult.ipfsHash));
   }
@@ -215,10 +217,6 @@ export function* etoDocumentsSagas(): any {
   );
   yield fork(neuTakeEvery, "ETO_DOCUMENTS_GENERATE_TEMPLATE", generateDocumentFromTemplate);
   yield fork(neuTakeEvery, "ETO_DOCUMENTS_LOAD_FILE_DATA_START", loadEtoFileData);
-  yield fork(neuTakeEvery, actions.etoDocuments.etoUploadDocumentStart.getType(), uploadEtoFile);
-  yield fork(
-    neuTakeEvery,
-    actions.etoDocuments.downloadDocumentStart.getType(),
-    downloadDocumentStart,
-  );
+  yield fork(neuTakeEvery, actions.etoDocuments.etoUploadDocumentStart, uploadEtoFile);
+  yield fork(neuTakeEvery, actions.etoDocuments.downloadDocumentStart, downloadDocumentStart);
 }

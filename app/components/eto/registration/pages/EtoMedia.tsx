@@ -15,6 +15,7 @@ import { etoMediaProgressOptions } from "../../../../modules/eto-flow/utils";
 import { appConnect } from "../../../../store";
 import { Button, EButtonLayout } from "../../../shared/buttons";
 import { FormField, FormFieldBoolean } from "../../../shared/forms";
+import { FormFieldLabel } from "../../../shared/forms/fields/FormFieldLabel";
 import { MediaLinksEditor } from "../../../shared/MediaLinksEditor.unsafe";
 import { SOCIAL_PROFILES_ICONS, SocialProfilesEditor } from "../../../shared/SocialProfilesEditor";
 import { Tooltip } from "../../../shared/tooltips";
@@ -43,6 +44,15 @@ const EtoRegistrationMediaComponent = ({ savingData }: IProps) => (
     progressOptions={etoMediaProgressOptions}
   >
     <Section>
+      <FormFieldLabel
+        inheritFont={true}
+        name="companyPitchdeckUrl.url"
+        className="mb-1 mt-3 font-weight-bold text-uppercase"
+      >
+        <FormattedMessage id="eto.form.eto-media.pitch-deck" />
+      </FormFieldLabel>
+      <FormField placeholder="url" name="companyPitchdeckUrl.url" />
+
       <div className="mb-1 mt-3 font-weight-bold text-uppercase">
         <FormattedMessage id="eto.form.eto-media.youtube-video" />
       </div>
@@ -126,17 +136,21 @@ const EtoRegistrationMedia = compose<React.FunctionComponent>(
 )(EtoRegistrationMediaComponent);
 
 //adhoc validation, no need to move it to utils
-const addTitleIfUrlNotEmpty = (data: { url?: string; title?: string }) => {
+const addTitleIfUrlNotEmpty = (titleValue: string = "") => (data: {
+  url?: string;
+  title?: string;
+}) => {
   if (data.url !== undefined) {
-    return { ...data, title: "" };
+    return { ...data, title: titleValue };
   } else {
     return removeEmptyKeyValueField()(data);
   }
 };
 
 const fromFormState = {
-  companyVideo: addTitleIfUrlNotEmpty,
-  companySlideshare: addTitleIfUrlNotEmpty,
+  companyPitchdeckUrl: addTitleIfUrlNotEmpty("Pitch Deck"),
+  companyVideo: addTitleIfUrlNotEmpty(),
+  companySlideshare: addTitleIfUrlNotEmpty(),
   socialChannels: removeEmptyKeyValueFields(),
   companyNews: removeEmptyKeyValueFields(),
   marketingLinks: removeEmptyKeyValueFields(),

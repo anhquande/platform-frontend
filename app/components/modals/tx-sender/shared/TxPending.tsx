@@ -11,7 +11,7 @@ import {
 } from "../../../../modules/tx/sender/selectors";
 import { ETxSenderType, TSpecificTransactionState } from "../../../../modules/tx/types";
 import { appConnect } from "../../../../store";
-import { Button } from "../../../shared/buttons/Button.unsafe";
+import { Button } from "../../../shared/buttons/Button";
 import { EthereumIcon } from "../../../shared/ethereum";
 import { EHeadingSize, Heading } from "../../../shared/Heading";
 import { Message } from "../../Message";

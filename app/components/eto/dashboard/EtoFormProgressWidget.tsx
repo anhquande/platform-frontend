@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TDataTestId } from "../../../types";
 import { EColumnSpan } from "../../layouts/Container";
-import { ButtonLink, EButtonLayout } from "../../shared/buttons";
+import { ButtonLink, EButtonLayout, EButtonTheme, EIconPosition } from "../../shared/buttons";
 import { ChartCircle, IChartCircleProps } from "../../shared/charts/ChartCircle";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { Panel } from "../../shared/Panel";
@@ -53,9 +53,9 @@ export const EtoFormProgressWidget: React.FunctionComponent<
                 to={{
                   pathname: to,
                 }}
-                theme="silver"
+                theme={EButtonTheme.SILVER}
                 layout={EButtonLayout.SECONDARY}
-                iconPosition="icon-after"
+                iconPosition={EIconPosition.ICON_AFTER}
                 svgIcon={arrowRightIcon}
                 disabled={disabled}
               >

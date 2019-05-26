@@ -60,5 +60,13 @@ export const etoActions = {
   verifyEtoAccess: createActionFactory("ETO_VERIFY_ETO_ACCESS", (previewCode: string) => ({
     previewCode,
   })),
+
+  ensureEtoJurisdiction: createActionFactory(
+    "ETO_VERIFY_ETO_JURISDICTION",
+    (previewCode: string, jurisdiction: string) => ({
+      previewCode,
+      jurisdiction,
+    }),
+  ),
   confirmJurisdictionDisclaimer: createActionFactory("ETO_CONFIRM_JURISDICTION_DISCLAIMER"),
 };

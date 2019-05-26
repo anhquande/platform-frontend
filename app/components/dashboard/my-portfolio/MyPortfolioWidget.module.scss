@@ -30,3 +30,9 @@
   text-transform: uppercase;
   font-weight: 200;
 }
+
+// todo this is a quick fix for neu widget in dashboard
+//  until we sort out the css ordering problem
+.panel-fix {
+  align-content: stretch;
+}

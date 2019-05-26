@@ -8,7 +8,7 @@ import { ITokenDisbursal } from "../../modules/investor-portfolio/types";
 import { appConnect } from "../../store";
 import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { Container, EColumnSpan, EContainerType } from "../layouts/Container";
-import { Button, ButtonSize, EButtonLayout } from "../shared/buttons";
+import { Button, ButtonSize, EButtonLayout, EButtonTheme } from "../shared/buttons";
 import { selectCurrencyCode } from "../shared/formatters/Money";
 import { Heading } from "../shared/Heading";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
@@ -134,7 +134,7 @@ const AssetPortfolioLayout: React.FunctionComponent<ILayoutProps & IDispatchToPr
             <Button
               disabled={!isVerifiedInvestor}
               data-test-id="asset-portfolio.payout.accept-payout"
-              theme="green"
+              theme={EButtonTheme.GREEN}
               size={ButtonSize.SMALL}
               onClick={() => acceptPayout(tokenDisbursal)}
               layout={EButtonLayout.SECONDARY}
@@ -152,7 +152,7 @@ const AssetPortfolioLayout: React.FunctionComponent<ILayoutProps & IDispatchToPr
           <Button
             disabled={!isVerifiedInvestor}
             data-test-id="asset-portfolio.payout.accept-all-payouts"
-            theme="green"
+            theme={EButtonTheme.GREEN}
             size={ButtonSize.SMALL}
             onClick={() => acceptCombinedPayout(tokensDisbursal)}
             layout={EButtonLayout.SECONDARY}

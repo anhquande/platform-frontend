@@ -8,11 +8,15 @@ import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/s
 import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { selectIsUserVerifiedOnBlockchain } from "../../../../../modules/kyc/selectors";
 import { appConnect } from "../../../../../store";
-import { withParams } from "../../../../../utils/withParams";
 import { appRoutes } from "../../../../appRoutes";
+import { etoPublicViewLink } from "../../../../appRouteUtils";
 import { Button, ButtonLink } from "../../../../shared/buttons";
-import { ECurrency } from "../../../../shared/formatters/utils";
-import { Money } from "../../../../shared/Money.unsafe";
+import { MoneyNew } from "../../../../shared/formatters/Money";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "../../../../shared/formatters/utils";
 import { EtoWidgetContext } from "../../../EtoWidgetView";
 import { EndTimeWidget } from "../EndTimeWidget";
 import { InvestmentProgress } from "./InvestmentProgress";
@@ -43,21 +47,25 @@ const InvestmentWidgetLayout: React.FunctionComponent<TInvestWidgetProps> = ({
   isAllowedToInvest,
   nextStateDate,
 }) => {
-  const totalInvestors = eto.contract!.totalInvestment.totalInvestors.toNumber();
+  const totalInvestors = eto.contract!.totalInvestment.totalInvestors;
 
   return (
     <div className={styles.investmentWidget}>
       <div>
         <div className={styles.header}>
           <div>
-            <Money
+            <MoneyNew
               value={eto.contract!.totalInvestment.etherTokenBalance}
-              currency={ECurrency.ETH}
+              inputFormat={ENumberInputFormat.ULPS}
+              outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+              moneyFormat={ECurrency.ETH}
             />
             <br />
-            <Money
+            <MoneyNew
               value={eto.contract!.totalInvestment.euroTokenBalance}
-              currency={ECurrency.EUR_TOKEN}
+              inputFormat={ENumberInputFormat.ULPS}
+              outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+              moneyFormat={ECurrency.EUR_TOKEN}
             />
           </div>
           {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && (
@@ -77,7 +85,7 @@ const InvestmentWidgetLayout: React.FunctionComponent<TInvestWidgetProps> = ({
             <div className={styles.investNowButton}>
               {previewCode ? (
                 <ButtonLink
-                  to={withParams(appRoutes.etoPublicView, { previewCode })}
+                  to={etoPublicViewLink(previewCode, eto.product.jurisdiction)}
                   target="_blank"
                   data-test-id="eto-widget-invest-now-button"
                 >

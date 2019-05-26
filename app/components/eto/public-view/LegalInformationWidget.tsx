@@ -5,11 +5,11 @@ import { Col, Row } from "reactstrap";
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { EColumnSpan } from "../../layouts/Container";
 import { ChartDoughnut } from "../../shared/charts/ChartDoughnut.unsafe";
-import { ECurrency, EMoneyInputFormat } from "../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
-import { NumberFormat } from "../../shared/NumberFormat";
+import { FormatNumber } from "../../shared/formatters/FormatNumber";
+import { MoneyNew } from "../../shared/formatters/Money";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { Panel } from "../../shared/Panel";
-import { FUNDING_ROUNDS } from "../registration/pages/LegalInformation";
+import { FUNDING_ROUNDS } from "../constants";
 import { CHART_COLORS } from "../shared/EtoView";
 
 import * as styles from "./LegalInformationWidget.module.scss";
@@ -96,7 +96,11 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <FormattedMessage id="eto.public-view.legal-information.number-of-founders" />
                 </span>
                 <span className={styles.value}>
-                  <NumberFormat value={companyData.numberOfFounders} />
+                  <FormatNumber
+                    value={companyData.numberOfFounders}
+                    outputFormat={ENumberOutputFormat.INTEGER}
+                    inputFormat={ENumberInputFormat.FLOAT}
+                  />
                 </span>
               </div>
             )}
@@ -122,11 +126,11 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <FormattedMessage id="eto.public-view.legal-information.last-funding-amount" />
                 </span>
                 <span className={styles.value}>
-                  <Money
+                  <MoneyNew
                     value={companyData.lastFundingSizeEur}
-                    currency={ECurrency.EUR}
-                    format={EMoneyInputFormat.FLOAT}
-                    currencySymbol={ECurrencySymbol.SYMBOL}
+                    inputFormat={ENumberInputFormat.FLOAT}
+                    moneyFormat={ECurrency.EUR}
+                    outputFormat={ENumberOutputFormat.INTEGER}
                   />
                 </span>
               </div>
@@ -137,27 +141,33 @@ export const LegalInformationWidget: React.FunctionComponent<IProps> = ({
                   <FormattedMessage id="eto.public-view.legal-information.existing-shares" />
                 </span>
                 <span className={styles.value}>
-                  <NumberFormat value={companyData.companyShares} />
+                  <FormatNumber
+                    value={companyData.companyShares}
+                    outputFormat={ENumberOutputFormat.INTEGER}
+                    inputFormat={ENumberInputFormat.FLOAT}
+                  />
                 </span>
               </div>
             )}
           </div>
         </Col>
 
-        <Col>
-          <ChartDoughnut
-            className="mb-3"
-            data={{
-              datasets: [
-                {
-                  data: shareholdersData.map(d => d && d.shares),
-                  backgroundColor: shareholdersData.map((_, i: number) => CHART_COLORS[i]),
-                },
-              ],
-              labels: shareholdersData.map(d => d && d.fullName),
-            }}
-          />
-        </Col>
+        {companyData.shareholders && companyData.shareholders.length > 0 && (
+          <Col>
+            <ChartDoughnut
+              className="mb-3"
+              data={{
+                datasets: [
+                  {
+                    data: shareholdersData.map(d => d && d.shares),
+                    backgroundColor: shareholdersData.map((_, i: number) => CHART_COLORS[i]),
+                  },
+                ],
+                labels: shareholdersData.map(d => d && d.fullName),
+              }}
+            />
+          </Col>
+        )}
       </Row>
     </Panel>
   );

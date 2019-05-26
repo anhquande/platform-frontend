@@ -5,6 +5,7 @@ import { SingleFileUpload } from "./SingleFileUpload";
 
 import * as image from "!!url-loader!../../assets/img/header/social_logo.png";
 
+//TODO add error state test
 storiesOf("Upload/SingleFileUpload", module)
   .add("default", () => (
     <SingleFileUpload
@@ -14,6 +15,7 @@ storiesOf("Upload/SingleFileUpload", module)
       label="Some image"
       onDropFile={() => {}}
       onDeleteFile={() => {}}
+      name="someImage"
     />
   ))
   .add("with file", () => (
@@ -25,5 +27,6 @@ storiesOf("Upload/SingleFileUpload", module)
       file={image}
       onDropFile={() => {}}
       onDeleteFile={() => {}}
+      name="someImage"
     />
   ));

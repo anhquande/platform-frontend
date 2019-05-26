@@ -2,27 +2,33 @@ import BigNumber from "bignumber.js";
 import * as cn from "classnames";
 import * as React from "react";
 
-import { EHumanReadableFormat, EMoneyInputFormat, ERoundingMode, formatNumber } from "./utils";
+import {
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  ERoundingMode,
+  formatNumber,
+  THumanReadableFormat,
+} from "./utils";
 
 import * as styles from "./FormatNumber.module.scss";
 
 interface IComponentProps {
   value: string | BigNumber | number | undefined | null;
-  defaultValue?: string;
-  roundingMode: ERoundingMode;
+  defaultValue?: React.ReactChild;
+  roundingMode?: ERoundingMode;
   decimalPlaces?: number;
-  inputFormat: EMoneyInputFormat;
-  outputFormat: EHumanReadableFormat;
+  inputFormat: ENumberInputFormat;
+  outputFormat: THumanReadableFormat;
   className?: string;
 }
 
 export const FormatNumber: React.FunctionComponent<IComponentProps> = ({
   value,
   defaultValue = "",
-  roundingMode,
+  roundingMode = ERoundingMode.DOWN,
   decimalPlaces = 4,
   inputFormat,
-  outputFormat = EHumanReadableFormat.FULL,
+  outputFormat = ENumberOutputFormat.FULL,
   className,
 }) => {
   if (value) {
@@ -32,6 +38,6 @@ export const FormatNumber: React.FunctionComponent<IComponentProps> = ({
       </span>
     );
   } else {
-    return <span>{defaultValue}</span>;
+    return <>{defaultValue}</>;
   }
 };

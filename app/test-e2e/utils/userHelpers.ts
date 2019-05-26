@@ -3,9 +3,11 @@ import * as ethSig from "eth-sig-util";
 import { addHexPrefix, hashPersonalMessage, toBuffer } from "ethereumjs-util";
 import { toChecksumAddress } from "web3-utils";
 
+import { TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { TxPendingWithMetadata, TxWithMetadata } from "../../lib/api/users/interfaces";
 import { getVaultKey } from "../../modules/wallet-selector/light-wizard/utils";
 import { promisify } from "../../utils/promisify";
+import { toCamelCase } from "../../utils/transformObjectKeys";
 import { tid } from "./selectors";
 
 /*
@@ -332,4 +334,21 @@ export const createVaultApi = async (
       "Content-Type": "application/json",
     },
   });
+};
+
+const ETOS_PATH = "/api/eto-listing/etos";
+
+export interface IHttpPartialResponse<T> {
+  body: T;
+}
+
+export const getEto = (etoID: string): Cypress.Chainable<TEtoSpecsData> => {
+  if (!etoID)
+    throw new Error("Cannot fetch undefined value please check if the fixtures are in sync");
+  return cy
+    .request({ url: ETOS_PATH, method: "GET" })
+    .then(
+      (etos: IHttpPartialResponse<TEtoSpecsData>) =>
+        etos.body && toCamelCase(etos.body).filter((eto: TEtoSpecsData) => eto.etoId === etoID)[0],
+    );
 };

@@ -7,11 +7,12 @@ import { DepositEthModal } from "../modals/DepositEthModal";
 import { DownloadTokenAgreementModal } from "../modals/download-token-agreements-modal/DownloadTokenAgreementModal";
 import { IcbmWalletBalanceModal } from "../modals/icbm-wallet-balance-modal/IcbmWalletBalanceModal.unsafe";
 import { TxSenderModal } from "../modals/tx-sender/TxSender";
+import { LoadingIndicator } from "../shared/loading-indicator/LoadingIndicator";
 import { NotificationWidget } from "../shared/notification-widget/NotificationWidget";
 import { Footer } from "./Footer";
 import { Header } from "./header/Header";
 import { LayoutAuthorizedMenu } from "./LayoutAuthorizedMenu.unsafe";
-import { layoutEnchancer } from "./LayoutEnchancer";
+import { layoutEnhancer } from "./LayoutEnhancer";
 
 import * as styles from "./LayoutAuthorized.module.scss";
 import * as sharedStyles from "./LayoutShared.module.scss";
@@ -27,7 +28,9 @@ export const LayoutAuthorizedComponent: React.FunctionComponent = ({ children })
       <div className="layout-container">
         <NotificationWidget />
         <Row>
-          <Col className={styles.content}>{children}</Col>
+          <Col className={styles.content}>
+            <React.Suspense fallback={<LoadingIndicator />}>{children}</React.Suspense>
+          </Col>
         </Row>
       </div>
     </div>
@@ -42,4 +45,4 @@ export const LayoutAuthorizedComponent: React.FunctionComponent = ({ children })
   </>
 );
 
-export const LayoutAuthorized = layoutEnchancer(LayoutAuthorizedComponent);
+export const LayoutAuthorized = layoutEnhancer(LayoutAuthorizedComponent);

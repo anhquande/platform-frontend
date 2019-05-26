@@ -10,7 +10,7 @@ export enum ERoundingMode {
   HALF_DOWN = "half_down",
 }
 
-export enum EMoneyInputFormat {
+export enum ENumberInputFormat {
   ULPS = "ulps",
   FLOAT = "float",
 }
@@ -29,12 +29,21 @@ export enum EPriceFormat {
   SHARE_PRICE = "sharePrice",
 }
 
-export enum EHumanReadableFormat {
-  LONG = "long",
-  SHORT = "short",
+export enum ENumberOutputFormat {
   INTEGER = "integer",
   ONLY_NONZERO_DECIMALS = "onlyNonzeroDecimals", // see removeZeroDecimals unit test
   FULL = "full",
+}
+
+export enum EAbbreviatedNumberOutputFormat {
+  LONG = "long",
+  SHORT = "short",
+}
+
+export type THumanReadableFormat = ENumberOutputFormat | EAbbreviatedNumberOutputFormat;
+
+export enum ESpecialNumber {
+  UNLIMITED = "unlimited",
 }
 
 export type TMoneyFormat = ECurrency | EPriceFormat;
@@ -42,26 +51,29 @@ export type TMoneyFormat = ECurrency | EPriceFormat;
 interface IToFixedPrecision {
   value: string | BigNumber | number;
   roundingMode?: ERoundingMode;
-  inputFormat?: EMoneyInputFormat;
+  inputFormat?: ENumberInputFormat;
   decimalPlaces: number | undefined;
   isPrice?: boolean;
-  outputFormat?: EHumanReadableFormat;
+  outputFormat?: THumanReadableFormat;
 }
 
 interface IFormatNumber {
   value: string | BigNumber | number;
   roundingMode?: ERoundingMode;
-  inputFormat?: EMoneyInputFormat;
+  inputFormat?: ENumberInputFormat;
   decimalPlaces?: number;
   isPrice?: boolean;
-  outputFormat?: EHumanReadableFormat;
+  outputFormat?: THumanReadableFormat;
 }
 
 export const selectDecimalPlaces = (
   moneyFormat: TMoneyFormat,
-  outputFormat: EHumanReadableFormat = EHumanReadableFormat.FULL,
+  outputFormat: THumanReadableFormat = ENumberOutputFormat.FULL,
 ): number => {
-  if (outputFormat !== EHumanReadableFormat.FULL) {
+  if (
+    outputFormat !== ENumberOutputFormat.FULL &&
+    outputFormat !== ENumberOutputFormat.ONLY_NONZERO_DECIMALS
+  ) {
     return 0;
   }
 
@@ -111,7 +123,7 @@ export const removeZeroDecimals = (value: string): string => {
 //TODO sorry for any. Bignumber doesn't expose RoundingMode so there's no easy solution for it
 function getBigNumberRoundingMode(
   roundingMode: ERoundingMode,
-  outputFormat: EHumanReadableFormat = EHumanReadableFormat.FULL,
+  outputFormat: THumanReadableFormat = ENumberOutputFormat.FULL,
 ): any {
   switch (roundingMode) {
     case ERoundingMode.DOWN:
@@ -122,7 +134,7 @@ function getBigNumberRoundingMode(
       return BigNumber.ROUND_HALF_UP;
     case ERoundingMode.UP:
     default:
-      return outputFormat === EHumanReadableFormat.INTEGER
+      return outputFormat === ENumberOutputFormat.INTEGER
         ? BigNumber.ROUND_HALF_DOWN
         : BigNumber.ROUND_UP;
   }
@@ -131,21 +143,29 @@ function getBigNumberRoundingMode(
 export const toFixedPrecision = ({
   value,
   roundingMode = ERoundingMode.UP,
-  inputFormat = EMoneyInputFormat.ULPS,
+  inputFormat = ENumberInputFormat.ULPS,
   decimalPlaces = undefined,
-  outputFormat = EHumanReadableFormat.FULL,
+  outputFormat = ENumberOutputFormat.FULL,
 }: IToFixedPrecision): string => {
-  const dp = outputFormat === EHumanReadableFormat.INTEGER ? 0 : decimalPlaces;
+  invariant(
+    value !== null &&
+      (typeof value === "string" || typeof value === "number" || value instanceof BigNumber) &&
+      !(typeof value === "string" && value.trim() === "") &&
+      !(typeof value === "number" && (Number.isNaN(value) || !Number.isFinite(value))),
+    `cannot format this number: ${value} ${typeof value}`,
+  );
+
+  const dp = outputFormat === ENumberOutputFormat.INTEGER ? 0 : decimalPlaces;
   const asBigNumber = value instanceof BigNumber ? value : new BigNumber(value.toString());
 
   const moneyInPrimaryBase =
-    inputFormat === EMoneyInputFormat.ULPS
+    inputFormat === ENumberInputFormat.ULPS
       ? convertFromUlps(asBigNumber, MONEY_DECIMALS)
       : asBigNumber;
   return moneyInPrimaryBase.toFixed(dp, getBigNumberRoundingMode(roundingMode, outputFormat));
 };
 
-/* formatNumber only formats numbers (!),
+/* formatNumber only formats numbers for display (!).
  * invalid input (null/undefined etc) should be handled before calling this fn, this one will only throw.
  * we don't check for strings in a wrong format here,
  * since 99% of input vals is from the store so it should be in the right format already,
@@ -154,19 +174,11 @@ export const toFixedPrecision = ({
 /* SHORT and LONG formats are not handled by this fn, it's the job of the FormatShortNumber components */
 export const formatNumber = ({
   value,
-  roundingMode = ERoundingMode.UP,
-  inputFormat = EMoneyInputFormat.ULPS,
+  roundingMode = ERoundingMode.DOWN,
+  inputFormat = ENumberInputFormat.ULPS,
   decimalPlaces,
-  outputFormat = EHumanReadableFormat.FULL,
+  outputFormat = ENumberOutputFormat.FULL,
 }: IFormatNumber): string => {
-  invariant(
-    value !== null &&
-      (typeof value === "string" || typeof value === "number" || value instanceof BigNumber) &&
-      !(typeof value === "string" && value.trim() === "") &&
-      !(typeof value === "number" && (Number.isNaN(value) || !Number.isFinite(value))),
-    "cannot format this number",
-  );
-
   const asFixedPrecisionNumber = toFixedPrecision({
     value,
     roundingMode,
@@ -175,7 +187,7 @@ export const formatNumber = ({
     decimalPlaces,
   });
 
-  return outputFormat === EHumanReadableFormat.ONLY_NONZERO_DECIMALS
+  return outputFormat === ENumberOutputFormat.ONLY_NONZERO_DECIMALS
     ? formatThousands(removeZeroDecimals(asFixedPrecisionNumber))
     : formatThousands(asFixedPrecisionNumber);
 };

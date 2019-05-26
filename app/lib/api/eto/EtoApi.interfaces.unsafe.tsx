@@ -2,6 +2,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { NumberSchema, StringSchema } from "yup";
 
+import { ECurrency } from "../../../components/shared/formatters/utils";
 import {
   MIN_COMPANY_SHARES,
   MIN_EXISTING_COMPANY_SHARES,
@@ -47,6 +48,7 @@ export const EtoCompanyInformationType = YupTS.object({
   categories: YupTS.array(tagsType).optional(),
   companyLogo: YupTS.string().optional(),
   companyBanner: YupTS.string().optional(),
+  companyPreviewCardBanner: YupTS.string(),
 });
 type TEtoTeamData = YupTS.TypeOf<typeof EtoCompanyInformationType>;
 
@@ -122,6 +124,7 @@ type TEtoKeyIndividualsType = YupTS.TypeOf<typeof EtoKeyIndividualsType>;
 export const EtoLegalInformationType = YupTS.object({
   name: YupTS.string(),
   legalForm: YupTS.string(),
+  companyLegalDescription: YupTS.string(),
   street: YupTS.string(),
   country: YupTS.string(),
   vatNumber: YupTS.string().optional(),
@@ -169,7 +172,10 @@ export const EtoMediaType = YupTS.object({
     title: YupTS.string().optional(), // optional in contrast to swagger, because filled in programmatically.
     url: YupTS.url().optional(),
   }).optional(),
-
+  companyPitchdeckUrl: YupTS.object({
+    title: YupTS.string().optional(), // optional in contrast to swagger, because filled in programmatically.
+    url: YupTS.url(),
+  }).optional(),
   socialChannels: socialChannelsType.optional(),
   companyNews: companyNewsType.optional(),
   marketingLinks: marketingLinksType.optional(),
@@ -205,6 +211,12 @@ export enum EEtoState {
   ON_CHAIN = "on_chain",
 }
 
+export enum EEtoMarketingDataVisibleInPreview {
+  VISIBLE = "visible",
+  NOT_VISIBLE = "not_visible",
+  VISIBILITY_PENDING = "visibility_pending",
+}
+
 export enum EtoStateToCamelcase {
   "preview" = "preview",
   "pending" = "pending",
@@ -227,7 +239,7 @@ export const getEtoTermsSchema = ({
   minPublicDurationDays,
 }: Partial<TEtoProduct> = {}) =>
   YupTS.object({
-    currencies: YupTS.array(YupTS.string()),
+    currencies: YupTS.array(YupTS.string<ECurrency>()),
     prospectusLanguage: YupTS.string(),
     minTicketEur: YupTS.number().enhance((v: NumberSchema) =>
       minTicketSize !== undefined
@@ -256,10 +268,6 @@ export const getEtoTermsSchema = ({
       }),
     enableTransferOnSuccess: YupTS.boolean(),
     tokenTradeableOnSuccess: YupTS.boolean().optional(),
-    notUnderCrowdfundingRegulations: YupTS.onlyTrue(
-      <FormattedMessage id="eto.form.section.eto-terms.is-not-crowdfunding.error" />,
-    ),
-    allowRetailInvestors: YupTS.boolean(),
     whitelistDurationDays: YupTS.number().enhance(v => {
       if (minWhitelistDurationDays !== undefined) {
         v = v.min(minWhitelistDurationDays);
@@ -293,7 +301,6 @@ export const getEtoTermsSchema = ({
 
       return v;
     }),
-    additionalTerms: YupTS.string().optional(),
   });
 
 export type TEtoTermsType = YupTS.TypeOf<ReturnType<typeof getEtoTermsSchema>>;
@@ -347,6 +354,7 @@ interface IAdditionalEtoType {
   companyId: string;
   previewCode: string;
   state: EEtoState;
+  isMarketingDataVisibleInPreview: EEtoMarketingDataVisibleInPreview;
   isBookbuilding: boolean;
   templates: TEtoDocumentTemplates;
   startDate: string;
@@ -355,6 +363,7 @@ interface IAdditionalEtoType {
   canEnableBookbuilding: boolean;
   product: TEtoProduct;
   nomineeDisplayName?: string;
+  hasDividendRights?: boolean;
 }
 
 export type TBookbuildingStatsType = {
@@ -396,4 +405,19 @@ export const GeneralEtoDataType = YupTS.object({
   ...EtoPitchType.shape,
   ...EtoCompanyInformationType.shape,
   ...EtoRiskAssessmentType.shape,
+});
+
+export const EtoMarketingDataType = YupTS.object({
+  ...EtoEquityTokenInfoType.shape,
+  ...EtoMediaType.shape,
+  ...EtoLegalInformationType.shape,
+  ...EtoPitchType.shape,
+  ...EtoCompanyInformationType.shape,
+  ...EtoRiskAssessmentType.shape,
+});
+
+export const EtoSettingDataType = YupTS.object({
+  ...EtoInvestmentTermsType.shape,
+  ...getEtoTermsSchema().shape,
+  ...EtoVotingRightsType.shape,
 });

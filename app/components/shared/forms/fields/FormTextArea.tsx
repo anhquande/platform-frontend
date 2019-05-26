@@ -5,7 +5,12 @@ import { Input, InputGroup, InputGroupAddon } from "reactstrap";
 
 import { CommonHtmlProps } from "../../../../types";
 import { FormFieldError, generateErrorId } from "./FormFieldError";
-import { getComputedValue, isNonValid, withCountedCharacters, withFormField } from "./utils.unsafe";
+import {
+  applyCharactersLimit,
+  isNonValid,
+  withCountedCharacters,
+  withFormField,
+} from "./utils.unsafe";
 
 import * as styles from "./FormStyles.module.scss";
 
@@ -29,7 +34,7 @@ const TextArea: React.FunctionComponent<FieldGroupProps> = ({
   charactersLimit,
 }) => (
   <FormikConsumer>
-    {({ touched, errors, submitCount }) => {
+    {({ touched, errors, submitCount, setFieldTouched, setFieldValue }) => {
       const invalid = isNonValid(touched, errors, name, submitCount);
 
       return (
@@ -50,9 +55,13 @@ const TextArea: React.FunctionComponent<FieldGroupProps> = ({
                   aria-invalid={invalid}
                   invalid={invalid}
                   disabled={disabled}
-                  value={getComputedValue(field.value, charactersLimit)}
+                  value={field.value}
                   placeholder={placeholder}
                   className={cn(className, styles.inputField)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setFieldTouched(name);
+                    setFieldValue(name, applyCharactersLimit(e.target.value, charactersLimit));
+                  }}
                 />
                 {suffix && <InputGroupAddon addonType="append">{suffix}</InputGroupAddon>}
               </InputGroup>

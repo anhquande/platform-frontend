@@ -15,7 +15,8 @@ import { ErrorBoundaryLayoutAuthorized } from "../shared/errorBoundary/ErrorBoun
 import { ErrorBoundaryLayoutBase } from "../shared/errorBoundary/ErrorBoundaryLayoutBase";
 import { LoadingIndicator } from "../shared/loading-indicator";
 import { EtoView } from "./shared/EtoView";
-import { withJurisdictionDisclaimer } from "./shared/withJurisdictionDisclaimer";
+import { withJurisdictionDisclaimer } from "./shared/routing/withJurisdictionDisclaimer";
+import { withJurisdictionRoute } from "./shared/routing/withJurisdictionRoute";
 
 interface IStateProps {
   eto?: TEtoWithCompanyAndContract;
@@ -24,6 +25,7 @@ interface IStateProps {
 
 interface IRouterParams {
   etoId: string;
+  jurisdiction: string;
 }
 
 interface IDispatchProps {
@@ -32,6 +34,7 @@ interface IDispatchProps {
 
 type TProps = {
   eto: TEtoWithCompanyAndContract;
+  isInvestorView: boolean;
 };
 
 export const EtoPublicViewByContractId = compose<TProps, IRouterParams>(
@@ -39,6 +42,7 @@ export const EtoPublicViewByContractId = compose<TProps, IRouterParams>(
     stateToProps: (state, props) => ({
       userType: selectUserType(state),
       eto: selectEtoWithCompanyAndContractById(state, props.etoId),
+      isInvestorView: true,
     }),
   }),
   onEnterAction<IRouterParams>({
@@ -58,4 +62,8 @@ export const EtoPublicViewByContractId = compose<TProps, IRouterParams>(
   ),
   branch<IStateProps>(props => !props.eto, renderComponent(LoadingIndicator)),
   withJurisdictionDisclaimer<TProps>(props => props.eto.previewCode),
+  withJurisdictionRoute<TProps & IRouterParams>(props => ({
+    previewCode: props.eto.previewCode,
+    jurisdiction: props.jurisdiction,
+  })),
 )(EtoView);

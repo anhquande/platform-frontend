@@ -8,8 +8,12 @@ import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../module
 import { selectEtherPriceEur } from "../../../../modules/shared/tokenPrice/selectors";
 import { appConnect } from "../../../../store";
 import { divideBigNumbers } from "../../../../utils/BigNumberUtils";
-import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
-import { Money } from "../../../shared/Money.unsafe";
+import { MoneyNew } from "../../../shared/formatters/Money";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "../../../shared/formatters/utils";
 import { CounterWidget } from "./CounterWidget";
 import { InvestmentProgress } from "./InvestmentWidget/InvestmentProgress";
 import { Message } from "./Message";
@@ -52,24 +56,27 @@ const EtoMaxCapExceededComponent: React.FunctionComponent<
       </div>
       <div className={styles.header}>
         <div>
-          <Money
+          <MoneyNew
             value={divideBigNumbers(eto.contract!.totalInvestment.totalEquivEurUlps, etherPriceEur)}
-            currency={ECurrency.ETH}
+            inputFormat={ENumberInputFormat.ULPS}
+            moneyFormat={ECurrency.ETH}
+            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />
         </div>
         <div>
           <FormattedMessage
             id="shared-component.eto-overview.investors"
-            values={{ totalInvestors: eto.contract!.totalInvestment.totalInvestors.toNumber() }}
+            values={{ totalInvestors: eto.contract!.totalInvestment.totalInvestors }}
           />
         </div>
       </div>
       <div className={styles.header}>
         <div>
-          <Money
-            value={eto.contract!.totalInvestment.totalTokensInt.toNumber()}
-            currency={ECurrency.EUR_TOKEN}
-            format={EMoneyInputFormat.FLOAT}
+          <MoneyNew
+            value={eto.contract!.totalInvestment.totalTokensInt}
+            inputFormat={ENumberInputFormat.FLOAT}
+            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+            moneyFormat={ECurrency.EUR_TOKEN}
           />
         </div>
         <div className={cn(styles.capReached, "text-uppercase")}>

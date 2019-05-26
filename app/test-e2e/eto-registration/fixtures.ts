@@ -13,6 +13,10 @@ export const aboutFormRequired: TFormFixture = {
   companyWebsite: "https://neufund.org",
   companyOneliner: "Free icecream for all",
   keyQuoteFounder: "Let's make it a great day.",
+  companyPreviewCardBanner: {
+    value: "example.jpg",
+    type: "single-file",
+  },
 };
 
 export const aboutForm: TFormFixture = {
@@ -31,6 +35,7 @@ export const aboutForm: TFormFixture = {
 
 // legal info
 export const legalInfoRequiredForm: TFormFixture = {
+  companyLegalDescription: "Sunt elogiumes fallere camerarius, emeritis tabeses.",
   foundingDate: {
     value: "22/02/1999",
     type: "date",
@@ -125,7 +130,6 @@ export const etoTermsForm: TFormFixture = {
     value: "15",
     type: "range",
   },
-  additionalTerms: "There must always be sausage in the fridge!",
 };
 
 // key individuals
@@ -284,6 +288,7 @@ export const productVisionForm: TFormFixture = {
 export const mediaRequiredForm: TFormFixture = {
   "companyVideo.url": "https://www.youtube.com/watch?v=oHg5SJYRHA0",
   "companySlideshare.url": "https://neufund.org/",
+  "companyPitchdeckUrl.url": "https://neufund.org/cms_resources/whitepaper.pdf",
 
   "eto-registration-media-submit": {
     type: "submit",

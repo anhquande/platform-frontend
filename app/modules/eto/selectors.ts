@@ -1,9 +1,20 @@
 import { find } from "lodash/fp";
 
+import { EEtoState, TEtoData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IAppState } from "../../store";
 import { DeepReadonly } from "../../types";
+import { selectBookbuildingStats } from "../bookbuilding-flow/selectors";
+import { selectIsEligibleToPreEto } from "../investor-portfolio/selectors";
+import { hiddenJurisdictions } from "./constants";
 import { IEtoState } from "./reducer";
-import { EETOStateOnChain, IEtoTokenData, TEtoWithCompanyAndContract } from "./types";
+import {
+  EETOStateOnChain,
+  EEtoSubState,
+  IEtoTokenData,
+  TEtoStartOfStates,
+  TEtoWithCompanyAndContract,
+} from "./types";
+import { isOnChain } from "./utils";
 
 const selectEtoState = (state: IAppState) => state.eto;
 
@@ -79,8 +90,18 @@ export const selectEtoOnChainState = (
   state: IAppState,
   previewCode: string,
 ): EETOStateOnChain | undefined => {
-  const contracts = state.eto.contracts[previewCode];
-  return contracts && contracts.timedState;
+  const contract = state.eto.contracts[previewCode];
+
+  return contract && contract.timedState;
+};
+
+export const selectEtoStartOfStates = (
+  state: IAppState,
+  previewCode: string,
+): TEtoStartOfStates | undefined => {
+  const contract = state.eto.contracts[previewCode];
+
+  return contract && contract.startOfStates;
 };
 
 export const selectEtoOnChainNextStateStartDate = (
@@ -116,3 +137,115 @@ export const selectTokenData = (
   state: DeepReadonly<IEtoState>,
   previewCode: string,
 ): IEtoTokenData | undefined => state.tokenData[previewCode];
+
+export const selectIsEtoAnOffer = (state: IAppState, previewCode: string, etoState: EEtoState) => {
+  if (etoState !== EEtoState.ON_CHAIN) {
+    return true;
+  }
+  const onChainState = selectEtoOnChainState(state, previewCode);
+  return [
+    EETOStateOnChain.Setup,
+    EETOStateOnChain.Public,
+    EETOStateOnChain.Signing,
+    EETOStateOnChain.Whitelist,
+  ].some(offerState => offerState === onChainState);
+};
+
+export const selectFilteredEtosByRestrictedJurisdictions = (
+  state: IAppState,
+  etos: TEtoData[],
+  jurisdiction: string | undefined,
+) =>
+  jurisdiction
+    ? etos.filter(eto => {
+        // @See https://github.com/Neufund/platform-frontend/issues/2789#issuecomment-489084892
+        const isEtoAnOffer = selectIsEtoAnOffer(state, eto.previewCode, eto.state);
+        return (
+          !isEtoAnOffer ||
+          !(
+            hiddenJurisdictions[jurisdiction] &&
+            hiddenJurisdictions[jurisdiction].some(
+              (hiddenJurisdiction: string) => hiddenJurisdiction === eto.product.jurisdiction,
+            )
+          )
+        );
+      })
+    : etos;
+
+/**
+ * TODO: Add unit tests
+ * @param state
+ * @param previewCode
+ */
+export const selectEtoSubState = (
+  state: IAppState,
+  previewCode: string,
+): EEtoSubState | undefined => {
+  const eto = selectEtoWithCompanyAndContract(state, previewCode);
+
+  if (eto !== undefined) {
+    switch (eto.state) {
+      case EEtoState.PREVIEW:
+      case EEtoState.PENDING:
+        return EEtoSubState.COMING_SOON;
+
+      case EEtoState.LISTED:
+      case EEtoState.PROSPECTUS_APPROVED:
+        const stats = selectBookbuildingStats(state, eto.etoId);
+        const investorCount = stats ? stats.investorsCount : 0;
+
+        const isInvestorsLimitReached = investorCount >= eto.maxPledges;
+
+        if (eto.isBookbuilding) {
+          return EEtoSubState.WHITELISTING;
+        }
+
+        if (isInvestorsLimitReached) {
+          return EEtoSubState.WHITELISTING_LIMIT_REACHED;
+        }
+
+        return EEtoSubState.CAMPAIGNING;
+
+      case EEtoState.ON_CHAIN: {
+        if (!isOnChain(eto)) {
+          throw new Error(`Eto ${eto.etoId} is on chain but without contracts deployed`);
+        }
+
+        const isEligibleToPreEto = selectIsEligibleToPreEto(state, eto.etoId);
+
+        switch (eto.contract.timedState) {
+          case EETOStateOnChain.Setup:
+            const stats = selectBookbuildingStats(state, eto.etoId);
+            const investorCount = stats ? stats.investorsCount : 0;
+
+            const isInvestorsLimitReached = investorCount >= eto.maxPledges;
+
+            if (isInvestorsLimitReached) {
+              return EEtoSubState.WHITELISTING_LIMIT_REACHED;
+            }
+
+            if (eto.isBookbuilding) {
+              return EEtoSubState.WHITELISTING;
+            }
+
+            if (!eto.startDate) {
+              return EEtoSubState.CAMPAIGNING;
+            }
+
+            return isEligibleToPreEto
+              ? EEtoSubState.COUNTDOWN_TO_PRESALE
+              : EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE;
+
+          case EETOStateOnChain.Whitelist:
+            if (!isEligibleToPreEto) {
+              return EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE;
+            }
+
+            return undefined;
+        }
+      }
+    }
+  }
+
+  return undefined;
+};

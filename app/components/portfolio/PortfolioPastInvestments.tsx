@@ -6,12 +6,11 @@ import { Link } from "react-router-dom";
 
 import { TETOWithInvestorTicket } from "../../modules/investor-portfolio/types";
 import { getTokenPrice } from "../../modules/investor-portfolio/utils";
-import { withParams } from "../../utils/withParams";
-import { appRoutes } from "../appRoutes";
+import { etoPublicViewLink } from "../appRouteUtils";
 import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { EProjectStatusSize, ETOState } from "../eto/shared/ETOState";
 import { Container } from "../layouts/Container";
-import { ECurrency, EMoneyInputFormat } from "../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../shared/formatters/utils";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { ECurrencySymbol, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
@@ -57,6 +56,7 @@ const PortfolioPastInvestments: React.FunctionComponent<IExternalProps> = ({ pas
           contract,
           etoId,
           previewCode,
+          product,
         }) => {
           const timedState = contract!.timedState;
           const investmentDate = contract!.startOfStates[timedState]!;
@@ -76,7 +76,7 @@ const PortfolioPastInvestments: React.FunctionComponent<IExternalProps> = ({ pas
               </>
 
               <Link
-                to={withParams(appRoutes.etoPublicView, { previewCode })}
+                to={etoPublicViewLink(previewCode, product.jurisdiction)}
                 data-test-id="portfolio-past-investments-view-profile"
               >
                 <FormattedMessage id="portfolio.section.reserved-assets.view-profile" />
@@ -99,7 +99,7 @@ const PortfolioPastInvestments: React.FunctionComponent<IExternalProps> = ({ pas
                 value={getTokenPrice(investorTicket.equityTokenInt, investorTicket.equivEurUlps)}
                 currency={ECurrency.EUR}
                 currencySymbol={ECurrencySymbol.SYMBOL}
-                format={EMoneyInputFormat.FLOAT}
+                format={ENumberInputFormat.FLOAT}
                 isPrice={true}
               />
 

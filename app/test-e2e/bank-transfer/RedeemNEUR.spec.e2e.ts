@@ -1,8 +1,14 @@
 import BigNumber from "bignumber.js";
 
-import { ERoundingMode, formatThousands } from "../../components/shared/formatters/utils";
-import { formatMoney } from "../../utils/Money.utils";
-import { INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH } from "../fixtures";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+  formatNumber,
+  selectDecimalPlaces,
+  stripNumberFormatting,
+} from "../../components/shared/formatters/utils";
+import { INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO } from "../fixtures";
 import { fillForm } from "../utils/forms";
 import {
   acceptWallet,
@@ -18,12 +24,12 @@ import { formField, tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
 import { assertBankAccountDetails } from "./assertions";
 
-describe("Redeem NEUR", () => {
+describe.skip("Redeem NEUR", () => {
   before(() => {
     createAndLoginNewUser({
       type: "investor",
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH,
+      seed: INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO,
       hdPath: "m/44'/60'/0'/0",
     }).then(() => {
       // go to portfolio and claim neur before all tests
@@ -51,7 +57,7 @@ describe("Redeem NEUR", () => {
     createAndLoginNewUser({
       type: "investor",
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP_HAS_NEUR_AND_NO_ETH,
+      seed: INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO,
       hdPath: "m/44'/60'/0'/0",
     }).then(() => {
       // store actual balance
@@ -74,7 +80,7 @@ describe("Redeem NEUR", () => {
       },
       { submit: false },
     );
-
+    cy.get(tid("form.amount.error-message")).should("exist");
     cy.get(tid("bank-transfer.reedem-init.continue")).should("be.disabled");
   });
 
@@ -85,7 +91,7 @@ describe("Redeem NEUR", () => {
       },
       { submit: false },
     );
-
+    cy.get(tid("form.amount.error-message")).should("exist");
     cy.get(tid("bank-transfer.reedem-init.continue")).should("be.disabled");
   });
 
@@ -98,12 +104,8 @@ describe("Redeem NEUR", () => {
       },
       { submit: false },
     );
-
-    const expectedValue = formatThousands(
-      formatMoney(value.replace(/[^\d.]/g, ""), 0, 2, ERoundingMode.DOWN),
-    );
-
-    cy.get(formField("amount")).should("have.value", expectedValue);
+    cy.get(tid("form.amount.error-message")).should("exist");
+    cy.get(tid("bank-transfer.reedem-init.continue")).should("be.disabled");
 
     const nextValue = "123456789.99";
 
@@ -114,7 +116,12 @@ describe("Redeem NEUR", () => {
       { submit: false },
     );
 
-    const nextExpectedValue = formatThousands(formatMoney(nextValue, 0, 2, ERoundingMode.DOWN));
+    const nextExpectedValue = formatNumber({
+      value: nextValue,
+      outputFormat: ENumberOutputFormat.FULL,
+      inputFormat: ENumberInputFormat.FLOAT,
+      decimalPlaces: selectDecimalPlaces(ECurrency.EUR),
+    });
 
     cy.get(formField("amount")).should("have.value", nextExpectedValue);
   });
@@ -127,7 +134,7 @@ describe("Redeem NEUR", () => {
 
     // check if value is the same in summary
     cy.get(tid("bank-transfer.redeem-summary.return-amount")).then($el => {
-      const redeemedAmount = parseAmount($el.text());
+      const redeemedAmount = parseAmount(stripNumberFormatting($el.text()));
 
       expect(redeemedAmount).to.be.bignumber.eq(20);
     });
@@ -160,7 +167,7 @@ describe("Redeem NEUR", () => {
 
     // check if value is the same in summary
     cy.get(tid("bank-transfer.redeem-summary.return-amount")).then($el => {
-      const redeemedAmount = parseAmount($el.text());
+      const redeemedAmount = parseAmount(stripNumberFormatting($el.text()));
 
       cy.get<BigNumber>("@currentAmount").then(previousAmount => {
         expect(previousAmount).to.bignumber.bignumber.eq(redeemedAmount);

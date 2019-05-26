@@ -2,7 +2,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
 
-import { Button, EButtonLayout } from "../../shared/buttons";
+import { Button, EButtonLayout, EIconPosition } from "../../shared/buttons";
 import { StepCard } from "../../shared/StepCard";
 
 import * as arrowLeft from "../../../assets/img/inline_icons/arrow_left.svg";
@@ -46,7 +46,7 @@ export const BackupSeedIntro: React.FunctionComponent<IBackupSeedIntroProps> = (
       <Col className="col-auto">
         <Button
           layout={EButtonLayout.SECONDARY}
-          iconPosition="icon-before"
+          iconPosition={EIconPosition.ICON_BEFORE}
           svgIcon={arrowLeft}
           onClick={onBack}
         >

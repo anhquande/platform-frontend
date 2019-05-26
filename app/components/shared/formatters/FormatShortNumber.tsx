@@ -4,7 +4,13 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { TTranslatedString } from "../../../types";
-import { EHumanReadableFormat, EMoneyInputFormat, ERoundingMode, toFixedPrecision } from "./utils";
+import {
+  EAbbreviatedNumberOutputFormat,
+  ENumberInputFormat,
+  ERoundingMode,
+  THumanReadableFormat,
+  toFixedPrecision,
+} from "./utils";
 
 enum ERangeKey {
   THOUSAND = "thousand",
@@ -18,21 +24,20 @@ type TRangeDescriptor = {
 
 interface IProps {
   value: string | BigNumber | number | undefined | null;
-  outputFormat?: EHumanReadableFormat;
-  inputFormat?: EMoneyInputFormat;
+  outputFormat: THumanReadableFormat;
+  inputFormat: ENumberInputFormat;
   decimalPlaces?: number;
   divider?: number;
-  defaultValue?: string;
+  defaultValue?: React.ReactChild;
   roundingMode?: ERoundingMode;
   className?: string;
-  isPrice?: boolean;
 }
 
 interface IRangeProps {
   valueFrom: string | BigNumber | number | undefined | null;
   valueUpto: string | BigNumber | number | undefined | null;
-  outputFormat?: EHumanReadableFormat;
-  inputFormat?: EMoneyInputFormat;
+  outputFormat: EAbbreviatedNumberOutputFormat;
+  inputFormat: ENumberInputFormat;
   decimalPlaces?: number;
   divider?: number;
   defaultValue?: string;
@@ -49,18 +54,18 @@ const ranges: TRangeDescriptor[] = [
 
 const translationKeys = {
   [ERangeKey.MILLION]: {
-    [EHumanReadableFormat.LONG]: (
+    [EAbbreviatedNumberOutputFormat.LONG]: (
       <FormattedMessage id="shared-component.to-human-readable-form.million.long" />
     ),
-    [EHumanReadableFormat.SHORT]: (
+    [EAbbreviatedNumberOutputFormat.SHORT]: (
       <FormattedMessage id="shared-component.to-human-readable-form.million.short" />
     ),
   },
   [ERangeKey.THOUSAND]: {
-    [EHumanReadableFormat.LONG]: (
+    [EAbbreviatedNumberOutputFormat.LONG]: (
       <FormattedMessage id="shared-component.to-human-readable-form.thousand.long" />
     ),
-    [EHumanReadableFormat.SHORT]: (
+    [EAbbreviatedNumberOutputFormat.SHORT]: (
       <FormattedMessage id="shared-component.to-human-readable-form.thousand.short" />
     ),
   },
@@ -79,9 +84,8 @@ const FormatShortNumber: React.FunctionComponent<IProps> = ({
   defaultValue = "",
   roundingMode = ERoundingMode.UP,
   decimalPlaces = 4,
-  inputFormat = EMoneyInputFormat.FLOAT,
-  outputFormat = EHumanReadableFormat.LONG,
-  isPrice,
+  inputFormat = ENumberInputFormat.FLOAT,
+  outputFormat = EAbbreviatedNumberOutputFormat.LONG,
   className,
   divider,
 }) => {
@@ -90,20 +94,20 @@ const FormatShortNumber: React.FunctionComponent<IProps> = ({
   }
 
   const number = parseFloat(
-    toFixedPrecision({ value, roundingMode, inputFormat, decimalPlaces, isPrice, outputFormat }),
+    toFixedPrecision({ value, roundingMode, inputFormat, decimalPlaces, outputFormat }),
   );
   const range = getRange(number, divider);
   if (range) {
     const shortValue = floor(number / range.divider, 1).toString();
 
     const translation = (translationKeys[range.key] as {
-      [key in EHumanReadableFormat]: TTranslatedString
+      [key in THumanReadableFormat]: TTranslatedString
     })[outputFormat];
 
     return (
       <span className={className}>
         {shortValue}
-        {outputFormat === EHumanReadableFormat.LONG && " "}
+        {outputFormat === EAbbreviatedNumberOutputFormat.LONG && " "}
         {translation}
       </span>
     );
@@ -118,8 +122,8 @@ export const FormatShortNumberRange: React.FunctionComponent<IRangeProps> = ({
   defaultValue = "",
   roundingMode = ERoundingMode.UP,
   decimalPlaces = 4,
-  outputFormat = EHumanReadableFormat.LONG,
-  inputFormat = EMoneyInputFormat.FLOAT,
+  outputFormat = EAbbreviatedNumberOutputFormat.LONG,
+  inputFormat = ENumberInputFormat.FLOAT,
   className,
   divider,
   separator = "—",
@@ -127,6 +131,7 @@ export const FormatShortNumberRange: React.FunctionComponent<IRangeProps> = ({
   if (valueFrom && valueUpto) {
     return (
       //todo 1.nowrap before ndash 2. let user choose if it's a span or a <> (?)
+      // todo add unlimited
       <span className={className}>
         <FormatShortNumber
           value={valueFrom}
@@ -136,7 +141,9 @@ export const FormatShortNumberRange: React.FunctionComponent<IRangeProps> = ({
           roundingMode={roundingMode}
           inputFormat={inputFormat}
         />
+        {outputFormat === EAbbreviatedNumberOutputFormat.LONG && " "}
         {separator}
+        {outputFormat === EAbbreviatedNumberOutputFormat.LONG && " "}
         <FormatShortNumber
           value={valueUpto}
           outputFormat={outputFormat}

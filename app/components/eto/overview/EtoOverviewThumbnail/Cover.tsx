@@ -39,7 +39,7 @@ const Jurisdiction: React.FunctionComponent<{ jurisdiction: EJurisdiction }> = (
         />
       );
     default:
-      return assertNever(jurisdiction, "Not a valid jurisdiction");
+      return assertNever(jurisdiction, `${jurisdiction} is not a valid jurisdiction`);
   }
 };
 
@@ -63,7 +63,7 @@ const Cover: React.FunctionComponent<IProps & CommonHtmlProps> = ({
     <div className={styles.tags}>
       {/* Only two first tags should be shown */}
       {tags.slice(0, 2).map((tag, index) => (
-        <Tag text={tag} className={styles.tag} layout="ghost-bold" theme="white" key={index} />
+        <Tag text={tag} className={styles.tag} layout="bold" theme="dark" key={index} />
       ))}
     </div>
   </div>

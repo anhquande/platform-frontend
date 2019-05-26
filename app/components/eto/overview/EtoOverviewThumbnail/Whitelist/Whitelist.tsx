@@ -1,21 +1,25 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { setDisplayName, withProps } from "recompose";
+import { setDisplayName } from "recompose";
 import { compose } from "redux";
 
 import { actions } from "../../../../../modules/actions";
 import { selectBookbuildingStats } from "../../../../../modules/bookbuilding-flow/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
+import {
+  EETOStateOnChain,
+  EEtoSubState,
+  TEtoWithCompanyAndContract,
+} from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { onEnterAction } from "../../../../../utils/OnEnterAction";
-import { CounterWidget } from "../CounterWidget";
+import { CounterWidget } from "../../EtoOverviewStatus/CounterWidget";
 import { WhitelistStatus } from "./WhitelistStatus";
 
 import * as styles from "../EtoStatusManager.module.scss";
 
 export interface IExternalProps {
   eto: TEtoWithCompanyAndContract;
-  nextStateStartDate: Date;
+  etoSubState: EEtoSubState | undefined;
 }
 
 interface IStateProps {
@@ -23,36 +27,60 @@ interface IStateProps {
   investorsCount: number;
 }
 
-interface IWithProps {
-  isInvestorsLimitReached: boolean;
-}
-
-type IProps = IWithProps & IExternalProps & IStateProps;
+type IProps = IExternalProps & IStateProps;
 
 const WhitelistLayout: React.FunctionComponent<IProps> = ({
   eto,
   pledgedAmount,
   investorsCount,
-  isInvestorsLimitReached,
-  nextStateStartDate,
+  etoSubState,
 }) => {
-  if (eto.isBookbuilding && !isInvestorsLimitReached) {
-    return (
-      <>
-        <WhitelistStatus
-          pledgedAmount={pledgedAmount}
-          investorsCount={investorsCount}
-          investorsLimit={eto.maxPledges}
-        />
-
+  switch (etoSubState) {
+    case EEtoSubState.CAMPAIGNING:
+      return (
         <p className={styles.info}>
-          <FormattedMessage id="eto-overview-thumbnail.whitelist.is-open" />
+          <FormattedMessage id="eto-overview-thumbnail.whitelist.is-not-started" />
         </p>
-      </>
-    );
-  }
+      );
 
-  return <CounterWidget endDate={nextStateStartDate} />;
+    case EEtoSubState.WHITELISTING:
+    case EEtoSubState.WHITELISTING_LIMIT_REACHED:
+      return (
+        <>
+          <WhitelistStatus
+            pledgedAmount={pledgedAmount}
+            investorsCount={investorsCount}
+            investorsLimit={eto.maxPledges}
+          />
+
+          <p className={styles.info}>
+            {etoSubState === EEtoSubState.WHITELISTING_LIMIT_REACHED && (
+              <FormattedMessage id="eto-overview-thumbnail.whitelist.is-closed" />
+            )}
+            {etoSubState === EEtoSubState.WHITELISTING && (
+              <FormattedMessage id="eto-overview-thumbnail.whitelist.is-open" />
+            )}
+          </p>
+        </>
+      );
+
+    case EEtoSubState.COUNTDOWN_TO_PRESALE:
+    case EEtoSubState.COUNTDOWN_TO_PUBLIC_SALE:
+      const nextState =
+        etoSubState === EEtoSubState.COUNTDOWN_TO_PRESALE
+          ? EETOStateOnChain.Whitelist
+          : EETOStateOnChain.Public;
+      const nextStateStartDate = eto.contract!.startOfStates[nextState];
+
+      if (nextStateStartDate === undefined) {
+        throw new Error("Next state should be defined as this point");
+      }
+
+      return <CounterWidget endDate={nextStateStartDate} state={nextState} />;
+
+    default:
+      throw new Error(`Campaign doesn't implement ${etoSubState} state`);
+  }
 };
 
 const Whitelist = compose<React.FunctionComponent<IExternalProps>>(
@@ -71,9 +99,6 @@ const Whitelist = compose<React.FunctionComponent<IExternalProps>>(
       dispatch(actions.bookBuilding.loadBookBuildingStats(props.eto.etoId));
     },
   }),
-  withProps<IWithProps, IStateProps & IExternalProps>(({ eto, investorsCount }) => ({
-    isInvestorsLimitReached: investorsCount >= eto.maxPledges,
-  })),
   setDisplayName("Whitelist"),
 )(WhitelistLayout);
 

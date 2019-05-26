@@ -2,29 +2,33 @@ import BigNumber from "bignumber.js";
 import * as cn from "classnames";
 import * as React from "react";
 
+import { CommonHtmlProps } from "../../../types";
 import { FormatNumberRange } from "./FormatNumberRange";
 import { FormatShortNumberRange } from "./FormatShortNumber";
 import { ECurrencySymbol, IMoneyCommonProps, selectCurrencyCode } from "./Money";
 import {
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   ERoundingMode,
+  ESpecialNumber,
   selectDecimalPlaces,
 } from "./utils";
 
-import * as styles from "./Money.module.scss";
+import * as styles from "./MoneyNew.module.scss";
 
-interface IMoneyRangeProps extends React.HTMLAttributes<HTMLSpanElement> {
+interface IMoneyRangeProps {
   valueFrom: string | BigNumber | number | null | undefined;
-  valueUpto: string | BigNumber | number | null | undefined;
+  valueUpto: string | BigNumber | number | null | undefined | ESpecialNumber;
   separator?: string;
 }
 
-export const MoneyRange: React.FunctionComponent<IMoneyRangeProps & IMoneyCommonProps> = ({
+export const MoneyRange: React.FunctionComponent<
+  IMoneyRangeProps & IMoneyCommonProps & CommonHtmlProps
+> = ({
   valueFrom,
   valueUpto,
-  inputFormat = EMoneyInputFormat.ULPS,
-  outputFormat = EHumanReadableFormat.FULL,
+  inputFormat = ENumberInputFormat.ULPS,
+  outputFormat = ENumberOutputFormat.FULL,
   moneyFormat,
   currencySymbol = ECurrencySymbol.CODE,
   defaultValue = "-",
@@ -32,22 +36,23 @@ export const MoneyRange: React.FunctionComponent<IMoneyRangeProps & IMoneyCommon
   currencyClassName,
   transfer,
   theme,
-  ...props
+  className,
 }) => {
   let formattedValue = null;
 
   if (valueFrom && valueUpto) {
     //fixme should pass through 0 but not invalid vals
-    const decimalPlaces = selectDecimalPlaces(moneyFormat, outputFormat);
     formattedValue =
-      outputFormat === EHumanReadableFormat.FULL ||
-      outputFormat === EHumanReadableFormat.INTEGER ? (
+      outputFormat === ENumberOutputFormat.FULL ||
+      outputFormat === ENumberOutputFormat.ONLY_NONZERO_DECIMALS ||
+      outputFormat === ENumberOutputFormat.INTEGER ? (
         <FormatNumberRange
           valueFrom={valueFrom}
           valueUpto={valueUpto}
-          roundingMode={ERoundingMode.UP}
-          decimalPlaces={decimalPlaces}
           inputFormat={inputFormat}
+          outputFormat={outputFormat}
+          decimalPlaces={selectDecimalPlaces(moneyFormat, outputFormat)}
+          roundingMode={ERoundingMode.DOWN}
           separator={separator}
         />
       ) : (
@@ -55,18 +60,18 @@ export const MoneyRange: React.FunctionComponent<IMoneyRangeProps & IMoneyCommon
           valueFrom={valueFrom}
           valueUpto={valueUpto}
           inputFormat={inputFormat}
-          roundingMode={ERoundingMode.UP}
-          decimalPlaces={decimalPlaces}
           outputFormat={outputFormat}
+          decimalPlaces={selectDecimalPlaces(moneyFormat, outputFormat)}
+          roundingMode={ERoundingMode.DOWN}
           separator={separator}
         />
       );
   }
 
   return (
-    <span {...props} className={cn(styles.money, transfer, props.className, theme)}>
+    <span className={cn(styles.money, transfer, className, theme)}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>
-      {currencySymbol === ECurrencySymbol.CODE && (
+      {formattedValue && currencySymbol === ECurrencySymbol.CODE && (
         <span className={cn(styles.currency, currencyClassName)}>
           {" "}
           {selectCurrencyCode(moneyFormat)}

@@ -1,7 +1,9 @@
+import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import { EEtoDocumentType, IEtoDocument } from "../../lib/api/eto/EtoFileApi.interfaces";
+import { EOfferingDocumentType } from "../../lib/api/eto/EtoProductsApi.interfaces";
 import { SingleColDocumentsLayout } from "./SingleColDocumentWidget";
 
 const documents: IEtoDocument[] = [
@@ -54,15 +56,15 @@ storiesOf("Document/SingleColDocumentWidget", module)
     <SingleColDocumentsLayout
       title="fufu"
       documents={documents}
-      isRetailEto={false}
-      downloadImmutableFile={() => {}}
+      offeringDocumentType={EOfferingDocumentType.MEMORANDUM}
+      downloadImmutableFile={action("downloadImmutableFile")}
     />
   ))
   .add("Retail ETO", () => (
     <SingleColDocumentsLayout
       title="fufu"
       documents={documents}
-      isRetailEto={true}
-      downloadImmutableFile={() => {}}
+      offeringDocumentType={EOfferingDocumentType.PROSPECTUS}
+      downloadImmutableFile={action("downloadImmutableFile")}
     />
   ));

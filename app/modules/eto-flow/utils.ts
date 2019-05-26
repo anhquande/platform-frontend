@@ -8,9 +8,11 @@ import {
   EtoInvestmentTermsType,
   EtoKeyIndividualsType,
   EtoLegalInformationType,
+  EtoMarketingDataType,
   EtoMediaType,
   EtoPitchType,
   EtoRiskAssessmentType,
+  EtoSettingDataType,
   EtoVotingRightsType,
   GeneralEtoDataType,
   getEtoTermsSchema,
@@ -79,6 +81,9 @@ export const etoMediaProgressOptions: IProgressOptions = {
   ignore: {
     companyVideo: true,
     companySlideshare: true,
+    companyPitchdeckUrl: {
+      title: true,
+    },
   },
 };
 
@@ -118,6 +123,17 @@ export const calculateInvestmentTermsProgress = getFormFractionDoneCalculator(
 );
 
 export const calculateGeneralEtoData = getFormFractionDoneCalculator(GeneralEtoDataType.toYup(), {
+  ignore: true,
+});
+
+export const calculateMarketingEtoData = getFormFractionDoneCalculator(
+  EtoMarketingDataType.toYup(),
+  {
+    ignore: true,
+  },
+);
+
+export const calculateSettingsEtoData = getFormFractionDoneCalculator(EtoSettingDataType.toYup(), {
   ignore: true,
 });
 

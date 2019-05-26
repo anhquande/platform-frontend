@@ -71,7 +71,9 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
               caption={
                 <DocumentTemplateLabel
                   onClick={() => {}}
-                  title={getDocumentTitles(etoData.allowRetailInvestors)[document.documentType]}
+                  title={
+                    getDocumentTitles(etoData.product.offeringDocumentType)[document.documentType]
+                  }
                 />
               }
               value={
@@ -107,7 +109,9 @@ export const UserClaimSummaryComponent: React.FunctionComponent<TComponentProps>
               caption={
                 <DocumentTemplateLabel
                   onClick={() => {}}
-                  title={getDocumentTitles(etoData.allowRetailInvestors)[template.documentType]}
+                  title={
+                    getDocumentTitles(etoData.product.offeringDocumentType)[template.documentType]
+                  }
                 />
               }
               value={

@@ -5,9 +5,13 @@ import { FormattedMessage } from "react-intl-phraseapp";
 
 import { generateCampaigningValidation } from "../../../../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
 import { Button, ButtonSize, ButtonWidth } from "../../../../shared/buttons";
-import { ECurrency, EMoneyInputFormat } from "../../../../shared/formatters/utils";
+import { MoneyNew } from "../../../../shared/formatters/Money";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "../../../../shared/formatters/utils";
 import { CheckboxLayout, Form, FormInput, InputSize } from "../../../../shared/forms";
-import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
 import { Tooltip } from "../../../../shared/tooltips";
 
 import * as styles from "../EtoOverviewStatus.module.scss";
@@ -64,11 +68,11 @@ const CampaigningActivatedInvestorApprovedWidgetLayout: React.FunctionComponent<
         <div className={styles.label} data-test-id="campaigning-your-commitment">
           <FormattedMessage id="eto-overview.campaigning.your-commitment" />
           <br />
-          <Money
+          <MoneyNew
             value={pledgedAmount}
-            currency={ECurrency.EUR}
-            format={EMoneyInputFormat.FLOAT}
-            currencySymbol={ECurrencySymbol.SYMBOL}
+            inputFormat={ENumberInputFormat.FLOAT}
+            moneyFormat={ECurrency.EUR}
+            outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
           />
         </div>
         <div className={styles.value}>

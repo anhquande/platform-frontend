@@ -3,8 +3,8 @@ import * as React from "react";
 
 import { TDataTestId, TTranslatedString } from "../../types";
 import { makeTid } from "../../utils/tidUtils";
-import { ECurrency, ERoundingMode } from "./formatters/utils";
-import { Money } from "./Money.unsafe";
+import { MoneyNew } from "./formatters/Money";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "./formatters/utils";
 
 import * as styles from "./MoneySuiteWidget.module.scss";
 
@@ -21,20 +21,7 @@ export interface IMoneySuiteWidgetProps {
   theme?: TTheme;
   size?: TSize;
   walletName?: TTranslatedString;
-  roundingMode?: ERoundingMode;
 }
-
-// For now round down only nEUR
-const selectRoundingMethod = (currency: ECurrency): ERoundingMode | undefined => {
-  switch (currency) {
-    case ECurrency.EUR_TOKEN:
-    case ECurrency.ETH:
-      return ERoundingMode.DOWN;
-
-    default:
-      return undefined;
-  }
-};
 
 export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & TDataTestId> = ({
   icon,
@@ -47,7 +34,6 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
   theme,
   size,
   walletName,
-  roundingMode,
 }) => (
   <div className={cn(styles.moneySuiteWidget, theme, size)}>
     {icon && (
@@ -58,10 +44,11 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
     )}
     <div>
       <div className={styles.money} data-test-id={makeTid(dataTestId, "large-value")}>
-        <Money
+        <MoneyNew
           value={largeNumber}
-          currency={currency}
-          roundingMode={roundingMode || selectRoundingMethod(currency)}
+          inputFormat={ENumberInputFormat.ULPS}
+          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+          moneyFormat={currency}
         />
       </div>
       <div
@@ -69,10 +56,11 @@ export const MoneySuiteWidget: React.FunctionComponent<IMoneySuiteWidgetProps & 
         data-test-id={makeTid(dataTestId, "value")}
       >
         ={" "}
-        <Money
+        <MoneyNew
           value={value}
-          currency={currencyTotal}
-          roundingMode={roundingMode || selectRoundingMethod(currency)}
+          inputFormat={ENumberInputFormat.ULPS}
+          outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
+          moneyFormat={currencyTotal}
         />
         {percentage && (
           <span className={`${parseInt(percentage, 10) > 0 ? styles.green : styles.red}`}>

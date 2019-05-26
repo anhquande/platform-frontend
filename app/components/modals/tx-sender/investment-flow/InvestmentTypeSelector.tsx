@@ -6,7 +6,7 @@ import { Col, FormGroup } from "reactstrap";
 import { EInvestmentType } from "../../../../modules/investment-flow/reducer";
 import { getCurrencyByInvestmentType } from "../../../../modules/investment-flow/utils";
 import { ETokenType } from "../../../../modules/tx/types";
-import { Button, ButtonWidth, EButtonLayout } from "../../../shared/buttons/Button.unsafe";
+import { Button, ButtonWidth, EButtonLayout, EButtonTheme } from "../../../shared/buttons";
 import { ECurrency, ERoundingMode } from "../../../shared/formatters/utils";
 import { CurrencyIcon } from "../../../shared/icons/CurrencyIcon";
 import { Money } from "../../../shared/Money.unsafe";
@@ -128,7 +128,7 @@ export class InvestmentTypeSelector extends React.Component<IProps> {
                       {!wallet.enabled && (
                         <Button
                           layout={EButtonLayout.SIMPLE}
-                          theme={"green"}
+                          theme={EButtonTheme.GREEN}
                           className={styles.enableIcbm}
                           width={ButtonWidth.BLOCK}
                           innerClassName="justify-content-end"

@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { EETOStateOnChain } from "../../../../modules/eto/types";
 import { TTranslatedString } from "../../../../types";
 import { Counter } from "../../../shared/Counter.unsafe";
-import { statusToName } from "../../shared/ETOState";
+import { stateToName } from "../../shared/ETOState";
 
 import * as styles from "./CounterWidget.module.scss";
 
@@ -27,7 +27,7 @@ const CounterWidget: React.FunctionComponent<ICounterWidgetProps> = ({
       ) : (
         <FormattedMessage
           id="shared-component.eto-overview.count-down-to"
-          values={{ state: statusToName[state] }}
+          values={{ state: stateToName[state] }}
         />
       )}
     </div>

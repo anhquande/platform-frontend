@@ -22,7 +22,7 @@ import { InvestorAcceptPayoutSummary } from "./investor-payout/AcceptSummary";
 import { InvestorRedistributePayoutConfirm } from "./investor-payout/RedistributeConfirm";
 import { InvestorRedistributePayoutSuccess } from "./investor-payout/RedistributeSuccess";
 import { InvestorRedistributePayoutSummary } from "./investor-payout/RedistributeSummary";
-import { BankTransferRedeemInit } from "./redeem/BankTransferRedeemInit.unsafe";
+import { BankTransferRedeemInit } from "./redeem/BankTransferRedeemInit";
 import { BankTransferRedeemSuccess } from "./redeem/BankTransferRedeemSuccess";
 import { BankTransferRedeemSummary } from "./redeem/BankTransferRedeemSummary";
 import { SigningMessage } from "./shared/SigningMessage";

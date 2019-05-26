@@ -6,6 +6,7 @@ import { compose } from "recompose";
 import { TCompanyEtoData } from "../../../lib/api/eto/EtoApi.interfaces.unsafe";
 import { IEtoDocument, TEtoDocumentTemplates } from "../../../lib/api/eto/EtoFileApi.interfaces";
 import { ignoredDocuments, ignoredTemplates } from "../../../lib/api/eto/EtoFileUtils";
+import { EOfferingDocumentType } from "../../../lib/api/eto/EtoProductsApi.interfaces";
 import { actions } from "../../../modules/actions";
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
@@ -22,7 +23,7 @@ type TExternalProps = {
   companyMarketingLinks: TCompanyEtoData["marketingLinks"];
   etoTemplates: TEtoDocumentTemplates;
   etoDocuments: TEtoDocumentTemplates;
-  isRetailEto: boolean;
+  offeringDocumentType: EOfferingDocumentType;
   columnSpan?: EColumnSpan;
 };
 
@@ -38,10 +39,10 @@ const DocumentsWidgetLayout: React.FunctionComponent<
   etoDocuments,
   etoTemplates,
   className,
-  isRetailEto,
+  offeringDocumentType,
   columnSpan,
 }) => {
-  const documentTitles = getDocumentTitles(isRetailEto);
+  const documentTitles = getDocumentTitles(offeringDocumentType);
   return (
     <Panel className={className} columnSpan={columnSpan}>
       <section className={styles.group}>
@@ -63,36 +64,38 @@ const DocumentsWidgetLayout: React.FunctionComponent<
             )}
         </Row>
       </section>
-      <section className={styles.group}>
-        <div className={styles.groupName}>
-          <FormattedMessage id="eto.public-view.documents.legal-documents" />
-        </div>
-        <Row>
-          {Object.keys(etoTemplates)
-            .filter(key => !ignoredTemplates.some(template => template === key))
-            .map((key, i) => (
-              <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
-                <DocumentTemplateButton
-                  onClick={() => downloadDocument(etoTemplates[key])}
-                  title={documentTitles[etoTemplates[key].documentType]}
-                />
-              </Col>
-            ))}
-          {Object.keys(etoDocuments)
-            .filter(
-              key =>
-                !ignoredDocuments.some(document => document === etoDocuments[key].documentType),
-            )
-            .map((key, i) => (
-              <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
-                <DocumentTemplateButton
-                  onClick={() => downloadDocument(etoDocuments[key])}
-                  title={documentTitles[etoDocuments[key].documentType]}
-                />
-              </Col>
-            ))}
-        </Row>
-      </section>
+      {(etoTemplates || etoDocuments) && (
+        <section className={styles.group}>
+          <div className={styles.groupName}>
+            <FormattedMessage id="eto.public-view.documents.legal-documents" />
+          </div>
+          <Row>
+            {Object.keys(etoTemplates)
+              .filter(key => !ignoredTemplates.some(template => template === key))
+              .map((key, i) => (
+                <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
+                  <DocumentTemplateButton
+                    onClick={() => downloadDocument(etoTemplates[key])}
+                    title={documentTitles[etoTemplates[key].documentType]}
+                  />
+                </Col>
+              ))}
+            {Object.keys(etoDocuments)
+              .filter(
+                key =>
+                  !ignoredDocuments.some(document => document === etoDocuments[key].documentType),
+              )
+              .map((key, i) => (
+                <Col sm="6" md="12" lg="6" key={i} className={styles.document}>
+                  <DocumentTemplateButton
+                    onClick={() => downloadDocument(etoDocuments[key])}
+                    title={documentTitles[etoDocuments[key].documentType]}
+                  />
+                </Col>
+              ))}
+          </Row>
+        </section>
+      )}
     </Panel>
   );
 };

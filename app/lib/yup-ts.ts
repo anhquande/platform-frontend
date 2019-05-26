@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { DeepReadonly, Dictionary, TTranslatedString } from "../types";
 
 export const object = <T>(objectShape: T) => new ObjectYTS(objectShape);
-export const string = <T extends string = string>() => new StringYTS<T>();
+export const string = <T extends string>() => new StringYTS<T>();
 export const url = () => new StringYTS().enhance((v: Yup.StringSchema) => v.url());
 export const array = <T extends YTS<any>>(shape: T) => new ArrayYTS(shape);
 export const number = () => new NumberYTS();

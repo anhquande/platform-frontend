@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import { withMockStore } from "../../../utils/storeDecorator.unsafe";
-import { Button, EButtonLayout } from "./Button.unsafe";
+import { Button, EButtonLayout } from "./Button";
 import { ButtonLink } from "./ButtonLink";
 
 describe("<ButtonLink />", () => {

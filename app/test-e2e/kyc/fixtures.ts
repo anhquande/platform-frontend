@@ -11,7 +11,7 @@ const kycPersonBaseForm: TFormFixture = {
   city: "Berlin",
   zipCode: "10247",
   country: {
-    value: "DE",
+    value: "LI",
     type: "select",
   },
   placeOfBirth: {
@@ -19,7 +19,7 @@ const kycPersonBaseForm: TFormFixture = {
     type: "select",
   },
   nationality: {
-    value: "LI",
+    value: "DE",
     type: "select",
   },
   isPoliticallyExposed: {
@@ -68,7 +68,7 @@ export const kycCompanyForm: TFormFixture = {
   city: "Berlin",
   zipCode: "10247",
   country: {
-    value: "DE",
+    value: "PL",
     type: "select",
   },
   "kyc-company-business-data-save": {

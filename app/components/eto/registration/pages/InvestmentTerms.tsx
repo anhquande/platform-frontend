@@ -1,4 +1,4 @@
-import { FormikProps, withFormik } from "formik";
+import { FormikConsumer, FormikProps, withFormik } from "formik";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 import { Col, Row } from "reactstrap";
@@ -24,7 +24,7 @@ import { appConnect } from "../../../../store";
 import { TTranslatedString } from "../../../../types";
 import { formatMoney } from "../../../../utils/Money.utils";
 import { Button, EButtonLayout } from "../../../shared/buttons";
-import { ECurrency, EMoneyInputFormat } from "../../../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../../../shared/formatters/utils";
 import { FormField } from "../../../shared/forms";
 import { FormFieldRaw } from "../../../shared/forms/fields/FormFieldRaw";
 import { NumberTransformingField } from "../../../shared/forms/fields/NumberTransformingField.unsafe";
@@ -52,132 +52,31 @@ interface IStateProps {
   eto: TEtoSpecsData;
 }
 
+interface ICalculatorProps {
+  etoProductMaxInvestmentAmount: number;
+}
+
 interface IDispatchProps {
   saveData: (values: TEtoSpecsData) => void;
 }
 
 type IProps = IExternalProps & IStateProps & IDispatchProps & FormikProps<TEtoSpecsData>;
 
-const EtoInvestmentTermsComponent: React.FunctionComponent<IProps> = ({
-  eto,
-  savingData,
-  readonly,
-}) => {
-  const { computedMaxNumberOfTokens, computedMinNumberOfTokens } = getNumberOfTokens(eto);
-  const { computedMaxCapPercent, computedMinCapPercent } = getCapPercent(eto);
-  const { minInvestmentAmount, maxInvestmentAmount } = getInvestmentAmount(eto);
-  const { sharePrice, tokenPrice } = getShareAndTokenPrice(eto);
+const InvestmentCalculator: React.FunctionComponent<ICalculatorProps> = ({
+  etoProductMaxInvestmentAmount,
+}) => (
+  <FormikConsumer>
+    {({ values }) => {
+      // todo this should be refactored when converting this form to use money formatters
+      const convertedValue = convert(values, fromFormState);
+      const { computedMaxNumberOfTokens, computedMinNumberOfTokens } = getNumberOfTokens(
+        convertedValue,
+      );
+      const { computedMaxCapPercent, computedMinCapPercent } = getCapPercent(convertedValue);
+      const { minInvestmentAmount, maxInvestmentAmount } = getInvestmentAmount(convertedValue);
+      const { sharePrice, tokenPrice } = getShareAndTokenPrice(convertedValue);
 
-  return (
-    <EtoFormBase
-      title={<FormattedMessage id="eto.form.investment-terms.title" />}
-      validator={EtoInvestmentTermsType.toYup()}
-      progressOptions={etoInvestmentTermsProgressOptions}
-    >
-      <Section>
-        <FormField
-          label={
-            <FormattedMessage id="eto.form.section.equity-token-information.tokens-per-share" />
-          }
-          placeholder="1000000"
-          name="equityTokensPerShare"
-          value={10000}
-          disabled={true}
-        />
-        <FormField
-          label={<FormattedMessage id="eto.form.section.investment-terms.share-nominal-value" />}
-          placeholder="1"
-          prefix="€"
-          name="shareNominalValueEur"
-          type="number"
-          disabled={readonly}
-        />
-        <FormField
-          label={
-            <FormattedMessage id="eto.form.section.investment-terms.fully-diluted-pre-money-valuation" />
-          }
-          placeholder=" "
-          prefix="€"
-          name="preMoneyValuationEur"
-          type="number"
-          disabled={readonly}
-        />
-        <FormField
-          label={<FormattedMessage id="eto.form.section.investment-terms.existing-shares" />}
-          placeholder="Number of existing shares"
-          name="existingCompanyShares"
-          type="number"
-          disabled={readonly}
-        />
-        <FormField
-          label={<FormattedMessage id="eto.form.section.investment-terms.authorized-capital" />}
-          placeholder="Number of shares"
-          name="authorizedCapitalShares"
-          type="number"
-          disabled={readonly}
-        />
-        <FormField
-          label={
-            <FormattedMessage id="eto.form.section.investment-terms.minimum-new-shares-to-issue" />
-          }
-          placeholder="Number of shares"
-          name="minimumNewSharesToIssue"
-          type="number"
-          disabled={readonly}
-        />
-        <FormField
-          label={
-            <FormattedMessage id="eto.form.section.investment-terms.maximum-new-shares-to-issue" />
-          }
-          placeholder="Number of shares"
-          name="newSharesToIssue"
-          type="number"
-          disabled={readonly}
-        />
-        <NumberTransformingField
-          label={<FormattedMessage id="eto.form.section.investment-terms.public-discount" />}
-          placeholder=" "
-          name="publicDiscountFraction"
-          prefix="%"
-          ratio={100}
-          disabled={readonly}
-        />
-        <FormField
-          label={
-            <FormattedMessage id="eto.form.section.investment-terms.maximum-new-shares-to-issue-pre-eto" />
-          }
-          placeholder="Number of shares"
-          name="newSharesToIssueInWhitelist"
-          type="number"
-          disabled={readonly}
-        />
-        <NumberTransformingField
-          label={<FormattedMessage id="eto.form.section.investment-terms.whitelist-discount" />}
-          placeholder=" "
-          name="whitelistDiscountFraction"
-          prefix="%"
-          ratio={100}
-          disabled={readonly}
-        />
-        <FormField
-          label={
-            <FormattedMessage id="eto.form.section.investment-terms.maximum-shares-to-be-issued-in-fixed-slots" />
-          }
-          placeholder="Number of shares"
-          name="newSharesToIssueInFixedSlots"
-          type="number"
-          disabled={readonly}
-        />
-        <NumberTransformingField
-          label={
-            <FormattedMessage id="eto.form.section.investment-terms.maximum-discount-for-the-fixed-slot-investors" />
-          }
-          name="fixedSlotsMaximumDiscountFraction"
-          prefix="%"
-          ratio={100}
-          disabled={readonly}
-        />
-
+      return (
         <FormHighlightGroup>
           <FormFieldRaw
             label={<FormattedMessage id="eto.form.section.investment-terms.new-share-price" />}
@@ -204,7 +103,7 @@ const EtoInvestmentTermsComponent: React.FunctionComponent<IProps> = ({
                 value={getFormattedMoney(
                   minInvestmentAmount,
                   ECurrency.EUR,
-                  EMoneyInputFormat.FLOAT,
+                  ENumberInputFormat.FLOAT,
                 )}
                 readOnly={true}
               />
@@ -218,16 +117,16 @@ const EtoInvestmentTermsComponent: React.FunctionComponent<IProps> = ({
                 value={getFormattedMoney(
                   maxInvestmentAmount,
                   ECurrency.EUR,
-                  EMoneyInputFormat.FLOAT,
+                  ENumberInputFormat.FLOAT,
                 )}
                 readOnly={true}
               />
             </Col>
-            {eto.product.maxInvestmentAmount !== 0 &&
-              eto.product.maxInvestmentAmount < maxInvestmentAmount && (
+            {etoProductMaxInvestmentAmount !== 0 &&
+              etoProductMaxInvestmentAmount < maxInvestmentAmount && (
                 <Col sm={12}>
                   <p className="text-warning">
-                    Please, note that the maximum investment amount is above the product limit
+                    <FormattedMessage id="eto.form.investment-terms.investment-amount-warning" />
                   </p>
                 </Col>
               )}
@@ -277,23 +176,140 @@ const EtoInvestmentTermsComponent: React.FunctionComponent<IProps> = ({
             </Col>
           </Row>
         </FormHighlightGroup>
-      </Section>
+      );
+    }}
+  </FormikConsumer>
+);
 
-      {!readonly && (
-        <Section className={styles.buttonSection}>
-          <Button
-            layout={EButtonLayout.PRIMARY}
-            type="submit"
-            isLoading={savingData}
-            data-test-id="eto-registration-investment-terms-submit"
-          >
-            <FormattedMessage id="form.button.save" />
-          </Button>
-        </Section>
-      )}
-    </EtoFormBase>
-  );
-};
+const EtoInvestmentTermsComponent: React.FunctionComponent<IProps> = ({
+  eto,
+  savingData,
+  readonly,
+}) => (
+  <EtoFormBase
+    title={<FormattedMessage id="eto.form.investment-terms.title" />}
+    validator={EtoInvestmentTermsType.toYup()}
+    progressOptions={etoInvestmentTermsProgressOptions}
+  >
+    <Section>
+      <FormField
+        label={<FormattedMessage id="eto.form.section.equity-token-information.tokens-per-share" />}
+        placeholder="1000000"
+        name="equityTokensPerShare"
+        value={10000}
+        disabled={true}
+      />
+      <FormField
+        label={<FormattedMessage id="eto.form.section.investment-terms.share-nominal-value" />}
+        placeholder="1"
+        prefix="€"
+        name="shareNominalValueEur"
+        type="number"
+        disabled={readonly}
+      />
+      <FormField
+        label={
+          <FormattedMessage id="eto.form.section.investment-terms.fully-diluted-pre-money-valuation" />
+        }
+        placeholder=" "
+        prefix="€"
+        name="preMoneyValuationEur"
+        type="number"
+        disabled={readonly}
+      />
+      <FormField
+        label={<FormattedMessage id="eto.form.section.investment-terms.existing-shares" />}
+        placeholder="Number of existing shares"
+        name="existingCompanyShares"
+        type="number"
+        disabled={readonly}
+      />
+      <FormField
+        label={<FormattedMessage id="eto.form.section.investment-terms.authorized-capital" />}
+        placeholder="Number of shares"
+        name="authorizedCapitalShares"
+        type="number"
+        disabled={readonly}
+      />
+      <FormField
+        label={
+          <FormattedMessage id="eto.form.section.investment-terms.minimum-new-shares-to-issue" />
+        }
+        placeholder="Number of shares"
+        name="minimumNewSharesToIssue"
+        type="number"
+        disabled={readonly}
+      />
+      <FormField
+        label={
+          <FormattedMessage id="eto.form.section.investment-terms.maximum-new-shares-to-issue" />
+        }
+        placeholder="Number of shares"
+        name="newSharesToIssue"
+        type="number"
+        disabled={readonly}
+      />
+      <NumberTransformingField
+        label={<FormattedMessage id="eto.form.section.investment-terms.public-discount" />}
+        placeholder=" "
+        name="publicDiscountFraction"
+        prefix="%"
+        ratio={100}
+        disabled={readonly}
+      />
+      <FormField
+        label={
+          <FormattedMessage id="eto.form.section.investment-terms.maximum-new-shares-to-issue-pre-eto" />
+        }
+        placeholder="Number of shares"
+        name="newSharesToIssueInWhitelist"
+        type="number"
+        disabled={readonly}
+      />
+      <NumberTransformingField
+        label={<FormattedMessage id="eto.form.section.investment-terms.whitelist-discount" />}
+        placeholder=" "
+        name="whitelistDiscountFraction"
+        prefix="%"
+        ratio={100}
+        disabled={readonly}
+      />
+      <FormField
+        label={
+          <FormattedMessage id="eto.form.section.investment-terms.maximum-shares-to-be-issued-in-fixed-slots" />
+        }
+        placeholder="Number of shares"
+        name="newSharesToIssueInFixedSlots"
+        type="number"
+        disabled={readonly}
+      />
+      <NumberTransformingField
+        label={
+          <FormattedMessage id="eto.form.section.investment-terms.maximum-discount-for-the-fixed-slot-investors" />
+        }
+        name="fixedSlotsMaximumDiscountFraction"
+        prefix="%"
+        ratio={100}
+        disabled={readonly}
+      />
+
+      <InvestmentCalculator etoProductMaxInvestmentAmount={eto.product.maxInvestmentAmount} />
+    </Section>
+
+    {!readonly && (
+      <Section className={styles.buttonSection}>
+        <Button
+          layout={EButtonLayout.PRIMARY}
+          type="submit"
+          isLoading={savingData}
+          data-test-id="eto-registration-investment-terms-submit"
+        >
+          <FormattedMessage id="form.button.save" />
+        </Button>
+      </Section>
+    )}
+  </EtoFormBase>
+);
 
 const EtoInvestmentTerms = compose<React.FunctionComponent<IExternalProps>>(
   setDisplayName(EEtoFormTypes.EtoInvestmentTerms),

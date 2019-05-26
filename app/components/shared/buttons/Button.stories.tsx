@@ -1,7 +1,15 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
-import { Button, ButtonArrowRight, ButtonSize, ButtonWidth, EButtonLayout } from "./Button.unsafe";
+import {
+  Button,
+  ButtonArrowRight,
+  ButtonSize,
+  ButtonWidth,
+  EButtonLayout,
+  EButtonTheme,
+  EIconPosition,
+} from "./Button";
 
 import * as icon from "../../../assets/img/inline_icons/icon_questionmark.svg";
 
@@ -38,40 +46,48 @@ storiesOf("buttons/default", module)
   ))
   .add("with icons", () => (
     <>
-      <Button layout={EButtonLayout.SECONDARY} svgIcon={icon} iconPosition="icon-before">
+      <Button
+        layout={EButtonLayout.SECONDARY}
+        svgIcon={icon}
+        iconPosition={EIconPosition.ICON_BEFORE}
+      >
         icon before text
       </Button>
       <br />
-      <Button layout={EButtonLayout.SECONDARY} svgIcon={icon} iconPosition="icon-after">
+      <Button
+        layout={EButtonLayout.SECONDARY}
+        svgIcon={icon}
+        iconPosition={EIconPosition.ICON_AFTER}
+      >
         icon after text
       </Button>
     </>
   ))
   .add("with theme", () => (
     <>
-      <Button theme="white">white primary</Button>
+      <Button theme={EButtonTheme.WHITE}>white primary</Button>
       <br />
-      <Button theme="white" disabled>
+      <Button theme={EButtonTheme.WHITE} disabled>
         white primary disabled
       </Button>
       <br />
-      <Button svgIcon={icon} theme="white" iconPosition="icon-before">
+      <Button svgIcon={icon} theme={EButtonTheme.WHITE} iconPosition={EIconPosition.ICON_BEFORE}>
         white primary icon before text
       </Button>
       <br />
-      <Button layout={EButtonLayout.SECONDARY} theme="white">
+      <Button layout={EButtonLayout.SECONDARY} theme={EButtonTheme.WHITE}>
         white secondary
       </Button>
       <br />
-      <Button layout={EButtonLayout.SECONDARY} theme="white" disabled>
+      <Button layout={EButtonLayout.SECONDARY} theme={EButtonTheme.WHITE} disabled>
         white secondary disabled
       </Button>
       <br />
       <Button
         layout={EButtonLayout.SECONDARY}
         svgIcon={icon}
-        theme="white"
-        iconPosition="icon-before"
+        theme={EButtonTheme.WHITE}
+        iconPosition={EIconPosition.ICON_BEFORE}
       >
         secondary white icon before text
       </Button>
@@ -79,33 +95,33 @@ storiesOf("buttons/default", module)
       <Button
         layout={EButtonLayout.SECONDARY}
         svgIcon={icon}
-        theme="white"
-        iconPosition="icon-before"
+        theme={EButtonTheme.WHITE}
+        iconPosition={EIconPosition.ICON_BEFORE}
         disabled
       >
         secondary white icon before text disabled
       </Button>
       <br />
-      <Button theme="neon">neon primary</Button>
+      <Button theme={EButtonTheme.NEON}>neon primary</Button>
       <br />
-      <Button theme="neon" disabled>
+      <Button theme={EButtonTheme.NEON} disabled>
         neon primary disabled
       </Button>
       <br />
-      <Button theme="green" layout={EButtonLayout.SECONDARY}>
+      <Button theme={EButtonTheme.GREEN} layout={EButtonLayout.SECONDARY}>
         green secondary
       </Button>
       <br />
-      <Button theme="green" layout={EButtonLayout.SECONDARY} disabled>
+      <Button theme={EButtonTheme.GREEN} layout={EButtonLayout.SECONDARY} disabled>
         green secondary disabled
       </Button>
       <br />
       <br />
-      <Button theme="blue" layout={EButtonLayout.SECONDARY}>
+      <Button theme={EButtonTheme.BLUE} layout={EButtonLayout.SECONDARY}>
         blue secondary
       </Button>
       <br />
-      <Button theme="blue" layout={EButtonLayout.SECONDARY} disabled>
+      <Button theme={EButtonTheme.BLUE} layout={EButtonLayout.SECONDARY} disabled>
         blue secondary disabled
       </Button>
       <br />

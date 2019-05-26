@@ -1,17 +1,20 @@
-import BigNumber from "bignumber.js";
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { Button } from "../../../../shared/buttons";
-import { ECurrency } from "../../../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
+import { MoneyNew } from "../../../../shared/formatters/Money";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "../../../../shared/formatters/utils";
 import { Message } from "../Message";
 import { withCanClaimToken } from "./withCanClaimToken";
 
 interface IExternalProps {
   tokenName: string;
-  totalInvestors: number | undefined;
-  totalEquivEurUlps: BigNumber;
+  totalInvestors: string | undefined;
+  totalEquivEurUlps: string;
   canClaimToken: boolean;
   etoId: string;
   onClaim: (etoId: string) => void;
@@ -34,10 +37,11 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
             id="shared-component.eto-overview.success.summary"
             values={{
               totalAmount: (
-                <Money
+                <MoneyNew
                   value={totalEquivEurUlps}
-                  currency={ECurrency.EUR}
-                  currencySymbol={ECurrencySymbol.SYMBOL}
+                  inputFormat={ENumberInputFormat.ULPS}
+                  moneyFormat={ECurrency.EUR}
+                  outputFormat={ENumberOutputFormat.FULL}
                 />
               ),
               totalInvestors,
@@ -48,10 +52,11 @@ const ClaimWidgetLayout: React.FunctionComponent<IExternalProps> = ({
             id="shared-component.eto-overview.success.summary-no-investors-count"
             values={{
               totalAmount: (
-                <Money
+                <MoneyNew
                   value={totalEquivEurUlps}
-                  currency={ECurrency.EUR}
-                  currencySymbol={ECurrencySymbol.SYMBOL}
+                  inputFormat={ENumberInputFormat.ULPS}
+                  moneyFormat={ECurrency.EUR}
+                  outputFormat={ENumberOutputFormat.FULL}
                 />
               ),
             }}
