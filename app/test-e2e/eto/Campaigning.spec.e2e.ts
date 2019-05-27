@@ -84,7 +84,9 @@ describe("Eto campaigning state", () => {
 
           confirmAccessModal();
 
-          cy.get(tid("campaigning-your-commitment")).contains(`€${formatThousands(PLEDGE_AMOUNT)}`);
+          cy.get(tid("campaigning-your-commitment")).contains(
+            `${formatThousands(PLEDGE_AMOUNT)} EUR`,
+          );
           cy.get<number>("@remainingSlots").then(remainingSlots => {
             // Remove one from remaining slots as it's first pledge
             cy.get(tid("eto-bookbuilding-remaining-slots")).should("contain", remainingSlots - 1);
@@ -106,7 +108,7 @@ describe("Eto campaigning state", () => {
             confirmAccessModal();
 
             cy.get(tid("campaigning-your-commitment")).contains(
-              `€${formatThousands(CHANGED_AMOUNT)}`,
+              `${formatThousands(CHANGED_AMOUNT)} EUR`,
             );
             cy.get<number>("@remainingSlots").then(remainingSlots => {
               // Remove two from remaining slots as it's second pledge

@@ -312,8 +312,8 @@ const EtoRegistrationProductType: React.FunctionComponent<IProps> = ({
         </FormFieldLabel>
         <FormToggle
           name="product.jurisdiction"
-          trueValue={"de"}
-          falseValue={"li"}
+          trueValue={"DE"}
+          falseValue={"LI"}
           enabledLabel={"DE"}
           disabledLabel={"LI"}
           disabled={true}
