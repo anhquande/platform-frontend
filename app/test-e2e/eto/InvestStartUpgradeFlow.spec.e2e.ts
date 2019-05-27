@@ -3,10 +3,10 @@ import { tid } from "../utils/selectors";
 import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Start upgrade flow from investment", () => {
-  it.skip("do", () => {
+  it("do", () => {
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
     // TODO: you need another fixture that has ICBM wallet but is not upgraded in any other test
-    loginFixtureAccount("", {
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC", {
       kyc: "business",
       signTosAgreement: true,
       clearPendingTransactions: true,

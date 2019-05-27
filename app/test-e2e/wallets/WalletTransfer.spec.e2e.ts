@@ -24,7 +24,7 @@ describe("Wallet Transfer", () => {
 
       cy.get(tid("wallet-balance.ether.deposit.address")).should(
         "have.text",
-        accountFixtureAddress("INV_EUR_ICBM_HAS_KYC_ADDRESS"),
+        accountFixtureAddress("INV_EUR_ICBM_HAS_KYC_SEED"),
       );
     });
   });

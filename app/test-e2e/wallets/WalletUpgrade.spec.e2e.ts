@@ -6,7 +6,7 @@ import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Upgrade icbm wallet", () => {
   it("do euro upgrade", () => {
-    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_2", {
       kyc: "business",
       signTosAgreement: true,
       clearPendingTransactions: true,

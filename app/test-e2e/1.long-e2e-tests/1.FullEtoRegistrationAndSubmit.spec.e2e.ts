@@ -17,7 +17,7 @@ import { tid } from "../utils/selectors";
 import { createAndLoginNewUser } from "../utils/userHelpers";
 
 describe("Eto Forms", () => {
-  it("will fill and submit them all", () => {
+  it.skip("will fill and submit them all", () => {
     createAndLoginNewUser({ type: "issuer", kyc: "business" }).then(() => {
       goToEtoDashboard();
 

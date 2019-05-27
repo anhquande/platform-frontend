@@ -70,7 +70,11 @@ describe("Backup Seed and Private Key save and view", () => {
 
       cy.get(tid("private-key-display.view-private-key"))
         .awaitedClick()
-        .contains(accountFixturePrivateKey("INV_EUR_ICBM_HAS_KYC_KEY"));
+        .contains(
+          accountFixturePrivateKey("INV_EUR_ICBM_HAS_KYC_SEED")
+            .substring(2)
+            .toUpperCase(),
+        );
     });
   });
 });

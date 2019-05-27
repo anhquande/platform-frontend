@@ -185,12 +185,12 @@ export const accountFixtureByName = (name: string) => {
 
 export const accountFixtureAddress = (name: string) => {
   const fixture = accountFixtureByName(name);
-  return fixture.definition.address;
+  return makeEthereumAddressChecksummed(fixture.definition.address);
 };
 
 export const accountFixturePrivateKey = (name: string) => {
   const fixture = accountFixtureByName(name);
-  return fixture.definition.privateKey;
+  return fixture.definition.privateKey as string;
 };
 
 export const stubWindow = (hookName: string) => (window.open = cy.stub().as(hookName) as any);

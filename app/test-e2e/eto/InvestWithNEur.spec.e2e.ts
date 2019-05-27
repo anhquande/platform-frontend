@@ -9,11 +9,10 @@ import { tid } from "../utils/selectors";
 import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Invest with nEur", () => {
-  // TODO: Add fixture with nEur
-  it.skip("invest 1000 nEuro", () => {
+  it("invest 1000 nEuro", () => {
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
-    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
+    loginFixtureAccount("INV_HAS_EUR_HAS_KYC", {
       kyc: "business",
       signTosAgreement: true,
       clearPendingTransactions: true,
