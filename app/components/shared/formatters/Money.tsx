@@ -7,15 +7,16 @@ import { FormatNumber } from "./FormatNumber";
 import { FormatShortNumber } from "./FormatShortNumber";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
   EPriceFormat,
   ERoundingMode,
   selectDecimalPlaces,
+  THumanReadableFormat,
   TMoneyFormat,
 } from "./utils";
 
-import * as styles from "./Money.module.scss";
+import * as styles from "./MoneyNew.module.scss";
 
 enum ECurrencySymbol {
   CODE = "code",
@@ -27,7 +28,7 @@ enum EMoneyTransfer {
   OUTCOME = styles.outcome,
 }
 
-enum ETheme {
+enum EThemeNew {
   GREEN = styles.tGreen,
   ORANGE = styles.tOrange,
   GREEN_BIG = styles.tBigValue,
@@ -38,16 +39,17 @@ interface IMoneyProps {
 }
 
 interface IMoneyCommonProps {
-  inputFormat: EMoneyInputFormat;
+  inputFormat: ENumberInputFormat;
   moneyFormat: TMoneyFormat;
+  outputFormat: THumanReadableFormat;
   roundingMode?: ERoundingMode;
   currencySymbol?: ECurrencySymbol;
   currencyClassName?: string;
   transfer?: EMoneyTransfer;
-  theme?: ETheme;
-  outputFormat: EHumanReadableFormat;
+  theme?: EThemeNew;
   defaultValue?: React.ReactChild;
   className?: string;
+  "data-test-id"?: string;
 }
 
 export const selectCurrencyCode = (moneyFormat: TMoneyFormat): string => {
@@ -81,12 +83,13 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
   transfer,
   theme,
   className,
+  "data-test-id": dataTestId,
 }) => {
   let formattedValue = null;
   if (value) {
     //todo: this should pass through 0 as well. Use isValidNumber from the #2687 PR when it's merged
     const decimalPlaces = selectDecimalPlaces(moneyFormat, outputFormat);
-    formattedValue = Object.values(EHumanReadableFormat).includes(outputFormat) ? (
+    formattedValue = Object.values(ENumberOutputFormat).includes(outputFormat) ? (
       <FormatNumber
         value={value}
         defaultValue={defaultValue}
@@ -107,7 +110,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
     );
   }
   return (
-    <span className={cn(styles.money, transfer, className, theme)}>
+    <span className={cn(styles.money, transfer, className, theme)} data-test-id={dataTestId}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>
       {currencySymbol === ECurrencySymbol.CODE && formattedValue !== null && (
         <span className={cn(styles.currency, currencyClassName)}>
@@ -119,7 +122,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
   );
 };
 
-export { MoneyNew, IMoneyCommonProps, EMoneyTransfer, ECurrencySymbol, ETheme };
+export { MoneyNew, IMoneyCommonProps, EMoneyTransfer, ECurrencySymbol, EThemeNew };
 
 /*
 MONEY

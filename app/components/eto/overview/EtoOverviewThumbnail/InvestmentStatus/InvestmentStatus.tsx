@@ -3,14 +3,14 @@ import { FormattedMessage } from "react-intl-phraseapp";
 import { compose } from "recompose";
 
 import { selectEtoOnChainNextStateStartDate } from "../../../../../modules/eto/selectors";
-import { TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
+import { EETOStateOnChain, TEtoWithCompanyAndContract } from "../../../../../modules/eto/types";
 import { appConnect } from "../../../../../store";
 import { FormatNumber } from "../../../../shared/formatters/FormatNumber";
 import { MoneyNew } from "../../../../shared/formatters/Money";
 import {
   ECurrency,
-  EHumanReadableFormat,
-  EMoneyInputFormat,
+  ENumberInputFormat,
+  ENumberOutputFormat,
 } from "../../../../shared/formatters/utils";
 import { InvestmentProgress } from "./InvestmentProgress";
 
@@ -32,21 +32,23 @@ const InvestmentLayout: React.FunctionComponent<TInvestWidgetProps> = ({ eto }) 
   return (
     <div className={styles.investmentWidget}>
       <div className={styles.header}>
-        <div>
-          <MoneyNew
-            value={eto.contract!.totalInvestment.etherTokenBalance}
-            inputFormat={EMoneyInputFormat.ULPS}
-            moneyFormat={ECurrency.ETH}
-            outputFormat={EHumanReadableFormat.FULL}
-          />
-          <br />
-          <MoneyNew
-            value={eto.contract!.totalInvestment.euroTokenBalance}
-            inputFormat={EMoneyInputFormat.ULPS}
-            moneyFormat={ECurrency.EUR_TOKEN}
-            outputFormat={EHumanReadableFormat.FULL}
-          />
-        </div>
+        {eto.contract!.timedState !== EETOStateOnChain.Payout && (
+          <div>
+            <MoneyNew
+              value={eto.contract!.totalInvestment.etherTokenBalance}
+              inputFormat={ENumberInputFormat.ULPS}
+              moneyFormat={ECurrency.ETH}
+              outputFormat={ENumberOutputFormat.FULL}
+            />
+            <br />
+            <MoneyNew
+              value={eto.contract!.totalInvestment.euroTokenBalance}
+              inputFormat={ENumberInputFormat.ULPS}
+              moneyFormat={ECurrency.EUR_TOKEN}
+              outputFormat={ENumberOutputFormat.FULL}
+            />
+          </div>
+        )}
         {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && (
           <div>
             <FormattedMessage
@@ -55,7 +57,8 @@ const InvestmentLayout: React.FunctionComponent<TInvestWidgetProps> = ({ eto }) 
                 totalInvestors: (
                   <FormatNumber
                     value={totalInvestors}
-                    outputFormat={EHumanReadableFormat.INTEGER}
+                    outputFormat={ENumberOutputFormat.INTEGER}
+                    inputFormat={ENumberInputFormat.FLOAT}
                   />
                 ),
               }}

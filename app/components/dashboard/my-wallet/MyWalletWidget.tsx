@@ -19,9 +19,9 @@ import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { appRoutes } from "../../appRoutes";
 import { ButtonLink, EButtonLayout, EButtonTheme, EIconPosition } from "../../shared/buttons";
-import { ECurrency } from "../../shared/formatters/utils";
+import { MoneyNew } from "../../shared/formatters/Money";
+import { ECurrency, ENumberInputFormat, ENumberOutputFormat } from "../../shared/formatters/utils";
 import { LoadingIndicator } from "../../shared/loading-indicator";
-import { ECurrencySymbol, Money } from "../../shared/Money.unsafe";
 import { MoneySuiteWidget } from "../../shared/MoneySuiteWidget";
 import { Panel } from "../../shared/Panel";
 import { ECustomTooltipTextPosition, Tooltip } from "../../shared/tooltips";
@@ -94,13 +94,13 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
               <span className={cn(styles.smallFont)}>
                 <FormattedMessage id="dashboard.my-wallet-widget.total" />
               </span>
-              <Money
+              <MoneyNew
                 value={totalAmount}
-                currency={ECurrency.EUR}
-                currencySymbol={ECurrencySymbol.NONE}
+                moneyFormat={ECurrency.EUR}
+                inputFormat={ENumberInputFormat.FLOAT}
+                outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                 className={cn(styles.money, "pl-1 pl-sm-2 m-0")}
               />
-              <span className="pl-1">EUR</span>
             </div>
           </Col>
         </Row>

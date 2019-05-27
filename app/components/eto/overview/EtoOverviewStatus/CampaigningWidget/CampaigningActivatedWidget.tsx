@@ -15,8 +15,12 @@ import { appConnect } from "../../../../../store";
 import { onEnterAction } from "../../../../../utils/OnEnterAction";
 import { appRoutes } from "../../../../appRoutes";
 import { ButtonLink } from "../../../../shared/buttons";
-import { ECurrency, EMoneyInputFormat } from "../../../../shared/formatters/utils";
-import { ECurrencySymbol, Money } from "../../../../shared/Money.unsafe";
+import { MoneyNew } from "../../../../shared/formatters/Money";
+import {
+  ECurrency,
+  ENumberInputFormat,
+  ENumberOutputFormat,
+} from "../../../../shared/formatters/utils";
 import { Tooltip } from "../../../../shared/tooltips";
 import { CounterWidget } from "../index";
 import { Message } from "../Message";
@@ -98,11 +102,11 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
               <FormattedMessage id="shared-component.eto-overview.amount-backed" />
             </span>
             <span className={styles.value} data-test-id="eto-bookbuilding-amount-backed">
-              <Money
+              <MoneyNew
                 value={pledgedAmount}
-                currency={ECurrency.EUR}
-                format={EMoneyInputFormat.FLOAT}
-                currencySymbol={ECurrencySymbol.SYMBOL}
+                moneyFormat={ECurrency.EUR}
+                inputFormat={ENumberInputFormat.FLOAT}
+                outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
               />
             </span>
           </div>
@@ -152,11 +156,11 @@ const CampaigningActivatedWidgetComponent: React.FunctionComponent<IProps> = ({
                 id="shared-component.eto-overview.whitelist.success.summary"
                 values={{
                   totalAmount: (
-                    <Money
+                    <MoneyNew
                       value={pledgedAmount}
-                      currency={ECurrency.EUR}
-                      currencySymbol={ECurrencySymbol.SYMBOL}
-                      format={EMoneyInputFormat.FLOAT}
+                      inputFormat={ENumberInputFormat.FLOAT}
+                      moneyFormat={ECurrency.EUR}
+                      outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                     />
                   ),
                   totalInvestors: investorsCount,

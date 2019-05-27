@@ -10,7 +10,7 @@ import { etoPublicViewLink } from "../appRouteUtils";
 import { DashboardHeading } from "../eto/shared/DashboardHeading";
 import { EProjectStatusSize, ETOState } from "../eto/shared/ETOState";
 import { Container } from "../layouts/Container";
-import { ECurrency, EMoneyInputFormat } from "../shared/formatters/utils";
+import { ECurrency, ENumberInputFormat } from "../shared/formatters/utils";
 import { CurrencyIcon } from "../shared/icons/CurrencyIcon";
 import { ECurrencySymbol, Money } from "../shared/Money.unsafe";
 import { NumberFormat } from "../shared/NumberFormat";
@@ -99,7 +99,7 @@ const PortfolioPastInvestments: React.FunctionComponent<IExternalProps> = ({ pas
                 value={getTokenPrice(investorTicket.equityTokenInt, investorTicket.equivEurUlps)}
                 currency={ECurrency.EUR}
                 currencySymbol={ECurrencySymbol.SYMBOL}
-                format={EMoneyInputFormat.FLOAT}
+                format={ENumberInputFormat.FLOAT}
                 isPrice={true}
               />
 

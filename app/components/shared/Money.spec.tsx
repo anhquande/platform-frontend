@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
 
-import { ECurrency, EMoneyInputFormat, ERoundingMode } from "./formatters/utils";
+import { ECurrency, ENumberInputFormat, ERoundingMode } from "./formatters/utils";
 import { ECurrencySymbol, getFormattedMoney, Money } from "./Money.unsafe";
 
 describe("Money", () => {
@@ -18,7 +18,7 @@ describe("Money", () => {
 
     it("should format money when format is set to FLOAT", () => {
       const component = shallow(
-        <Money value={"2501234"} currency={ECurrency.EUR} format={EMoneyInputFormat.FLOAT} />,
+        <Money value={"2501234"} currency={ECurrency.EUR} format={ENumberInputFormat.FLOAT} />,
       );
 
       expect(component.render().text()).to.be.eq("2 501 234 EUR");
@@ -100,7 +100,7 @@ describe("Money", () => {
       const component = shallow(
         <Money
           value={"0.166250351468706841"}
-          format={EMoneyInputFormat.FLOAT}
+          format={ENumberInputFormat.FLOAT}
           currency={ECurrency.EUR}
           currencySymbol={ECurrencySymbol.SYMBOL}
           isPrice={true}
@@ -114,60 +114,60 @@ describe("Money", () => {
   describe("getFormattedMoney", () => {
     it("should format ULPS values", () => {
       // By default rounded up
-      expect(getFormattedMoney("1242.21621e+18", ECurrency.ETH, EMoneyInputFormat.ULPS)).to.eq(
+      expect(getFormattedMoney("1242.21621e+18", ECurrency.ETH, ENumberInputFormat.ULPS)).to.eq(
         "1242.2163",
       );
-      expect(getFormattedMoney(346342.235e18, ECurrency.EUR, EMoneyInputFormat.ULPS)).to.eq(
+      expect(getFormattedMoney(346342.235e18, ECurrency.EUR, ENumberInputFormat.ULPS)).to.eq(
         "346342.24",
       );
       expect(
         getFormattedMoney(
           new BigNumber(346342.235e18),
           ECurrency.EUR_TOKEN,
-          EMoneyInputFormat.ULPS,
+          ENumberInputFormat.ULPS,
         ),
       ).to.eq("346342.24");
     });
 
     it("should format float values", () => {
       // By default rounded up
-      expect(getFormattedMoney("1242.21621", ECurrency.ETH, EMoneyInputFormat.FLOAT)).to.eq(
+      expect(getFormattedMoney("1242.21621", ECurrency.ETH, ENumberInputFormat.FLOAT)).to.eq(
         "1242.2163",
       );
-      expect(getFormattedMoney(346342.235, ECurrency.EUR, EMoneyInputFormat.FLOAT)).to.eq(
+      expect(getFormattedMoney(346342.235, ECurrency.EUR, ENumberInputFormat.FLOAT)).to.eq(
         "346342.24",
       );
       expect(
-        getFormattedMoney(new BigNumber(346342.235), ECurrency.EUR_TOKEN, EMoneyInputFormat.FLOAT),
+        getFormattedMoney(new BigNumber(346342.235), ECurrency.EUR_TOKEN, ENumberInputFormat.FLOAT),
       ).to.eq("346342.24");
     });
 
     it("should format float values", () => {
       // By default rounded up
-      expect(getFormattedMoney("1242.21621", ECurrency.ETH, EMoneyInputFormat.FLOAT)).to.eq(
+      expect(getFormattedMoney("1242.21621", ECurrency.ETH, ENumberInputFormat.FLOAT)).to.eq(
         "1242.2163",
       );
-      expect(getFormattedMoney(346342.235, ECurrency.EUR, EMoneyInputFormat.FLOAT)).to.eq(
+      expect(getFormattedMoney(346342.235, ECurrency.EUR, ENumberInputFormat.FLOAT)).to.eq(
         "346342.24",
       );
       expect(
-        getFormattedMoney(new BigNumber(346342.235), ECurrency.EUR_TOKEN, EMoneyInputFormat.FLOAT),
+        getFormattedMoney(new BigNumber(346342.235), ECurrency.EUR_TOKEN, ENumberInputFormat.FLOAT),
       ).to.eq("346342.24");
     });
 
     it("should format to 8 decimal places if value is price", () => {
       // By default rounded up
       expect(
-        getFormattedMoney("1242.21621134341", ECurrency.ETH, EMoneyInputFormat.FLOAT, true),
+        getFormattedMoney("1242.21621134341", ECurrency.ETH, ENumberInputFormat.FLOAT, true),
       ).to.eq("1242.21621135");
       expect(
-        getFormattedMoney(346342.235412415, ECurrency.EUR, EMoneyInputFormat.FLOAT, true),
+        getFormattedMoney(346342.235412415, ECurrency.EUR, ENumberInputFormat.FLOAT, true),
       ).to.eq("346342.23541242");
       expect(
         getFormattedMoney(
           new BigNumber(3.2351251122e18),
           ECurrency.EUR_TOKEN,
-          EMoneyInputFormat.ULPS,
+          ENumberInputFormat.ULPS,
           true,
         ),
       ).to.eq("3.23512512");
@@ -178,7 +178,7 @@ describe("Money", () => {
         getFormattedMoney(
           "1242.21621134341",
           ECurrency.ETH,
-          EMoneyInputFormat.FLOAT,
+          ENumberInputFormat.FLOAT,
           false,
           ERoundingMode.DOWN,
         ),
@@ -187,7 +187,7 @@ describe("Money", () => {
         getFormattedMoney(
           346342.235412415,
           ECurrency.EUR,
-          EMoneyInputFormat.FLOAT,
+          ENumberInputFormat.FLOAT,
           false,
           ERoundingMode.DOWN,
         ),
@@ -196,7 +196,7 @@ describe("Money", () => {
         getFormattedMoney(
           new BigNumber(3.2351251122e18),
           ECurrency.EUR_TOKEN,
-          EMoneyInputFormat.ULPS,
+          ENumberInputFormat.ULPS,
           false,
           ERoundingMode.DOWN,
         ),
