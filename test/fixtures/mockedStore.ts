@@ -13,7 +13,6 @@ export const mockedStore: DeepPartial<IAppState> = {
   contracts: {
     platformTermsConstants: {
       IS_ICBM_INVESTOR_WHITELISTED: true,
-      MIN_TICKET_EUR_ULPS: new BigNumber("100000000000000000000"),
       PLATFORM_NEUMARK_SHARE: new BigNumber("2"),
       TOKEN_PARTICIPATION_FEE_FRACTION: new BigNumber("20000000000000000"),
       PLATFORM_FEE_FRACTION: new BigNumber("30000000000000000"),

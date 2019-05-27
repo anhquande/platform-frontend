@@ -16,7 +16,6 @@ export function* populatePlatformTermsConstants({ contractsService }: TGlobalDep
   // These are constants from Universe contract no need for pooling
   const terms: IPlatformTermsConstants = yield all({
     IS_ICBM_INVESTOR_WHITELISTED: contract.IS_ICBM_INVESTOR_WHITELISTED,
-    MIN_TICKET_EUR_ULPS: contract.MIN_TICKET_EUR_ULPS,
     PLATFORM_NEUMARK_SHARE: contract.PLATFORM_NEUMARK_SHARE,
     TOKEN_PARTICIPATION_FEE_FRACTION: contract.TOKEN_PARTICIPATION_FEE_FRACTION,
     PLATFORM_FEE_FRACTION: contract.PLATFORM_FEE_FRACTION,

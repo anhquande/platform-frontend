@@ -9,7 +9,6 @@ import { DeepReadonly } from "../../types";
  */
 export interface IPlatformTermsConstants {
   IS_ICBM_INVESTOR_WHITELISTED: boolean;
-  MIN_TICKET_EUR_ULPS: BigNumber;
   PLATFORM_NEUMARK_SHARE: BigNumber;
   TOKEN_PARTICIPATION_FEE_FRACTION: BigNumber;
   PLATFORM_FEE_FRACTION: BigNumber;

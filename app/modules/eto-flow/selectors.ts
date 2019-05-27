@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 import { createSelector } from "reselect";
 
+import { DEFAULT_DATE_TO_WHITELIST_MIN_DURATION } from "../../config/constants";
 import {
   EEtoState,
   TCompanyEtoData,
@@ -105,7 +106,9 @@ export const selectIssuerEtoOfferingDocumentType = (
 export const selectIssuerEtoDateToWhitelistMinDuration = (state: IAppState): BigNumber => {
   const eto = selectIssuerEto(state);
   // in case of undefined return platform default (7 days)
-  return new BigNumber(eto ? eto.product.dateToWhitelistMinDuration : 7 * 24 * 60 * 60);
+  return new BigNumber(
+    eto ? eto.product.dateToWhitelistMinDuration : DEFAULT_DATE_TO_WHITELIST_MIN_DURATION,
+  );
 };
 
 export const selectIssuerCompany = (state: IAppState): TCompanyEtoData | undefined => {
