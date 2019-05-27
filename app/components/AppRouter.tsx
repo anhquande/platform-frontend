@@ -19,7 +19,7 @@ import { RedirectEtoPublicView } from "./eto/shared/routing/RedirectToEtoLink";
 import { Kyc } from "./kyc/Kyc";
 import { Landing } from "./landing/Landing";
 import { LandingEto } from "./landing/LandingEto";
-import { Portfolio } from "./portfolio";
+import { Portfolio } from "./portfolio/Portfolio";
 import { BackupSeed } from "./settings/backup-seed/BackupSeed";
 import { EmailVerify } from "./settings/EmailVerify";
 import { profileRoutes } from "./settings/routes";

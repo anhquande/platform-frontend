@@ -39,11 +39,7 @@ interface IStateProps {
   isIncomingPayoutAvailable: boolean;
 }
 
-interface IWidgetProps {
-  columnSpan?: EColumnSpan;
-}
-
-type IProps = TOwnProps & IStateProps & IWidgetProps;
+type IProps = TOwnProps & IStateProps;
 
 const Welcome: React.FunctionComponent<{}> = () => (
   <div className={styles.main}>
@@ -74,16 +70,15 @@ export const MyPortfolioWidgetComponentBody: React.FunctionComponent<IBodyProps>
   );
 };
 
-export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps & IWidgetProps> = ({
+export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
   className,
   style,
   error,
   balanceEur,
   balanceNeu,
   isIncomingPayoutAvailable,
-  columnSpan,
 }) => (
-  <Panel className={cn(className, styles.panelFix)} style={style} columnSpan={columnSpan}>
+  <Panel className={cn(className, styles.panelFix)} style={style} columnSpan={EColumnSpan.TWO_COL}>
     <MyPortfolioWidgetComponentBody
       {...{
         balanceEur: balanceEur!,
@@ -97,12 +92,12 @@ export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps & IWidge
 );
 
 export const LoadingComponent: React.FunctionComponent<IProps> = ({ className, style }) => (
-  <Panel className={className} style={style}>
+  <Panel className={className} style={style} columnSpan={EColumnSpan.TWO_COL}>
     <LoadingIndicator />
   </Panel>
 );
 
-export const MyPortfolioWidget = compose<IStateProps, TOwnProps & IWidgetProps>(
+export const MyPortfolioWidget = compose<IStateProps, TOwnProps>(
   onEnterAction({
     actionCreator: d => {
       d(actions.investorEtoTicket.getIncomingPayouts());

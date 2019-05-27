@@ -328,7 +328,7 @@ const EtoStartDateWidgetComponent: React.ComponentType<
     columnSpan={props.columnSpan}
   >
     <div className={styles.content}>
-      <p className={cn(styles.text, "pt-2")}>
+      <p className={styles.text}>
         <FormattedMessage id="settings.choose-pre-eto-date.book-building-will-stop" />
       </p>
       {etoDate ? (

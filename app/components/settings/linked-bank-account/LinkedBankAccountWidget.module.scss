@@ -1,4 +1,10 @@
-.panel-body {
+.bank-account-button-wrapper {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+}
+
+.bank-account-button {
   display: flex;
   align-items: center;
   justify-content: center;

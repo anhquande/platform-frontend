@@ -46,10 +46,6 @@ type StateProps = {
   };
 };
 
-interface IWidgetProps {
-  columnSpan?: EColumnSpan;
-}
-
 export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = props => {
   if (props.isLoading) {
     return (
@@ -134,11 +130,11 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
   }
 };
 
-export const MyWalletWidgetComponent: React.FunctionComponent<
-  CommonHtmlProps & StateProps & IWidgetProps
-> = ({ className, style, columnSpan, ...props }) => (
+export const MyWalletWidgetComponent: React.FunctionComponent<CommonHtmlProps & StateProps> = ({
+  ...props
+}) => (
   <Panel
-    columnSpan={columnSpan}
+    columnSpan={EColumnSpan.ONE_COL}
     headerText={
       <FormattedMessage id="components.dashboard.my-wallet.my-wallet-widget.header-text" />
     }
@@ -154,14 +150,12 @@ export const MyWalletWidgetComponent: React.FunctionComponent<
         <FormattedMessage id="dashboard.my-wallet-widget.main-wallet-redirect-button" />
       </ButtonLink>
     }
-    className={className}
-    style={style}
   >
     <MyWalletWidgetComponentBody {...props} />
   </Panel>
 );
 
-export const MyWalletWidget = compose<React.FunctionComponent<CommonHtmlProps & IWidgetProps>>(
+export const MyWalletWidget = compose<React.FunctionComponent<CommonHtmlProps>>(
   onEnterAction({ actionCreator: d => d(actions.wallet.loadWalletData()) }),
   appConnect<StateProps>({
     stateToProps: s => {
