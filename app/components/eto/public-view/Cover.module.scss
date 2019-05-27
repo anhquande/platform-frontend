@@ -4,11 +4,8 @@ $_logo-size-sm: 80px;
 .cover {
   @include get-out-of-container-layout;
 
-  @include media-breakpoint-up(lg) {
-    margin-top: -2rem;
-  }
   position: relative;
-  margin-top: -1rem;
+  margin-bottom: -1rem;
 
   img {
     user-select: none;
@@ -53,10 +50,11 @@ $_logo-size-sm: 80px;
 
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
+  flex-shrink: 1;
   justify-content: center;
   margin-right: 10px;
   z-index: $z-index-base;
+  overflow: hidden;
 }
 
 .name,
@@ -66,6 +64,9 @@ $_logo-size-sm: 80px;
   color: $neu-white-two;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .website-link {

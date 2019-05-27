@@ -1,11 +1,15 @@
 .jurisdiction-banner {
 
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: auto;
-  z-index: 2;
 
+  @include get-out-of-container-layout;
+  @include media-breakpoint-up(lg) {
+    margin-top: -2rem;
+    margin-bottom: -2rem;
+  }
+
+  margin-top: -1rem;
+  margin-bottom: -1rem;
+  height: auto;
 
   display: flex;
   flex-flow: row nowrap;

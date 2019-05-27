@@ -1,13 +1,31 @@
 .logo {
+  @include media-breakpoint-up (sm) {
+    height: px-to-rem(32px);
+  }
+  height: 100%;
+
   flex-shrink: 0;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 }
 
 .logo-image {
   @include media-breakpoint-up (sm) {
     margin-left: px-to-rem(6px);
+    height: px-to-rem(32px);
+  }
+  height: 100%;
+}
+
+.logo-title {
+  @include media-breakpoint-up (sm) {
+    display: block;
+    margin-left: px-to-rem(14px);
+    height: px-to-rem(18px);
   }
 
-  height: px-to-rem(32px);
+  display: none;
 }
 
 .logo-text {
