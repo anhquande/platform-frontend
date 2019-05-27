@@ -72,7 +72,7 @@ export const MoneyRange: React.FunctionComponent<
     <span className={cn(styles.money, transfer, className, theme)}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>
       {formattedValue && currencySymbol === ECurrencySymbol.CODE && (
-        <span className={cn(styles.currency, currencyClassName)}>
+        <span className={cn(styles.currency, currencyClassName)} data-test-id="units">
           {" "}
           {selectCurrencyCode(moneyFormat)}
         </span>

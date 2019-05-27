@@ -2,17 +2,14 @@ import * as moment from "moment";
 
 import { appRoutes } from "../../components/appRoutes";
 import { utcTime, weekdayUTC } from "../../components/shared/utils";
-import { ISSUER_SETUP } from "../fixtures";
 import { closeModal, confirmAccessModal } from "../utils";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Eto start date setup", () => {
   it("sets the date", () => {
-    createAndLoginNewUser({
-      type: "issuer",
+    loginFixtureAccount("ISSUER_SETUP", {
       kyc: "business",
-      seed: ISSUER_SETUP,
     }).then(() => {
       const newStartDate = moment
         .utc()

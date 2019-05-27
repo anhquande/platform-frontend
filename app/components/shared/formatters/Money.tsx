@@ -113,7 +113,7 @@ const MoneyNew: React.FunctionComponent<IMoneyProps & IMoneyCommonProps & Common
     <span className={cn(styles.money, transfer, className, theme)} data-test-id={dataTestId}>
       <span className={cn(styles.value)}>{formattedValue || defaultValue}</span>
       {currencySymbol === ECurrencySymbol.CODE && formattedValue !== null && (
-        <span className={cn(styles.currency, currencyClassName)}>
+        <span className={cn(styles.currency, currencyClassName)} data-test-id="units">
           {" "}
           {selectCurrencyCode(moneyFormat)}
         </span>

@@ -1,16 +1,13 @@
-import { INV_EMPTY_HAS_KYC } from "../fixtures";
 import { etoFixtureAddressByName } from "../utils";
 import { goToDashboard } from "../utils/navigation";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Try and invest without money", () => {
   it("do", () => {
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EMPTY_HAS_KYC", {
       kyc: "business",
-      seed: INV_EMPTY_HAS_KYC,
       clearPendingTransactions: true,
     }).then(() => {
       goToDashboard();

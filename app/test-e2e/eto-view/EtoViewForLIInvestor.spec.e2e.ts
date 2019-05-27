@@ -1,18 +1,14 @@
 import { etoPublicViewByIdLink, etoPublicViewByIdLinkLegacy } from "../../components/appRouteUtils";
 import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
-import { SPARE_1 } from "../fixtures";
 import { etoFixtureAddressByName } from "../utils";
 import { assertDashboard } from "../utils/assertions";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 import { assertEtoView } from "./EtoViewUtils";
 
 describe("Eto LI Investor View", () => {
   beforeEach(() =>
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("SPARE_1", {
       kyc: "business",
-      seed: SPARE_1,
-      hdPath: "m/44'/60'/0'/0",
     }),
   );
 
@@ -22,7 +18,7 @@ describe("Eto LI Investor View", () => {
     it("should allow to visit ", () => {
       cy.visit(etoPublicViewByIdLinkLegacy(ETO_ID));
       assertEtoView(
-        "ETOInPublicState retail eto li security - Quintessence (QTT)",
+        "ETOInPublicState mini eto li - Quintessence (QTT)",
         EJurisdiction.LIECHTENSTEIN,
       );
     });

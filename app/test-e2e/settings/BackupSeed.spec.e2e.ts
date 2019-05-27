@@ -1,7 +1,7 @@
 import { LIGHT_WALLET_PRIVATE_DATA_CACHE_TIME } from "../../config/constants";
-import { INV_EUR_ICBM_HAS_KYC_KEY, INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
 import { backupLightWalletSeed } from "../shared/backupLightWalletSeed";
 import {
+  accountFixturePrivateKey,
   assertLockedAccessModal,
   confirmAccessModal,
   goToProfile,
@@ -9,9 +9,9 @@ import {
 } from "../utils";
 import { tid } from "../utils/selectors";
 import {
-  createAndLoginNewUser,
   DEFAULT_PASSWORD,
   generateRandomEmailAddress,
+  loginFixtureAccount,
 } from "../utils/userHelpers";
 
 describe("Backup Seed and Private Key save and view", () => {
@@ -22,9 +22,7 @@ describe("Backup Seed and Private Key save and view", () => {
   });
 
   it("should prompt for an access after password cache expire", () => {
-    createAndLoginNewUser({
-      type: "investor",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       signTosAgreement: true,
     }).then(() => {
       goToProfile();
@@ -40,9 +38,7 @@ describe("Backup Seed and Private Key save and view", () => {
   });
 
   it("should allow to copy private key", () => {
-    createAndLoginNewUser({
-      type: "investor",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       signTosAgreement: true,
     }).then(() => {
       goToProfile();
@@ -61,9 +57,7 @@ describe("Backup Seed and Private Key save and view", () => {
   });
 
   it("should allow to view private key", () => {
-    createAndLoginNewUser({
-      type: "investor",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       signTosAgreement: true,
     }).then(() => {
       goToProfile();
@@ -76,7 +70,7 @@ describe("Backup Seed and Private Key save and view", () => {
 
       cy.get(tid("private-key-display.view-private-key"))
         .awaitedClick()
-        .contains(INV_EUR_ICBM_HAS_KYC_KEY);
+        .contains(accountFixturePrivateKey("INV_EUR_ICBM_HAS_KYC_KEY"));
     });
   });
 });

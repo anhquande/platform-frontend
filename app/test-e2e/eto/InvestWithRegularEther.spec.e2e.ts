@@ -1,6 +1,5 @@
 import BigNumber from "bignumber.js";
 
-import { INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
 import {
   assertButtonIsActive,
   confirmAccessModal,
@@ -9,16 +8,14 @@ import {
   parseAmount,
 } from "../utils";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Invest with ethereum", () => {
   it("do", () => {
     const PUBLIC_ETO_ID = etoFixtureAddressByName("ETOInPublicState");
 
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
@@ -51,10 +48,11 @@ describe("Invest with ethereum", () => {
 
       cy.get(tid("portfolio-reserved-asset-neu-reward")).then($element => {
         const neuReward = parseAmount($element.text());
-
+        // TODO: this will be super flaky, read NEU balance before test and then add to estimatedReward
         cy.get<BigNumber>("@estimatedReward").then(estimatedReward => {
           // estimated and actual NEU reward can be a little bit different
           // we allow neu reward to differ from estimated 5%
+          // TODO: where is the abs() used, it can be negative
           expect(neuReward.minus(estimatedReward)).to.be.bignumber.lessThan(0.05);
         });
       });

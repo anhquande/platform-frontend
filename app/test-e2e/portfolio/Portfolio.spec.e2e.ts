@@ -1,23 +1,19 @@
 import { convertToBigInt } from "../../utils/Number.utils";
-import { INV_ICBM_ETH_M_HAS_KYC_DUP, INV_ICBM_ETH_M_HAS_KYC_DUP_2 } from "../fixtures";
 import {
   etoFixtureAddressByName,
   goToPortfolio,
   goToPortfolioWithRequiredPayoutAmountSet,
   tid,
 } from "../utils";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Portfolio", () => {
   describe("Reserved assets", () => {
     it("should populate on initial view", () => {
       const etoId = etoFixtureAddressByName("ETOInPayoutState");
 
-      createAndLoginNewUser({
-        type: "investor",
+      loginFixtureAccount("INV_ICBM_ETH_M_HAS_KYC_DUP", {
         kyc: "business",
-        seed: INV_ICBM_ETH_M_HAS_KYC_DUP,
-        hdPath: "m/44'/60'/0'/0",
         clearPendingTransactions: true,
       });
 
@@ -29,11 +25,8 @@ describe("Portfolio", () => {
 
   describe("Asset portfolio", () => {
     it("should hide ETH in pending payouts", () => {
-      createAndLoginNewUser({
-        type: "investor",
+      loginFixtureAccount("INV_ICBM_ETH_M_HAS_KYC_DUP_2", {
         kyc: "business",
-        seed: INV_ICBM_ETH_M_HAS_KYC_DUP_2,
-        hdPath: "m/44'/60'/0'/0",
         clearPendingTransactions: true,
       });
 
@@ -44,11 +37,8 @@ describe("Portfolio", () => {
     });
 
     it("should hide all pending payouts", () => {
-      createAndLoginNewUser({
-        type: "investor",
+      loginFixtureAccount("INV_ICBM_ETH_M_HAS_KYC_DUP_2", {
         kyc: "business",
-        seed: INV_ICBM_ETH_M_HAS_KYC_DUP_2,
-        hdPath: "m/44'/60'/0'/0",
         clearPendingTransactions: true,
       });
 
@@ -60,11 +50,8 @@ describe("Portfolio", () => {
 
   describe("PastInvestments", () => {
     it("should populate on initial view", () => {
-      createAndLoginNewUser({
-        type: "investor",
+      loginFixtureAccount("INV_ICBM_ETH_M_HAS_KYC_DUP_2", {
         kyc: "business",
-        seed: INV_ICBM_ETH_M_HAS_KYC_DUP_2,
-        hdPath: "m/44'/60'/0'/0",
         clearPendingTransactions: true,
       });
 

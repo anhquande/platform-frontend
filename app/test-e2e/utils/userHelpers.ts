@@ -3,8 +3,9 @@ import * as ethSig from "eth-sig-util";
 import { addHexPrefix, hashPersonalMessage, toBuffer } from "ethereumjs-util";
 import { toChecksumAddress } from "web3-utils";
 
+import { accountFixtureByName, removePendingExternalTransaction } from ".";
 import { TEtoSpecsData } from "../../lib/api/eto/EtoApi.interfaces.unsafe";
-import { TxPendingWithMetadata, TxWithMetadata } from "../../lib/api/users/interfaces";
+import { OOO_TRANSACTION_TYPE, TxPendingWithMetadata } from "../../lib/api/users/interfaces";
 import { getVaultKey } from "../../modules/wallet-selector/light-wizard/utils";
 import { promisify } from "../../utils/promisify";
 import { toCamelCase } from "../../utils/transformObjectKeys";
@@ -86,6 +87,34 @@ export const createAndLoginNewUser = (params: {
       await setCorrectAgreement(jwt);
     }
   });
+
+/*
+ * Restore fixture account by name
+ */
+
+export const loginFixtureAccount = (
+  accountFixtureName: string,
+  params: {
+    kyc?: "business" | "individual";
+    clearPendingTransactions?: boolean;
+    onlyLogin?: boolean;
+    signTosAgreement?: boolean;
+    permissions?: string[];
+  },
+) => {
+  const fixture = accountFixtureByName(accountFixtureName);
+  let hdPath = fixture.definition.derivationPath;
+  if (hdPath) {
+    // cut last element which corresponds to account, will be added by light wallet
+    hdPath = hdPath.substr(0, hdPath.lastIndexOf("/"));
+  }
+  return createAndLoginNewUser({
+    type: fixture.type,
+    seed: fixture.definition.seed,
+    hdPath: hdPath,
+    ...params,
+  });
+};
 
 /**
  * Create a light wallet with a given seed
@@ -275,15 +304,18 @@ export const clearPendingTransactions = () =>
     })
     .then(async response => {
       const pendingTransactions = response.body;
-      await pendingTransactions.map((TxWithMetadataSchema: TxWithMetadata) =>
-        cy.request({
-          url: `${PENDING_TRANSACTIONS_PATH}/${TxWithMetadataSchema.transaction.hash}`,
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${JSON.parse(localStorage.getItem(JWT_KEY)!)}`,
-          },
-        }),
+      await pendingTransactions.map((tx: any) =>
+        // no deserializer used, parse snake case
+        tx.transaction_type === OOO_TRANSACTION_TYPE
+          ? removePendingExternalTransaction()
+          : cy.request({
+              url: `${PENDING_TRANSACTIONS_PATH}/${tx.transaction.hash}`,
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem(JWT_KEY)!)}`,
+              },
+            }),
       );
     });
 

@@ -10,8 +10,10 @@ import {
   immutableDocumentName,
 } from "../../../../lib/api/eto/EtoFileApi.interfaces";
 import { actions } from "../../../../modules/actions";
-import { selectPlatformTermsConstants } from "../../../../modules/contracts/selectors";
-import { selectIssuerEtoWithCompanyAndContract } from "../../../../modules/eto-flow/selectors";
+import {
+  selectIssuerEtoDateToWhitelistMinDuration,
+  selectIssuerEtoWithCompanyAndContract,
+} from "../../../../modules/eto-flow/selectors";
 import { selectTxAdditionalData } from "../../../../modules/tx/sender/selectors";
 import { TEtoSetDateAdditionalData } from "../../../../modules/tx/transactions/eto-flow/types";
 import { ETxSenderType } from "../../../../modules/tx/types";
@@ -130,11 +132,8 @@ const SetEtoDateSummary = compose<IProps, {}>(
     stateToProps: state => {
       const additionalData = selectTxAdditionalData<ETxSenderType.ETO_SET_DATE>(state)!;
 
-      const constants = selectPlatformTermsConstants(state);
-      const changeableTill = moment(additionalData.newStartDate).subtract(
-        constants.DATE_TO_WHITELIST_MIN_DURATION.toNumber(),
-        "seconds",
-      );
+      const minDuration = selectIssuerEtoDateToWhitelistMinDuration(state);
+      const changeableTill = moment(additionalData.newStartDate).subtract(minDuration, "seconds");
 
       const eto = selectIssuerEtoWithCompanyAndContract(state)!;
       const ipfsUrl = "https://ipfs.io/ipfs/";

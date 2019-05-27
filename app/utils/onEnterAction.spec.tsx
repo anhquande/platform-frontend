@@ -8,7 +8,8 @@ import { createDummyStore } from "../../test/fixtures";
 import { onEnterAction } from "./OnEnterAction";
 
 describe("onEnterAction", () => {
-  const SomeComponent = () => <h1>SOME COMPONENT</h1>;
+  const textNode = "SOME COMPONENT";
+  const SomeComponent = () => <h1>{textNode}</h1>;
 
   it("should render child component", () => {
     const OnMountActionComponent = onEnterAction({ actionCreator: () => {} })(SomeComponent);
@@ -19,10 +20,10 @@ describe("onEnterAction", () => {
       </ReduxProvider>,
     );
 
-    expect(mountComponent.contains(<SomeComponent />)).to.be.true;
+    expect(mountComponent.contains(textNode)).to.be.true;
   });
 
-  it("should call action creator when mount", () => {
+  it("should call action creator when mounted", () => {
     const store = createDummyStore();
     const props = { foo: "bar" };
     const actionCreator = spy();

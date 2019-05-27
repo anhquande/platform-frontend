@@ -1,6 +1,5 @@
 import { etoPublicViewByIdLinkLegacy } from "../../components/appRouteUtils";
 import { formatThousands } from "../../components/shared/formatters/utils";
-import { ISSUER_SETUP } from "../fixtures";
 import {
   assertRegister,
   confirmAccessModal,
@@ -9,7 +8,12 @@ import {
 } from "../utils";
 import { fillForm } from "../utils/forms";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser, logout, makeAuthenticatedCall } from "../utils/userHelpers";
+import {
+  createAndLoginNewUser,
+  loginFixtureAccount,
+  logout,
+  makeAuthenticatedCall,
+} from "../utils/userHelpers";
 
 const PLEDGE_AMOUNT = "1000";
 const CHANGED_AMOUNT = "1500";
@@ -44,10 +48,8 @@ describe("Eto campaigning state", () => {
     // eto ID must match issuer SEED below
     const ETO_ID = etoFixtureAddressByName("ETOInSetupState");
 
-    createAndLoginNewUser({
-      type: "issuer",
+    loginFixtureAccount("ISSUER_SETUP", {
       kyc: "business",
-      seed: ISSUER_SETUP,
       permissions: ["do-bookbuilding"],
     }).then(() =>
       // make sure bookbuilding is off (especially after CI retry)
@@ -84,7 +86,9 @@ describe("Eto campaigning state", () => {
 
           confirmAccessModal();
 
-          cy.get(tid("campaigning-your-commitment")).contains(`€${formatThousands(PLEDGE_AMOUNT)}`);
+          cy.get(tid("campaigning-your-commitment")).contains(
+            `${formatThousands(PLEDGE_AMOUNT)} EUR`,
+          );
           cy.get<number>("@remainingSlots").then(remainingSlots => {
             // Remove one from remaining slots as it's first pledge
             cy.get(tid("eto-bookbuilding-remaining-slots")).should("contain", remainingSlots - 1);
@@ -106,7 +110,7 @@ describe("Eto campaigning state", () => {
             confirmAccessModal();
 
             cy.get(tid("campaigning-your-commitment")).contains(
-              `€${formatThousands(CHANGED_AMOUNT)}`,
+              `${formatThousands(CHANGED_AMOUNT)} EUR`,
             );
             cy.get<number>("@remainingSlots").then(remainingSlots => {
               // Remove two from remaining slots as it's second pledge

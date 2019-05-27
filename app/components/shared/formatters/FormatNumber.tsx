@@ -33,11 +33,11 @@ export const FormatNumber: React.FunctionComponent<IComponentProps> = ({
 }) => {
   if (value) {
     return (
-      <span className={cn(styles.noBreak, className)}>
+      <span className={cn(styles.noBreak, className)} data-test-id="value">
         {formatNumber({ value, inputFormat, outputFormat, roundingMode, decimalPlaces })}
       </span>
     );
   } else {
-    return <>{defaultValue}</>;
+    return <span data-test-id="value">{defaultValue}</span>;
   }
 };

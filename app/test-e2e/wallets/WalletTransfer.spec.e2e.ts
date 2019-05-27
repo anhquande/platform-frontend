@@ -1,13 +1,10 @@
-import { INV_EUR_ICBM_HAS_KYC_ADDRESS, INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
-import { goToDashboard } from "../utils";
+import { accountFixtureAddress, goToDashboard } from "../utils";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Wallet Transfer", () => {
   it("should generate correct qr-code and address", () => {
-    createAndLoginNewUser({
-      type: "investor",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       signTosAgreement: true,
       onlyLogin: true,
     }).then(() => {
@@ -27,7 +24,7 @@ describe("Wallet Transfer", () => {
 
       cy.get(tid("wallet-balance.ether.deposit.address")).should(
         "have.text",
-        INV_EUR_ICBM_HAS_KYC_ADDRESS,
+        accountFixtureAddress("INV_EUR_ICBM_HAS_KYC_ADDRESS"),
       );
     });
   });

@@ -118,8 +118,10 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({
       ? socialChannels.find(c => c.type === "twitter") &&
         socialChannels.find(c => c.type === "twitter")!.url
       : "";
-
-  const isInSetupState = isOnChain(eto) && eto.contract.timedState === EETOStateOnChain.Setup;
+  const mayShowFundraisingStatsLink =
+    process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" &&
+    isOnChain(eto) &&
+    eto.contract.timedState !== EETOStateOnChain.Setup;
 
   const isProductSet = eto.product.id !== ETHEREUM_ZERO_ADDRESS;
 
@@ -152,8 +154,12 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({
             title={
               <div className={styles.headerWithButton}>
                 <FormattedMessage id="eto.public-view.eto-timeline" />
-                {process.env.NF_MAY_SHOW_INVESTOR_STATS === "1" && !isInSetupState && (
-                  <ButtonLink to={icoMonitorEtoLink(eto.etoId)} target="_blank">
+                {mayShowFundraisingStatsLink && (
+                  <ButtonLink
+                    to={icoMonitorEtoLink(eto.etoId)}
+                    target="_blank"
+                    data-test-id="fundraising-statistics-button"
+                  >
                     <FormattedMessage id="eto.public-view.fundraising-statistics-button" />
                   </ButtonLink>
                 )}

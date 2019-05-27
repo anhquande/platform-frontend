@@ -2,7 +2,6 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
 
 import { EProductName } from "../../../../lib/api/eto/EtoProductsApi.interfaces";
-import { assertNever } from "../../../../utils/assertNever";
 import { invariant } from "../../../../utils/invariant";
 import { THumanReadableFormat, ToHumanReadableForm } from "../../../shared/ToHumanReadableForm";
 
@@ -19,8 +18,6 @@ export const getProductMeaningfulName = (productName: EProductName) => {
       return <FormattedMessage id="eto.form.section.eto-terms.product.name.hnwi-eto-de" />;
     case EProductName.HNWI_ETO_LI:
       return <FormattedMessage id="eto.form.section.eto-terms.product.name.hnwi-eto-li" />;
-    case EProductName.PRIVATE_ETO_LI:
-      return <FormattedMessage id="eto.form.section.eto-terms.product.name.private-eto-li" />;
     case EProductName.MINI_ETO_LI:
       return <FormattedMessage id="eto.form.section.eto-terms.product.name.mini-eto-li" />;
     case EProductName.RETAIL_ETO_DE:
@@ -34,6 +31,6 @@ export const getProductMeaningfulName = (productName: EProductName) => {
     case EProductName.FIFTH_FORCE_ETO:
       return invariant(false, "Fifth Force eto should not be displayed on UI");
     default:
-      return assertNever(productName);
+      return productName;
   }
 };

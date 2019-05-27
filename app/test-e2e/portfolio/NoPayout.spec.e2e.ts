@@ -1,14 +1,11 @@
-import { INV_EMPTY_HAS_KYC } from "../fixtures";
 import { goToPortfolio } from "../utils";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Investor empty payout", () => {
   beforeEach(() =>
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EMPTY_HAS_KYC", {
       kyc: "business",
-      seed: INV_EMPTY_HAS_KYC,
       clearPendingTransactions: true,
     }),
   );
