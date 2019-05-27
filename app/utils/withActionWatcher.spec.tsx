@@ -4,7 +4,7 @@ import { spy } from "sinon";
 
 import { createMount } from "../../test/createMount";
 import { setupFakeClock, wrapWithProviders } from "../../test/integrationTestUtils.unsafe";
-import { delay } from "./delay";
+import { delay } from "./safeDelay";
 import { withActionWatcher } from "./withActionWatcher.unsafe";
 
 describe("withActionWatcher", () => {

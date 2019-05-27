@@ -1,4 +1,4 @@
-import { delay } from "./delay";
+import { delay } from "redux-saga";
 
 interface IPromiseTimeoutConfig<T> {
   promise: Promise<T>;

@@ -3,8 +3,8 @@ import * as Web3 from "web3";
 
 import { makeEthereumAddressChecksummed } from "../../modules/web3/utils";
 import { EthereumAddress, EthereumAddressWithChecksum, EthereumNetworkId } from "../../types";
-import { delay } from "../../utils/delay";
 import { promisify } from "../../utils/promisify";
+import { delay } from "../../utils/safeDelay";
 
 class Web3Error extends Error {}
 export class NotEnoughEtherForGasError extends Error {}

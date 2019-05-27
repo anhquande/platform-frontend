@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
 import { setupFakeClock } from "../../test/integrationTestUtils.unsafe";
-import { delay } from "./delay";
 import { promiseTimeout } from "./promiseTimeout";
+import { delay } from "./safeDelay";
 
 describe("promiseTimeout", () => {
   const clock = setupFakeClock();

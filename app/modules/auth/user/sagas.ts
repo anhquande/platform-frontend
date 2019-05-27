@@ -1,5 +1,6 @@
 import { call, put, select } from "redux-saga/effects";
 
+import { EJwtPermissions } from "../../../config/constants";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { EUserType, IUser, IUserInput } from "../../../lib/api/users/interfaces";
 import { UserNotExisting } from "../../../lib/api/users/UsersApi";
@@ -19,7 +20,6 @@ import { loadPreviousWallet } from "../../web3/sagas";
 import { EWalletSubType, EWalletType } from "../../web3/types";
 import { obtainJWT } from "../jwt/sagas";
 import { selectUserType } from "../selectors";
-import { EJwtPermissions } from "./../../../config/constants";
 
 export function* signInUser({
   walletStorage,
@@ -106,8 +106,8 @@ export async function loadOrCreateUserPromise(
   { apiUserService, web3Manager }: TGlobalDependencies,
   userType: EUserType,
 ): Promise<IUser> {
-  // tslint:disable-next-line
   const walletMetadata = web3Manager.personalWallet!.getMetadata();
+
   try {
     const user = await apiUserService.me();
     if (
@@ -117,9 +117,11 @@ export async function loadOrCreateUserPromise(
       return user;
     }
     // if wallet type changed send correct wallet type to the backend
-    user.walletType = walletMetadata.walletType;
-    user.walletSubtype = walletMetadata.walletSubType;
-    return await apiUserService.updateUser(user);
+    return await apiUserService.updateUser({
+      ...user,
+      walletType: walletMetadata.walletType,
+      walletSubtype: walletMetadata.walletSubType,
+    });
   } catch (e) {
     if (!(e instanceof UserNotExisting)) {
       throw e;

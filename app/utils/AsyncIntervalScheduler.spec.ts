@@ -4,7 +4,7 @@ import { spy } from "sinon";
 import { setupFakeClock } from "../../test/integrationTestUtils.unsafe";
 import { noopLogger } from "../lib/dependencies/logger";
 import { AsyncIntervalScheduler } from "./AsyncIntervalScheduler";
-import { delay } from "./delay";
+import { delay } from "./safeDelay";
 
 describe("AsyncIntervalScheduler", () => {
   const expectedInterval = 500;

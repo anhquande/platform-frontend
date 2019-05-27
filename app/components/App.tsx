@@ -1,6 +1,5 @@
 import { Container } from "inversify";
 import * as React from "react";
-import { hot } from "react-hot-loader/root";
 import { compose } from "redux";
 
 import { symbols } from "../di/symbols";
@@ -68,7 +67,7 @@ class AppComponent extends React.Component<IStateProps, IState> {
     }
 
     return (
-      <React.StrictMode>
+      <>
         <ScrollToTop>
           <AppRouter />
         </ScrollToTop>
@@ -76,7 +75,7 @@ class AppComponent extends React.Component<IStateProps, IState> {
         <ToastContainer />
         <GenericModal />
         <VideoModal />
-      </React.StrictMode>
+      </>
     );
   }
 }
@@ -96,6 +95,4 @@ const App = compose<React.ComponentClass>(
   }),
 )(AppComponent);
 
-const AppHot = hot(App);
-
-export { AppHot as App };
+export { App };

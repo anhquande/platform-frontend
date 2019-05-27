@@ -15,8 +15,6 @@ import {
 
 @injectable()
 export abstract class AuthorizedHttpClient implements IHttpClient {
-  constructor() {}
-
   protected abstract httpClient: IHttpClient;
   protected abstract objectStorage: ObjectStorage<string>;
 

@@ -7,7 +7,7 @@ import { TGlobalDependencies } from "../../di/setupBindings";
 import { IHttpResponse } from "../../lib/api/client/IHttpClient";
 import { EtoPledgeNotFound } from "../../lib/api/eto/EtoPledgeApi";
 import { IPledge } from "../../lib/api/eto/EtoPledgeApi.interfaces.unsafe";
-import { delay } from "../../utils/delay";
+import { delay } from "../../utils/safeDelay";
 import { actions, TAction } from "../actions";
 import { ensurePermissionsArePresentAndRunEffect } from "../auth/jwt/sagas";
 import { neuCall, neuTakeEvery, neuTakeUntil } from "../sagasUtils";
