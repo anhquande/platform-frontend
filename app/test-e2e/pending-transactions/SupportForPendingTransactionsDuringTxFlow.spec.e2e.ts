@@ -1,7 +1,7 @@
 import { ETxSenderState } from "../../modules/tx/sender/reducer";
 import { ETxSenderType } from "../../modules/tx/types";
-import { INV_EUR_ICBM_HAS_KYC_ADDRESS, INV_EUR_ICBM_HAS_KYC_SEED } from "../fixtures";
 import {
+  accountFixtureAddress,
   addPendingExternalTransaction,
   goToWallet,
   removePendingExternalTransaction,
@@ -10,20 +10,18 @@ import {
 import {
   addPendingTransactions,
   clearPendingTransactions,
-  createAndLoginNewUser,
+  loginFixtureAccount,
 } from "../utils/userHelpers";
 import { assertPendingWithdrawModal } from "./utils";
 
 describe("Pending Transactions During TX flow", () => {
   it("external pending transaction should block transaction flow", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
-      addPendingExternalTransaction(INV_EUR_ICBM_HAS_KYC_ADDRESS);
+      addPendingExternalTransaction(accountFixtureAddress("INV_EUR_ICBM_HAS_KYC_SEED"));
 
       goToWallet();
 
@@ -39,17 +37,15 @@ describe("Pending Transactions During TX flow", () => {
   });
 
   it("platform pending transaction should block transaction flow", () => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_EUR_ICBM_HAS_KYC_SEED", {
       kyc: "business",
-      seed: INV_EUR_ICBM_HAS_KYC_SEED,
       signTosAgreement: true,
       clearPendingTransactions: true,
     }).then(() => {
       const txHash = "0x0000000000000000000000000000000000000000000000000000000000000000";
       const tx = {
         transaction: {
-          from: "0xe6ad2cdba2fb15504232ebfa82f64c06c87f9326",
+          from: accountFixtureAddress("INV_EUR_ICBM_HAS_KYC_SEED"),
           gas: "0xe890",
           gasPrice: "0xd693a400",
           hash: txHash,

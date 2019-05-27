@@ -8,57 +8,22 @@ import {
   selectDecimalPlaces,
   stripNumberFormatting,
 } from "../../components/shared/formatters/utils";
-import { INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO } from "../fixtures";
 import { fillForm } from "../utils/forms";
 import {
   acceptWallet,
   assertWallet,
-  closeModal,
-  confirmAccessModal,
   getWalletNEurAmount,
-  goToPortfolio,
   goToWallet,
   parseAmount,
 } from "../utils/index";
 import { formField, tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 import { assertBankAccountDetails } from "./assertions";
 
-describe.skip("Redeem NEUR", () => {
-  before(() => {
-    createAndLoginNewUser({
-      type: "investor",
-      kyc: "business",
-      seed: INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO,
-      hdPath: "m/44'/60'/0'/0",
-    }).then(() => {
-      // go to portfolio and claim neur before all tests
-      goToPortfolio();
-
-      cy.get(tid(`asset-portfolio.payout-eur_t`)).within(() => {
-        // accept neur payout
-        cy.get(tid("asset-portfolio.payout.accept-payout")).click();
-      });
-
-      // accept summary
-      cy.get(tid("investor-payout.accept-summary.accept")).click();
-      confirmAccessModal();
-
-      // wait for success
-      cy.get(tid("investor-payout.accept-success"));
-      closeModal();
-
-      // assert that payout is removed from the list
-      cy.get(tid(`asset-portfolio.payout-eur_t`)).should("not.exist");
-    });
-  });
-
+describe("Redeem NEUR", () => {
   beforeEach(() => {
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_ETH_EUR_ICBM_M_HAS_KYC", {
       kyc: "business",
-      seed: INV_ICBM_ETH_M_HAS_KYC_DUP_HAS_NEURO,
-      hdPath: "m/44'/60'/0'/0",
     }).then(() => {
       // store actual balance
       getWalletNEurAmount().as("currentAmount");

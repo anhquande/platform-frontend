@@ -1,9 +1,8 @@
 import { etoPublicViewByIdLinkLegacy } from "../../components/appRouteUtils";
 import { EJurisdiction } from "../../lib/api/eto/EtoProductsApi.interfaces";
-import { ISSUER_LISTED, ISSUER_PREVIEW } from "../fixtures";
 import { etoFixtureAddressByName, tid } from "../utils";
 import { goToEtoPreview } from "../utils/navigation";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { createAndLoginNewUser, loginFixtureAccount } from "../utils/userHelpers";
 import { assertEtoView, assertIssuerEtoView } from "./EtoViewUtils";
 
 const ETO_ID = etoFixtureAddressByName("ETONoStartDate");
@@ -70,11 +69,8 @@ describe("Eto Investor View", () => {
 
   describe("Fixtures tests", () => {
     it("coming soon state should have pitch deck", () => {
-      createAndLoginNewUser({
-        type: "issuer",
-        seed: ISSUER_PREVIEW,
+      loginFixtureAccount("ISSUER_PREVIEW", {
         signTosAgreement: true,
-        hdPath: "m/44'/60'/0'/0",
       }).then(() => {
         goToEtoPreview();
         assertIssuerEtoView();
@@ -88,11 +84,8 @@ describe("Eto Investor View", () => {
     });
 
     it("listed state", () => {
-      createAndLoginNewUser({
-        type: "issuer",
-        seed: ISSUER_LISTED,
+      loginFixtureAccount("ISSUER_LISTED", {
         signTosAgreement: true,
-        hdPath: "m/44'/60'/0'/0",
       }).then(() => {
         goToEtoPreview();
         assertIssuerEtoView();

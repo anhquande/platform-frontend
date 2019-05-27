@@ -122,7 +122,7 @@ export class LightWallet implements IPersonalWallet {
       gasPrice: addHexPrefix(new BigNumber(txData.gasPrice || 0).toString(16)),
       nonce: addHexPrefix(new BigNumber(nonce || 0).toString(16)),
       value: addHexPrefix(new BigNumber(txData.value! || 0).toString(16)),
-      data: addHexPrefix(txData.data || "0"),
+      data: addHexPrefix(txData.data || ""),
     };
 
     const rawData = LightWalletProvider.signing.signTx(

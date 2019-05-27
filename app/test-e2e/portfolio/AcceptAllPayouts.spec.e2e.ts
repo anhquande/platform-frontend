@@ -1,6 +1,5 @@
 import BigNumber from "bignumber.js";
 
-import { INV_ICBM_ETH_M_HAS_KYC_DUP } from "../fixtures";
 import {
   closeModal,
   confirmAccessModal,
@@ -10,14 +9,11 @@ import {
   parseAmount,
 } from "../utils";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 it("should correctly accept all payouts", () => {
-  createAndLoginNewUser({
-    type: "investor",
+  loginFixtureAccount("INV_ICBM_ETH_M_HAS_KYC_DUP", {
     kyc: "business",
-    seed: INV_ICBM_ETH_M_HAS_KYC_DUP,
-    hdPath: "m/44'/60'/0'/0",
     clearPendingTransactions: true,
   }).then(() => {
     getWalletEthAmount().as("balanceEthBefore");

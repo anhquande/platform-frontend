@@ -1,15 +1,11 @@
-import { INV_ETH_EUR_ICBM_M_HAS_KYC_DUP } from "../fixtures";
 import { closeModal, confirmAccessModal, goToPortfolio } from "../utils";
 import { tid } from "../utils/selectors";
-import { createAndLoginNewUser } from "../utils/userHelpers";
+import { loginFixtureAccount } from "../utils/userHelpers";
 
 describe("Investor redistribute payout", () => {
   beforeEach(() =>
-    createAndLoginNewUser({
-      type: "investor",
+    loginFixtureAccount("INV_ETH_EUR_ICBM_M_HAS_KYC_DUP", {
       kyc: "business",
-      seed: INV_ETH_EUR_ICBM_M_HAS_KYC_DUP,
-      hdPath: "m/44'/60'/0'/0",
       clearPendingTransactions: true,
     }),
   );

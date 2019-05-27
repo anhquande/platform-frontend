@@ -178,6 +178,21 @@ export const etoFixtureAddressByName = (name: string): string => {
   return makeEthereumAddressChecksummed(address);
 };
 
+export const accountFixtureByName = (name: string) => {
+  const address = Object.keys(FIXTURE_ACCOUNTS).find(f => FIXTURE_ACCOUNTS[f].name === name)!;
+  return FIXTURE_ACCOUNTS[address];
+};
+
+export const accountFixtureAddress = (name: string) => {
+  const fixture = accountFixtureByName(name);
+  return fixture.definition.address;
+};
+
+export const accountFixturePrivateKey = (name: string) => {
+  const fixture = accountFixtureByName(name);
+  return fixture.definition.privateKey;
+};
+
 export const stubWindow = (hookName: string) => (window.open = cy.stub().as(hookName) as any);
 
 /**
