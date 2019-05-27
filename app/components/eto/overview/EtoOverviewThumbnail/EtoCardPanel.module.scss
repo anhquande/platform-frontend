@@ -1,0 +1,14 @@
+.button {
+  transition: transform .1s ease-in-out;
+  grid-column: span 2;
+  background-color: $neu-white-two;
+  border: 0;
+  padding: 0;
+  width: 100%;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.02);
+    box-shadow: $shadow-bottom-black-long;
+  }
+}

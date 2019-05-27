@@ -10,11 +10,7 @@
   padding: $padding;
   height: 100%;
   align-items: stretch;
-  justify-items: start;
-
-  & > div {
-    width: 100%;
-  }
+  grid-auto-rows: 1fr auto;
 
   &.narrow {
     padding: $narrow-padding;

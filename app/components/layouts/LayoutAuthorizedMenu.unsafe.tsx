@@ -209,43 +209,41 @@ const IssuerMenu: React.FunctionComponent<{
   shouldEtoDataLoad: boolean;
 }> = ({ actionRequiredSettings, shouldEtoDataLoad }) => (
   <div className={styles.menu}>
-    <div className={styles.menuItems}>
-      <MenuEntryLink
-        svgString={iconDashboard}
-        to={appRoutes.dashboard}
-        menuName={<FormattedMessage id="menu.dashboard" />}
-      />
-      <MenuEntryLink
-        svgString={iconEto}
-        to={appRoutes.etoIssuerView}
-        disabled={!shouldEtoDataLoad}
-        menuName={<FormattedMessage id="menu.eto-page" />}
-      />
-      <MenuEntryLink
-        svgString={iconDocuments}
-        to={appRoutes.documents}
-        disabled={!shouldEtoDataLoad}
-        menuName={<FormattedMessage id="menu.documents-page" />}
-      />
-      <MenuEntryLink
-        svgString={iconWallet}
-        to={appRoutes.wallet}
-        menuName={<FormattedMessage id="menu.wallet" />}
-        data-test-id="authorized-layout-wallet-button"
-      />
-      <MenuEntryLink
-        svgString={iconFingerprint}
-        to={appRoutes.profile}
-        menuName={<FormattedMessage id="menu.settings" />}
-        actionRequired={actionRequiredSettings}
-        data-test-id="authorized-layout-profile-button"
-      />
-      <MenuEntryLink
-        svgString={iconHelp}
-        to={externalRoutes.neufundSupportHome}
-        menuName={<FormattedMessage id="menu.help" />}
-      />
-    </div>
+    <MenuEntryLink
+      svgString={iconDashboard}
+      to={appRoutes.dashboard}
+      menuName={<FormattedMessage id="menu.dashboard" />}
+    />
+    <MenuEntryLink
+      svgString={iconEto}
+      to={appRoutes.etoIssuerView}
+      disabled={!shouldEtoDataLoad}
+      menuName={<FormattedMessage id="menu.eto-page" />}
+    />
+    <MenuEntryLink
+      svgString={iconDocuments}
+      to={appRoutes.documents}
+      disabled={!shouldEtoDataLoad}
+      menuName={<FormattedMessage id="menu.documents-page" />}
+    />
+    <MenuEntryLink
+      svgString={iconWallet}
+      to={appRoutes.wallet}
+      menuName={<FormattedMessage id="menu.wallet" />}
+      data-test-id="authorized-layout-wallet-button"
+    />
+    <MenuEntryLink
+      svgString={iconFingerprint}
+      to={appRoutes.profile}
+      menuName={<FormattedMessage id="menu.settings" />}
+      actionRequired={actionRequiredSettings}
+      data-test-id="authorized-layout-profile-button"
+    />
+    <MenuEntryLink
+      svgString={iconHelp}
+      to={externalRoutes.neufundSupportHome}
+      menuName={<FormattedMessage id="menu.help" />}
+    />
   </div>
 );
 

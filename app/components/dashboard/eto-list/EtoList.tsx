@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl-phraseapp";
-import { Col, Row } from "reactstrap";
 import { compose, setDisplayName } from "recompose";
 
 import { actions } from "../../../modules/actions";
@@ -11,9 +10,12 @@ import { RequiredByKeys } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
 import { EtoOverviewStatus } from "../../eto/overview/EtoOverviewStatus";
 import { EtosComingSoon } from "../../eto/overview/EtoOverviewStatus/EtosComingSoon";
-import { EtoOverviewThumbnail } from "../../eto/overview/EtoOverviewThumbnail";
+import { EtoOverviewThumbnail } from "../../eto/overview/EtoOverviewThumbnail/EtoOverviewThumbnail";
 import { DashboardHeading } from "../../eto/shared/DashboardHeading";
+import { Container, EColumnSpan, EContainerType } from "../../layouts/Container";
 import { ELoadingIndicator, LoadingIndicator } from "../../shared/loading-indicator";
+
+import * as styles from "./EtoList.module.scss";
 
 interface IStateProps {
   etos?: TEtoWithCompanyAndContract[];
@@ -22,13 +24,11 @@ interface IStateProps {
 type TListProps = RequiredByKeys<IStateProps, "etos">;
 
 const EtoListThumbnails: React.FunctionComponent<TListProps> = ({ etos }) => (
-  <Row>
+  <Container type={EContainerType.INHERIT_GRID} className={styles.progressSectionLayout}>
     {etos.map(eto => (
-      <Col className="mb-4" xs={12} md={6} lg={4} key={eto.previewCode}>
-        <EtoOverviewThumbnail eto={eto} />
-      </Col>
+      <EtoOverviewThumbnail eto={eto} key={eto.previewCode} />
     ))}
-  </Row>
+  </Container>
 );
 
 const EtoListDefault: React.FunctionComponent<TListProps> = ({ etos }) => (
@@ -44,23 +44,24 @@ const EtoListDefault: React.FunctionComponent<TListProps> = ({ etos }) => (
 
 const EtoListComponent: React.FunctionComponent<IStateProps> = ({ etos }) => (
   <>
-    <Col xs={12}>
+    <Container columnSpan={EColumnSpan.THREE_COL}>
       <DashboardHeading title={<FormattedMessage id="dashboard.eto-opportunities" />} />
       <p>
         <FormattedMessage id="dashboard.eto-opportunities.description" />
       </p>
-    </Col>
-    <Col xs={12}>
-      {etos ? (
-        process.env.NF_ETO_LIST_GRID === "1" ? (
-          <EtoListThumbnails etos={etos} />
-        ) : (
-          <EtoListDefault etos={etos} />
-        )
+    </Container>
+
+    {etos ? (
+      process.env.NF_ETO_LIST_GRID === "1" ? (
+        <EtoListThumbnails etos={etos} />
       ) : (
+        <EtoListDefault etos={etos} />
+      )
+    ) : (
+      <Container columnSpan={EColumnSpan.THREE_COL}>
         <LoadingIndicator type={ELoadingIndicator.HEXAGON} />
-      )}
-    </Col>
+      </Container>
+    )}
   </>
 );
 

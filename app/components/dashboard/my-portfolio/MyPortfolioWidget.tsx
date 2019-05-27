@@ -12,6 +12,7 @@ import { selectNeuBalance, selectNeuBalanceEuroAmount } from "../../../modules/w
 import { appConnect } from "../../../store";
 import { CommonHtmlProps } from "../../../types";
 import { onEnterAction } from "../../../utils/OnEnterAction";
+import { EColumnSpan } from "../../layouts/Container";
 import { LoadingIndicator } from "../../shared/loading-indicator";
 import { Panel } from "../../shared/Panel";
 import { WarningAlert } from "../../shared/WarningAlert";
@@ -77,7 +78,7 @@ export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
   balanceNeu,
   isIncomingPayoutAvailable,
 }) => (
-  <Panel className={cn(className, styles.panelFix)} style={style}>
+  <Panel className={cn(className, styles.panelFix)} style={style} columnSpan={EColumnSpan.TWO_COL}>
     <MyPortfolioWidgetComponentBody
       {...{
         balanceEur: balanceEur!,
@@ -91,7 +92,7 @@ export const MyPortfolioWidgetComponent: React.FunctionComponent<IProps> = ({
 );
 
 export const LoadingComponent: React.FunctionComponent<IProps> = ({ className, style }) => (
-  <Panel className={className} style={style}>
+  <Panel className={className} style={style} columnSpan={EColumnSpan.TWO_COL}>
     <LoadingIndicator />
   </Panel>
 );

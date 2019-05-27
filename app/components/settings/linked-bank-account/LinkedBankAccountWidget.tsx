@@ -63,13 +63,15 @@ const LinkedBankAccountComponent: React.FunctionComponent<
     headerText={<FormattedMessage id="linked-bank-account-widget.header" />}
     columnSpan={props.columnSpan}
   >
-    <section className={styles.panelBody}>
-      {props.isBankAccountVerified && props.bankAccount && props.bankAccount.hasBankAccount ? (
-        <BankAccount details={props.bankAccount.details} />
-      ) : (
-        <LinkAccount {...props} />
-      )}
-    </section>
+    <div className={styles.bankAccountButtonWrapper}>
+      <section className={styles.bankAccountButton}>
+        {props.isBankAccountVerified && props.bankAccount && props.bankAccount.hasBankAccount ? (
+          <BankAccount details={props.bankAccount.details} />
+        ) : (
+          <LinkAccount {...props} />
+        )}
+      </section>
+    </div>
     {props.isBankAccountVerified && (
       <Button
         className={styles.linkButton}
