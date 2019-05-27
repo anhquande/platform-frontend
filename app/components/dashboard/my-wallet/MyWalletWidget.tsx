@@ -88,7 +88,7 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
             />
           </Col>
         </Row>
-        <Row data-test-id="my-wallet-widget-total">
+        <Row>
           <Col>
             <div className={`${styles.total} mt-3 mb-3 d-flex align-items-center`}>
               <span className={cn(styles.smallFont)}>
@@ -97,9 +97,10 @@ export const MyWalletWidgetComponentBody: React.FunctionComponent<StateProps> = 
               <MoneyNew
                 value={totalAmount}
                 moneyFormat={ECurrency.EUR}
-                inputFormat={ENumberInputFormat.FLOAT}
+                inputFormat={ENumberInputFormat.ULPS}
                 outputFormat={ENumberOutputFormat.ONLY_NONZERO_DECIMALS}
                 className={cn(styles.money, "pl-1 pl-sm-2 m-0")}
+                data-test-id="my-wallet-widget-total"
               />
             </div>
           </Col>
