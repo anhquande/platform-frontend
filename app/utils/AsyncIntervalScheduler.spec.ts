@@ -1,10 +1,10 @@
 import { expect } from "chai";
+import { delay } from "redux-saga";
 import { spy } from "sinon";
 
 import { setupFakeClock } from "../../test/integrationTestUtils.unsafe";
 import { noopLogger } from "../lib/dependencies/logger";
 import { AsyncIntervalScheduler } from "./AsyncIntervalScheduler";
-import { delay } from "./safeDelay";
 
 describe("AsyncIntervalScheduler", () => {
   const expectedInterval = 500;

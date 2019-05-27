@@ -26,7 +26,7 @@ import { invariant } from "../../../utils/invariant";
 import { connectLightWallet } from "../../access-wallet/sagas";
 import { actions, TAction } from "../../actions";
 import { checkEmailPromise } from "../../auth/email/sagas";
-import { obtainJWT } from "../../auth/jwt/sagas";
+import { createJwt } from "../../auth/jwt/sagas";
 import {
   createUser,
   loadUser,
@@ -136,7 +136,7 @@ export function* lightWalletRecoverWatch(
     const walletMetadata = yield neuCall(setupLightWalletPromise, email, password, seed, userType);
 
     yield put(actions.walletSelector.messageSigning());
-    yield neuCall(obtainJWT, [EJwtPermissions.CHANGE_EMAIL_PERMISSION]);
+    yield neuCall(createJwt, [EJwtPermissions.CHANGE_EMAIL_PERMISSION]);
     const userUpdate: IUserInput = {
       salt: walletMetadata.salt,
       backupCodesVerified: true,

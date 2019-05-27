@@ -59,6 +59,7 @@ interface ICreateIntegrationTestsSetupOutput {
 
 export const setupFakeClock = () => {
   let wrapper: { fakeClock: LolexClockAsync<any> } = {} as any;
+
   beforeEach(() => {
     // note: we use custom fork of lolex providing tickAsync function which should be used to await for any async actions triggered by tick. Read more: https://github.com/sinonjs/lolex/pull/105
     wrapper.fakeClock = lolex.install();
@@ -67,6 +68,7 @@ export const setupFakeClock = () => {
   afterEach(() => {
     wrapper.fakeClock.uninstall();
   });
+
   return wrapper;
 };
 

@@ -1,8 +1,8 @@
 import { expect } from "chai";
+import { delay } from "redux-saga";
 
 import { setupFakeClock } from "../../test/integrationTestUtils.unsafe";
 import { promiseTimeout } from "./promiseTimeout";
-import { delay } from "./safeDelay";
 
 describe("promiseTimeout", () => {
   const clock = setupFakeClock();

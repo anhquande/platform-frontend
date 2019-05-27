@@ -1,28 +1,20 @@
-import { channel, delay } from "redux-saga";
-import { call, Effect, put, select, take } from "redux-saga/effects";
+import { call, Effect, put, select } from "redux-saga/effects";
 
 import { calculateTimeLeft } from "../../../components/shared/utils";
 import { TMessage } from "../../../components/translatedMessages/utils";
-import { REDIRECT_CHANNEL_WATCH_DELAY } from "../../../config/constants";
 import { TGlobalDependencies } from "../../../di/setupBindings";
 import { ICreateJwtEndpointResponse } from "../../../lib/api/SignatureAuthApi";
-import { STORAGE_JWT_KEY } from "../../../lib/persistence/JwtObjectStorage";
+import { EUserType } from "../../../lib/api/users/interfaces";
 import { EthereumAddressWithChecksum } from "../../../types";
 import { getJwtExpiryDate, hasValidPermissions } from "../../../utils/JWTUtils";
-import { EDelayTiming, safeDelay } from "../../../utils/safeDelay";
+import { EDelayTiming, safeDelay } from "../../../utils/safeTimers";
 import { accessWalletAndRunEffect } from "../../access-wallet/sagas";
 import { actions } from "../../actions";
-import { EInitType } from "../../init/reducer";
 import { neuCall } from "../../sagasUtils";
 import { selectEthereumAddressWithChecksum } from "../../web3/selectors";
 import { JwtNotAvailable, MessageSignCancelledError } from "../errors";
-import { selectJwt } from "../selectors";
-import { USER_JWT_KEY as USER_KEY } from "./../../../lib/persistence/UserStorage";
-
-enum EUserAuthType {
-  LOGOUT = "LOGOUT",
-  LOGIN = "LOGIN",
-}
+import { selectJwt, selectUserType } from "../selectors";
+import { ELogoutType } from "../types";
 
 /**
  * Load to store jwt from browser storage
@@ -38,7 +30,7 @@ export function* loadJwt({ jwtStorage }: TGlobalDependencies): Iterator<Effect> 
 }
 
 /**
- * Save current jwt to browser storage
+ * Save jwt to the browser storage and update the store
  */
 function* setJwt({ jwtStorage }: TGlobalDependencies, jwt: string): Iterator<Effect> {
   jwtStorage.set(jwt);
@@ -46,6 +38,9 @@ function* setJwt({ jwtStorage }: TGlobalDependencies, jwt: string): Iterator<Eff
   yield put(actions.auth.loadJWT(jwt));
 }
 
+/**
+ * Generates and invokes a signer to sign a challenge.
+ */
 function* signChallenge(
   { web3Manager, signatureAuthApi, cryptoRandomString, logger }: TGlobalDependencies,
   permissions: Array<string> = [],
@@ -79,9 +74,9 @@ function* signChallenge(
   };
 }
 /**
- * Obtain new JWT from the authentication server.
+ * Create new JWT from the authentication server.
  */
-export function* obtainJWT(
+export function* createJwt(
   { signatureAuthApi, logger }: TGlobalDependencies,
   permissions: Array<string> = [],
 ): Iterator<any> {
@@ -103,7 +98,8 @@ export function* obtainJWT(
 }
 
 /**
- * Obtain new JWT from the authentication server.
+ * Escalate JWT with the authentication server.
+ * Used to add additional permissions to existing JWT
  */
 export function* escalateJwt(
   { signatureAuthApi, logger }: TGlobalDependencies,
@@ -120,7 +116,6 @@ export function* escalateJwt(
 
   logger.info("Sending signed challenge back to api");
 
-  // TODO: check whether we can omit existing permissions
   const response: ICreateJwtEndpointResponse = yield signatureAuthApi.escalateJwt(
     challenge,
     signedChallenge,
@@ -132,10 +127,11 @@ export function* escalateJwt(
   logger.info("Jwt escalated successfully");
 }
 
-export function* refreshJWT({
-  signatureAuthApi,
-  logger,
-}: TGlobalDependencies): Iterator<any> {
+/**
+ * Refresh JWT with new default expire date.
+ * Permissions expire dates left untouched.
+ */
+export function* refreshJWT({ signatureAuthApi, logger }: TGlobalDependencies): Iterator<any> {
   logger.info("Refreshing jwt");
 
   const { jwt }: ICreateJwtEndpointResponse = yield signatureAuthApi.refreshJwt();
@@ -185,6 +181,7 @@ export function* ensurePermissionsArePresentAndRunEffect(
 export function* handleJwtTimeout({ logger }: TGlobalDependencies): Iterator<any> {
   try {
     const jwt: string | undefined = yield select(selectJwt);
+    const userType: EUserType | undefined = yield select(selectUserType);
 
     if (!jwt) throw new JwtNotAvailable();
 
@@ -196,59 +193,18 @@ export function* handleJwtTimeout({ logger }: TGlobalDependencies): Iterator<any
 
     const timing: EDelayTiming = yield safeDelay(timeLeftWithThreshold);
 
-    // Check whether token is valid as delay may be moved in time
-    // because different factors (hibernation, browser performance optimizations)
-    if (timing === EDelayTiming.EXACT) {
-      yield neuCall(refreshJWT);
-    } else {
-      yield put(actions.auth.logout());
+    // If timing matches exact refresh jwt
+    // in case timeout was delayed (for e.g. hibernation), logout with session timeout message
+    switch (timing) {
+      case EDelayTiming.EXACT:
+        yield neuCall(refreshJWT);
+        break;
+      case EDelayTiming.DELAYED:
+        yield put(actions.auth.logout({ userType, logoutType: ELogoutType.SESSION_TIMEOUT }));
+        break;
     }
   } catch (e) {
     logger.error(new Error("Failed to Auto Handle JWT AutoLogout"));
     throw e;
-  }
-}
-
-/**
- * Multi browser logout/login feature
- */
-const redirectChannel = channel<{ type: EUserAuthType }>();
-
-/**
- * Saga that starts an Event Channel Emitter that listens to storage
- * events from the browser
- */
-export function* startRedirectChannel(): any {
-  window.addEventListener("storage", (evt: StorageEvent) => {
-    if (evt.key === STORAGE_JWT_KEY && evt.oldValue && !evt.newValue) {
-      redirectChannel.put({
-        type: EUserAuthType.LOGOUT,
-      });
-    }
-    if (evt.key === USER_KEY && !evt.oldValue && evt.newValue) {
-      redirectChannel.put({
-        type: EUserAuthType.LOGIN,
-      });
-    }
-  });
-}
-
-/**
- * Saga that watches events coming from redirectChannel and
- * dispatches login/logout actions
- */
-export function* watchRedirectChannel(): any {
-  yield startRedirectChannel();
-  while (true) {
-    const userAction = yield take(redirectChannel);
-    switch (userAction.type) {
-      case EUserAuthType.LOGOUT:
-        yield put(actions.auth.logout());
-        break;
-      case EUserAuthType.LOGIN:
-        yield put(actions.init.start(EInitType.APP_INIT));
-        break;
-    }
-    yield delay(REDIRECT_CHANNEL_WATCH_DELAY);
   }
 }

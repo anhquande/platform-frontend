@@ -119,7 +119,7 @@ export const Header = appConnect<IStateProps, IDispatchProps>({
   }),
   dispatchToProps: dispatch => ({
     logout: (userType?: EUserType) => {
-      dispatch(actions.auth.logout(userType));
+      dispatch(actions.auth.logout({ userType }));
     },
     monitorPendingTransaction: () => {
       dispatch(actions.txMonitor.monitorPendingPlatformTx());

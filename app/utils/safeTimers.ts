@@ -1,16 +1,16 @@
-const POLLING_TIME = 10;
+const POLLING_TIME = 500;
 const TIME_THRESHOLD = 100;
 
 export enum EDelayTiming {
   EXACT,
-  NOTEXACT,
+  DELAYED,
 }
 
 let lastActiveTimerId = 0;
 let activeTimers: number[] = [];
 
 const safeSetTimeoutRec = (fn: (d: EDelayTiming) => void, endTime: number, timerId: number) => {
-  const msToEnd = Date.now() - endTime;
+  const msToEnd = endTime - Date.now();
 
   setTimeout(
     () => {
@@ -19,8 +19,9 @@ const safeSetTimeoutRec = (fn: (d: EDelayTiming) => void, endTime: number, timer
       }
 
       const now = Date.now();
+
       if (now >= endTime) {
-        fn(now - endTime <= TIME_THRESHOLD ? EDelayTiming.EXACT : EDelayTiming.NOTEXACT);
+        fn(now - endTime <= TIME_THRESHOLD ? EDelayTiming.EXACT : EDelayTiming.DELAYED);
       } else {
         safeSetTimeoutRec(fn, endTime, timerId);
       }
@@ -29,18 +30,38 @@ const safeSetTimeoutRec = (fn: (d: EDelayTiming) => void, endTime: number, timer
   );
 };
 
+/**
+ * Safe version of `setTimeout` that should support
+ * 1. Large milliseconds delays (larger than 2147483647)
+ * 2. Hibernation/Sleep
+ *
+ * @param fn callback to be invoked after
+ * @param ms milliseconds to wait
+ *
+ * Note: `safeSetTimeout` should be only used when really needed
+ *        as processor overhead is bigger than with normal `setTimeout`
+ * @returns timerId Use `clearSafeTimeout(timerId)` to cancel timeout
+ */
 export const safeSetTimeout = (fn: (d: EDelayTiming) => void, ms: number): any => {
   const timerId = ++lastActiveTimerId;
 
   activeTimers.push(timerId);
 
   safeSetTimeoutRec(fn, Date.now() + ms, timerId);
+
+  return timerId;
 };
 
+/**
+ * Cancel timeout created with `safeSetTimeout`.
+ */
 export const clearSafeTimeout = (timerId: number): void => {
   activeTimers = activeTimers.filter(id => id !== timerId);
 };
 
+/**
+ * Promise wrapper around `safeSetTimeout`.
+ */
 export function safeDelay(ms: number): Promise<EDelayTiming> {
   return new Promise(resolve => {
     safeSetTimeout(resolve, ms);

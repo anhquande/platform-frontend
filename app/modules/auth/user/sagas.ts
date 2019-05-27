@@ -11,14 +11,14 @@ import {
   SignerUnknownError,
 } from "../../../lib/web3/Web3Manager/Web3Manager";
 import { IAppState } from "../../../store";
-import { actions } from "../../actions";
+import { actions, TAction } from "../../actions";
 import { loadKycRequestData } from "../../kyc/sagas";
 import { selectRedirectURLFromQueryString } from "../../routing/selectors";
 import { neuCall } from "../../sagasUtils";
 import { selectUrlUserType } from "../../wallet-selector/selectors";
 import { loadPreviousWallet } from "../../web3/sagas";
 import { EWalletSubType, EWalletType } from "../../web3/types";
-import { obtainJWT } from "../jwt/sagas";
+import { createJwt } from "../jwt/sagas";
 import { selectUserType } from "../selectors";
 
 export function* signInUser({
@@ -31,7 +31,7 @@ export function* signInUser({
     const probableUserType: EUserType = yield select((s: IAppState) => selectUrlUserType(s.router));
     yield put(actions.walletSelector.messageSigning());
 
-    yield neuCall(obtainJWT, [EJwtPermissions.SIGN_TOS]); // by default we have the sign-tos permission, as this is the first thing a user will have to do after signup
+    yield neuCall(createJwt, [EJwtPermissions.SIGN_TOS]); // by default we have the sign-tos permission, as this is the first thing a user will have to do after signup
     yield call(loadOrCreateUser, probableUserType);
 
     const userType: EUserType = yield select(selectUserType);
@@ -106,6 +106,7 @@ export async function loadOrCreateUserPromise(
   { apiUserService, web3Manager }: TGlobalDependencies,
   userType: EUserType,
 ): Promise<IUser> {
+  // tslint:disable-next-line
   const walletMetadata = web3Manager.personalWallet!.getMetadata();
 
   try {
@@ -148,4 +149,11 @@ export async function loadOrCreateUserPromise(
           : EWalletSubType.UNKNOWN,
     });
   }
+}
+
+export function* setUser({ logger }: TGlobalDependencies, action: TAction): Iterator<any> {
+  if (action.type !== "AUTH_SET_USER") return;
+
+  const user = action.payload.user;
+  logger.setUser({ id: user.userId, type: user.type, walletType: user.walletType });
 }

@@ -111,6 +111,6 @@ export const AcceptTosModal = appConnect<IStateProps, IDispatchProps>({
   dispatchToProps: dispatch => ({
     onDownloadTos: () => dispatch(actions.tosModal.downloadCurrentAgreement()),
     onAccept: () => dispatch(actions.tosModal.acceptCurrentAgreement()),
-    onLogout: (userType?: EUserType) => dispatch(actions.auth.logout(userType)),
+    onLogout: (userType?: EUserType) => dispatch(actions.auth.logout({ userType })),
   }),
 })(AcceptTosModalComponent);

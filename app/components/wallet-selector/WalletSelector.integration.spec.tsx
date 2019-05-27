@@ -80,16 +80,13 @@ describe("Wallet selector integration", () => {
         },
       }),
       createJwt: async () => ({
-        statusCode: 200,
-        body: {
-          jwt: jsonwebtoken.sign(
-            {
-              exp: Math.floor(Date.now() / 1000) + 60 * 60,
-              data: "foobar",
-            },
-            "secret",
-          ),
-        },
+        jwt: jsonwebtoken.sign(
+          {
+            exp: Math.floor(Date.now() / 1000) + 60 * 60,
+            data: "foobar",
+          },
+          "secret",
+        ),
       }),
     });
     const usersApiMock = createMock(UsersApi, {
@@ -246,16 +243,13 @@ describe("Wallet selector integration", () => {
         },
       }),
       createJwt: async () => ({
-        statusCode: 200,
-        body: {
-          jwt: jsonwebtoken.sign(
-            {
-              exp: Math.floor(Date.now() / 1000) + 60 * 60,
-              data: "foobar",
-            },
-            "secret",
-          ),
-        },
+        jwt: jsonwebtoken.sign(
+          {
+            exp: Math.floor(Date.now() / 1000) + 60 * 60,
+            data: "foobar",
+          },
+          "secret",
+        ),
       }),
     });
     const usersApiMock = createMock(UsersApi, {

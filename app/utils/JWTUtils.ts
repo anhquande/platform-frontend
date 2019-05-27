@@ -52,12 +52,11 @@ export function isValid(token: string): boolean {
 
     const { exp } = parseJwt(token);
 
-    return exp > now
+    return exp > now;
   } catch {
     return false;
   }
 }
-
 
 /**
  * Check whether permissions are valid
