@@ -1,6 +1,5 @@
 import { Container } from "inversify";
 import * as React from "react";
-import { hot } from "react-hot-loader/root";
 import { compose } from "redux";
 
 import { symbols } from "../di/symbols";
@@ -96,6 +95,6 @@ const App = compose<React.ComponentClass>(
   }),
 )(AppComponent);
 
-const AppHot = hot(App);
+const AppHot = App;
 
 export { AppHot as App };

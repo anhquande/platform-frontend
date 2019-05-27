@@ -87,6 +87,7 @@
   "dashboard.eto-opportunities": "Investment opportunities",
   "dashboard.eto-opportunities.description": "Below, you’ll find all available investment opportunities on the platform. Here, you can check on the status and view important information about each offering. Click anywhere within the box and you’ll be redirected to its listing page for more details.",
   "dashboard.eto.coming-soon-placeholder": "FURTHER investment opportunities coming soon!",
+  "dashboard.eto.thumbnail.coming-soon-placeholder": "Further investment opportunities coming soon!",
   "dashboard.incoming-payout-widget.go-to-portfolio": "GO TO PORTFOLIO",
   "dashboard.incoming-payout-widget.incoming-payout": "Upcoming payout from NEU in",
   "dashboard.incoming-payout-widget.incoming-payout-done": "Payout from NEU now available",
