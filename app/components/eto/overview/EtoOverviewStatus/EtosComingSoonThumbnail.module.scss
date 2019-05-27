@@ -1,6 +1,8 @@
 .text {
-  font-size: 20px;
+  @include font-headline;
+
   line-height: 28px;
   color: $neu-greyish-brown;
   text-align: center;
+  width: 100%;
 }

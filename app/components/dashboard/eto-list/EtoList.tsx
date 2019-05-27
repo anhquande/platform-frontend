@@ -30,7 +30,11 @@ const EtoListThumbnails: React.FunctionComponent<TListProps> = ({ etos }) => (
       </Col>
     ))}
 
-    {etos.length < 4 && <EtosComingSoonThumbnail />}
+    {etos.length < 4 && (
+      <Col className="mb-4" xs={12} md={6} lg={4}>
+        <EtosComingSoonThumbnail />
+      </Col>
+    )}
   </Row>
 );
 
