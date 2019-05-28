@@ -17,6 +17,7 @@ interface IProps {
   description: string | React.ReactNode;
   showLabels?: boolean;
   isClickable?: boolean;
+  elementWidth?: number;
 }
 
 const SlidePerson: React.FunctionComponent<IProps> = ({
@@ -28,6 +29,7 @@ const SlidePerson: React.FunctionComponent<IProps> = ({
   showLabels,
   isClickable,
   description,
+  elementWidth,
 }) => (
   <div className={cn(styles.slidePerson, layout)}>
     <div className={styles.profile}>
@@ -46,7 +48,9 @@ const SlidePerson: React.FunctionComponent<IProps> = ({
         />
       )}
     </div>
-    {layout === "horizontal" && <p className={styles.bio}>{description}</p>}
+    {layout === "horizontal" && (!elementWidth || elementWidth >= 300) && (
+      <p className={styles.bio}>{description}</p>
+    )}
   </div>
 );
 

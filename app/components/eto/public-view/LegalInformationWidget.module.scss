@@ -1,3 +1,9 @@
+.legal-information {
+  @include media-breakpoint-up (sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .group {
   flex-shrink: 0;
   width: 100%;

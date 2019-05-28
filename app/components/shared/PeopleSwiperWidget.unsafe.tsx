@@ -260,6 +260,7 @@ class PeopleSwiperWidgeLayout extends React.PureComponent<IOwnProps & IDispatchP
                       }
                     >
                       <SlidePerson
+                        elementWidth={this.state.elementWidth}
                         description={description}
                         socialChannels={socialChannels}
                         role={role}

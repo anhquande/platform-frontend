@@ -257,7 +257,7 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({
           </Container>
         )}
         {areThereIndividuals(team) && (
-          <Container columnSpan={EColumnSpan.THREE_COL}>
+          <Container columnSpan={EColumnSpan.THREE_COL} type={EContainerType.INHERIT_GRID}>
             <DashboardHeading title={<FormattedMessage id="eto.public-view.carousel.team" />} />
             <Panel>
               <PeopleSwiperWidget
@@ -269,7 +269,7 @@ const EtoViewLayout: React.FunctionComponent<IProps & IStateProps> = ({
         )}
 
         {areThereIndividuals(partners) && (
-          <Container columnSpan={EColumnSpan.THREE_COL}>
+          <Container columnSpan={EColumnSpan.THREE_COL} type={EContainerType.INHERIT_GRID}>
             <DashboardHeading
               title={<FormattedMessage id="eto.public-view.carousel.tab.partners" />}
             />

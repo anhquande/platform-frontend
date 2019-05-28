@@ -90,3 +90,15 @@
     right: .9rem;
   }
 }
+
+@include media-breakpoint-up(md) {
+  .prev {
+    margin-right: .3rem;
+    left: 2rem;
+  }
+
+  .next {
+    margin-left: .3rem;
+    right: 2rem;
+  }
+}
